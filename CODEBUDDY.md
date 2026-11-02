@@ -4,7 +4,7 @@
 > **本文件是 AI Agent 在本仓库工作的入口。每次动手前先读。**
 > **生成方**：项目负责人（一次性）；**维护方**：**Code Agent**（内容有变即更新）。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.2 · **对应 tag**：`无（未开工）` · **日期**：2026-11-01
+> **当前版本**：v1.3 · **对应 tag**：`l0` · **日期**：2026-11-02
 
 ---
 
@@ -55,6 +55,10 @@ python -m osslens site               # L4 静态站点
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
 
+★ **实现进度（L0 / tag `l0`，2026-11-02）**：已实现 `init` · `pool add|list|eligible` · `analyze` · `cost`；
+`abstract`（L3）与 `site`（L4）**尚未实现**，`analyze` 目前只产出 `off` 档（fast/strong 属 L1）。
+`config.yaml` 另有 `llm.model_env`（模型 ID），三件套缺任一即降级 `off`。
+
 **退出码契约**（★ 写死）：
 
 | 码 | 含义 |
@@ -82,12 +86,18 @@ python -m osslens site               # L4 静态站点
 | `osslens/render.py` | 报告渲染（MD） | `test_report_is_byte_identical` |
 | `osslens/webui.py` | L4 静态站点 | L4 阶段 |
 
-**已有的幂等/契约测试**（`tests/test_core.py`，**不得删，只能加**）：
-`test_report_is_byte_identical` · `test_as_of_dominates` · `test_stable_json_is_sorted` ·
-`test_three_class_output` · `test_not_applicable_when_domain_mismatch` · `test_no_llm_involved` ·
-`test_no_credentials_falls_back_to_off` · `test_quota_downgrade_is_recorded` ·
-`test_budget_gate_cannot_be_overridden` · `test_manual_override_bypasses_quota_but_not_budget` ·
-`test_template_page_is_a_miss` · `test_real_content_is_a_hit`
+★ `patterns.py` / `webui.py` **L0 尚未创建**（L3 / L4 才建）；当前包内 10 个模块：
+`cli` · `config` · `util` · `collect` · `featcard` · `depth` · `pool` · `render` + `__init__` / `__main__`。
+
+**幂等/契约测试**（`tests/test_core.py`，**不得删，只能加**）：
+
+| 测试 | 阶段 |
+|---|---|
+| `test_report_is_byte_identical` · `test_as_of_dominates` · `test_stable_json_is_sorted` | ✅ L0 |
+| `test_no_llm_involved` · `test_no_credentials_falls_back_to_off` | ✅ L0 |
+| `test_quota_downgrade_is_recorded` · `test_budget_gate_cannot_be_overridden` · `test_manual_override_bypasses_quota_but_not_budget` | ✅ L0 |
+| `test_template_page_is_a_miss` · `test_real_content_is_a_hit` | ⬜ L1（建 `probe_external` 时补） |
+| `test_three_class_output` · `test_not_applicable_when_domain_mismatch` | ⬜ L3（建 `patterns.py` 时补） |
 
 ---
 
