@@ -92,6 +92,8 @@ def build_featcard(snapshot: RepoSnapshot, *, as_of: datetime, channel: str) -> 
             "transitive": None,
             "external_top": [],
             "internal_edge_count": None,
+            # §6.5 规定的数据结构；L0 不读源码故为空，L1 填充后由 render 出 Mermaid
+            "graph": {"nodes": [], "edges": []},
         },
         "parallel": {"hits": _false_map(PARALLEL_AXES), "evidence": {}},
         "cache": {"hits": _false_map(CACHE_AXES), "evidence": {}},

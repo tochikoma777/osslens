@@ -16,13 +16,13 @@ L0：采集 + 建池 + 去重 + **off 档体检报告**。全链路零 LLM。
 - `python -m osslens cost`：本周 / 本月 token、费用、按档位分布、降级与拦截次数、预算剩余
 - 档位四层解析：L1 通道基线 → 凭据 / 实现能力 → L2 周配额 → L3 预算闸门 → L4 override
 - 降级**双写**留痕：报告「运行元数据」块 + `data/costs/costs.jsonl`
-- 特征卡 L0（确定性、零 LLM），`parallel/cache/hardware` 无证据一律 `false`
+- 特征卡 L0（确定性、零 LLM），`parallel/cache/hardware` 无证据一律 `false`；`deps.graph` 结构就位（空）
 
 ### 工程
 
 - `pyproject.toml`（setuptools + httpx + PyYAML），`[dev]` 含 pytest / ruff / mypy / respx
 - 门禁：`pytest` · `ruff check` · `ruff format --check` · `mypy --strict`
-- 38 个测试，语句覆盖率 84%（`pool.py` 95%、`config.py` 88%、`collect.py` 87%）
+- 39 个测试，语句覆盖率 84%（`pool.py` 95%、`config.py` 88%、`collect.py` 87%）
 
 ### 已知限制
 

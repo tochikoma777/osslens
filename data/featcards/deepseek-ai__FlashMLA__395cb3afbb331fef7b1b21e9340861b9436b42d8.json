@@ -11,6 +11,10 @@
   "deps": {
     "direct": null,
     "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": []
+    },
     "internal_edge_count": null,
     "transitive": null
   },

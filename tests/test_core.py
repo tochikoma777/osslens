@@ -438,3 +438,28 @@ def test_duplicate_ledger_rows_count_once(tmp_path: Path) -> None:
     summary = summarize(config, load_events(layout), as_of=AS_OF)
     assert summary.week_downgrades == 1
     assert len(read_jsonl_file(layout.costs_jsonl)) == 3
+
+
+def test_featcard_has_deps_graph_shape(tmp_path: Path) -> None:
+    """L0 不渲染 Mermaid，但 §6.5 的 deps.graph 数据结构必须已产出。"""
+    import json
+
+    root = seed_workspace(tmp_path / "ws")
+    assert (
+        main(
+            [
+                "analyze",
+                "deepseek-ai/DeepEP",
+                "--root",
+                str(root),
+                "--as-of",
+                "2026-11-02T00:00:00Z",
+            ]
+        )
+        == 0
+    )
+    card_file = next((root / "data" / "featcards").glob("*.json"))
+    card = json.loads(card_file.read_text(encoding="utf-8"))
+    assert card["deps"]["graph"] == {"nodes": [], "edges": []}
+    text = (root / "reports" / REPORT_NAME).read_text(encoding="utf-8")
+    assert "```mermaid" not in text, "Mermaid 属 L1，L0 不得渲染"
