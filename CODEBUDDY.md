@@ -91,13 +91,17 @@ python -m osslens site               # L4 静态站点
 
 **幂等/契约测试**（`tests/test_core.py`，**不得删，只能加**）：
 
-| 测试 | 阶段 |
-|---|---|
-| `test_report_is_byte_identical` · `test_as_of_dominates` · `test_stable_json_is_sorted` | ✅ L0 |
-| `test_no_llm_involved` · `test_no_credentials_falls_back_to_off` | ✅ L0 |
-| `test_quota_downgrade_is_recorded` · `test_budget_gate_cannot_be_overridden` · `test_manual_override_bypasses_quota_but_not_budget` | ✅ L0 |
-| `test_template_page_is_a_miss` · `test_real_content_is_a_hit` | ⬜ L1（建 `probe_external` 时补） |
-| `test_three_class_output` · `test_not_applicable_when_domain_mismatch` | ⬜ L3（建 `patterns.py` 时补） |
+| 测试 | 阶段 | 仓库现状 |
+|---|---|---|
+| `test_report_is_byte_identical` · `test_as_of_dominates` · `test_stable_json_is_sorted` | L0 | ✅ 已存在 |
+| `test_no_llm_involved` · `test_no_credentials_falls_back_to_off` | L0 | ✅ 已存在 |
+| `test_quota_downgrade_is_recorded` · `test_budget_gate_cannot_be_overridden` · `test_manual_override_bypasses_quota_but_not_budget` | L0 | ✅ 已存在 |
+| `test_template_page_is_a_miss` · `test_real_content_is_a_hit` | L1 | ⬜ **待建，当前不存在**（`probe_external` 未实现） |
+| `test_three_class_output` · `test_not_applicable_when_domain_mismatch` | L3 | ⬜ **待建，当前不存在**（`patterns.py` 未实现） |
+
+> ★ 上表后两行是**目标清单**，不是现存测试。当前 `tests/` 里只有前 8 条；
+> 实现 L1 / L3 对应模块时**必须同时补上**这 4 条，否则视为该阶段未完成。
+> 核对命令：`pytest --collect-only -q | grep -E "template_page|real_content|three_class|not_applicable"`（应无输出）。
 
 ---
 
