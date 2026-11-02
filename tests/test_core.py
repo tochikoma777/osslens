@@ -407,3 +407,34 @@ def test_eligible_command_reports_exclusion(
     output = capsys.readouterr().out
     assert "深挖候选（as-of 2026-11-02T00:00:00Z）：0 个" in output
     assert "观察期未满：已观测 0 天，还差 7 天" in output
+
+
+def test_duplicate_ledger_rows_count_once(tmp_path: Path) -> None:
+    """台账里同一 run_id 的重复行不得让降级次数翻倍（读取侧去重）。"""
+    from osslens.config import Layout
+
+    root = seed_workspace(tmp_path / "ws")
+    config = Config.load(root)
+    layout: Layout = config.layout
+    record_event(layout, _call_event(depth="strong"))
+    event = build_ledger_event(
+        repo="deepseek-ai/DeepEP",
+        as_of=AS_OF,
+        decision=resolve_depth(
+            config,
+            requested="auto",
+            channel="classic",
+            as_of=AS_OF,
+            events=[],
+            llm_available=True,
+            credentials_present=False,
+        ),
+    )
+    assert record_event(layout, event) is True
+    # 模拟修复前遗留的重复行（直接追加，绕过幂等写入）
+    from osslens.util import append_jsonl
+
+    append_jsonl(layout.costs_jsonl, event.to_json())
+    summary = summarize(config, load_events(layout), as_of=AS_OF)
+    assert summary.week_downgrades == 1
+    assert len(read_jsonl_file(layout.costs_jsonl)) == 3

@@ -374,6 +374,9 @@ def summarize(config: Config, events: Sequence[CostEvent], *, as_of: datetime) -
     week_downgrades = month_downgrades = 0
     week_blocked = month_blocked = 0
     by_depth: dict[str, int] = {}
+    # 同一 run_id 只算一次：修复前遗留的重复行不得让"降级次数"虚高（读取侧去重，不动台账）
+    seen_downgrades: set[str] = set()
+    seen_blocked: set[str] = set()
     for event in events:
         try:
             when = parse_iso(event.as_of)
@@ -381,11 +384,18 @@ def summarize(config: Config, events: Sequence[CostEvent], *, as_of: datetime) -
             continue
         in_week = when >= week_start
         in_month = when >= month_start
+        key = event.run_id or f"{event.repo}|{event.as_of}|{event.reason}"
         if event.event == EVENT_DOWNGRADE:
+            if key in seen_downgrades:
+                continue
+            seen_downgrades.add(key)
             week_downgrades += 1 if in_week else 0
             month_downgrades += 1 if in_month else 0
             continue
         if event.event == EVENT_BLOCKED:
+            if key in seen_blocked:
+                continue
+            seen_blocked.add(key)
             week_blocked += 1 if in_week else 0
             month_blocked += 1 if in_month else 0
             continue

@@ -22,7 +22,7 @@ L0：采集 + 建池 + 去重 + **off 档体检报告**。全链路零 LLM。
 
 - `pyproject.toml`（setuptools + httpx + PyYAML），`[dev]` 含 pytest / ruff / mypy / respx
 - 门禁：`pytest` · `ruff check` · `ruff format --check` · `mypy --strict`
-- 37 个测试，语句覆盖率 83%（`pool.py` 95%、`config.py` 88%、`collect.py` 87%）
+- 38 个测试，语句覆盖率 84%（`pool.py` 95%、`config.py` 88%、`collect.py` 87%）
 
 ### 已知限制
 
