@@ -1,0 +1,121 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "internal_edge_count": null,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": false,
+    "license": "MIT",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": []
+  },
+  "identity": {
+    "age_days": 619,
+    "analyzed_at": "2026-11-02T00:00:00Z",
+    "channel": "hot",
+    "commit": "395cb3afbb331fef7b1b21e9340861b9436b42d8",
+    "created_at": "2025-02-21T06:31:27Z",
+    "repo": "deepseek-ai/FlashMLA"
+  },
+  "lang": {
+    "shares": {
+      "AGS Script": 0.0016,
+      "C": 0.0023,
+      "C++": 0.5544,
+      "Cuda": 0.2848,
+      "Python": 0.1568
+    }
+  },
+  "limitations": [
+    "L0 只跑元数据层：未读取源码内容，parallel/cache/hardware 全部 false，deps.* 与 loc_total 为 null（红线 #5：无证据不写入）",
+    "issue_close_ratio_90d 需 search API，L0 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，L0 置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 13,
+    "commits_90d": 6,
+    "contributors": 19,
+    "forks": 1256,
+    "last_commit": "2026-10-27T02:50:39Z",
+    "open_issues": 138,
+    "release_count_365d": 0,
+    "stars": 13234,
+    "top10_share": 0.8571,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.3651,
+    "days_since_commit": 6,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "structure": {
+    "bytes": 1439185,
+    "entrypoints": [],
+    "files": 150,
+    "loc_total": null,
+    "max_depth": 9,
+    "monorepo": false,
+    "top_modules": [
+      {
+        "bytes": 1106463,
+        "files": 119,
+        "path": "csrc"
+      },
+      {
+        "bytes": 125581,
+        "files": 5,
+        "path": "docs"
+      },
+      {
+        "bytes": 125580,
+        "files": 17,
+        "path": "tests"
+      },
+      {
+        "bytes": 40662,
+        "files": 5,
+        "path": "."
+      },
+      {
+        "bytes": 38431,
+        "files": 3,
+        "path": "flash_mla"
+      },
+      {
+        "bytes": 2468,
+        "files": 1,
+        "path": "scripts"
+      }
+    ]
+  }
+}

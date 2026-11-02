@@ -1,0 +1,44 @@
+# osslens 唯一配置真源。由 `python -m osslens init` 生成。
+# 阈值改动只改这里，代码不硬编码。
+github_token_env: GITHUB_TOKEN
+github_base_url: https://api.github.com
+
+llm:
+  # 缺任一变量 → 自动降级 off，退出码 0（红线 #3）
+  api_key_env: OSSLENS_LLM_API_KEY
+  base_url_env: OSSLENS_LLM_BASE_URL
+  model_env: OSSLENS_LLM_MODEL
+  # 单价表由项目负责人填写；代码不内置任何价格（设计方案 §9）
+  # 例：price_table:
+  #   <model-id>: {prompt_per_1m: 0.0, completion_per_1m: 0.0}
+  price_table: {}
+
+depth:
+  # 周配额（设计方案 §11）
+  weekly_quota:
+    strong: 1
+    fast: 3
+  budget:
+    weekly_tokens: 2000000
+    monthly_tokens: 6000000
+    per_run_prompt_tokens: 120000
+  # 通道基线（设计方案 §2 L1）
+  baseline:
+    hot: fast
+    classic: strong
+    watchlist: strong
+
+pool:
+  hot_min_star_delta_7d: 200
+  hot_observe_days: 7
+  classic_min_stars: 5000
+  classic_min_age_days: 730
+  dedupe: true
+
+score:
+  # 权重来自设计方案 §6.1；分数只用于排序，绝不用于升档
+  hot: {star_delta_7d: 1.0, stars: 0.6, fork_delta_7d: 0.4}
+  classic: {stars: 1.0, observations: 0.7}
+
+# 意图层，不是入口过滤器（设计方案 §6.4）
+watchlist: []
