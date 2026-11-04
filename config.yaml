@@ -7,11 +7,28 @@ llm:
   # 缺任一变量 → 自动降级 off，退出码 0（红线 #3）
   api_key_env: OSSLENS_LLM_API_KEY
   base_url_env: OSSLENS_LLM_BASE_URL
-  model_env: OSSLENS_LLM_MODEL
-  # 单价表由项目负责人填写；代码不内置任何价格（设计方案 §9）
-  # 例：price_table:
-  #   <model-id>: {prompt_per_1m: 0.0, completion_per_1m: 0.0}
-  price_table: {}
+  # 分档模型名（D6-1：不再用单一 model_env）
+  models:
+    fast: deepseek-flash
+    strong: deepseek-v4-pro
+  # 按档位控制 thinking（D6-3）；fast 关闭以省输出费用
+  thinking:
+    fast: false
+    strong: true
+  timeout_seconds: 120
+  max_retries: 2
+  # ★ 单价只来自 config，代码不内置任何价格字面量（设计方案 §9）
+  # 人民币 / 1M tokens，取「高峰价」单值 = 保守上界；低谷约为表中一半
+  # 来源：DeepSeek 官方定价页，核对 2026-11-03（见 docs/成本预算.md）
+  price_table:
+    deepseek-flash:
+      cache_hit_per_1m: 0.04
+      prompt_per_1m: 2.0
+      completion_per_1m: 8.0
+    deepseek-v4-pro:
+      cache_hit_per_1m: 0.30
+      prompt_per_1m: 9.0
+      completion_per_1m: 27.0
 
 depth:
   # 周配额（设计方案 §11）
@@ -22,6 +39,8 @@ depth:
     weekly_tokens: 2000000
     monthly_tokens: 6000000
     per_run_prompt_tokens: 120000
+    # 第 5 道闸：单次 run 调用次数上限（M7）
+    max_calls_per_run: 12
   # 通道基线（设计方案 §2 L1）
   baseline:
     hot: fast
@@ -39,6 +58,28 @@ score:
   # 权重来自设计方案 §6.1；分数只用于排序，绝不用于升档
   hot: {star_delta_7d: 1.0, stars: 0.6, fork_delta_7d: 0.4}
   classic: {stars: 1.0, observations: 0.7}
+
+featcard:
+  # D6-5：维护状态阈值外置（历史素材的 30/180 天口径不采用）
+  maintenance:
+    active_days: 90
+    slowed_days: 365
+
+external:
+  deepwiki_enabled: true
+  # mcp（官方，默认）| html（页面抓取，遇 Vercel 校验会 blocked）
+  deepwiki_transport: mcp
+  deepwiki_base_url: https://deepwiki.com
+  deepwiki_mcp_url: https://mcp.deepwiki.com/mcp
+  # fail-closed：正文必须含 ≥N 个仓库内真实路径才算命中（红线 #4）
+  min_repo_paths: 3
+  timeout_seconds: 40
+
+sources:
+  # 证据提取的源码采集上限（单个仓库）
+  max_files: 20
+  max_total_bytes: 524288
+  max_file_bytes: 204800
 
 # 意图层，不是入口过滤器（设计方案 §6.4）
 watchlist: []

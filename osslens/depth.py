@@ -44,6 +44,7 @@ REASON_TEXT = {
     "weekly_quota_exhausted": "本周配额已用满",
     "budget_blocked": "预算闸门拦截",
     "depth_unavailable_in_l0": "L0 尚未接入 LLM 档位（L1 起启用）",
+    "depth_unavailable_in_l1": "该档位尚未接入（L1 只实跑 fast）",
     "manual_override": "人工 override",
     "baseline": "按通道基线",
 }
@@ -64,12 +65,18 @@ class CostEvent:
     requested_depth: str
     actual_depth: str
     reason: str
+    cache_hit_tokens: int = 0
+    cache_miss_tokens: int = 0
+    purpose: str = ""
 
     def to_json(self) -> dict[str, Any]:
         return {
             "actual_depth": self.actual_depth,
             "as_of": self.as_of,
             "completion_tokens": self.completion_tokens,
+            "cache_hit_tokens": self.cache_hit_tokens,
+            "cache_miss_tokens": self.cache_miss_tokens,
+            "purpose": self.purpose,
             "depth": self.depth,
             "estimated_cost": self.estimated_cost,
             "event": self.event,
@@ -99,6 +106,9 @@ class CostEvent:
             requested_depth=as_str(value.get("requested_depth"), "auto"),
             actual_depth=as_str(value.get("actual_depth")),
             reason=as_str(value.get("reason")),
+            cache_hit_tokens=as_int(value.get("cache_hit_tokens")),
+            cache_miss_tokens=as_int(value.get("cache_miss_tokens")),
+            purpose=as_str(value.get("purpose")),
         )
 
 
@@ -166,8 +176,12 @@ class CostSummary:
     week_blocked: int
     month_blocked: int
     by_depth: dict[str, int]
+    by_purpose: dict[str, dict[str, int]]
+    week_cache_hit_tokens: int
+    month_cache_hit_tokens: int
     budget_week_remaining: int
     budget_month_remaining: int
+    anomalies: tuple[str, ...]
 
 
 def load_events(layout: Layout) -> list[CostEvent]:
@@ -225,9 +239,10 @@ def resolve_depth(
     channel: str,
     as_of: datetime,
     events: Sequence[CostEvent],
-    llm_available: bool,
+    available_depths: frozenset[str] = frozenset(),
     estimated_prompt_tokens: int = 0,
     credentials_present: bool | None = None,
+    unavailable_reason: str = "depth_unavailable_in_l0",
 ) -> DepthDecision:
     if requested not in REQUESTED_DEPTHS:
         raise UsageError(f"--depth 只能是 {', '.join(REQUESTED_DEPTHS)}，实际为 {requested!r}")
@@ -271,9 +286,9 @@ def resolve_depth(
     chain.append("凭据：齐全")
 
     # 能力检查先于预算：L0 根本没有 LLM 实现，谈配额/预算没有意义
-    if baseline != "off" and not llm_available:
-        chain.append("实现能力：fast/strong 尚未接入（LLM 从 L1 起） → 降级 off")
-        return decide("off", "depth_unavailable_in_l0", True)
+    if baseline != "off" and baseline not in available_depths:
+        chain.append(f"实现能力：{baseline} 尚未接入 → 降级 off")
+        return decide("off", unavailable_reason, True)
 
     depth = baseline
     if manual:
@@ -352,14 +367,25 @@ def record_event(layout: Layout, event: CostEvent) -> bool:
 
 
 def estimate_cost(
-    config: Config, *, model: str, prompt_tokens: int, completion_tokens: int
+    config: Config,
+    *,
+    model: str,
+    prompt_tokens: int,
+    completion_tokens: int,
+    cache_hit_tokens: int = 0,
 ) -> float | None:
-    """单价表为空 → 返回 None（渲染为 `—`），绝不内置价格。"""
+    """单价表为空 → 返回 None（渲染为 `—`），绝不内置价格。
+
+    缓存命中的输入按 `cache_hit_per_1m` 计价，其余按 `prompt_per_1m`（红线 M6）。
+    """
     entry = config.llm.price_table.get(model)
     if entry is None:
         return None
+    hit = min(max(cache_hit_tokens, 0), max(prompt_tokens, 0))
+    miss = max(prompt_tokens - hit, 0)
     cost = (
-        prompt_tokens / 1_000_000 * entry.prompt_per_1m
+        hit / 1_000_000 * entry.cache_hit_per_1m
+        + miss / 1_000_000 * entry.prompt_per_1m
         + completion_tokens / 1_000_000 * entry.completion_per_1m
     )
     return r4(cost)
@@ -374,6 +400,9 @@ def summarize(config: Config, events: Sequence[CostEvent], *, as_of: datetime) -
     week_downgrades = month_downgrades = 0
     week_blocked = month_blocked = 0
     by_depth: dict[str, int] = {}
+    by_purpose: dict[str, dict[str, int]] = {}
+    week_cache_hit = 0
+    month_cache_hit = 0
     # 同一 run_id 只算一次：修复前遗留的重复行不得让"降级次数"虚高（读取侧去重，不动台账）
     seen_downgrades: set[str] = set()
     seen_blocked: set[str] = set()
@@ -404,9 +433,15 @@ def summarize(config: Config, events: Sequence[CostEvent], *, as_of: datetime) -
         tokens = event.prompt_tokens + event.completion_tokens
         if in_week:
             week_tokens += tokens
+            week_cache_hit += event.cache_hit_tokens
             by_depth[event.depth] = by_depth.get(event.depth, 0) + 1
+            purpose = event.purpose or "unspecified"
+            bucket = by_purpose.setdefault(purpose, {"calls": 0, "tokens": 0})
+            bucket["calls"] += 1
+            bucket["tokens"] += tokens
         if in_month:
             month_tokens += tokens
+            month_cache_hit += event.cache_hit_tokens
         cost = event.estimated_cost
         if cost is None:
             if tokens:
@@ -430,6 +465,10 @@ def summarize(config: Config, events: Sequence[CostEvent], *, as_of: datetime) -
         week_blocked=week_blocked,
         month_blocked=month_blocked,
         by_depth=dict(sorted(by_depth.items())),
+        by_purpose={key: dict(sorted(value.items())) for key, value in sorted(by_purpose.items())},
+        week_cache_hit_tokens=week_cache_hit,
+        month_cache_hit_tokens=month_cache_hit,
         budget_week_remaining=max(0, config.depth.budget.weekly_tokens - week_tokens),
         budget_month_remaining=max(0, config.depth.budget.monthly_tokens - month_tokens),
+        anomalies=(),
     )

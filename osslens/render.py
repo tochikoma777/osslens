@@ -1,7 +1,8 @@
 """报告渲染（Markdown，字节一致）。
 
 结构写死为执行手册附录 A 的五个区块，顺序不可变：
-运行元数据 → 体检事实 → 特征卡摘要 → 洞见（off 档填 `—`）→ 外部资料。
+运行元数据 → 体检事实 → 特征卡摘要 → 洞见 → 外部资料。
+L1 只在**已有区块内**追加证据 / 依赖图 / 成本行，不新增第六区块。
 """
 
 from __future__ import annotations
@@ -10,11 +11,29 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
-from .collect import SourceNote
+from .collect import ExternalProbe, SourceNote
 from .depth import DepthDecision
-from .util import as_str, fmt_iso
+from .featcard import depgraph_mermaid
+from .llm import Context, Insight
+from .util import as_int, as_str, fmt_iso
 
 DASH = "—"
+
+
+@dataclass(frozen=True)
+class CostLine:
+    run_cost: float | None
+    calls: int
+    prompt_tokens: int
+    cache_hit_tokens: int
+    completion_tokens: int
+    source: str
+    week_cost: float
+    week_tokens: int
+    month_cost: float
+    month_tokens: int
+    model_prices: tuple[str, ...]
+    anomalies: tuple[str, ...]
 
 
 @dataclass(frozen=True)
@@ -30,6 +49,11 @@ class ReportInputs:
     snapshot_sha256: str
     snapshot_notes: tuple[SourceNote, ...]
     featcard_relpath: str
+    external: ExternalProbe | None = None
+    insight: Insight | None = None
+    insight_reason: str = ""
+    context: Context | None = None
+    cost: CostLine | None = None
 
 
 def render_report(inputs: ReportInputs) -> str:
@@ -39,7 +63,7 @@ def render_report(inputs: ReportInputs) -> str:
     lines.extend(_metadata_section(inputs))
     lines.extend(_facts_section(inputs))
     lines.extend(_featcard_section(inputs))
-    lines.extend(_insight_section())
+    lines.extend(_insight_section(inputs))
     lines.extend(_external_section(inputs))
     return "\n".join(lines).rstrip("\n") + "\n"
 
@@ -51,41 +75,76 @@ def _metadata_section(inputs: ReportInputs) -> list[str]:
     depth_cell = decision.actual
     if decision.downgraded:
         depth_cell = f"{decision.actual}（降级：{decision.reason_text}）"
-    return (
+    lines = [
+        "## 运行元数据",
+        "",
+        "| 项 | 值 |",
+        "|---|---|",
+        f"| 仓库 | {inputs.owner}/{inputs.repo} |",
+        f"| commit | `{_cell(as_str(identity.get('commit')))}` |",
+        f"| 分析基准时间 (as-of) | {fmt_iso(inputs.as_of)} |",
+        f"| 通道 / 领域 | {inputs.channel} / {inputs.domain} |",
+        f"| 请求档位 (requested_depth) | {decision.requested} |",
+        f"| **实际档位** (actual_depth) | {depth_cell} |",
+        f"| 降级原因 (reason) | {decision.reason} — {decision.reason_text} |",
+        f"| 配额状态 (quota_state) | {decision.quota.summary()} |",
+        f"| 快照 sha256 | `{inputs.snapshot_sha256}` |",
+    ]
+    lines.extend(_cost_rows(inputs.cost))
+    lines.extend(["", "**档位决策链路**：", ""])
+    lines.extend(f"{index}. {step}" for index, step in enumerate(decision.chain, start=1))
+    lines.extend(
         [
-            "## 运行元数据",
-            "",
-            "| 项 | 值 |",
-            "|---|---|",
-            f"| 仓库 | {inputs.owner}/{inputs.repo} |",
-            f"| commit | `{_cell(as_str(identity.get('commit')))}` |",
-            f"| 分析基准时间 (as-of) | {fmt_iso(inputs.as_of)} |",
-            f"| 通道 / 领域 | {inputs.channel} / {inputs.domain} |",
-            f"| 请求档位 (requested_depth) | {decision.requested} |",
-            f"| **实际档位** (actual_depth) | {depth_cell} |",
-            f"| 降级原因 (reason) | {decision.reason} — {decision.reason_text} |",
-            f"| 配额状态 (quota_state) | {decision.quota.summary()} |",
-            f"| 快照 sha256 | `{inputs.snapshot_sha256}` |",
-            "",
-            "**档位决策链路**：",
-            "",
-        ]
-        + [f"{index}. {step}" for index, step in enumerate(decision.chain, start=1)]
-        + [
             "",
             "**上下文组装**（裁剪发生在调用之前）：",
             "",
             "| 块 | 优先级 | 估算 token |",
             "|---|---|---|",
-            f"| featcard | 1 | {DASH} |",
-            f"| readme | 2 | {DASH} |",
-            f"| source_files | 4 | {DASH} |",
-            "",
-            f"- 丢弃：{DASH}（{decision.actual} 档不组装上下文，未发起任何模型请求）",
-            f"- 合计 0 / 上限 {decision.prompt_token_limit}",
-            "",
         ]
     )
+    if inputs.context is None:
+        lines.extend(
+            [
+                f"| featcard | 1 | {DASH} |",
+                f"| readme | 2 | {DASH} |",
+                f"| source_files | 4 | {DASH} |",
+                "",
+                f"- 丢弃：{DASH}（{decision.actual} 档不组装上下文，未发起任何模型请求）",
+                f"- 合计 0 / 上限 {decision.prompt_token_limit}",
+            ]
+        )
+    else:
+        for block in inputs.context.blocks:
+            lines.append(f"| {block.name} | {block.priority} | {block.tokens:,} |")
+        dropped = "、".join(inputs.context.dropped) if inputs.context.dropped else DASH
+        lines.append("")
+        lines.append(f"- 丢弃：{dropped}")
+        lines.append(f"- 合计 {inputs.context.tokens:,} / 上限 {decision.prompt_token_limit:,}")
+    lines.append("")
+    return lines
+
+
+def _cost_rows(cost: CostLine | None) -> list[str]:
+    if cost is None:
+        return []
+    if cost.run_cost is None:
+        run_cell = f"{DASH}（未调用）"
+    else:
+        run_cell = f"¥{cost.run_cost:.4f}（模型调用 {cost.calls} 次）"
+    detail = (
+        f"输入 {cost.prompt_tokens:,} tok / 命中 {cost.cache_hit_tokens:,} tok / "
+        f"输出 {cost.completion_tokens:,} tok"
+    )
+    rows = [
+        f"| 成本说明 | 本次 {run_cell}；{detail} |",
+        f"| 累计 | 本周 ¥{cost.week_cost:.4f} / {cost.week_tokens:,} tok；"
+        f"本月 ¥{cost.month_cost:.4f} / {cost.month_tokens:,} tok |",
+    ]
+    if cost.model_prices:
+        rows.append(f"| 单价 | {cost.model_prices[0]} |")
+    if cost.anomalies:
+        rows.append(f"| 成本异常 | {'；'.join(cost.anomalies)}（仅标注，不阻断） |")
+    return rows
 
 
 def _facts_section(inputs: ReportInputs) -> list[str]:
@@ -153,51 +212,127 @@ def _featcard_section(inputs: ReportInputs) -> list[str]:
     parallel = _section(card, "parallel")
     cache = _section(card, "cache")
     hardware = _section(card, "hardware")
-    entrypoints = [as_str(item) for item in structure.get("entrypoints", []) if as_str(item)]
     deps = _section(card, "deps")
-    max_depth = _whole(structure.get("max_depth"))
-    monorepo = "是" if structure.get("monorepo") else "否"
-    direct = _whole(deps.get("direct"))
-    transitive = _whole(deps.get("transitive"))
+    sources = _section(card, "sources")
+    gov_docs = "是" if _section(card, "governance").get("has_governance_docs") else "否"
+    entrypoints = [as_str(item) for item in structure.get("entrypoints", []) if as_str(item)]
     lines = [
         "## 特征卡摘要",
         "",
         f"- 卡文件：`{inputs.featcard_relpath}`（schema {as_str(card.get('schema_version'))}）",
         f"- 入口文件：{', '.join(entrypoints) if entrypoints else DASH}",
-        f"- 最大目录深度：{max_depth}；monorepo：{monorepo}",
-        f"- 依赖：直接 / 传递 = {direct} / {transitive}（L0 未解析清单文件）",
-        f"- 并行轴 hits：{_hits(parallel.get('hits'))}",
-        f"- 缓存 hits：{_hits(cache.get('hits'))}",
-        f"- 硬件：vendors={_list(hardware.get('vendors'))}、"
-        f"arch_gates={_list(hardware.get('arch_gates'))}、"
-        f"kernel_langs={_list(hardware.get('kernel_langs'))}",
-        f"- 治理文档：{'是' if _section(card, 'governance').get('has_governance_docs') else '否'}",
+        f"- 最大目录深度：{_whole(structure.get('max_depth'))}；"
+        f"monorepo：{'是' if structure.get('monorepo') else '否'}",
+        f"- 源码切片：{len(_rows(sources.get('files')))} 个文件"
+        f"（tarball `{as_str(sources.get('tarball_sha256'))[:16]}`）",
+        f"- 依赖：直接 / 传递 = {_whole(deps.get('direct'))} / {_whole(deps.get('transitive'))}"
+        "（L1 未解析清单文件）",
         "",
-        "**已知限制**（L0 只跑元数据层，逐条可核验）：",
+        "**并行轴**",
         "",
     ]
+    lines.extend(_evidence_block(parallel, "并行"))
+    lines.extend(["", "**缓存**", ""])
+    lines.extend(_evidence_block(cache, "缓存"))
+    lines.extend(
+        [
+            "",
+            f"- 硬件：vendors={_list(hardware.get('vendors'))}、"
+            f"arch_gates={_list(hardware.get('arch_gates'))}、"
+            f"kernel_langs={_list(hardware.get('kernel_langs'))}",
+            f"- 治理文档：{gov_docs}",
+            "",
+            "**依赖图**（内部模块 import 边，节点/边排序后输出）",
+            "",
+            "```mermaid",
+            depgraph_mermaid(_graph_dict(deps)),
+            "```",
+            "",
+            "**已知限制**：",
+            "",
+        ]
+    )
     limitations = [as_str(item) for item in card.get("limitations", []) if as_str(item)]
-    if limitations:
-        lines.extend(f"- {item}" for item in limitations)
-    else:
-        lines.append(f"- {DASH}")
+    lines.extend(f"- {item}" for item in (limitations or [DASH]))
     lines.append("")
     return lines
 
 
-def _insight_section() -> list[str]:
-    return ["## 洞见", "", DASH, ""]
+def _evidence_block(section: dict[str, Any], label: str) -> list[str]:
+    hits = _section(section, "hits")
+    evidence = _section(section, "evidence")
+    if not hits:
+        return [f"- {label}：{DASH}"]
+    lines: list[str] = []
+    for axis in sorted(hits):
+        if hits.get(axis):
+            rows = _rows(evidence.get(axis))
+            lines.append(f"- {label} `{axis}` = true（证据 {len(rows)} 条）")
+            for row in rows:
+                lines.append(
+                    f"  - `{as_str(row.get('file'))}:{as_int(row.get('line'))}` — "
+                    f"`{as_str(row.get('snippet'))}`"
+                )
+        else:
+            lines.append(f"- {label} `{axis}` = false（无证据）")
+    return lines
+
+
+def _insight_section(inputs: ReportInputs) -> list[str]:
+    if inputs.insight is not None and inputs.insight.items:
+        lines = [
+            "## 洞见",
+            "",
+            "| id | 选择 | 放弃的替代 | 代价 | 证据 |",
+            "|---|---|---|---|---|",
+        ]
+        for item in inputs.insight.items:
+            lines.append(
+                f"| {item.id} | {item.chose} | {item.alternative} | {item.cost} | "
+                f"`{item.evidence}` |"
+            )
+        lines.extend(["", f"- 置信度：{inputs.insight.confidence}"])
+        if inputs.insight.dropped:
+            lines.append(f"- 被代码丢弃的条目：{len(inputs.insight.dropped)} 条")
+            lines.extend(f"  - {reason}" for reason in inputs.insight.dropped)
+        lines.append("")
+        return lines
+
+    lines = ["## 洞见", "", DASH]
+    if inputs.insight_reason:
+        lines.extend(["", f"> fast 档未产出洞见：{inputs.insight_reason}"])
+    lines.append("")
+    return lines
 
 
 def _external_section(inputs: ReportInputs) -> list[str]:
-    return [
+    probe = inputs.external
+    if probe is None:
+        return [
+            "## 外部资料",
+            "",
+            "- DeepWiki / Zread：不可用（未索引）",
+            "- 判定原因：本次未启用外部工具探测",
+            "",
+        ]
+
+    lines = [
         "## 外部资料",
         "",
-        "- DeepWiki / Zread：不可用（未索引）",
-        f"- 判定原因：L0 未接线外部工具（L1 起启用 fail-closed 判定），"
-        f"本次未发起任何探测请求；快照 sha256 `{inputs.snapshot_sha256}`",
-        "",
+        f"- 来源：{probe.source}",
+        f"- url：{probe.url}",
+        f"- fetched_at：{probe.fetched_at or DASH}",
+        f"- sha256：`{probe.sha256 or DASH}`",
+        f"- 判定：{probe.status} — {probe.reason}",
     ]
+    if probe.raw_relpath:
+        lines.append(f"- 原文快照：`{probe.raw_relpath}`（与判定元数据分文件存放）")
+    if probe.status == "miss":
+        lines.append("- 结论：不可用（未索引）")
+    elif probe.status != "hit":
+        lines.append("- 结论：未获得")
+    lines.append("")
+    return lines
 
 
 def _degraded_lines(notes: tuple[SourceNote, ...]) -> list[str]:
@@ -215,6 +350,11 @@ def _degraded_lines(notes: tuple[SourceNote, ...]) -> list[str]:
         lines.extend(f"- `{note.source}`：{note.reason}" for note in unavailable)
         lines.append("")
     return lines
+
+
+def _graph_dict(deps: dict[str, Any]) -> dict[str, Any]:
+    graph = deps.get("graph")
+    return graph if isinstance(graph, dict) else {}
 
 
 def _section(card: dict[str, Any], key: str) -> dict[str, Any]:
@@ -279,16 +419,10 @@ def _languages(shares: Any) -> str:
     )
 
 
-def _hits(value: Any) -> str:
-    if not isinstance(value, dict) or not value:
-        return DASH
-    return "、".join(f"{key}={value[key]}" for key in sorted(value))
-
-
 def _list(value: Any) -> str:
     if not isinstance(value, list) or not value:
         return "[]"
     return "[" + ", ".join(sorted(as_str(item) for item in value)) + "]"
 
 
-__all__ = ["DASH", "ReportInputs", "render_report"]
+__all__ = ["CostLine", "DASH", "ReportInputs", "render_report"]

@@ -8,14 +8,19 @@
 
 from __future__ import annotations
 
+import io
 import json
-from collections.abc import Callable
+import re
+import tarfile
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-from .config import Layout
+import httpx
+
+from .config import Config, Layout, SourcesConfig
 from .util import (
     Clock,
     HttpClient,
@@ -30,6 +35,7 @@ from .util import (
     atomic_write_text,
     fmt_iso,
     parse_iso,
+    sha256_bytes,
     sha256_text,
     stable_json,
 )
@@ -326,3 +332,428 @@ def _normalize_tree(raw: dict[str, Any]) -> list[dict[str, Any]]:
             }
         )
     return sorted(rows, key=lambda row: row["path"])
+
+
+# --------------------------------------------------------------------------- 源码采集
+
+
+TEXT_SUFFIXES = frozenset(
+    {
+        ".c",
+        ".cc",
+        ".cmake",
+        ".cpp",
+        ".cu",
+        ".cuh",
+        ".go",
+        ".h",
+        ".hpp",
+        ".md",
+        ".py",
+        ".rs",
+        ".sh",
+        ".toml",
+        ".txt",
+        ".yaml",
+        ".yml",
+    }
+)
+TEXT_NAMES = frozenset({"CMakeLists.txt", "Makefile", "Dockerfile"})
+ENTRYPOINT_NAMES = frozenset(
+    {
+        "__init__.py",
+        "__main__.py",
+        "app.py",
+        "cli.py",
+        "index.ts",
+        "main.cu",
+        "main.go",
+        "main.py",
+        "main.rs",
+    }
+)
+
+
+@dataclass(frozen=True)
+class SourceFile:
+    path: str
+    sha256: str
+    size: int
+
+
+@dataclass(frozen=True)
+class SourceBundle:
+    """一次 commit 的源码切片（只取证据所需文件，不搬整仓）。"""
+
+    commit: str
+    tarball_sha256: str
+    files: tuple[SourceFile, ...]
+    root: Path
+
+    def read(self, path: str) -> str:
+        return (self.root / path).read_text(encoding="utf-8", errors="replace")
+
+    def texts(self) -> list[tuple[SourceFile, str]]:
+        return [(item, self.read(item.path)) for item in self.files]
+
+
+def sources_root(layout: Layout, owner: str, repo: str, as_of: datetime) -> Path:
+    return layout.snapshot_dir(owner, repo) / as_of.strftime("%Y-%m-%d") / "src"
+
+
+def load_sources(
+    layout: Layout, owner: str, repo: str, as_of: datetime, commit: str
+) -> SourceBundle | None:
+    root = sources_root(layout, owner, repo, as_of)
+    manifest_path = root / "manifest.json"
+    if not manifest_path.exists():
+        return None
+    try:
+        payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    if as_str(payload.get("commit")) != commit:
+        return None
+    files_list: list[SourceFile] = []
+    for item in as_list(payload.get("files")):
+        row = as_dict(item)
+        path = as_str(row.get("path"))
+        if not path:
+            continue
+        files_list.append(
+            SourceFile(
+                path=path,
+                sha256=as_str(row.get("sha256")),
+                size=as_int(row.get("size")),
+            )
+        )
+    files = tuple(files_list)
+    return SourceBundle(
+        commit=commit,
+        tarball_sha256=as_str(payload.get("tarball_sha256")),
+        files=files,
+        root=root,
+    )
+
+
+def fetch_sources(
+    config: Config,
+    layout: Layout,
+    owner: str,
+    repo: str,
+    *,
+    commit: str,
+    as_of: datetime,
+) -> SourceBundle:
+    """下载 `<commit>` 的 tarball（1 次请求，不占 API 额度），按需切片落盘。
+
+    同一 commit 的源码不可变 → 与 `--as-of` 绑定的切片可复用，保证幂等。
+    """
+    cached = load_sources(layout, owner, repo, as_of, commit)
+    if cached is not None:
+        return cached
+
+    url = f"https://codeload.github.com/{owner}/{repo}/tar.gz/{commit}"
+    with httpx.Client(timeout=120.0, follow_redirects=True) as client:
+        response = client.get(url, headers={"User-Agent": "osslens/0.1"})
+    if response.status_code != 200:
+        raise HttpError(url, response.status_code, "源码包下载失败")
+    data = response.content
+
+    selected = _select_sources(data, config.sources)
+    root = sources_root(layout, owner, repo, as_of)
+    files: list[SourceFile] = []
+    for path, raw in selected:
+        target = root / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(raw)
+        files.append(SourceFile(path=path, sha256=sha256_bytes(raw), size=len(raw)))
+
+    manifest = {
+        "commit": commit,
+        "tarball_sha256": sha256_bytes(data),
+        "files": [{"path": item.path, "sha256": item.sha256, "size": item.size} for item in files],
+    }
+    atomic_write_text(root / "manifest.json", stable_json(manifest) + "\n")
+    return SourceBundle(
+        commit=commit, tarball_sha256=sha256_bytes(data), files=tuple(files), root=root
+    )
+
+
+def _select_sources(data: bytes, limits: SourcesConfig) -> list[tuple[str, bytes]]:
+    """按「README → 入口文件 → 大文件优先」确定性选片，带三重上限。"""
+    candidates: list[tuple[int, int, str, bytes]] = []
+    with tarfile.open(fileobj=io.BytesIO(data), mode="r:gz") as archive:
+        for member in archive.getmembers():
+            if not member.isfile() or member.size <= 0:
+                continue
+            name = member.name.split("/", 1)[-1] if "/" in member.name else member.name
+            if not name or name.startswith("/") or ".." in Path(name).parts:
+                continue
+            suffix = Path(name).suffix.lower()
+            if suffix not in TEXT_SUFFIXES and Path(name).name not in TEXT_NAMES:
+                continue
+            if member.size > limits.max_file_bytes:
+                continue
+            extracted = archive.extractfile(member)
+            if extracted is None:
+                continue
+            payload = extracted.read()
+            base = Path(name).name.lower()
+            if base.startswith("readme"):
+                priority = 0
+            elif base in ENTRYPOINT_NAMES:
+                priority = 1
+            else:
+                priority = 2
+            candidates.append((priority, -member.size, name, payload))
+
+    candidates.sort(key=lambda item: (item[0], item[1], item[2]))
+    selected: list[tuple[str, bytes]] = []
+    total = 0
+    for _priority, _neg_size, name, payload in candidates:
+        if len(selected) >= limits.max_files:
+            break
+        if total + len(payload) > limits.max_total_bytes:
+            continue
+        selected.append((name, payload))
+        total += len(payload)
+    return sorted(selected, key=lambda item: item[0])
+
+
+# --------------------------------------------------------------------------- 外部资料探测
+
+
+STATUS_HIT = "hit"
+STATUS_MISS = "miss"
+STATUS_BLOCKED = "blocked"
+STATUS_UNAVAILABLE = "unavailable"
+
+
+@dataclass(frozen=True)
+class ExternalProbe:
+    """外部资料判定结果。四元组 + 判定，原文另存（结构分离）。"""
+
+    source: str
+    url: str
+    status: str
+    reason: str
+    fetched_at: str
+    sha256: str
+    paths_found: int
+    raw_relpath: str
+
+    def to_json(self) -> dict[str, Any]:
+        return {
+            "source": self.source,
+            "url": self.url,
+            "status": self.status,
+            "reason": self.reason,
+            "fetched_at": self.fetched_at,
+            "sha256": self.sha256,
+            "paths_found": self.paths_found,
+            "raw_relpath": self.raw_relpath,
+        }
+
+    @classmethod
+    def from_json(cls, value: dict[str, Any]) -> ExternalProbe:
+        return cls(
+            source=as_str(value.get("source"), "deepwiki"),
+            url=as_str(value.get("url")),
+            status=as_str(value.get("status"), STATUS_UNAVAILABLE),
+            reason=as_str(value.get("reason")),
+            fetched_at=as_str(value.get("fetched_at")),
+            sha256=as_str(value.get("sha256")),
+            paths_found=as_int(value.get("paths_found")),
+            raw_relpath=as_str(value.get("raw_relpath")),
+        )
+
+
+def external_dir(layout: Layout, owner: str, repo: str, as_of: datetime) -> Path:
+    return layout.snapshot_dir(owner, repo) / as_of.strftime("%Y-%m-%d") / "external"
+
+
+def probe_external(
+    config: Config,
+    layout: Layout,
+    owner: str,
+    repo: str,
+    *,
+    as_of: datetime,
+    clock: Clock,
+    repo_paths: Sequence[str],
+) -> ExternalProbe:
+    """DeepWiki 探测器：**fail-closed**，只看正文是否含 ≥N 个仓库内真实路径。
+
+    传输默认走官方 MCP（`read_wiki_contents`，正文含真实路径）；HTML 抓取作为备选。
+    不因 HTTP 200 判命中；不因页面能打开就认为已索引；未命中绝不生成模板化页面。
+    """
+    directory = external_dir(layout, owner, repo, as_of)
+    meta_path = directory / "deepwiki.json"
+    if meta_path.exists():
+        try:
+            return ExternalProbe.from_json(json.loads(meta_path.read_text(encoding="utf-8")))
+        except json.JSONDecodeError:
+            pass
+
+    url = f"{config.external.deepwiki_base_url.rstrip('/')}/{owner}/{repo}"
+    if not config.external.deepwiki_enabled:
+        disabled = ExternalProbe(
+            "deepwiki", url, STATUS_UNAVAILABLE, "已在配置中禁用", "", "", 0, ""
+        )
+        return _save_probe(directory, disabled)
+
+    text, failure, reason = _fetch_external(config, owner, repo)
+    if failure:
+        return _save_probe(
+            directory, ExternalProbe("deepwiki", url, failure, reason, "", "", 0, "")
+        )
+
+    stamp = fmt_iso(clock.now())
+    raw_sha = sha256_text(text)
+    raw_relpath = "source.txt"
+    status, found = judge_external(
+        text, repo_paths=repo_paths, min_paths=config.external.min_repo_paths
+    )
+    threshold = config.external.min_repo_paths
+    if status == STATUS_HIT:
+        reason = f"正文含 {found} 个仓库内真实路径（阈值 {threshold}）"
+    else:
+        reason = f"正文仅含 {found} 个仓库内真实路径（阈值 {threshold}）→ 视为未索引/模板页"
+    probe = ExternalProbe("deepwiki", url, status, reason, stamp, raw_sha, found, raw_relpath)
+    return _save_probe(directory, probe, text)
+
+
+def _fetch_external(config: Config, owner: str, repo: str) -> tuple[str, str, str]:
+    """返回 `(正文, 失败状态, 原因)`；成功时后两项为空。"""
+    transport = config.external.deepwiki_transport
+    if transport in ("mcp", "auto"):
+        text, failure, reason = _fetch_deepwiki_mcp(config, owner, repo)
+        if text or transport == "mcp":
+            return text, failure, reason
+    return _fetch_deepwiki_html(config, owner, repo)
+
+
+def _fetch_deepwiki_mcp(config: Config, owner: str, repo: str) -> tuple[str, str, str]:
+    headers = {
+        "Accept": "application/json, text/event-stream",
+        "Content-Type": "application/json",
+    }
+    try:
+        with httpx.Client(timeout=config.external.timeout_seconds) as client:
+            init = client.post(
+                config.external.deepwiki_mcp_url,
+                headers=headers,
+                json={
+                    "jsonrpc": "2.0",
+                    "id": 1,
+                    "method": "initialize",
+                    "params": {
+                        "protocolVersion": "2024-11-05",
+                        "capabilities": {},
+                        "clientInfo": {"name": "osslens", "version": "0.1"},
+                    },
+                },
+            )
+            if init.status_code != 200:
+                return "", STATUS_UNAVAILABLE, f"MCP 初始化 HTTP {init.status_code}"
+            session = init.headers.get("mcp-session-id")
+            session_headers = dict(headers)
+            if session:
+                session_headers["mcp-session-id"] = session
+            client.post(
+                config.external.deepwiki_mcp_url,
+                headers=session_headers,
+                json={"jsonrpc": "2.0", "method": "notifications/initialized"},
+            )
+            response = client.post(
+                config.external.deepwiki_mcp_url,
+                headers=session_headers,
+                json={
+                    "jsonrpc": "2.0",
+                    "id": 2,
+                    "method": "tools/call",
+                    "params": {
+                        "name": "read_wiki_contents",
+                        "arguments": {"repoName": f"{owner}/{repo}"},
+                    },
+                },
+            )
+    except httpx.HTTPError as exc:
+        return "", STATUS_UNAVAILABLE, f"MCP 网络错误：{type(exc).__name__}"
+
+    payload = _rpc_payload(response.text)
+    if payload is None:
+        return "", STATUS_UNAVAILABLE, f"MCP 响应不可解析（HTTP {response.status_code}）"
+    error = payload.get("error")
+    if isinstance(error, dict):
+        message = as_str(error.get("message"), "未知错误")
+        return "", STATUS_MISS, f"MCP 返回错误：{message}"
+    result = as_dict(payload.get("result"))
+    if as_bool(result.get("isError")):
+        return "", STATUS_MISS, "MCP 报告该仓库无可用 wiki"
+    chunks = [
+        as_str(as_dict(item).get("text"))
+        for item in as_list(result.get("content"))
+        if as_str(as_dict(item).get("text"))
+    ]
+    text = "\n".join(chunks)
+    if not text:
+        return "", STATUS_MISS, "MCP 返回空正文"
+    return text, "", ""
+
+
+def _rpc_payload(raw: str) -> dict[str, Any] | None:
+    """兼容 SSE（`data: {...}`）与纯 JSON 两种响应。"""
+    for line in raw.splitlines():
+        if line.startswith("data:"):
+            try:
+                return as_dict(json.loads(line[5:].strip()))
+            except json.JSONDecodeError:
+                continue
+    try:
+        return as_dict(json.loads(raw))
+    except json.JSONDecodeError:
+        return None
+
+
+def _fetch_deepwiki_html(config: Config, owner: str, repo: str) -> tuple[str, str, str]:
+    url = f"{config.external.deepwiki_base_url.rstrip('/')}/{owner}/{repo}"
+    try:
+        with httpx.Client(timeout=config.external.timeout_seconds, follow_redirects=True) as client:
+            response = client.get(url, headers={"User-Agent": "Mozilla/5.0 (osslens/0.1)"})
+    except httpx.HTTPError as exc:
+        return "", STATUS_UNAVAILABLE, f"网络错误：{type(exc).__name__}"
+
+    raw = response.text
+    if response.status_code == 429 or "Security Checkpoint" in raw:
+        return "", STATUS_BLOCKED, f"HTTP {response.status_code} 安全校验页（Vercel checkpoint）"
+    if response.status_code >= 400:
+        return "", STATUS_UNAVAILABLE, f"HTTP {response.status_code}"
+    return _visible_text(raw), "", ""
+
+
+def judge_external(raw: str, *, repo_paths: Sequence[str], min_paths: int) -> tuple[str, int]:
+    """判定只看「正文是否含仓库内真实路径」——不看 HTTP 状态、不看页面能否打开。
+
+    这是红线 #4 的可测试内核：模板页（有仓库名、无路径）必然判 miss。
+    """
+    visible = _visible_text(raw)
+    found = sum(1 for path in dict.fromkeys(repo_paths) if len(path) >= 8 and path in visible)
+    return (STATUS_HIT if found >= min_paths else STATUS_MISS), found
+
+
+def _save_probe(directory: Path, probe: ExternalProbe, raw: str = "") -> ExternalProbe:
+    """原文与判定元数据**结构分离**（红线 #13）。"""
+    if raw:
+        atomic_write_text(directory / probe.raw_relpath, raw)
+    atomic_write_text(directory / "deepwiki.json", stable_json(probe.to_json()) + "\n")
+    return probe
+
+
+def _visible_text(raw: str) -> str:
+    import html as html_module
+
+    without_scripts = re.sub(r"(?is)<(script|style).*?</\1>", " ", raw)
+    stripped = re.sub(r"(?s)<[^>]+>", " ", without_scripts)
+    return re.sub(r"\s+", " ", html_module.unescape(stripped))

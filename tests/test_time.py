@@ -73,6 +73,7 @@ def test_report_rerun_across_days_only_moves_time_fields(tmp_path: Path) -> None
                 "deepseek-ai/DeepEP",
                 "--root",
                 str(root),
+                "--no-sources",
                 "--as-of",
                 "2026-11-02T00:00:00Z",
             ]
@@ -86,6 +87,7 @@ def test_report_rerun_across_days_only_moves_time_fields(tmp_path: Path) -> None
                 "deepseek-ai/DeepEP",
                 "--root",
                 str(root),
+                "--no-sources",
                 "--as-of",
                 "2026-11-03T00:00:00Z",
             ]

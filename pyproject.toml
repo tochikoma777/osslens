@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "osslens"
-version = "0.1.0"
+version = "0.2.0"
 description = "低成本、可长期运行的开源项目深度分析系统（L0：零 LLM 体检）"
 requires-python = ">=3.11"
 dependencies = [
@@ -43,6 +43,8 @@ branch = true
 line-length = 100
 target-version = "py311"
 src = ["osslens", "tests"]
+# data/ 存的是「别人的源码切片」与报告，不是本项目的代码 → 不参与 lint
+extend-exclude = ["data", "reports", "site"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "C4", "RET"]

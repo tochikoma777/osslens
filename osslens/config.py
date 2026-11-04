@@ -23,8 +23,23 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "llm": {
         "api_key_env": "OSSLENS_LLM_API_KEY",
         "base_url_env": "OSSLENS_LLM_BASE_URL",
-        "model_env": "OSSLENS_LLM_MODEL",
-        "price_table": {},
+        "models": {"fast": "deepseek-flash", "strong": "deepseek-v4-pro"},
+        "thinking": {"fast": False, "strong": True},
+        "timeout_seconds": 120.0,
+        "max_retries": 2,
+        # 高峰价单值（保守上界），单位 CNY / 1M tokens；来源见 docs/成本预算.md
+        "price_table": {
+            "deepseek-flash": {
+                "cache_hit_per_1m": 0.04,
+                "prompt_per_1m": 2.0,
+                "completion_per_1m": 8.0,
+            },
+            "deepseek-v4-pro": {
+                "cache_hit_per_1m": 0.30,
+                "prompt_per_1m": 9.0,
+                "completion_per_1m": 27.0,
+            },
+        },
     },
     "depth": {
         "weekly_quota": {"strong": 1, "fast": 3},
@@ -32,6 +47,7 @@ DEFAULT_CONFIG: dict[str, Any] = {
             "weekly_tokens": 2_000_000,
             "monthly_tokens": 6_000_000,
             "per_run_prompt_tokens": 120_000,
+            "max_calls_per_run": 12,
         },
         "baseline": {"hot": "fast", "classic": "strong", "watchlist": "strong"},
     },
@@ -46,6 +62,16 @@ DEFAULT_CONFIG: dict[str, Any] = {
         "hot": {"star_delta_7d": 1.0, "stars": 0.6, "fork_delta_7d": 0.4},
         "classic": {"stars": 1.0, "observations": 0.7},
     },
+    "featcard": {"maintenance": {"active_days": 90, "slowed_days": 365}},
+    "external": {
+        "deepwiki_enabled": True,
+        "deepwiki_transport": "mcp",
+        "deepwiki_base_url": "https://deepwiki.com",
+        "deepwiki_mcp_url": "https://mcp.deepwiki.com/mcp",
+        "min_repo_paths": 3,
+        "timeout_seconds": 40.0,
+    },
+    "sources": {"max_files": 20, "max_total_bytes": 524288, "max_file_bytes": 204800},
     "watchlist": [],
 }
 
@@ -59,11 +85,28 @@ llm:
   # 缺任一变量 → 自动降级 off，退出码 0（红线 #3）
   api_key_env: OSSLENS_LLM_API_KEY
   base_url_env: OSSLENS_LLM_BASE_URL
-  model_env: OSSLENS_LLM_MODEL
-  # 单价表由项目负责人填写；代码不内置任何价格（设计方案 §9）
-  # 例：price_table:
-  #   <model-id>: {prompt_per_1m: 0.0, completion_per_1m: 0.0}
-  price_table: {}
+  # 分档模型名（D6-1：不再用单一 model_env）
+  models:
+    fast: deepseek-flash
+    strong: deepseek-v4-pro
+  # 按档位控制 thinking（D6-3）；fast 关闭以省输出费用
+  thinking:
+    fast: false
+    strong: true
+  timeout_seconds: 120
+  max_retries: 2
+  # ★ 单价只来自 config，代码不内置任何价格字面量（设计方案 §9）
+  # 人民币 / 1M tokens，取「高峰价」单值 = 保守上界；低谷约为表中一半
+  # 来源：DeepSeek 官方定价页，核对 2026-11-03（见 docs/成本预算.md）
+  price_table:
+    deepseek-flash:
+      cache_hit_per_1m: 0.04
+      prompt_per_1m: 2.0
+      completion_per_1m: 8.0
+    deepseek-v4-pro:
+      cache_hit_per_1m: 0.30
+      prompt_per_1m: 9.0
+      completion_per_1m: 27.0
 
 depth:
   # 周配额（设计方案 §11）
@@ -74,6 +117,8 @@ depth:
     weekly_tokens: 2000000
     monthly_tokens: 6000000
     per_run_prompt_tokens: 120000
+    # 第 5 道闸：单次 run 调用次数上限（M7）
+    max_calls_per_run: 12
   # 通道基线（设计方案 §2 L1）
   baseline:
     hot: fast
@@ -91,6 +136,28 @@ score:
   # 权重来自设计方案 §6.1；分数只用于排序，绝不用于升档
   hot: {star_delta_7d: 1.0, stars: 0.6, fork_delta_7d: 0.4}
   classic: {stars: 1.0, observations: 0.7}
+
+featcard:
+  # D6-5：维护状态阈值外置（历史素材的 30/180 天口径不采用）
+  maintenance:
+    active_days: 90
+    slowed_days: 365
+
+external:
+  deepwiki_enabled: true
+  # mcp（官方，默认）| html（页面抓取，遇 Vercel 校验会 blocked）
+  deepwiki_transport: mcp
+  deepwiki_base_url: https://deepwiki.com
+  deepwiki_mcp_url: https://mcp.deepwiki.com/mcp
+  # fail-closed：正文必须含 ≥N 个仓库内真实路径才算命中（红线 #4）
+  min_repo_paths: 3
+  timeout_seconds: 40
+
+sources:
+  # 证据提取的源码采集上限（单个仓库）
+  max_files: 20
+  max_total_bytes: 524288
+  max_file_bytes: 204800
 
 # 意图层，不是入口过滤器（设计方案 §6.4）
 watchlist: []
@@ -111,6 +178,7 @@ class BudgetConfig:
     weekly_tokens: int
     monthly_tokens: int
     per_run_prompt_tokens: int
+    max_calls_per_run: int
 
 
 @dataclass(frozen=True)
@@ -122,6 +190,9 @@ class DepthConfig:
 
 @dataclass(frozen=True)
 class PriceEntry:
+    """单价（CNY / 1M tokens）。三值齐全：缓存命中 / 输入未命中 / 输出。"""
+
+    cache_hit_per_1m: float
     prompt_per_1m: float
     completion_per_1m: float
 
@@ -130,8 +201,39 @@ class PriceEntry:
 class LlmConfig:
     api_key_env: str
     base_url_env: str
-    model_env: str
+    models: dict[str, str]
+    thinking: dict[str, bool]
     price_table: dict[str, PriceEntry]
+    timeout_seconds: float
+    max_retries: int
+
+
+@dataclass(frozen=True)
+class MaintenanceConfig:
+    active_days: int
+    slowed_days: int
+
+
+@dataclass(frozen=True)
+class FeatcardConfig:
+    maintenance: MaintenanceConfig
+
+
+@dataclass(frozen=True)
+class ExternalConfig:
+    deepwiki_enabled: bool
+    deepwiki_transport: str
+    deepwiki_base_url: str
+    deepwiki_mcp_url: str
+    min_repo_paths: int
+    timeout_seconds: float
+
+
+@dataclass(frozen=True)
+class SourcesConfig:
+    max_files: int
+    max_total_bytes: int
+    max_file_bytes: int
 
 
 @dataclass(frozen=True)
@@ -142,12 +244,13 @@ class ScoreConfig:
 
 @dataclass(frozen=True)
 class LlmCredentials:
+    """凭据只含 key + base_url；模型按档位从 `llm.models` 取。"""
+
     api_key: str
     base_url: str
-    model: str
 
     def redacted(self) -> str:
-        return f"{self.model}@{self.base_url} (key=***{len(self.api_key)})"
+        return f"{self.base_url} (key=***{len(self.api_key)})"
 
 
 @dataclass(frozen=True)
@@ -227,6 +330,9 @@ class Config:
     depth: DepthConfig
     pool: PoolConfig
     score: ScoreConfig
+    featcard: FeatcardConfig
+    external: ExternalConfig
+    sources: SourcesConfig
     watchlist: tuple[str, ...] = field(default_factory=tuple)
 
     # ------------------------------------------------------------------ 加载
@@ -262,15 +368,25 @@ class Config:
         budget_raw = _section(depth_raw, "budget")
         pool_raw = _section(raw, "pool")
         score_raw = _section(raw, "score")
+        feat_raw = _section(raw, "featcard")
+        maint_raw = _section(feat_raw, "maintenance")
+        ext_raw = _section(raw, "external")
+        src_raw = _section(raw, "sources")
 
         price_table: dict[str, PriceEntry] = {}
         for model, entry in _section(llm_raw, "price_table").items():
             if not isinstance(entry, dict):
                 raise ConfigError(f"llm.price_table.{model} 必须是映射")
             price_table[model] = PriceEntry(
+                cache_hit_per_1m=as_float(entry.get("cache_hit_per_1m"), 0.0),
                 prompt_per_1m=as_float(entry.get("prompt_per_1m"), 0.0),
                 completion_per_1m=as_float(entry.get("completion_per_1m"), 0.0),
             )
+
+        models_raw = _section(llm_raw, "models")
+        models = {str(k): as_str(v) for k, v in models_raw.items() if as_str(v)}
+        if not models:
+            raise ConfigError("llm.models 不能为空（需 fast / strong 至少各一项）")
 
         quota = {
             str(key): as_int(value, 0) for key, value in _section(depth_raw, "weekly_quota").items()
@@ -291,8 +407,14 @@ class Config:
             llm=LlmConfig(
                 api_key_env=as_str(llm_raw.get("api_key_env"), "OSSLENS_LLM_API_KEY"),
                 base_url_env=as_str(llm_raw.get("base_url_env"), "OSSLENS_LLM_BASE_URL"),
-                model_env=as_str(llm_raw.get("model_env"), "OSSLENS_LLM_MODEL"),
+                models=models,
+                thinking={
+                    str(key): as_bool(value, False)
+                    for key, value in _section(llm_raw, "thinking").items()
+                },
                 price_table=price_table,
+                timeout_seconds=as_float(llm_raw.get("timeout_seconds"), 120.0),
+                max_retries=as_int(llm_raw.get("max_retries"), 2),
             ),
             depth=DepthConfig(
                 weekly_quota=quota,
@@ -300,6 +422,7 @@ class Config:
                     weekly_tokens=as_int(budget_raw.get("weekly_tokens"), 2_000_000),
                     monthly_tokens=as_int(budget_raw.get("monthly_tokens"), 6_000_000),
                     per_run_prompt_tokens=as_int(budget_raw.get("per_run_prompt_tokens"), 120_000),
+                    max_calls_per_run=as_int(budget_raw.get("max_calls_per_run"), 12),
                 ),
                 baseline=baseline,
             ),
@@ -316,6 +439,27 @@ class Config:
                     str(k): as_float(v, 0.0) for k, v in _section(score_raw, "classic").items()
                 },
             ),
+            featcard=FeatcardConfig(
+                maintenance=MaintenanceConfig(
+                    active_days=as_int(maint_raw.get("active_days"), 90),
+                    slowed_days=as_int(maint_raw.get("slowed_days"), 365),
+                )
+            ),
+            external=ExternalConfig(
+                deepwiki_enabled=as_bool(ext_raw.get("deepwiki_enabled"), True),
+                deepwiki_transport=as_str(ext_raw.get("deepwiki_transport"), "mcp"),
+                deepwiki_mcp_url=as_str(
+                    ext_raw.get("deepwiki_mcp_url"), "https://mcp.deepwiki.com/mcp"
+                ),
+                deepwiki_base_url=as_str(ext_raw.get("deepwiki_base_url"), "https://deepwiki.com"),
+                min_repo_paths=as_int(ext_raw.get("min_repo_paths"), 3),
+                timeout_seconds=as_float(ext_raw.get("timeout_seconds"), 40.0),
+            ),
+            sources=SourcesConfig(
+                max_files=as_int(src_raw.get("max_files"), 20),
+                max_total_bytes=as_int(src_raw.get("max_total_bytes"), 524_288),
+                max_file_bytes=as_int(src_raw.get("max_file_bytes"), 204_800),
+            ),
             watchlist=watchlist,
         )
 
@@ -326,13 +470,15 @@ class Config:
         return token or None
 
     def llm_credentials(self) -> LlmCredentials | None:
-        """三者缺任一 → None（红线 #3：不是报错，是降级）。"""
+        """key 与 base_url 缺任一 → None（红线 #3：不是报错，是降级）。"""
         api_key = os.environ.get(self.llm.api_key_env, "").strip()
         base_url = os.environ.get(self.llm.base_url_env, "").strip()
-        model = os.environ.get(self.llm.model_env, "").strip()
-        if not (api_key and base_url and model):
+        if not (api_key and base_url):
             return None
-        return LlmCredentials(api_key=api_key, base_url=base_url, model=model)
+        return LlmCredentials(api_key=api_key, base_url=base_url)
+
+    def model_for(self, depth: str) -> str:
+        return self.llm.models.get(depth) or self.llm.models.get("fast") or ""
 
 
 def _section(parent: dict[str, Any], key: str) -> dict[str, Any]:
@@ -348,9 +494,13 @@ def _merge(base: dict[str, Any], override: dict[str, Any], path: str) -> dict[st
     `llm.price_table` 的键由使用者自由填写（模型 ID），不参与白名单校验。
     """
     freeform = {"config.llm.price_table"}
+    # 旧版单一 model_env：读到时忽略（D6-1 迁移），不报未知键
+    legacy = {"config.llm.model_env"}
     result = dict(base)
     for key, value in override.items():
         if key not in base:
+            if f"{path}.{key}" in legacy:
+                continue
             raise ConfigError(f"未知配置项 {path}.{key}（拼写错误？）")
         current = base[key]
         if isinstance(current, dict) and isinstance(value, dict):

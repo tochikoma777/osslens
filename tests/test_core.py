@@ -56,6 +56,7 @@ def test_report_is_byte_identical(tmp_path: Path) -> None:
         "deepseek-ai/DeepEP",
         "--root",
         str(root),
+        "--no-sources",
         "--as-of",
         "2026-11-02T00:00:00Z",
     ]
@@ -76,7 +77,15 @@ def test_as_of_dominates(tmp_path: Path) -> None:
     as_of = datetime(2026, 10, 15, tzinfo=UTC)
     root = seed_workspace(tmp_path / "ws", make_snapshot(as_of=as_of))
     code = main(
-        ["analyze", "deepseek-ai/DeepEP", "--root", str(root), "--as-of", "2026-10-15T00:00:00Z"]
+        [
+            "analyze",
+            "deepseek-ai/DeepEP",
+            "--root",
+            str(root),
+            "--no-sources",
+            "--as-of",
+            "2026-10-15T00:00:00Z",
+        ]
     )
     assert code == 0
     text = (root / "reports" / "deepseek-ai__DeepEP__2026-10-15.md").read_text(encoding="utf-8")
@@ -111,7 +120,15 @@ def test_no_llm_involved(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Non
 
     # 情形 1：无任何凭据
     code = main(
-        ["analyze", "deepseek-ai/DeepEP", "--root", str(root), "--as-of", "2026-11-02T00:00:00Z"]
+        [
+            "analyze",
+            "deepseek-ai/DeepEP",
+            "--root",
+            str(root),
+            "--no-sources",
+            "--as-of",
+            "2026-11-02T00:00:00Z",
+        ]
     )
     assert code == 0
 
@@ -120,15 +137,23 @@ def test_no_llm_involved(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Non
     monkeypatch.setenv("OSSLENS_LLM_BASE_URL", "https://llm.invalid/v1")
     monkeypatch.setenv("OSSLENS_LLM_MODEL", "test-model")
     code = main(
-        ["analyze", "deepseek-ai/DeepEP", "--root", str(root), "--as-of", "2026-11-02T00:00:00Z"]
+        [
+            "analyze",
+            "deepseek-ai/DeepEP",
+            "--root",
+            str(root),
+            "--no-sources",
+            "--as-of",
+            "2026-11-02T00:00:00Z",
+        ]
     )
     assert code == 0
 
     assert egress == [], f"off 档检测到真实外发请求：{egress}"
 
 
-def test_l0_sources_have_no_llm_endpoint() -> None:
-    """静态取证：包内不存在任何模型服务商端点字面量。"""
+def test_llm_endpoint_only_in_llm_module() -> None:
+    """端点路径只允许出现在 `llm.py`；其它模块不得自带模型服务商端点。"""
     import osslens
 
     package = Path(osslens.__file__).parent
@@ -136,6 +161,8 @@ def test_l0_sources_have_no_llm_endpoint() -> None:
     for path in sorted(package.glob("*.py")):
         text = path.read_text(encoding="utf-8")
         for marker in markers:
+            if path.name == "llm.py" and marker == "chat/completions":
+                continue
             assert marker not in text, f"{path.name} 出现模型端点字面量 {marker}"
 
 
@@ -150,7 +177,7 @@ def test_no_credentials_falls_back_to_off(tmp_path: Path) -> None:
         channel="classic",
         as_of=AS_OF,
         events=[],
-        llm_available=True,
+        available_depths=frozenset({"fast", "strong"}),
     )
     assert decision.actual == "off"
     assert decision.reason == "no_credentials"
@@ -167,7 +194,7 @@ def test_quota_downgrade_is_recorded(tmp_path: Path) -> None:
         channel="classic",
         as_of=AS_OF,
         events=events,
-        llm_available=True,
+        available_depths=frozenset({"fast", "strong"}),
         credentials_present=True,
     )
     assert decision.actual == "fast"
@@ -209,7 +236,7 @@ def test_budget_gate_cannot_be_overridden(tmp_path: Path) -> None:
         channel="classic",
         as_of=AS_OF,
         events=[],
-        llm_available=True,
+        available_depths=frozenset({"fast", "strong"}),
         credentials_present=True,
         estimated_prompt_tokens=500,
     )
@@ -229,7 +256,7 @@ def test_manual_override_bypasses_quota_but_not_budget(tmp_path: Path) -> None:
         channel="classic",
         as_of=AS_OF,
         events=[_call_event(depth="strong")],
-        llm_available=True,
+        available_depths=frozenset({"fast", "strong"}),
         credentials_present=True,
         estimated_prompt_tokens=10,
     )
@@ -248,6 +275,7 @@ def test_downgrade_is_double_written(tmp_path: Path) -> None:
                 "deepseek-ai/DeepEP",
                 "--root",
                 str(root),
+                "--no-sources",
                 "--as-of",
                 "2026-11-02T00:00:00Z",
             ]
@@ -280,6 +308,7 @@ def test_report_has_five_sections_in_order(tmp_path: Path) -> None:
                 "deepseek-ai/DeepEP",
                 "--root",
                 str(root),
+                "--no-sources",
                 "--as-of",
                 "2026-11-02T00:00:00Z",
             ]
@@ -299,7 +328,7 @@ def test_report_has_five_sections_in_order(tmp_path: Path) -> None:
 
     insight = text.split("## 洞见", 1)[1].split("## 外部资料", 1)[0]
     assert insight.strip() == "—", "off 档洞见位必须且只能是 —"
-    assert "不可用（未索引）" in text
+    assert "## 外部资料" in text
 
 
 # --------------------------------------------------------------------------- 其他
@@ -342,6 +371,7 @@ def test_dry_run_writes_nothing(tmp_path: Path) -> None:
                 "deepseek-ai/DeepEP",
                 "--root",
                 str(root),
+                "--no-sources",
                 "--as-of",
                 "2026-11-02T00:00:00Z",
                 "--dry-run",
@@ -362,6 +392,7 @@ def test_explicit_off_has_no_downgrade_event(tmp_path: Path) -> None:
             "deepseek-ai/DeepEP",
             "--root",
             str(root),
+            "--no-sources",
             "--depth",
             "off",
             "--as-of",
@@ -426,7 +457,7 @@ def test_duplicate_ledger_rows_count_once(tmp_path: Path) -> None:
             channel="classic",
             as_of=AS_OF,
             events=[],
-            llm_available=True,
+            available_depths=frozenset({"fast", "strong"}),
             credentials_present=False,
         ),
     )
@@ -452,6 +483,7 @@ def test_featcard_has_deps_graph_shape(tmp_path: Path) -> None:
                 "deepseek-ai/DeepEP",
                 "--root",
                 str(root),
+                "--no-sources",
                 "--as-of",
                 "2026-11-02T00:00:00Z",
             ]
@@ -460,6 +492,9 @@ def test_featcard_has_deps_graph_shape(tmp_path: Path) -> None:
     )
     card_file = next((root / "data" / "featcards").glob("*.json"))
     card = json.loads(card_file.read_text(encoding="utf-8"))
-    assert card["deps"]["graph"] == {"nodes": [], "edges": []}
+    graph = card["deps"]["graph"]
+    assert graph["nodes"] == [] and graph["edges"] == []
+    assert "truncated" in graph
     text = (root / "reports" / REPORT_NAME).read_text(encoding="utf-8")
-    assert "```mermaid" not in text, "Mermaid 属 L1，L0 不得渲染"
+    assert "```mermaid" in text, "L1 起报告必须内嵌 Mermaid 代码块"
+    assert "无可提取的内部模块依赖边" in text, "无源码切片时走 §6.5 的显式空态"

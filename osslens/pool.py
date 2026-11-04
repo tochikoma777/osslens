@@ -44,6 +44,7 @@ class Observation:
     created_at: str
     sha256: str
     degraded: tuple[str, ...]
+    flags: tuple[str, ...] = ()
 
     def to_json(self) -> dict[str, Any]:
         return {
@@ -57,6 +58,7 @@ class Observation:
             "created_at": self.created_at,
             "sha256": self.sha256,
             "degraded": list(self.degraded),
+            "flags": list(self.flags),
         }
 
     @classmethod
@@ -71,6 +73,7 @@ class Observation:
             created_at=as_str(value.get("created_at")),
             sha256=as_str(value.get("sha256")),
             degraded=tuple(sorted(as_str(item) for item in value.get("degraded", []) if item)),
+            flags=tuple(sorted(as_str(item) for item in value.get("flags", []) if item)),
         )
 
 
@@ -111,7 +114,14 @@ class EligibilityRow:
     score: float
 
 
-def observe(layout: Layout, snapshot: RepoSnapshot, *, channel: str, clock: Clock) -> Observation:
+def observe(
+    layout: Layout,
+    snapshot: RepoSnapshot,
+    *,
+    channel: str,
+    clock: Clock,
+    flags: tuple[str, ...] = (),
+) -> Observation:
     """追加一条观测——**永远追加，永不覆盖**（红线 #6）。"""
     repo_meta = snapshot.data.get("repo", {})
     observation = Observation(
@@ -124,6 +134,7 @@ def observe(layout: Layout, snapshot: RepoSnapshot, *, channel: str, clock: Cloc
         created_at=as_str(repo_meta.get("created_at")),
         sha256=snapshot.sha256,
         degraded=snapshot.degraded_sources,
+        flags=flags,
     )
     append_jsonl(layout.pool_jsonl, observation.to_json())
     return observation
@@ -291,3 +302,50 @@ def _delta(item: RepoSeries, as_of: datetime, *, field: str) -> int:
     if len(window) < 2:
         return 0
     return int(getattr(window[-1], field) - getattr(window[0], field))
+
+
+def threshold_flags(
+    config: Config,
+    series: list[RepoSeries],
+    *,
+    repo: str,
+    channel: str,
+    stars: int,
+    created_at: str,
+    observed_at: datetime,
+) -> tuple[str, ...]:
+    """D6-6：不达门槛**仍入池**，只在观测上打标并显示原因。
+
+    watchlist 是意图层，不是入口过滤器（设计方案 §6.4）→ 直接豁免。
+    """
+    if channel == WATCHLIST:
+        return ()
+    flags: list[str] = []
+    if channel == CLASSIC:
+        if stars < config.pool.classic_min_stars:
+            flags.append(f"below_classic_min_stars（{stars} < {config.pool.classic_min_stars}）")
+        if created_at:
+            age = days_between(observed_at, parse_iso(created_at))
+            if age < config.pool.classic_min_age_days:
+                flags.append(
+                    f"below_classic_min_age_days（{age} < {config.pool.classic_min_age_days}）"
+                )
+        else:
+            flags.append("unknown_classic_age（创建时间未获得）")
+        return tuple(flags)
+
+    history = [item for item in series if item.repo == repo and item.channel == HOT]
+    previous = history[0].latest.stars if history else None
+    if previous is None:
+        flags.append("hot_delta_unknown（首次观测，增量需 ≥2 次）")
+    else:
+        delta = stars - previous
+        if delta < config.pool.hot_min_star_delta_7d:
+            flags.append(
+                f"below_hot_min_star_delta_7d（{delta} < {config.pool.hot_min_star_delta_7d}）"
+            )
+    first = history[0].first_observed_at if history else observed_at
+    observed = days_between(observed_at, first)
+    if observed < config.pool.hot_observe_days:
+        flags.append(f"below_hot_observe_days（{observed} < {config.pool.hot_observe_days} 天）")
+    return tuple(flags)

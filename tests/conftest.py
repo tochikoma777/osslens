@@ -21,8 +21,12 @@ AS_OF = datetime(2026, 11, 2, tzinfo=UTC)
 DEFAULT_CREATED = "2023-01-01T00:00:00Z"
 
 
+OFFLINE_OVERRIDES: dict[str, Any] = {"external": {"deepwiki_enabled": False}}
+
+
 def write_config(root: Path, overrides: dict[str, Any] | None = None) -> Path:
-    merged = _merge(DEFAULT_CONFIG, overrides or {}, "config")
+    """单测默认关闭外部探测：报告里「不可用（未索引）」由 off 路径渲染，不发网络请求。"""
+    merged = _merge(DEFAULT_CONFIG, {**OFFLINE_OVERRIDES, **(overrides or {})}, "config")
     path = root / "config.yaml"
     path.write_text(yaml.safe_dump(merged, allow_unicode=True, sort_keys=True), encoding="utf-8")
     return path
