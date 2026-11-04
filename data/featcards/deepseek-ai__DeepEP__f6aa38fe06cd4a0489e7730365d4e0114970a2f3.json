@@ -12,10 +12,50 @@
     "direct": null,
     "external_top": [],
     "graph": {
-      "edges": [],
-      "nodes": []
+      "edges": [
+        [
+          "deep_ep",
+          "deep_ep/buffers/bucket"
+        ],
+        [
+          "deep_ep",
+          "deep_ep/buffers/ep"
+        ],
+        [
+          "deep_ep",
+          "deep_ep/comm"
+        ],
+        [
+          "deep_ep",
+          "deep_ep/utils"
+        ],
+        [
+          "deep_ep/buffers/bucket",
+          "deep_ep"
+        ],
+        [
+          "deep_ep/buffers/bucket",
+          "deep_ep/utils"
+        ],
+        [
+          "deep_ep/buffers/ep",
+          "deep_ep"
+        ],
+        [
+          "deep_ep/buffers/ep",
+          "deep_ep/utils"
+        ]
+      ],
+      "nodes": [
+        "deep_ep",
+        "deep_ep/buffers/bucket",
+        "deep_ep/buffers/ep",
+        "deep_ep/comm",
+        "deep_ep/utils"
+      ],
+      "truncated": false
     },
-    "internal_edge_count": null,
+    "internal_edge_count": 8,
     "transitive": null
   },
   "governance": {
@@ -25,14 +65,23 @@
     "org_type": null
   },
   "hardware": {
-    "arch_gates": [],
-    "kernel_langs": [],
+    "arch_gates": [
+      "blackwell",
+      "hopper"
+    ],
+    "kernel_langs": [
+      "cuda"
+    ],
     "lock_in_score": null,
-    "vendors": []
+    "vendors": [
+      "amd",
+      "ascend",
+      "nvidia"
+    ]
   },
   "identity": {
-    "age_days": 623,
-    "analyzed_at": "2026-11-02T00:00:00Z",
+    "age_days": 624,
+    "analyzed_at": "2026-11-03T00:00:00Z",
     "channel": "classic",
     "commit": "f6aa38fe06cd4a0489e7730365d4e0114970a2f3",
     "created_at": "2025-02-17T01:33:04Z",
@@ -48,39 +97,169 @@
     }
   },
   "limitations": [
-    "L0 只跑元数据层：未读取源码内容，parallel/cache/hardware 全部 false，deps.* 与 loc_total 为 null（红线 #5：无证据不写入）",
-    "issue_close_ratio_90d 需 search API，L0 未调用",
-    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，L0 置 null"
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
   ],
   "parallel": {
-    "evidence": {},
+    "evidence": {
+      "CP": [
+        {
+          "file": "README.md",
+          "line": 3,
+          "snippet": "DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p"
+        }
+      ],
+      "DP": [
+        {
+          "file": "README.md",
+          "line": 3,
+          "snippet": "DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p"
+        }
+      ],
+      "EP": [
+        {
+          "file": "deep_ep/buffers/ep.py",
+          "line": 211,
+          "snippet": "- high-throughput expert-parallel all-to-all (dispatch and combine, using NVLink and/or RDMA)"
+        },
+        {
+          "file": "README.md",
+          "line": 3,
+          "snippet": "DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p"
+        },
+        {
+          "file": "README.md",
+          "line": 20,
+          "snippet": "- **V2 release**: A complete refactoring of expert parallelism, with support for larger scale-up and scale-out domains a"
+        }
+      ],
+      "PP": [
+        {
+          "file": "README.md",
+          "line": 3,
+          "snippet": "DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p"
+        },
+        {
+          "file": "README.md",
+          "line": 388,
+          "snippet": "### Pipeline parallelism (experimental)"
+        }
+      ]
+    },
     "hits": {
-      "CP": false,
-      "DP": false,
-      "EP": false,
-      "PP": false,
+      "CP": true,
+      "DP": true,
+      "EP": true,
+      "PP": true,
       "SP": false,
       "TP": false
     }
   },
   "scale": {
     "commits_365d": 27,
-    "commits_90d": 7,
+    "commits_90d": 5,
     "contributors": 50,
-    "forks": 1535,
+    "forks": 1543,
     "last_commit": "2026-10-21T03:50:43Z",
-    "open_issues": 316,
+    "open_issues": 318,
     "release_count_365d": 0,
-    "stars": 10403,
+    "stars": 10411,
     "top10_share": 0.8203,
     "used_by": null
   },
   "schema_version": "1.0",
   "signals": {
     "bus_factor_top1_share": 0.3633,
-    "days_since_commit": 12,
+    "days_since_commit": 13,
     "issue_close_ratio_90d": null,
     "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "f6aa38fe06cd4a0489e7730365d4e0114970a2f3",
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "86415f7fc11381dceb14c112b6c602103d975936444601666ab1fcfd65e8fceb"
+      },
+      {
+        "path": "csrc/buffers/bucket.hpp",
+        "sha256": "75fc5212a9d078794514bb4e9936409b5ef3534b0ba996c34326e350cd4eef5a"
+      },
+      {
+        "path": "csrc/buffers/ep.hpp",
+        "sha256": "e00e92a793b8e5a448db6f704ccd2c391ff9943cba30ec470c9d3945460c0193"
+      },
+      {
+        "path": "csrc/indexing/main.cu",
+        "sha256": "a8ea13af1b1da3f539e192221582e932a43fdb42a7e4b19d5e2b82ab81a00203"
+      },
+      {
+        "path": "deep_ep/__init__.py",
+        "sha256": "5284cee7a436c8af408b1b0e18fbb57fd176510bb9140243e6a1e005a8ac3101"
+      },
+      {
+        "path": "deep_ep/buffers/bucket.py",
+        "sha256": "7657ac15c1673d365e54c215d879c0d505c284c35b913c775bf67c01c4fbbc1d"
+      },
+      {
+        "path": "deep_ep/buffers/ep.py",
+        "sha256": "a8f72c3975bbf0433b7c2bad7574053c2b8b42296c2d692336beade92b4ed737"
+      },
+      {
+        "path": "deep_ep/comm/__init__.py",
+        "sha256": "200b9b55a35fc096501745ee727fbd33b163a09217075f1b764d3a02dd52f993"
+      },
+      {
+        "path": "deep_ep/include/deep_ep/common/ptx.cuh",
+        "sha256": "e175b3a0476da23ae1151d9b724527f9913124c3e6decd43a4c8102c38a71c11"
+      },
+      {
+        "path": "deep_ep/include/deep_ep/impls/bucket/all_reduce/hybrid.cuh",
+        "sha256": "124179595112e836055796648f4376173b612ee9f93aa53cddaf8b13af13f76c"
+      },
+      {
+        "path": "deep_ep/include/deep_ep/impls/bucket/reduce_scatter/hybrid.cuh",
+        "sha256": "b8891a5fe63d219ae9ade1fa5b998b7ab93be76e63838aadb4d6cbf10c78fbed"
+      },
+      {
+        "path": "deep_ep/include/deep_ep/impls/bucket/reduce_scatter/rdma.cuh",
+        "sha256": "a3b6032b1ca89e15c6ef916f311924d4ca66e62185b9010386688d7c2f13a742"
+      },
+      {
+        "path": "deep_ep/include/deep_ep/impls/ep/dispatch.cuh",
+        "sha256": "447ec0ef779bb2a74f7efa8ece04254c2036ab4000999f566356d6f94df9335a"
+      },
+      {
+        "path": "deep_ep/include/deep_ep/impls/ep/dispatch_copy_epilogue.cuh",
+        "sha256": "4120d4f9d13a59ffa463c0b7d519cf6801af68ca48e518fab6acfe68713053ad"
+      },
+      {
+        "path": "deep_ep/include/deep_ep/impls/ep/hybrid_combine.cuh",
+        "sha256": "7a5091f7acd501fe0500564d1ef775e10150d880512e178e6c6bb40285eb1248"
+      },
+      {
+        "path": "deep_ep/include/deep_ep/impls/ep/hybrid_dispatch.cuh",
+        "sha256": "d7e6e98aeb605392c668bf46de3520072f02b61f145cfc5779dd9c32f0e73db9"
+      },
+      {
+        "path": "deep_ep/utils/__init__.py",
+        "sha256": "17eca447417b892ba186f9eb3b79a8d242ea860b22e1c704ea1937d062915c11"
+      },
+      {
+        "path": "tests/bucket/test_mixed.py",
+        "sha256": "744379f97fd932a565f7c6c716ed1b25a1ec38e55ff76e5c032cc052097dd0b8"
+      },
+      {
+        "path": "tests/ep/test_ep.py",
+        "sha256": "7346d98a17bce91e8e51a753ed00ad7c944056f71a23a34361380cf5b94f0dbd"
+      },
+      {
+        "path": "third-party/tilelang_ops/__init__.py",
+        "sha256": "1968ad39b1704aa833026c0b904b26d3c4bd29d23df137d207c186dc665880d8"
+      }
+    ],
+    "tarball_sha256": "a561c7a463ba056db485ce9ad962d4a0650438616c700d86a271787088bfa529"
   },
   "structure": {
     "bytes": 2106029,

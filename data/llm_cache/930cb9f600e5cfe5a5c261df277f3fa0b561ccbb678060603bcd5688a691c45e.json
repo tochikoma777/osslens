@@ -1,0 +1,101 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "安装期预编译全部kernel",
+        "chose": "运行时用DeepJIT编译通信kernel",
+        "cost": "运行需保留CUDA工具链与主机编译器",
+        "evidence": "README.md:5",
+        "id": "t1"
+      },
+      {
+        "alternative": "保留NVSHMEM后端",
+        "chose": "改用NCCL Gin作为设备端通信后端",
+        "cost": "V1 API与旧文档被整体移除",
+        "evidence": "README.md:20",
+        "id": "t2"
+      },
+      {
+        "alternative": "运行时自动调优参数",
+        "chose": "按拓扑解析式计算SM与QP数量",
+        "cost": "拓扑或带宽探测失败即无法建buffer",
+        "evidence": "README.md:26",
+        "id": "t3"
+      },
+      {
+        "alternative": "两套独立接口",
+        "chose": "EP高吞吐与低延迟统一到单一EPBuffer",
+        "cost": "调用方需自行选择同步与布局选项",
+        "evidence": "README.md:25",
+        "id": "t4"
+      },
+      {
+        "alternative": "按实际使用的传输方式按需探测",
+        "chose": "BucketBuffer要求NVLink与RDMA带宽均可探测",
+        "cost": "仅单传输的组也需两类带宽可测",
+        "evidence": "README.md:47",
+        "id": "t5"
+      },
+      {
+        "alternative": "仅做版本号兼容检查",
+        "chose": "导入时校验NCCL库唯一且二进制一致",
+        "cost": "PyTorch与DeepEP的NCCL不一致即中止",
+        "evidence": "deep_ep/__init__.py:36",
+        "id": "t6"
+      },
+      {
+        "alternative": "调用内同步完成收尾",
+        "chose": "延迟epilogue并用EventOverlap等待",
+        "cost": "结果须由首次wait产出并保留",
+        "evidence": "README.md:262",
+        "id": "t7"
+      },
+      {
+        "alternative": "占用GPU SM执行",
+        "chose": "all-gather由拷贝引擎驱动(num_sms=0)",
+        "cost": "reduce-scatter/all-reduce仍需SM",
+        "evidence": "README.md:311",
+        "id": "t8"
+      },
+      {
+        "alternative": "仅FP32通信",
+        "chose": "reduce-scatter支持bf16通信精度",
+        "cost": "通信精度下降换取带宽",
+        "evidence": "csrc/buffers/bucket.hpp:139",
+        "id": "t9"
+      },
+      {
+        "alternative": "由框架自行搬运副本",
+        "chose": "冗余专家权重/梯度经NVLink交换",
+        "cost": "映射与存储须跨rank一致且手动管理",
+        "evidence": "README.md:322",
+        "id": "t10"
+      },
+      {
+        "alternative": "固定64位索引",
+        "chose": "topk_idx位宽编译期可选32/64",
+        "cost": "改值需重建扩展且运行时不可改",
+        "evidence": "README.md:432",
+        "id": "t11"
+      },
+      {
+        "alternative": "固定使用NCCL默认SL",
+        "chose": "RDMA服务级按环境变量优先级选择",
+        "cost": "需人工配置fabric的SL到VL映射",
+        "evidence": "README.md:460",
+        "id": "t12"
+      }
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 0,
+    "cache_miss_tokens": 21945,
+    "completion_tokens": 588,
+    "prompt_tokens": 21945,
+    "total_tokens": 22533
+  }
+}

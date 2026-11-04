@@ -1,0 +1,87 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "安装期预编译全部kernel",
+        "chose": "运行时JIT编译通信kernel（DeepJIT）",
+        "cost": "运行时需保留CUDA工具链与主机编译器",
+        "evidence": "README.md:5",
+        "id": "t1"
+      },
+      {
+        "alternative": "保留NVSHMEM作为RDMA后端",
+        "chose": "移除NVSHMEM后端，改用NCCL Gin",
+        "cost": "RDMA能力绑定NCCL版本与Gin接口",
+        "evidence": "README.md:20",
+        "id": "t2"
+      },
+      {
+        "alternative": "运行时自动调优",
+        "chose": "SM与QP数量解析式估算",
+        "cost": "拓扑或负载变化时估算可能偏离最优",
+        "evidence": "README.md:29",
+        "id": "t3"
+      },
+      {
+        "alternative": "保留两套独立API",
+        "chose": "高吞吐与低延迟统一为单一EPBuffer接口",
+        "cost": "接口参数增多，需按场景选择同步模式",
+        "evidence": "README.md:27",
+        "id": "t4"
+      },
+      {
+        "alternative": "按实际使用的传输方式按需探测",
+        "chose": "BucketBuffer要求NVLink与RDMA带宽均可探测",
+        "cost": "仅用单一传输的组也需完整网络环境",
+        "evidence": "README.md:57",
+        "id": "t5"
+      },
+      {
+        "alternative": "仅做版本号检查",
+        "chose": "导入时校验NCCL库二进制一致",
+        "cost": "PyTorch与DeepEP的NCCL版本必须严格匹配",
+        "evidence": "deep_ep/__init__.py:36",
+        "id": "t6"
+      },
+      {
+        "alternative": "用GPU SM驱动all-gather",
+        "chose": "all-gather走拷贝引擎(num_sms=0)",
+        "cost": "reduce-scatter/all-reduce仍需占用SM",
+        "evidence": "README.md:340",
+        "id": "t7"
+      },
+      {
+        "alternative": "通信完成后立即执行epilogue",
+        "chose": "延迟epilogue与计算重叠",
+        "cost": "结果须由首次wait产出并保留",
+        "evidence": "README.md:290",
+        "id": "t8"
+      },
+      {
+        "alternative": "始终创建DeepEP自管communicator",
+        "chose": "默认复用PyTorch的NCCL communicator",
+        "cost": "依赖后端暴露_comm_ptr私有接口",
+        "evidence": "README.md:404",
+        "id": "t9"
+      },
+      {
+        "alternative": "固定64位索引",
+        "chose": "top-k索引宽度编译期可选32/64位",
+        "cost": "修改需重新编译扩展",
+        "evidence": "README.md:452",
+        "id": "t10"
+      }
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 896,
+    "cache_miss_tokens": 20907,
+    "completion_tokens": 501,
+    "prompt_tokens": 21803,
+    "total_tokens": 22304
+  }
+}

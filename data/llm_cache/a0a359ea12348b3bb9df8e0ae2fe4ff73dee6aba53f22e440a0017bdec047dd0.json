@@ -1,0 +1,101 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "安装期预编译全部kernel",
+        "chose": "运行时用DeepJIT编译通信kernel",
+        "cost": "运行需保留CUDA工具链与主机编译器",
+        "evidence": "README.md:5",
+        "id": "t1"
+      },
+      {
+        "alternative": "保留NVSHMEM后端",
+        "chose": "改用NCCL Gin作为设备侧通信后端",
+        "cost": "V1 API与旧文档被整体移除",
+        "evidence": "README.md:20",
+        "id": "t2"
+      },
+      {
+        "alternative": "运行时自动调优",
+        "chose": "SM/QP数量解析式计算",
+        "cost": "拓扑或负载变化时需手动覆盖参数",
+        "evidence": "README.md:26",
+        "id": "t3"
+      },
+      {
+        "alternative": "两套独立接口",
+        "chose": "高吞吐与低延迟统一到单一EPBuffer接口",
+        "cost": "调用方需自行选择同步与展开模式",
+        "evidence": "README.md:25",
+        "id": "t4"
+      },
+      {
+        "alternative": "调用即完成epilogue",
+        "chose": "延迟epilogue以重叠通信与计算",
+        "cost": "结果须由首次wait产出并保留",
+        "evidence": "README.md:300",
+        "id": "t5"
+      },
+      {
+        "alternative": "仅单一传输路径",
+        "chose": "Bucket集合通信走NVLink/RDMA/混合域",
+        "cost": "BucketBuffer要求两种带宽均可探测",
+        "evidence": "README.md:60",
+        "id": "t6"
+      },
+      {
+        "alternative": "占用GPU SM执行",
+        "chose": "all-gather由拷贝引擎驱动(num_sms=0)",
+        "cost": "reduce-scatter/all-reduce仍需SM",
+        "evidence": "README.md:340",
+        "id": "t7"
+      },
+      {
+        "alternative": "跨节点复制专家",
+        "chose": "冗余专家权重/梯度经NVLink交换",
+        "cost": "复制计划与映射须由调用方维护",
+        "evidence": "README.md:355",
+        "id": "t8"
+      },
+      {
+        "alternative": "容忍多版本NCCL共存",
+        "chose": "导入时校验NCCL库二进制一致",
+        "cost": "版本不匹配直接中止导入",
+        "evidence": "deep_ep/__init__.py:36",
+        "id": "t9"
+      },
+      {
+        "alternative": "各自独立分配显存",
+        "chose": "EP与LB共用一段对称buffer分区",
+        "cost": "LB区大小须按对齐字节预留",
+        "evidence": "csrc/buffers/ep.hpp:70",
+        "id": "t10"
+      },
+      {
+        "alternative": "纯设备端workspace",
+        "chose": "host workspace用cudaMallocHost映射",
+        "cost": "占用锁页主机内存",
+        "evidence": "csrc/buffers/ep.hpp:78",
+        "id": "t11"
+      },
+      {
+        "alternative": "按需单独编译各kernel",
+        "chose": "kernel按实现分文件在main.cu聚合编译",
+        "cost": "入口文件耦合全部实现头",
+        "evidence": "csrc/indexing/main.cu:1",
+        "id": "t12"
+      }
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 256,
+    "cache_miss_tokens": 21503,
+    "completion_tokens": 572,
+    "prompt_tokens": 21759,
+    "total_tokens": 22331
+  }
+}
