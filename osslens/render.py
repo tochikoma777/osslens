@@ -144,6 +144,10 @@ def _cost_rows(cost: CostLine | None) -> list[str]:
         rows.append(f"| 单价 | {cost.model_prices[0]} |")
     if cost.anomalies:
         rows.append(f"| 成本异常 | {'；'.join(cost.anomalies)}（仅标注，不阻断） |")
+    rows.append(
+        "| 口径 | 成本说明=**本次分析**的成本（同 as-of 重跑不变，幂等优先）；"
+        "账户实际支出看 `cost` 命令的全局台账，两者不一致是设计，不是 bug |"
+    )
     return rows
 
 
