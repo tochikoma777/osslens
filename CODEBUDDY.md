@@ -4,7 +4,7 @@
 > **本文件是 AI Agent 在本仓库工作的入口。每次动手前先读。**
 > **生成方**：项目负责人（一次性）；**维护方**：**Code Agent**（内容有变即更新）。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.3 · **对应 tag**：`l0` · **日期**：2026-11-02
+> **当前版本**：v1.4 · **对应 tag**：`l1` · **日期**：2026-11-03
 
 ---
 
@@ -55,9 +55,10 @@ python -m osslens site               # L4 静态站点
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
 
-★ **实现进度（L0 / tag `l0`，2026-11-02）**：已实现 `init` · `pool add|list|eligible` · `analyze` · `cost`；
-`abstract`（L3）与 `site`（L4）**尚未实现**，`analyze` 目前只产出 `off` 档（fast/strong 属 L1）。
-`config.yaml` 另有 `llm.model_env`（模型 ID），三件套缺任一即降级 `off`。
+★ **实现进度（L1 / tag `l1`，2026-11-03）**：已实现 `init` · `pool add|list|eligible` · `analyze` · `cost`；
+`abstract`（L3）与 `site`（L4）**尚未实现**。
+`analyze` 支持 `off` 与 **`fast`（真实调用 deepseek-flash）**；`strong` 只入 config、**未实跑**（请求会降级 off 并记 `depth_unavailable_in_l1`）。
+模型按档位配置：`config.yaml → llm.models.{fast,strong}`；`api_key`/`base_url` 缺任一即降级 `off`。
 
 **退出码契约**（★ 写死）：
 
@@ -78,12 +79,14 @@ python -m osslens site               # L4 静态站点
 | `osslens/cli.py` | 参数解析、子命令分发、错误兜底 | `pytest tests/` |
 | `osslens/config.py` | 配置加载与默认值（`DEFAULT_CONFIG`） | `pytest tests/` + 确认新增项进 `config.yaml` |
 | `osslens/util.py` | HTTP / sha256 / 排序 / 原子写 / JSONL 读写 / `r4` | **全套**（排序变更会影响幂等） |
-| `osslens/collect.py` | GitHub 快照、`used_by`、**外部工具探测** `probe_external` | `test_template_page_is_a_miss` / `test_real_content_is_a_hit` |
+| `osslens/collect.py` | GitHub 快照、**源码切片**（codeload tarball）、**外部工具探测** `probe_external` | `test_template_page_is_a_miss` / `test_real_content_is_a_hit` / `test_probe_blocked_page_is_fail_closed` |
 | `osslens/featcard.py` | 特征卡 L0 提取、`depgraph_mermaid` | 特征卡证据测试 + Mermaid 渲染检查 |
 | `osslens/depth.py` | **档位四层 + 预算闸门 + Ledger** | `test_no_credentials_falls_back_to_off` / `test_quota_downgrade_is_recorded` / `test_budget_gate_*` |
 | `osslens/patterns.py` | 规律库求值、召回三分类 | `test_three_class_output` / `test_not_applicable_when_domain_mismatch` |
 | `osslens/pool.py` | 入池、打分、观察期 | 打分与观察期测试 |
 | `osslens/render.py` | 报告渲染（MD） | `test_report_is_byte_identical` |
+| `osslens/llm.py` | LLM 客户端、结构阶梯、判废、结果缓存、上下文裁剪 | `test_llm_*` / `test_context_drops_sources_when_over_budget` |
+| `osslens/prompts.py` | prompt 常量（**代码资产，不放 docs**） | `test_llm_success_parses_usage`（断言首级 `json_object`、thinking 关闭） |
 | `osslens/webui.py` | L4 静态站点 | L4 阶段 |
 
 ★ `patterns.py` / `webui.py` **L0 尚未创建**（L3 / L4 才建）；当前包内 10 个模块：
@@ -96,11 +99,11 @@ python -m osslens site               # L4 静态站点
 | `test_report_is_byte_identical` · `test_as_of_dominates` · `test_stable_json_is_sorted` | L0 | ✅ 已存在 |
 | `test_no_llm_involved` · `test_no_credentials_falls_back_to_off` | L0 | ✅ 已存在 |
 | `test_quota_downgrade_is_recorded` · `test_budget_gate_cannot_be_overridden` · `test_manual_override_bypasses_quota_but_not_budget` | L0 | ✅ 已存在 |
-| `test_template_page_is_a_miss` · `test_real_content_is_a_hit` | L1 | ⬜ **待建，当前不存在**（`probe_external` 未实现） |
+| `test_template_page_is_a_miss` · `test_real_content_is_a_hit` | L1 | ✅ 已存在（`tests/test_l1.py`，用 `docs/ref/` 真实片段） |
 | `test_three_class_output` · `test_not_applicable_when_domain_mismatch` | L3 | ⬜ **待建，当前不存在**（`patterns.py` 未实现） |
 
-> ★ 上表后两行是**目标清单**，不是现存测试。当前 `tests/` 里只有前 8 条；
-> 实现 L1 / L3 对应模块时**必须同时补上**这 4 条，否则视为该阶段未完成。
+> ★ 目前仅 L3 的两条是**目标清单**（`patterns.py` 未建）。L1 的两条已落地。
+> `tests/test_l1.py` 另有 20 条：证据回查、Mermaid 幂等、预算/M7 反向、LLM 阶梯与判废、探测 fail-closed。
 > 核对命令：`pytest --collect-only -q | grep -E "template_page|real_content|three_class|not_applicable"`（应无输出）。
 
 ---

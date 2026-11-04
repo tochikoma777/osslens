@@ -2,6 +2,35 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [0.2.0] - 2026-11-03 · tag `l1`
+
+L1：特征卡证据 + 依赖图 + 外部资料 fail-closed + **fast 档真实调用**。
+
+### 新增
+
+- 特征卡证据层：`parallel.hits` / `cache.hits` / `hardware.*` 每个 `true` 带 `file:line:snippet`，证据来自源码切片逐行扫描
+- `deps.graph` 由空结构填充为内部模块 import 边；报告内嵌 Mermaid（`graph TD`，节点/边排序，空态显式）
+- `probe_external`：DeepWiki 探测器，**只看正文含 ≥3 个仓库内真实路径**；429/模板页 → fail-closed，原文与判定元数据分文件存放（四元组）
+- fast 档接线：httpx 直连 `/chat/completions`，调用前裁剪、`json_object` 阶梯、判废规则、usage 回填
+- 结果缓存（`data/llm_cache/`）：同输入复用 → 省钱 + 幂等
+- `cost` 增加缓存命中分项、按用途分项、异常标注
+- 报告「运行元数据」内追加成本说明三行（不新增区块）
+- `depth.budget.max_calls_per_run`（默认 12）：超限硬停、退出码 0、候选不丢
+- `pool add` 门槛标注（`below_threshold`），watchlist 豁免
+- 维护状态阈值外置 `featcard.maintenance`（90 / 365）
+
+### 变更
+
+- `llm.model_env` → `llm.models.{fast,strong}`（旧键被忽略，不报错）
+- `price_table` 三值：`cache_hit_per_1m` / `prompt_per_1m` / `completion_per_1m`（CNY，高峰价）
+- `resolve_depth(llm_available)` → `available_depths`
+
+### 工程
+
+- 62 个测试（+23），语句覆盖率 81%
+- 真实运行：DeepEP fast 档，22,304 tok / ¥0.0459 / 12 条带证据洞见 / 8 条依赖边
+- 已知限制见 `docs/开发日志.md` §L1-4
+
 ## [0.1.0] - 2026-11-02 · tag `l0`
 
 L0：采集 + 建池 + 去重 + **off 档体检报告**。全链路零 LLM。
