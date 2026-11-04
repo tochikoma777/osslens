@@ -2,9 +2,10 @@
 
 > **项目名**：`osslens`（包名 / CLI 名 / 目录名统一，路径 `~/projects/osslens`）
 > **本文件是 AI Agent 在本仓库工作的入口。每次动手前先读。**
-> **生成方**：项目负责人（一次性）；**维护方**：**Code Agent**（内容有变即更新）。
+> **生成方**：项目负责人（一次性，Chat 只生成一次）；**维护方**：**Code Agent**（**自维护**：内容有变即直接改，不需逐次授权）。
+> **维护约束**：唯一约束 = `docs/经验库-冲突与覆盖清单.md` §8.2 **六锚点不得漂移**；改后 `git diff -- CODEBUDDY.md` 逐项核对，锚点丢失按该 §8.2 从 SSOT 回填。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.4 · **对应 tag**：`l1` · **日期**：2026-11-03
+> **当前版本**：v1.5 · **对应 tag**：`l1` · **日期**：2026-11-04
 
 ---
 
@@ -52,6 +53,28 @@ python -m osslens cost [--as-of ISO] # 成本台账
 python -m osslens site               # L4 静态站点
 ```
 
+### 2.1 开发命令（build / lint / test / 单测）
+
+```bash
+pip install -e ".[dev]"        # 装含 pytest / ruff / mypy / respx 的开发依赖；setuptools 后端，无独立 build 步骤（`build` 未装）
+osslens --help                 # 或 python -m osslens；pyproject.toml [project.scripts] 入口
+
+pytest                         # 全量 62 例
+pytest tests/test_core.py::test_report_is_byte_identical   # 单测（node id）
+pytest tests/test_l1.py -k "context or probe_blocked"     # 按关键字筛
+pytest -m "not network"        # 离线；pyproject.toml 定义 network marker，当前无用例带此标记
+pytest --cov=osslens --cov-report=term-missing            # 覆盖率（pytest-cov 在 dev 依赖）
+
+ruff check . && ruff format --check .   # lint + 格式（line-length 100；排除 data/ reports/ site/）
+ruff format .                  # 自动格式化
+mypy                           # strict，files = ["osslens"]（12 个源文件），不走 tests/
+
+pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（全绿才可提交）
+```
+
+`ruff` 的 `select` / `extend-exclude`、`mypy strict` 的口径都在 `pyproject.toml`，改配置先改那里；
+`tests/conftest.py` 默认清空凭据环境变量并以 `OFFLINE_OVERRIDES` 关闭外部探测（单测不发网络请求）。
+
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
 
@@ -89,8 +112,35 @@ python -m osslens site               # L4 静态站点
 | `osslens/prompts.py` | prompt 常量（**代码资产，不放 docs**） | `test_llm_success_parses_usage`（断言首级 `json_object`、thinking 关闭） |
 | `osslens/webui.py` | L4 静态站点 | L4 阶段 |
 
-★ `patterns.py` / `webui.py` **L0 尚未创建**（L3 / L4 才建）；当前包内 10 个模块：
-`cli` · `config` · `util` · `collect` · `featcard` · `depth` · `pool` · `render` + `__init__` / `__main__`。
+### 3.1 大图：一次 `analyze` 的数据流（跨模块，改代码前先看这个）
+
+```text
+cli.py:_cmd_analyze (cli.py:334) ── 唯一编排入口，串起全链路
+  ├─ config.py:Config.load → Layout            # 唯一配置真源 config.yaml + ${ENV} 环境变量
+  ├─ collect.py:load_snapshot / fetch_snapshot → RepoSnapshot   # GitHub REST 6 端点，统一走 util.HttpClient
+  ├─ collect.py:load_sources / fetch_sources → SourceBundle      # codeload tarball 源码切片（可再生缓存）
+  ├─ featcard.py:build_featcard → 特征卡 JSON                   # 确定性提取：证据 / 语言占比 / 依赖图 Mermaid
+  ├─ collect.py:probe_external → ExternalProbe                  # fail-closed：正文含 ≥3 个仓库真实路径才算命中
+  ├─ cli.py:_build_context → llm.py:assemble_context → Context # 调用前裁剪（预估 → 组装 → 校验）
+  ├─ depth.py:resolve_depth → DepthDecision                     # 通道基线 → 周配额 → 预算闸门
+  │      AVAILABLE_DEPTHS = {"fast"}（cli.py:81）；strong 只入 config、未接线
+  │      降级 → build_ledger_event / record_event 双写 costs.jsonl
+  ├─ cli.py:_run_insight（仅 fast）→ llm.py:LlmClient.chat_json # 结构阶梯 → 判废 → data/llm_cache 缓存
+  ├─ depth.py:estimate_cost + llm.Usage → CostLine
+  └─ render.py:render_report → 报告 MD                          # 五区块固定顺序；atomic_write_text 落盘
+       退出码恒 0（降级 / 配额 / 预算 / 未配 key 均 0）
+
+pool 链：cli._cmd_pool_* → pool.observe（pool.jsonl append-only）→ score_channel（hot/classic/watchlist 不混排）
+        → evaluate_eligibility（观察期 3–7 天；打分只排序、绝不升档）
+cost 链：cli._cmd_cost → depth.load_events / summarize（util.start_of_week / start_of_month 窗口）
+横切：util.py —— HttpClient（限速/重试/UA）、FixedClock / SystemClock、stable_json / sort_paths / r4（幂等）、
+      atomic_write_text、read_jsonl / append_jsonl（真源 append-only）。改它必须跑全套（见上表）。
+```
+
+设计层大图见 `docs/总体架构设计.md` §2（五段工作流）/ §3.1（分层）——补充件、非 SSOT，冲突以设计方案为准。
+
+★ `patterns.py` / `webui.py` **L0 尚未创建**（L3 / L4 才建）；当前包内 **10 个业务模块 + 2 个入口 = 12 个 .py**：
+`cli` · `config` · `util` · `collect` · `featcard` · `depth` · `llm` · `pool` · `prompts` · `render` + `__init__` / `__main__`（`mypy` 报 12 source files）。
 
 **幂等/契约测试**（`tests/test_core.py`，**不得删，只能加**）：
 
@@ -103,8 +153,9 @@ python -m osslens site               # L4 静态站点
 | `test_three_class_output` · `test_not_applicable_when_domain_mismatch` | L3 | ⬜ **待建，当前不存在**（`patterns.py` 未实现） |
 
 > ★ 目前仅 L3 的两条是**目标清单**（`patterns.py` 未建）。L1 的两条已落地。
-> `tests/test_l1.py` 另有 20 条：证据回查、Mermaid 幂等、预算/M7 反向、LLM 阶梯与判废、探测 fail-closed。
-> 核对命令：`pytest --collect-only -q | grep -E "template_page|real_content|three_class|not_applicable"`（应无输出）。
+> `tests/test_l1.py` 共 23 条（全仓 62 条）：证据回查、Mermaid 幂等、预算/M7 反向、LLM 阶梯与判废、探测 fail-closed。
+> 核对命令：`pytest --collect-only -q | grep -E "three_class|not_applicable"`（**应无输出**，L3 两条待建）；
+> `pytest --collect-only -q | grep -E "template_page|real_content"`（**应仅输出 2 条 L1**，不得为 0）。
 
 ---
 
@@ -175,21 +226,25 @@ python -m osslens site               # L4 静态站点
 | 打分与入池 | 设计方案 §6.1–§6.4 |
 | 依赖图 | 设计方案 §6.5 |
 | 幂等 | 设计方案 §7 |
-| 数据布局 | 设计方案 §8 |
+| 数据布局 / 真源分层（D15） | 设计方案 §8（**§8.2 为唯一权威**） |
 | 成本观测 | 设计方案 §9 |
 | 报告结构 | 执行手册 附录 A |
 | 验收模板 | 执行手册 §6 |
+| 总体架构 / 端到端流程 / 技术选型 | `docs/总体架构设计.md` §2 / §3 / §4（补充件，非 SSOT） |
+| 开发命令 / 门禁四连 | 本文件 §2.1 · `CONTRIBUTING.md` |
 
 ---
 
 ## 7. 每阶段收尾必做
 
-- [ ] 门禁全绿：`pytest` / `ruff` / `ruff format` / **mypy strict**
+- [ ] 门禁全绿：`pytest && ruff check . && ruff format --check . && mypy`（见 §2.1）
 - [ ] 追加 `docs/开发日志.md` 本阶段章节（实测、决策依据、坑）
 - [ ] 更新本文件（若内容有变）
 - [ ] 提交前列 `git status` 确认；核对 `git ls-files | grep -E '\.env$|secrets|\.db$'` 为空
 - [ ] **提交 + 打 tag**（如 `l0`），再通知项目负责人刷新文档
 - [ ] 输出验收报告（八段，在会话输出**不落成文件**），**停下**
+
+★ **禁止 force 更新 tag**；`l0` = 792894d、`l1` = 289beed **冻结、不得移动**（见 `docs/执行手册.md` / `docs/文档维护日志.md`）。新 tag 由项目负责人定（N7）。
 
 **验收报告八段**：`已完成 / DoD 核对 / 关键文件清单 / 测试与覆盖率 / 真实运行证据 / 遇到的坑与解决 / 待决策问题（≤1）/ 下一步`
 
@@ -201,20 +256,33 @@ python -m osslens site               # L4 静态站点
 ## 8. 数据布局（真源 vs 可丢弃）
 
 ```
-config.yaml                      # 唯一配置真源
-patterns/*.yaml                  # 规律库（真源，可 diff）
+config.yaml                                        # 唯一配置真源
+patterns/*.yaml                                    # 规律库（真源，可 diff）
 data/
-├── ledger/selected.jsonl        # ★ append-only：何时选过、为什么选
-├── pool/pool.jsonl              # 候选池（append-only + 观测序列）
-├── snapshots/<repo>/<name>-<date>.md   # 外部资料快照 + sha256
-├── featcards/<owner>__<repo>__<commit>.json
-└── costs/costs.jsonl            # append-only：调用/降级/预算事件
-reports/<owner>__<repo>__<date>.md
-site/                            # L4 静态站（可丢弃、可重建）
+├── ledger/selected.jsonl                          # ★ 真源 append-only：何时选过、为什么选
+├── pool/pool.jsonl                                # ★ 真源 append-only + 观测序列
+├── costs/costs.jsonl                              # ★ 真源 append-only：调用/降级/预算事件
+├── snapshots/<owner>__<repo>/<date>.json           # 采集快照元数据 + sha256
+│   ├── src/                                       # 源码切片 + manifest.json（可再生缓存）
+│   └── external/                                  # ★ deepwiki.json + source.txt + sha256（不可再生真源）
+├── featcards/<owner>__<repo>__<commit>.json        # 可再生
+└── llm_cache/<sha256>.json                        # 可再生（丢了只多花钱，不丢事实）
+reports/<owner>__<repo>__<date>.md                  # ★ 真源
+site/                                              # L4 静态站（可丢弃、可重建）
 ```
 
-**真源**：`patterns/` · `data/ledger` · `data/pool` · `data/snapshots` · `data/costs` · `reports/`
-**可丢弃可重建**：`data/featcards/` · `site/` · 任何 DB 索引
+**★ 按可再生性分层（D15，唯一权威 = `docs/设计方案.md` §8.2 v1.3）**：
+
+| 路径 | 归类 | 规则 |
+|---|---|---|
+| `patterns/` · `data/ledger` · `data/pool` · `data/costs` · `reports/` | **真源** | append-only；删除先列清单 + 停下等确认 |
+| `data/snapshots/**/external/`（deepwiki.json / source.txt / sha256） | ★ **不可再生真源** | 外部索引状态错过不可复现，带来源四元组（红线 #13）→ **不删、不覆盖** |
+| `data/snapshots/**/src/`（源码切片 + manifest.json） | **可再生缓存** | 按 commit 从 codeload tarball 可重拉 → 可丢弃、可去重、可归档清理 |
+| `data/featcards/` · `data/llm_cache/` · `site/` · 任何 DB 索引 | **可再生缓存** | 可丢弃、可重建 |
+
+★ **红线 #6 的 append-only 清单只含 3 个 jsonl + `patterns/`，从未含 `data/snapshots` 整块**
+→ 清理 `src/` / `llm_cache/` **不违规**；`docs/成本预算.md:70-76` 作为证据层与本表不冲突（冲突来自旧 §8 粒度太粗）。
+★ **推翻判据**：若 codeload tarball 不再按 commit 可重拉（仓库被删 / 私有化）→ `src/` 升格为真源（见设计方案 §8.2）。
 
 ---
 
@@ -232,17 +300,20 @@ site/                            # L4 静态站（可丢弃、可重建）
 
 ## 10. 你还要维护的文档
 
-| 文档 | 建的时刻 |
-|---|---|
-| `README.md` / `CONTRIBUTING.md` / `CHANGELOG.md` | L0 首个 tag |
-| `docs/开发日志.md` | L0 验收后（按时间记事实、实测、坑） |
-| `docs/数据源手册.md` | L0 验收后（**归并已有实测文件，不新造**） |
-| `docs/成本预算.md` | **L1 首次真实调用后**（L0 期间无真实花费，不建） |
-| `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 |
-| `docs/功能总览.md` | 收尾 |
+| 文档 | 建的时刻 | 状态（2026-11-04） |
+|---|---|---|
+| `README.md` / `CONTRIBUTING.md` / `CHANGELOG.md` | L0 首个 tag | ✅ 已建成 |
+| `docs/开发日志.md` | L0 验收后（按时间记事实、实测、坑） | ✅ 已建成（开发者每阶段收尾追加） |
+| `docs/数据源手册.md` | L0 验收后（**归并已有实测文件，不新造**） | ✅ 已建成 |
+| `docs/成本预算.md` | **L1 首次真实调用后**（L0 期间无真实花费，不建） | ✅ 已建成 |
+| `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E7） |
+| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护） | ✅ 已建成（v1.2，§8.2 六锚点唯一权威） |
+| `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.4） |
+| `docs/功能总览.md` | 收尾 | ⬜ **唯一待建** |
 
 ★ **不预建空文档**。★ **数据源手册用已有实测材料归并**：
 `外部工具命中率实测_推理Infra组.md` / `_Agent训练组.md` / `watchlist星标活跃度复核.md` / `_meas/token_result.json`
+★ `docs/总体架构设计.md` 是**补充件、非 SSOT**（只答 SSOT 未答的端到端流程 / 技术选型 / 路线图）；与 `docs/设计方案.md` 不一致 → **以设计方案为准**并回报。
 
 ---
 
