@@ -5,7 +5,7 @@
 > **生成方**：项目负责人（一次性，Chat 只生成一次）；**维护方**：**Code Agent**（**自维护**：内容有变即直接改，不需逐次授权）。
 > **维护约束**：唯一约束 = `docs/经验库-冲突与覆盖清单.md` §8.2 **六锚点不得漂移**；改后 `git diff -- CODEBUDDY.md` 逐项核对，锚点丢失按该 §8.2 从 SSOT 回填。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.5 · **对应 tag**：`l1` · **日期**：2026-11-04
+> **当前版本**：v1.6 · **对应 tag**：`l2` · **日期**：2026-11-05
 
 ---
 
@@ -59,7 +59,7 @@ python -m osslens site               # L4 静态站点
 pip install -e ".[dev]"        # 装含 pytest / ruff / mypy / respx 的开发依赖；setuptools 后端，无独立 build 步骤（`build` 未装）
 osslens --help                 # 或 python -m osslens；pyproject.toml [project.scripts] 入口
 
-pytest                         # 全量 62 例
+pytest                         # 全量 76 例（含 tests/test_l2.py 14 条）
 pytest tests/test_core.py::test_report_is_byte_identical   # 单测（node id）
 pytest tests/test_l1.py -k "context or probe_blocked"     # 按关键字筛
 pytest -m "not network"        # 离线；pyproject.toml 定义 network marker，当前无用例带此标记
@@ -67,7 +67,7 @@ pytest --cov=osslens --cov-report=term-missing            # 覆盖率（pytest-c
 
 ruff check . && ruff format --check .   # lint + 格式（line-length 100；排除 data/ reports/ site/）
 ruff format .                  # 自动格式化
-mypy                           # strict，files = ["osslens"]（12 个源文件），不走 tests/
+mypy                           # strict，files = ["osslens"]（13 个源文件），不走 tests/
 
 pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（全绿才可提交）
 ```
@@ -78,10 +78,11 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
 
-★ **实现进度（L1 / tag `l1`，2026-11-03）**：已实现 `init` · `pool add|list|eligible` · `analyze` · `cost`；
+★ **实现进度（L2 / tag `l2`，2026-11-05）**：已实现 `init` · `pool add|list|eligible` · `analyze` · `cost`；
 `abstract`（L3）与 `site`（L4）**尚未实现**。
-`analyze` 支持 `off` 与 **`fast`（真实调用 deepseek-flash）**；`strong` 只入 config、**未实跑**（请求会降级 off 并记 `depth_unavailable_in_l1`）。
-模型按档位配置：`config.yaml → llm.models.{fast,strong}`；`api_key`/`base_url` 缺任一即降级 `off`。
+`analyze` 支持 `off` · **`fast`（deepseek-flash，thinking 关）** · **`strong`（deepseek-v4-pro，thinking 开，已实跑）**。
+模型/thinking/输出上限按档位配置：`config.yaml → llm.models / llm.thinking / llm.max_output_tokens`；`api_key`/`base_url` 缺任一即降级 `off`。
+闸门按 `估算 × budget.estimate_safety_factor(1.3)` 判断；报告成本行带 D10 口径字样。
 
 **退出码契约**（★ 写死）：
 
@@ -107,9 +108,10 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 | `osslens/depth.py` | **档位四层 + 预算闸门 + Ledger** | `test_no_credentials_falls_back_to_off` / `test_quota_downgrade_is_recorded` / `test_budget_gate_*` |
 | `osslens/patterns.py` | 规律库求值、召回三分类 | `test_three_class_output` / `test_not_applicable_when_domain_mismatch` |
 | `osslens/pool.py` | 入池、打分、观察期 | 打分与观察期测试 |
-| `osslens/render.py` | 报告渲染（MD） | `test_report_is_byte_identical` |
-| `osslens/llm.py` | LLM 客户端、结构阶梯、判废、结果缓存、上下文裁剪 | `test_llm_*` / `test_context_drops_sources_when_over_budget` |
-| `osslens/prompts.py` | prompt 常量（**代码资产，不放 docs**） | `test_llm_success_parses_usage`（断言首级 `json_object`、thinking 关闭） |
+| `osslens/render.py` | 报告渲染（MD）、`D10_WORDING` 常量 | `test_report_is_byte_identical` / `test_report_carries_d10_wording_and_five_sections` |
+| `osslens/llm.py` | LLM 客户端、结构阶梯、判废、结果缓存、上下文裁剪、`Usage.reasoning_tokens` | `test_llm_*` / `test_context_drops_sources_when_over_budget` |
+| `osslens/prompts.py` | 分档 prompt 常量（**代码资产，不放 docs**）：`FAST_INSIGHT_SYSTEM` / `STRONG_INSIGHT_SYSTEM` | `test_llm_success_parses_usage`（断言首级 `json_object`、thinking 关闭） |
+| `osslens/retention.py` | T5 缓存层保留策略（白名单分层 + 内容寻址去重 + 按期归档） | `test_l2.py::test_apply_dedupes_and_never_touches_sources` |
 | `osslens/webui.py` | L4 静态站点 | L4 阶段 |
 
 ### 3.1 大图：一次 `analyze` 的数据流（跨模块，改代码前先看这个）
@@ -123,9 +125,10 @@ cli.py:_cmd_analyze (cli.py:334) ── 唯一编排入口，串起全链路
   ├─ collect.py:probe_external → ExternalProbe                  # fail-closed：正文含 ≥3 个仓库真实路径才算命中
   ├─ cli.py:_build_context → llm.py:assemble_context → Context # 调用前裁剪（预估 → 组装 → 校验）
   ├─ depth.py:resolve_depth → DepthDecision                     # 通道基线 → 周配额 → 预算闸门
-  │      AVAILABLE_DEPTHS = {"fast"}（cli.py:81）；strong 只入 config、未接线
+  │      AVAILABLE_DEPTHS = {"fast", "strong"}；L3 闸门按 估算×estimate_safety_factor(1.3) 判断
   │      降级 → build_ledger_event / record_event 双写 costs.jsonl
-  ├─ cli.py:_run_insight（仅 fast）→ llm.py:LlmClient.chat_json # 结构阶梯 → 判废 → data/llm_cache 缓存
+  ├─ cli.py:_run_insight（按档位取 model/thinking/purpose/max_tokens）
+  │      → llm.py:LlmClient.chat_json                            # 结构阶梯 → 判废 → data/llm_cache 缓存
   ├─ depth.py:estimate_cost + llm.Usage → CostLine
   └─ render.py:render_report → 报告 MD                          # 五区块固定顺序；atomic_write_text 落盘
        退出码恒 0（降级 / 配额 / 预算 / 未配 key 均 0）
@@ -139,8 +142,8 @@ cost 链：cli._cmd_cost → depth.load_events / summarize（util.start_of_week 
 
 设计层大图见 `docs/总体架构设计.md` §2（五段工作流）/ §3.1（分层）——补充件、非 SSOT，冲突以设计方案为准。
 
-★ `patterns.py` / `webui.py` **L0 尚未创建**（L3 / L4 才建）；当前包内 **10 个业务模块 + 2 个入口 = 12 个 .py**：
-`cli` · `config` · `util` · `collect` · `featcard` · `depth` · `llm` · `pool` · `prompts` · `render` + `__init__` / `__main__`（`mypy` 报 12 source files）。
+★ `patterns.py` / `webui.py` **L0 尚未创建**（L3 / L4 才建）；当前包内 **11 个业务模块 + 2 个入口 = 13 个 .py**：
+`cli` · `config` · `util` · `collect` · `featcard` · `depth` · `llm` · `pool` · `prompts` · `render` · `retention` + `__init__` / `__main__`（`mypy` 报 13 source files）。
 
 **幂等/契约测试**（`tests/test_core.py`，**不得删，只能加**）：
 
@@ -150,10 +153,11 @@ cost 链：cli._cmd_cost → depth.load_events / summarize（util.start_of_week 
 | `test_no_llm_involved` · `test_no_credentials_falls_back_to_off` | L0 | ✅ 已存在 |
 | `test_quota_downgrade_is_recorded` · `test_budget_gate_cannot_be_overridden` · `test_manual_override_bypasses_quota_but_not_budget` | L0 | ✅ 已存在 |
 | `test_template_page_is_a_miss` · `test_real_content_is_a_hit` | L1 | ✅ 已存在（`tests/test_l1.py`，用 `docs/ref/` 真实片段） |
+| `test_strong_is_available_and_maps_to_pro_model_with_thinking` · `test_safety_factor_blocks_l1_underestimate` · `test_report_carries_d10_wording_and_five_sections` · `test_apply_dedupes_and_never_touches_sources` | L2 | ✅ 已存在（`tests/test_l2.py`，含「故意让它失败」反向用例） |
 | `test_three_class_output` · `test_not_applicable_when_domain_mismatch` | L3 | ⬜ **待建，当前不存在**（`patterns.py` 未实现） |
 
-> ★ 目前仅 L3 的两条是**目标清单**（`patterns.py` 未建）。L1 的两条已落地。
-> `tests/test_l1.py` 共 23 条（全仓 62 条）：证据回查、Mermaid 幂等、预算/M7 反向、LLM 阶梯与判废、探测 fail-closed。
+> ★ 目前仅 L3 的两条是**目标清单**（`patterns.py` 未建）。L1 的两条已落地，L2 的 14 条已落地。
+> `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 14 条，**全仓 76 条**：证据回查、Mermaid 幂等、预算/M7 反向、LLM 阶梯与判废、探测 fail-closed、strong 接线、四层跨周、安全系数、D10、保留策略。
 > 核对命令：`pytest --collect-only -q | grep -E "three_class|not_applicable"`（**应无输出**，L3 两条待建）；
 > `pytest --collect-only -q | grep -E "template_page|real_content"`（**应仅输出 2 条 L1**，不得为 0）。
 
@@ -232,6 +236,10 @@ cost 链：cli._cmd_cost → depth.load_events / summarize（util.start_of_week 
 | 验收模板 | 执行手册 §6 |
 | 总体架构 / 端到端流程 / 技术选型 | `docs/总体架构设计.md` §2 / §3 / §4（补充件，非 SSOT） |
 | 开发命令 / 门禁四连 | 本文件 §2.1 · `CONTRIBUTING.md` |
+| 快照保留策略（D15 / T5） | 设计方案 §8.2（唯一权威）· `docs/数据源手册.md` §10.3 · `osslens/retention.py` |
+| trending / 限流实测（T6） | `docs/数据源手册.md` §10.1 / §10.2 |
+| 定时建池 workflow（T7） | `.github/workflows/pool.yml` · `scripts/validate_workflow.py` |
+| 已知账外支出（③′） | `docs/成本预算.md` §0（**不是台账，不参与 `cost` 统计**） |
 
 ---
 
@@ -244,7 +252,7 @@ cost 链：cli._cmd_cost → depth.load_events / summarize（util.start_of_week 
 - [ ] **提交 + 打 tag**（如 `l0`），再通知项目负责人刷新文档
 - [ ] 输出验收报告（八段，在会话输出**不落成文件**），**停下**
 
-★ **禁止 force 更新 tag**；`l0` = 792894d、`l1` = 289beed **冻结、不得移动**（见 `docs/执行手册.md` / `docs/文档维护日志.md`）。新 tag 由项目负责人定（N7）。
+★ **禁止 force 更新 tag**；`l0` = 792894d、`l1` = 289beed **冻结、不得移动**（见 `docs/执行手册.md` / `docs/文档维护日志.md`）。`l2` 为本阶段新增 tag，同样冻结；新 tag 由项目负责人定（N7）。
 
 **验收报告八段**：`已完成 / DoD 核对 / 关键文件清单 / 测试与覆盖率 / 真实运行证据 / 遇到的坑与解决 / 待决策问题（≤1）/ 下一步`
 
@@ -266,7 +274,9 @@ data/
 │   ├── src/                                       # 源码切片 + manifest.json（可再生缓存）
 │   └── external/                                  # ★ deepwiki.json + source.txt + sha256（不可再生真源）
 ├── featcards/<owner>__<repo>__<commit>.json        # 可再生
-└── llm_cache/<sha256>.json                        # 可再生（丢了只多花钱，不丢事实）
+├── llm_cache/<sha256>.json                        # 可再生（丢了只多花钱，不丢事实）
+├── cache_objects/<sha2>/<sha256>                  # 可再生索引（内容寻址去重，.gitignore 忽略）
+└── cache_archive/                                # 可再生归档（按期归档，.gitignore 忽略）
 reports/<owner>__<repo>__<date>.md                  # ★ 真源
 site/                                              # L4 静态站（可丢弃、可重建）
 ```
@@ -281,7 +291,7 @@ site/                                              # L4 静态站（可丢弃、
 | `data/featcards/` · `data/llm_cache/` · `site/` · 任何 DB 索引 | **可再生缓存** | 可丢弃、可重建 |
 
 ★ **红线 #6 的 append-only 清单只含 3 个 jsonl + `patterns/`，从未含 `data/snapshots` 整块**
-→ 清理 `src/` / `llm_cache/` **不违规**；`docs/成本预算.md:70-76` 作为证据层与本表不冲突（冲突来自旧 §8 粒度太粗）。
+→ 清理 `src/` / `llm_cache/` **不违规**；`docs/成本预算.md` §4 作为证据层与本表不冲突（D15 已对齐）。
 ★ **推翻判据**：若 codeload tarball 不再按 commit 可重拉（仓库被删 / 私有化）→ `src/` 升格为真源（见设计方案 §8.2）。
 
 ---
@@ -292,9 +302,11 @@ site/                                              # L4 静态站（可丢弃、
 |---|---|---|
 | **L0** | 采集 + 建池 + 去重 + **off 档体检报告** | 对 1 个真实仓库跑出完整体检报告（**零 LLM**） |
 | **L1** | 特征卡 L0 + 依赖图 + 外部工具（fail-closed）+ fast 档 | 特征卡含证据；Mermaid 可渲染 |
-| **L2** | 档位四层 + 预算闸门 + 成本观测 + 定时 | `cost` 可用；配额用完自动降级并留痕 |
+| **L2** ✅ | strong 档 + 四层跨周联动 + 估算安全系数 + 成本闭环 + 快照保留 + 定时建池 | strong 实跑（¥0.4174 / 5 条带证据洞见）；同 as-of 重跑字节一致；76 测试 |
 | **L3** | 模式召回 + 批量抽象 + 反例自动挖掘 | 积累 ≥5 个项目后触发首次抽象 |
 | **L4** | 静态站点（只读） | 由 MD + JSON 生成，无后端 |
+
+> ★ L2 局限：`github.com/trending` 未获得（TCP 超时）；actionlint 未安装走降级静态校验，**不等同于 GitHub 真实 run**；未 push、未建 remote。详见 `docs/开发日志.md` L2 章节。
 
 ---
 
@@ -306,7 +318,7 @@ site/                                              # L4 静态站（可丢弃、
 | `docs/开发日志.md` | L0 验收后（按时间记事实、实测、坑） | ✅ 已建成（开发者每阶段收尾追加） |
 | `docs/数据源手册.md` | L0 验收后（**归并已有实测文件，不新造**） | ✅ 已建成 |
 | `docs/成本预算.md` | **L1 首次真实调用后**（L0 期间无真实花费，不建） | ✅ 已建成 |
-| `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E7） |
+| `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E8） |
 | `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护） | ✅ 已建成（v1.2，§8.2 六锚点唯一权威） |
 | `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.4） |
 | `docs/功能总览.md` | 收尾 | ⬜ **唯一待建** |

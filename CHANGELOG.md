@@ -2,6 +2,41 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [0.3.0] - 2026-11-05 · tag `l2`
+
+L2：**strong 档实跑** + 档位四层跨周联动 + 估算安全系数 + D10 口径消歧 + 快照保留策略 + 定时建池 workflow + 成本闭环。
+
+### 新增
+
+- **strong 档接线**：`AVAILABLE_DEPTHS = {fast, strong}`；按档位取 model / thinking / `max_output_tokens` / purpose / system prompt（`STRONG_INSIGHT_SYSTEM`，代码资产）
+- `Usage.reasoning_tokens` / 台账 `reasoning_tokens`：从 `completion_tokens_details` 回显，含在 `completion_tokens` 内按输出计费，不重复计费
+- `budget.estimate_safety_factor = 1.3`（D12-2）：闸门按 `估算×系数` 判断，反向测试证明 L1 的 17,354→21,803 场景不再漏拦
+- D10 口径字样 `本次分析的成本（不含开发期重复调用）；账户累计见 cost` 写进报告（`render.D10_WORDING`），`cost` 口径不变
+- `osslens/retention.py`：按可再生性白名单分层的内容寻址去重 + 按期归档；`external/` 与全部真源受保护，默认 `dry_run=True`
+- `.github/workflows/pool.yml`（D1 = C）：`ubuntu-24.04`、cron、`GITHUB_TOKEN`、`git pull --ff-only`、脏工作区显式跳过、按路径 add + push 真源
+- `scripts/validate_workflow.py`：actionlint 不可用时的降级静态校验（13 项）+ 本地等价命令演练
+- `tests/test_l2.py`：14 条（strong 接线 / 四层跨周 / 安全系数 / D10 / 保留策略），含「故意让它失败」反向用例
+
+### 变更
+
+- `config.yaml` / `DEFAULT_CONFIG` / `CONFIG_TEMPLATE` 新增 `llm.max_output_tokens`、`depth.budget.estimate_safety_factor`、`retention.*`
+- `_run_insight` / `_record_call` / `_record_cache_hit` / `_record_blocked` / `_cost_line` 按实际档位参数化（原先硬编码 fast）
+- `_events_excluding_current` 改为按 `INSIGHT_PURPOSES` 排除，保证 strong 报告重跑字节一致
+- `test_no_llm_involved` 改为显式 `--depth off` 取证（strong 接入后 auto+凭据会合法调用）
+- `.gitignore` 增 `data/cache_objects/` / `data/cache_archive/`（可再生缓存，不入库）
+
+### 真实运行证据（非单测输出）
+
+- `--depth strong` / `deepseek-v4-pro` / thinking=on / `json_object`：输入 21,910，输出 8,156（reasoning 7,801），**¥0.4174**，5 条带证据洞见，报告 5 区块，同 as-of 重跑 sha256 一致
+- `costs.jsonl` 新增 strong `call` 事件（第 8 行）；第 9 行为重跑 `cache_hit`
+
+### 已知账外支出 / 局限
+
+- 开工前核对越界发的一次裸 httpx ping（`deepseek-v4-pro`，16 tok）**不补记台账**；`docs/成本预算.md` §0 显式披露「本节不是台账，不参与 cost 统计」，并沉淀 `docs/经验固化.md` E8
+- `github.com/trending` 未获得（TCP 超时 0 字节，无 HTTP 响应）；`api.github.com` / `codeload.github.com` 可达 → 不阻塞建池，详见 `docs/数据源手册.md` §10.1
+- actionlint 未安装，走降级静态校验，**不等同于 GitHub 真实 run**；未 push、未建 remote
+- 76 测试 / 覆盖率 80%；详见 `docs/开发日志.md` L2 章节
+
 ## [0.2.0] - 2026-11-03 · tag `l1`
 
 L1：特征卡证据 + 依赖图 + 外部资料 fail-closed + **fast 档真实调用**。
