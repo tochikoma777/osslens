@@ -8,23 +8,23 @@
 | commit | `f6aa38fe06cd4a0489e7730365d4e0114970a2f3` |
 | 分析基准时间 (as-of) | 2026-11-03T00:00:00Z |
 | 通道 / 领域 | classic / 未指定 |
-| 请求档位 (requested_depth) | fast |
-| **实际档位** (actual_depth) | fast |
+| 请求档位 (requested_depth) | strong |
+| **实际档位** (actual_depth) | strong |
 | 降级原因 (reason) | manual_override — 人工 override |
 | 配额状态 (quota_state) | strong 0/1、fast 0/3（周起点 2026-11-02）；tokens 周 0/2000000、月 0/6000000（月起点 2026-11-01） |
 | 快照 sha256 | `683a825745126d231713df7763e54b69b5ad89d041703578955b4ed2a38a42bf` |
-| 成本说明 | 本次 ¥0.0459（模型调用 1 次）；输入 21,803 tok / 命中 896 tok / 输出 501 tok |
-| 累计 | 本周 ¥0.0459 / 22,304 tok；本月 ¥0.0459 / 22,304 tok |
-| 单价 | deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半） |
-| 口径 | 成本说明=**本次分析**的成本（同 as-of 重跑不变，幂等优先）；账户实际支出看 `cost` 命令的全局台账，两者不一致是设计，不是 bug |
+| 成本说明 | 本次 ¥0.4174（模型调用 1 次）；输入 21,910 tok / 命中 0 tok / 输出 8,156 tok |
+| 累计 | 本周 ¥0.4174 / 30,066 tok；本月 ¥0.4174 / 30,066 tok |
+| 单价 | deepseek-v4-pro 输入未命中 ¥9/M · 缓存命中 ¥0.3/M · 输出 ¥27/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半） |
+| 口径 | 本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug |
 
 **档位决策链路**：
 
-1. L4 人工 override：--depth fast（绕过 L1 基线 / L2 配额）
+1. L4 人工 override：--depth strong（绕过 L1 基线 / L2 配额）
 2. 凭据：齐全
 3. L2 周配额：人工 override 绕过（本周 strong 0/1、fast 0/3）
-4. L3 预算：单选预估 17280 tok（上限 120000），周 0/2000000
-5. 结论：实际档位 fast（人工 override）
+4. L3 预算：估算 17280 × 安全系数 1.3 = 22464 tok（单选上限 120000），周 0/2000000
+5. 结论：实际档位 strong（人工 override）
 
 **上下文组装**（裁剪发生在调用之前）：
 
@@ -133,18 +133,13 @@ graph TD
 
 | id | 选择 | 放弃的替代 | 代价 | 证据 |
 |---|---|---|---|---|
-| t1 | 运行时JIT编译通信kernel（DeepJIT） | 安装期预编译全部kernel | 运行时需保留CUDA工具链与主机编译器 | `README.md:5` |
-| t2 | 移除NVSHMEM后端，改用NCCL Gin | 保留NVSHMEM作为RDMA后端 | RDMA能力绑定NCCL版本与Gin接口 | `README.md:20` |
-| t3 | SM与QP数量解析式估算 | 运行时自动调优 | 拓扑或负载变化时估算可能偏离最优 | `README.md:29` |
-| t4 | 高吞吐与低延迟统一为单一EPBuffer接口 | 保留两套独立API | 接口参数增多，需按场景选择同步模式 | `README.md:27` |
-| t5 | BucketBuffer要求NVLink与RDMA带宽均可探测 | 按实际使用的传输方式按需探测 | 仅用单一传输的组也需完整网络环境 | `README.md:57` |
-| t6 | 导入时校验NCCL库二进制一致 | 仅做版本号检查 | PyTorch与DeepEP的NCCL版本必须严格匹配 | `deep_ep/__init__.py:36` |
-| t7 | all-gather走拷贝引擎(num_sms=0) | 用GPU SM驱动all-gather | reduce-scatter/all-reduce仍需占用SM | `README.md:340` |
-| t8 | 延迟epilogue与计算重叠 | 通信完成后立即执行epilogue | 结果须由首次wait产出并保留 | `README.md:290` |
-| t9 | 默认复用PyTorch的NCCL communicator | 始终创建DeepEP自管communicator | 依赖后端暴露_comm_ptr私有接口 | `README.md:404` |
-| t10 | top-k索引宽度编译期可选32/64位 | 固定64位索引 | 修改需重新编译扩展 | `README.md:452` |
+| t1 | 将高吞吐与低延迟 EP 统一为单一 EPBuffer 接口 | 分离高吞吐和低延迟 API | 接口复杂度提高，用户需理解统一模式 | `README.md:30` |
+| t2 | 采用 DeepJIT 运行时编译通信内核 | 预编译所有目标架构内核 | 部署需保留 CUDA toolkit，首次调用有编译延迟 | `README.md:58` |
+| t3 | 同时支持 NVLink 与 RDMA 混合域 | 仅支持单一传输域 | 混合域管理增加实现复杂度 | `deep_ep/buffers/ep.py:211` |
+| t4 | 构建于 NCCL Gin 后端之上 | 重新实现底层通信原语 | 依赖 NCCL 特定功能与版本 | `README.md:20` |
+| t5 | 使用 BufferAllocator 预规划对称张量分配 | 运行时动态分配临时缓冲区 | 要求所有 rank 使用相同分配计划 | `README.md:14` |
 
-- 置信度：med
+- 置信度：high
 
 ## 外部资料
 

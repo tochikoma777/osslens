@@ -1,0 +1,53 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "high",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "分离高吞吐和低延迟 API",
+        "chose": "将高吞吐与低延迟 EP 统一为单一 EPBuffer 接口",
+        "cost": "接口复杂度提高，用户需理解统一模式",
+        "evidence": "README.md:30",
+        "id": "t1"
+      },
+      {
+        "alternative": "预编译所有目标架构内核",
+        "chose": "采用 DeepJIT 运行时编译通信内核",
+        "cost": "部署需保留 CUDA toolkit，首次调用有编译延迟",
+        "evidence": "README.md:58",
+        "id": "t2"
+      },
+      {
+        "alternative": "仅支持单一传输域",
+        "chose": "同时支持 NVLink 与 RDMA 混合域",
+        "cost": "混合域管理增加实现复杂度",
+        "evidence": "deep_ep/buffers/ep.py:211",
+        "id": "t3"
+      },
+      {
+        "alternative": "重新实现底层通信原语",
+        "chose": "构建于 NCCL Gin 后端之上",
+        "cost": "依赖 NCCL 特定功能与版本",
+        "evidence": "README.md:20",
+        "id": "t4"
+      },
+      {
+        "alternative": "运行时动态分配临时缓冲区",
+        "chose": "使用 BufferAllocator 预规划对称张量分配",
+        "cost": "要求所有 rank 使用相同分配计划",
+        "evidence": "README.md:14",
+        "id": "t5"
+      }
+    ]
+  },
+  "model": "deepseek-v4-pro",
+  "usage": {
+    "cache_hit_tokens": 0,
+    "cache_miss_tokens": 21910,
+    "completion_tokens": 8156,
+    "prompt_tokens": 21910,
+    "reasoning_tokens": 7801,
+    "total_tokens": 30066
+  }
+}
