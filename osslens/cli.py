@@ -59,7 +59,7 @@ from .pool import (
     score_channel,
     threshold_flags,
 )
-from .prompts import FAST_INSIGHT_SYSTEM, fast_insight_user
+from .prompts import FAST_INSIGHT_SYSTEM, STRONG_INSIGHT_SYSTEM, fast_insight_user
 from .render import CostLine, ReportInputs, render_report
 from .util import (
     Clock,
@@ -77,9 +77,11 @@ from .util import (
     stable_json,
 )
 
-# L1：fast 已接入；strong 只入 config（实跑属下一阶段）
-AVAILABLE_DEPTHS = frozenset({"fast"})
-PURPOSE_INSIGHT = "fast_insight"
+# L2：fast 与 strong 两档均已接入（strong = deepseek-v4-pro + thinking）
+AVAILABLE_DEPTHS = frozenset({"fast", "strong"})
+PURPOSE_BY_DEPTH = {"fast": "fast_insight", "strong": "strong_insight"}
+INSIGHT_PURPOSES = frozenset(PURPOSE_BY_DEPTH.values())
+PURPOSE_INSIGHT = "fast_insight"  # 兼容旧引用；新代码一律走 PURPOSE_BY_DEPTH
 
 SEED_PATTERNS = """\
 # 规律库种子（L3 起使用）。每条必须带反例位（红线 #11：无反例位的条目禁止入库）。
@@ -113,7 +115,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m osslens",
-        description="低成本、可长期运行的开源项目深度分析系统（L1：证据 + 依赖图 + fast 档）",
+        description="低成本、可长期运行的开源项目深度分析系统（L2：证据 + 依赖图 + 双档）",
     )
     parser.add_argument("--version", action="version", version=f"osslens {__version__}")
     common = argparse.ArgumentParser(add_help=False)
@@ -410,6 +412,7 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
             allowed_paths=set(tree_paths),
             as_of=as_of,
             events=events,
+            depth=decision.actual,
         )
     elif decision.actual != "off":
         insight_reason = f"{decision.actual} 档尚未接入，未发起调用"
@@ -554,13 +557,17 @@ def _run_insight(
     allowed_paths: set[str],
     as_of: datetime,
     events: Sequence[CostEvent],
+    depth: str,
 ) -> tuple[LlmOutcome | None, str]:
     credentials = config.llm_credentials()
     if credentials is None:
         return None, "未配置凭据（本应已降级）"
 
-    model = config.model_for("fast")
-    thinking = config.llm.thinking.get("fast", False)
+    model = config.model_for(depth)
+    thinking = config.llm.thinking.get(depth, False)
+    max_tokens = config.max_output_for(depth)
+    purpose = PURPOSE_BY_DEPTH.get(depth, PURPOSE_INSIGHT)
+    system = STRONG_INSIGHT_SYSTEM if depth == "strong" else FAST_INSIGHT_SYSTEM
     file_list = "\n".join(f"- {path}" for path in sorted(allowed_paths)) or "- （无）"
     files_block = context_text
     user = fast_insight_user(
@@ -570,10 +577,10 @@ def _run_insight(
         file_list=file_list,
         files_block=files_block,
     )
-    key = cache_key(model, thinking, FAST_INSIGHT_SYSTEM, user)
+    key = cache_key(model, thinking, system, user)
     cached = load_cached(cache_path(layout, key))
     if cached is not None:
-        _record_cache_hit(config, layout, repo, as_of, cached.model or model)
+        _record_cache_hit(config, layout, repo, as_of, cached.model or model, depth, purpose)
         if cached.insight is not None:
             cached = LlmOutcome(
                 status=cached.status,
@@ -587,7 +594,7 @@ def _run_insight(
         return cached, ""
 
     if config.depth.budget.max_calls_per_run < 1:
-        _record_blocked(config, layout, repo, as_of, model, "max_calls_per_run")
+        _record_blocked(config, layout, repo, as_of, model, "max_calls_per_run", depth, purpose)
         return None, f"超出单次调用上限 max_calls_per_run={config.depth.budget.max_calls_per_run}"
 
     client = LlmClient(
@@ -597,10 +604,20 @@ def _run_insight(
         timeout_seconds=config.llm.timeout_seconds,
         max_retries=config.llm.max_retries,
     )
-    outcome = client.chat_json(FAST_INSIGHT_SYSTEM, user)
+    outcome = client.chat_json(system, user, max_tokens=max_tokens)
     if outcome.status != "ok" or outcome.insight is None:
         if outcome.usage.total_tokens:
-            _record_call(config, layout, repo, as_of, model, outcome, cost=None)
+            _record_call(
+                config,
+                layout,
+                repo,
+                as_of,
+                model,
+                outcome,
+                cost=None,
+                depth=depth,
+                purpose=purpose,
+            )
         return outcome, outcome.reason or "调用失败"
 
     insight = validate_insight(outcome.insight, allowed_paths=allowed_paths)
@@ -614,7 +631,17 @@ def _run_insight(
         calls=outcome.calls,
     )
     store_cache(cache_path(layout, key), outcome)
-    _record_call(config, layout, repo, as_of, model, outcome, cost=None)
+    _record_call(
+        config,
+        layout,
+        repo,
+        as_of,
+        model,
+        outcome,
+        cost=None,
+        depth=depth,
+        purpose=purpose,
+    )
     if not insight.items:
         return outcome, f"全部条目被代码丢弃（{len(insight.dropped)} 条）：无有效证据"
     return outcome, ""
@@ -629,10 +656,13 @@ def _record_call(
     outcome: LlmOutcome,
     *,
     cost: float | None,
+    depth: str,
+    purpose: str,
 ) -> None:
     as_of_iso = fmt_iso(as_of)
     usage = outcome.usage
     if cost is None:
+        # 输出单价已覆盖 reasoning_tokens（它含在 completion_tokens 内），不重复计费
         cost = estimate_cost(
             config,
             model=model,
@@ -643,26 +673,33 @@ def _record_call(
     event = CostEvent(
         event="call",
         repo=repo,
-        depth="fast",
+        depth=depth,
         model=model,
         prompt_tokens=usage.prompt_tokens,
         completion_tokens=usage.completion_tokens,
         estimated_cost=cost,
         source="api",
         as_of=as_of_iso,
-        run_id=run_id_for(repo, as_of_iso, "fast", "fast", PURPOSE_INSIGHT),
-        requested_depth="fast",
-        actual_depth="fast",
+        run_id=run_id_for(repo, as_of_iso, depth, depth, purpose),
+        requested_depth=depth,
+        actual_depth=depth,
         reason="",
         cache_hit_tokens=usage.cache_hit_tokens,
         cache_miss_tokens=usage.cache_miss_tokens,
-        purpose=PURPOSE_INSIGHT,
+        purpose=purpose,
+        reasoning_tokens=usage.reasoning_tokens,
     )
     record_event(layout, event)
 
 
 def _record_cache_hit(
-    config: Config, layout: Layout, repo: str, as_of: datetime, model: str
+    config: Config,
+    layout: Layout,
+    repo: str,
+    as_of: datetime,
+    model: str,
+    depth: str,
+    purpose: str,
 ) -> None:
     """缓存命中不花钱，但必须在台账里看得见（M6）。"""
     as_of_iso = fmt_iso(as_of)
@@ -671,24 +708,31 @@ def _record_cache_hit(
         CostEvent(
             event="cache_hit",
             repo=repo,
-            depth="fast",
+            depth=depth,
             model=model,
             prompt_tokens=0,
             completion_tokens=0,
             estimated_cost=0.0,
             source="cache",
             as_of=as_of_iso,
-            run_id=run_id_for(repo, as_of_iso, "fast", "fast", "cache_hit"),
-            requested_depth="fast",
-            actual_depth="fast",
+            run_id=run_id_for(repo, as_of_iso, depth, depth, "cache_hit"),
+            requested_depth=depth,
+            actual_depth=depth,
             reason="result_cache",
-            purpose=PURPOSE_INSIGHT,
+            purpose=purpose,
         ),
     )
 
 
 def _record_blocked(
-    config: Config, layout: Layout, repo: str, as_of: datetime, model: str, reason: str
+    config: Config,
+    layout: Layout,
+    repo: str,
+    as_of: datetime,
+    model: str,
+    reason: str,
+    depth: str,
+    purpose: str,
 ) -> None:
     as_of_iso = fmt_iso(as_of)
     record_event(
@@ -703,11 +747,11 @@ def _record_blocked(
             estimated_cost=None,
             source="skipped",
             as_of=as_of_iso,
-            run_id=run_id_for(repo, as_of_iso, "fast", "off", reason),
-            requested_depth="fast",
+            run_id=run_id_for(repo, as_of_iso, depth, "off", reason),
+            requested_depth=depth,
             actual_depth="off",
             reason=reason,
-            purpose=PURPOSE_INSIGHT,
+            purpose=purpose,
         ),
     )
 
@@ -782,7 +826,7 @@ def _cost_line(
     requested: str,
     actual: str,
 ) -> CostLine:
-    model = config.model_for("fast")
+    model = config.model_for(actual) if actual != "off" else config.model_for("fast")
     usage_tokens = outcome.usage if outcome is not None else None
     run_tokens = usage_tokens.total_tokens if usage_tokens else 0
     run_cost = (
@@ -860,7 +904,7 @@ def _events_excluding_current(
             event.event == "call"
             and event.repo == repo
             and event.as_of == as_of_iso
-            and event.purpose == PURPOSE_INSIGHT
+            and event.purpose in INSIGHT_PURPOSES
         )
     ]
 

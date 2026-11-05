@@ -132,7 +132,8 @@ def test_no_llm_involved(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Non
     )
     assert code == 0
 
-    # 情形 2：凭据齐全（若代码里真有 LLM 调用，这一步会漂出去）
+    # 情形 2：凭据齐全但显式请求 off（L2 起 strong 已接入，auto+凭据会合法地发起调用，
+    # 因此"off 档零 LLM"必须用 --depth off 显式取证，不能靠档位碰巧不可用）。
     monkeypatch.setenv("OSSLENS_LLM_API_KEY", "sk-test")
     monkeypatch.setenv("OSSLENS_LLM_BASE_URL", "https://llm.invalid/v1")
     monkeypatch.setenv("OSSLENS_LLM_MODEL", "test-model")
@@ -143,6 +144,8 @@ def test_no_llm_involved(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Non
             "--root",
             str(root),
             "--no-sources",
+            "--depth",
+            "off",
             "--as-of",
             "2026-11-02T00:00:00Z",
         ]

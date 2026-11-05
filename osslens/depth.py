@@ -68,6 +68,7 @@ class CostEvent:
     cache_hit_tokens: int = 0
     cache_miss_tokens: int = 0
     purpose: str = ""
+    reasoning_tokens: int = 0
 
     def to_json(self) -> dict[str, Any]:
         return {
@@ -77,6 +78,7 @@ class CostEvent:
             "cache_hit_tokens": self.cache_hit_tokens,
             "cache_miss_tokens": self.cache_miss_tokens,
             "purpose": self.purpose,
+            "reasoning_tokens": self.reasoning_tokens,
             "depth": self.depth,
             "estimated_cost": self.estimated_cost,
             "event": self.event,
@@ -109,6 +111,7 @@ class CostEvent:
             cache_hit_tokens=as_int(value.get("cache_hit_tokens")),
             cache_miss_tokens=as_int(value.get("cache_miss_tokens")),
             purpose=as_str(value.get("purpose")),
+            reasoning_tokens=as_int(value.get("reasoning_tokens")),
         )
 
 
@@ -304,20 +307,27 @@ def resolve_depth(
             return decide(depth, "weekly_quota_exhausted", True)
         chain.append(f"L2 周配额：{depth} 已用 {quota.used(depth)}/{quota.limit(depth)}，未用满")
 
+    gate_estimate = config.safety_adjusted(estimated_prompt_tokens)
+    factor = config.depth.budget.estimate_safety_factor
     over_budget = (
-        estimated_prompt_tokens > per_run_limit
-        or quota.tokens_week + estimated_prompt_tokens > quota.tokens_week_limit
-        or quota.tokens_month + estimated_prompt_tokens > quota.tokens_month_limit
+        gate_estimate > per_run_limit
+        or quota.tokens_week + gate_estimate > quota.tokens_week_limit
+        or quota.tokens_month + gate_estimate > quota.tokens_month_limit
+    )
+    estimate_note = (
+        f"估算 {estimated_prompt_tokens} × 安全系数 {factor:g} = {gate_estimate} tok"
+        if gate_estimate != estimated_prompt_tokens
+        else f"估算 {estimated_prompt_tokens} tok（安全系数 {factor:g}）"
     )
     if over_budget:
         chain.append(
-            f"L3 预算：单选预估 {estimated_prompt_tokens} tok、"
+            f"L3 预算：{estimate_note}、"
             f"周 {quota.tokens_week}/{quota.tokens_week_limit}、"
             f"月 {quota.tokens_month}/{quota.tokens_month_limit} → 拦截（L4 也不能绕过）"
         )
         return decide("off", "budget_blocked", True)
     chain.append(
-        f"L3 预算：单选预估 {estimated_prompt_tokens} tok（上限 {per_run_limit}），"
+        f"L3 预算：{estimate_note}（单选上限 {per_run_limit}），"
         f"周 {quota.tokens_week}/{quota.tokens_week_limit}"
     )
 

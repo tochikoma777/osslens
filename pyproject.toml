@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "osslens"
-version = "0.2.0"
+version = "0.3.0"
 description = "低成本、可长期运行的开源项目深度分析系统（L0：零 LLM 体检）"
 requires-python = ">=3.11"
 dependencies = [

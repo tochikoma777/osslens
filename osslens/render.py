@@ -19,6 +19,9 @@ from .util import as_int, as_str, fmt_iso
 
 DASH = "—"
 
+# D10 = A：报告口径的显式字样（写死，防稀释）。改动需同步改 tests/test_l2.py 的断言。
+D10_WORDING = "本次分析的成本（不含开发期重复调用）；账户累计见 cost"
+
 
 @dataclass(frozen=True)
 class CostLine:
@@ -145,8 +148,8 @@ def _cost_rows(cost: CostLine | None) -> list[str]:
     if cost.anomalies:
         rows.append(f"| 成本异常 | {'；'.join(cost.anomalies)}（仅标注，不阻断） |")
     rows.append(
-        "| 口径 | 成本说明=**本次分析**的成本（同 as-of 重跑不变，幂等优先）；"
-        "账户实际支出看 `cost` 命令的全局台账，两者不一致是设计，不是 bug |"
+        f"| 口径 | {D10_WORDING}；成本说明同 as-of 重跑不变（幂等优先）；"
+        "两者不一致是设计，不是 bug |"
     )
     return rows
 

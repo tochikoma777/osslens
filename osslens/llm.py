@@ -38,6 +38,10 @@ class Usage:
     cache_hit_tokens: int
     cache_miss_tokens: int
     total_tokens: int
+    # T1：strong 档 thinking 开启时，API 回显
+    # completion_tokens_details.reasoning_tokens。它已含在 completion_tokens 内、
+    # 按输出单价计费（不重复计费）；单列只为可核验留痕。
+    reasoning_tokens: int = 0
 
     @classmethod
     def from_payload(cls, value: Any) -> Usage:
@@ -53,6 +57,9 @@ class Usage:
             cache_hit_tokens=hit,
             cache_miss_tokens=miss,
             total_tokens=as_int(payload.get("total_tokens")),
+            reasoning_tokens=as_int(
+                as_dict(payload.get("completion_tokens_details")).get("reasoning_tokens")
+            ),
         )
 
     def to_json(self) -> dict[str, int]:
@@ -62,6 +69,7 @@ class Usage:
             "cache_hit_tokens": self.cache_hit_tokens,
             "cache_miss_tokens": self.cache_miss_tokens,
             "total_tokens": self.total_tokens,
+            "reasoning_tokens": self.reasoning_tokens,
         }
 
     @classmethod
@@ -73,6 +81,7 @@ class Usage:
             cache_hit_tokens=as_int(payload.get("cache_hit_tokens")),
             cache_miss_tokens=as_int(payload.get("cache_miss_tokens")),
             total_tokens=as_int(payload.get("total_tokens")),
+            reasoning_tokens=as_int(payload.get("reasoning_tokens")),
         )
 
 

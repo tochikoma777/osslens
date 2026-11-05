@@ -27,6 +27,8 @@ DEFAULT_CONFIG: dict[str, Any] = {
         "thinking": {"fast": False, "strong": True},
         "timeout_seconds": 120.0,
         "max_retries": 2,
+        # 按档位给输出上限；strong 开启 thinking，reasoning token 计入 completion_tokens，需更大余量
+        "max_output_tokens": {"fast": 4096, "strong": 8192},
         # 高峰价单值（保守上界），单位 CNY / 1M tokens；来源见 docs/成本预算.md
         "price_table": {
             "deepseek-flash": {
@@ -48,8 +50,16 @@ DEFAULT_CONFIG: dict[str, Any] = {
             "monthly_tokens": 6_000_000,
             "per_run_prompt_tokens": 120_000,
             "max_calls_per_run": 12,
+            # D12-2：估算低估 25.6%（17,354→21,803），闸门按 估算×系数 判断，默认 1.3
+            "estimate_safety_factor": 1.3,
         },
         "baseline": {"hot": "fast", "classic": "strong", "watchlist": "strong"},
+    },
+    # T5：缓存层保留策略（按可再生性分层，设计方案 v1.3 §8.2 为唯一权威）
+    "retention": {
+        "enabled": True,
+        "cache_keep_days": 30,
+        "archive_dir": "data/cache_archive",
     },
     "pool": {
         "hot_min_star_delta_7d": 200,
@@ -95,6 +105,10 @@ llm:
     strong: true
   timeout_seconds: 120
   max_retries: 2
+  # 按档位给输出上限；strong 开启 thinking，reasoning token 计入 completion_tokens
+  max_output_tokens:
+    fast: 4096
+    strong: 8192
   # ★ 单价只来自 config，代码不内置任何价格字面量（设计方案 §9）
   # 人民币 / 1M tokens，取「高峰价」单值 = 保守上界；低谷约为表中一半
   # 来源：DeepSeek 官方定价页，核对 2026-11-03（见 docs/成本预算.md）
@@ -119,11 +133,20 @@ depth:
     per_run_prompt_tokens: 120000
     # 第 5 道闸：单次 run 调用次数上限（M7）
     max_calls_per_run: 12
+    # D12-2：估算 × 安全系数 才与闸门比较（L1 实测低估 25.6%）
+    estimate_safety_factor: 1.3
   # 通道基线（设计方案 §2 L1）
   baseline:
     hot: fast
     classic: strong
     watchlist: strong
+
+# T5：缓存层保留策略（按可再生性分层，设计方案 v1.3 §8.2 为唯一权威）
+# 只作用于 src/（源码切片）与 data/llm_cache/；external/ 与三个 jsonl 真源永不触碰
+retention:
+  enabled: true
+  cache_keep_days: 30
+  archive_dir: data/cache_archive
 
 pool:
   hot_min_star_delta_7d: 200
@@ -179,6 +202,16 @@ class BudgetConfig:
     monthly_tokens: int
     per_run_prompt_tokens: int
     max_calls_per_run: int
+    estimate_safety_factor: float = 1.3
+
+
+@dataclass(frozen=True)
+class RetentionConfig:
+    """T5：缓存层保留策略。只描述缓存层，真源边界由代码白名单钉死。"""
+
+    enabled: bool
+    cache_keep_days: int
+    archive_dir: str
 
 
 @dataclass(frozen=True)
@@ -204,6 +237,7 @@ class LlmConfig:
     models: dict[str, str]
     thinking: dict[str, bool]
     price_table: dict[str, PriceEntry]
+    max_output_tokens: dict[str, int]
     timeout_seconds: float
     max_retries: int
 
@@ -333,6 +367,7 @@ class Config:
     featcard: FeatcardConfig
     external: ExternalConfig
     sources: SourcesConfig
+    retention: RetentionConfig
     watchlist: tuple[str, ...] = field(default_factory=tuple)
 
     # ------------------------------------------------------------------ 加载
@@ -372,6 +407,7 @@ class Config:
         maint_raw = _section(feat_raw, "maintenance")
         ext_raw = _section(raw, "external")
         src_raw = _section(raw, "sources")
+        ret_raw = _section(raw, "retention")
 
         price_table: dict[str, PriceEntry] = {}
         for model, entry in _section(llm_raw, "price_table").items():
@@ -413,6 +449,11 @@ class Config:
                     for key, value in _section(llm_raw, "thinking").items()
                 },
                 price_table=price_table,
+                max_output_tokens={
+                    str(k): as_int(v, 4096)
+                    for k, v in _section(llm_raw, "max_output_tokens").items()
+                }
+                or {"fast": 4096, "strong": 8192},
                 timeout_seconds=as_float(llm_raw.get("timeout_seconds"), 120.0),
                 max_retries=as_int(llm_raw.get("max_retries"), 2),
             ),
@@ -423,6 +464,7 @@ class Config:
                     monthly_tokens=as_int(budget_raw.get("monthly_tokens"), 6_000_000),
                     per_run_prompt_tokens=as_int(budget_raw.get("per_run_prompt_tokens"), 120_000),
                     max_calls_per_run=as_int(budget_raw.get("max_calls_per_run"), 12),
+                    estimate_safety_factor=as_float(budget_raw.get("estimate_safety_factor"), 1.3),
                 ),
                 baseline=baseline,
             ),
@@ -460,6 +502,11 @@ class Config:
                 max_total_bytes=as_int(src_raw.get("max_total_bytes"), 524_288),
                 max_file_bytes=as_int(src_raw.get("max_file_bytes"), 204_800),
             ),
+            retention=RetentionConfig(
+                enabled=as_bool(ret_raw.get("enabled"), True),
+                cache_keep_days=as_int(ret_raw.get("cache_keep_days"), 30),
+                archive_dir=as_str(ret_raw.get("archive_dir"), "data/cache_archive"),
+            ),
             watchlist=watchlist,
         )
 
@@ -479,6 +526,16 @@ class Config:
 
     def model_for(self, depth: str) -> str:
         return self.llm.models.get(depth) or self.llm.models.get("fast") or ""
+
+    def max_output_for(self, depth: str) -> int:
+        return self.llm.max_output_tokens.get(depth) or self.llm.max_output_tokens.get("fast", 4096)
+
+    def safety_adjusted(self, estimated_prompt_tokens: int) -> int:
+        """D12-2：闸门按 估算×安全系数 判断，防止估算低估导致漏拦。"""
+        factor = self.depth.budget.estimate_safety_factor
+        if factor <= 1.0:
+            return estimated_prompt_tokens
+        return int(estimated_prompt_tokens * factor)
 
 
 def _section(parent: dict[str, Any], key: str) -> dict[str, Any]:
