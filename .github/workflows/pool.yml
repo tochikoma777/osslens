@@ -1,0 +1,94 @@
+name: 定时建池
+
+# D1 = C：建池走 Actions 定时；深挖（analyze）仍为本地手动，不进本 workflow。
+# 真源 append-only：data/pool/pool.jsonl、data/ledger/selected.jsonl、data/snapshots/**/external/
+# 只追加、不改写；工作区脏则显式跳过，不做 git clean（红线 #7 / N9）。
+
+on:
+  schedule:
+    # 每日 03:17 UTC（避开整点高峰）
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: osslens-pool
+  cancel-in-progress: false
+
+jobs:
+  build-pool:
+    # 红线 #25：固定 ubuntu-24.04，不用 ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: 检出
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安装 osslens
+        run: pip install -e .
+
+      - name: 工作区脏则显式跳过
+        id: guard
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
+            echo "dirty=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::工作区有未提交改动，显式跳过本轮，避免与人工改动冲突"
+          else
+            echo "dirty=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 拉取（--ff-only）
+        if: steps.guard.outputs.dirty == 'false'
+        shell: bash
+        run: git pull --ff-only
+
+      - name: 追加观测（建池，零 LLM）
+        if: steps.guard.outputs.dirty == 'false'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          # 候选清单来自 config.yaml 的 watchlist + 池内已有仓库；本步只追加观测，不删真源
+          .venv/bin/python 2>/dev/null -V || python -V
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          from osslens.config import Config
+          from osslens.pool import load_series
+          from osslens.cli import main
+
+          config = Config.load(Path("."))
+          slugs = sorted({*config.watchlist, *(s.repo for s in load_series(config.layout))})
+          if not slugs:
+              print("[skip] 无候选仓库")
+              raise SystemExit(0)
+          for slug in slugs:
+              code = main(["pool", "add", slug])
+              print(f"pool add {slug} -> exit {code}")
+          PY
+
+      - name: 提交真源并推送
+        if: steps.guard.outputs.dirty == 'false'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          # N6：按路径分类 add，不用全集暂存；目录级 pathspec 对空目录（ledger）不会报错
+          git add -- data/pool data/ledger data/snapshots
+          if git diff --cached --quiet; then
+            echo "[skip] 无新增真源，不产生空提交"
+            exit 0
+          fi
+          git -c user.name="osslens-bot" -c user.email="osslens-bot@users.noreply.github.com" \
+            commit -m "chore(pool): 定时建池 $(date -u +%Y-%m-%d)"
+          git push
