@@ -1,0 +1,10 @@
+{
+  "fetched_at": "2026-11-06T15:47:07Z",
+  "paths_found": 2758,
+  "raw_relpath": "source.txt",
+  "reason": "正文含 2758 个仓库内真实路径（阈值 3）",
+  "sha256": "7fa36693bb2a0e276717328384269e398080427d2614392b484a1c883284a2b9",
+  "source": "deepwiki",
+  "status": "hit",
+  "url": "https://deepwiki.com/vllm-project/vllm"
+}

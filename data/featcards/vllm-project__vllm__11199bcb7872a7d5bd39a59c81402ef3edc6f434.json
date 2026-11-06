@@ -1,0 +1,200 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": false,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": []
+  },
+  "identity": {
+    "age_days": 1366,
+    "analyzed_at": "2026-11-06T00:00:00Z",
+    "channel": "classic",
+    "commit": "11199bcb7872a7d5bd39a59c81402ef3edc6f434",
+    "created_at": "2023-02-09T11:23:20Z",
+    "repo": "vllm-project/vllm"
+  },
+  "lang": {
+    "shares": {
+      "C": 0.0001,
+      "C++": 0.0264,
+      "CMake": 0.0018,
+      "Cuda": 0.04,
+      "Dockerfile": 0.0007,
+      "HCL": 0.0001,
+      "Jinja": 0.0003,
+      "Python": 0.857,
+      "Rust": 0.0667,
+      "Shell": 0.0068
+    }
+  },
+  "limitations": [
+    "未取得源码切片：parallel/cache/hardware 全部 false、deps.graph 为空（红线 #5）",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 2000,
+    "commits_90d": 2000,
+    "contributors": 452,
+    "forks": 24487,
+    "last_commit": "2026-11-06T15:27:56Z",
+    "open_issues": 9954,
+    "release_count_365d": 34,
+    "stars": 96461,
+    "top10_share": 0.3121,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.0489,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "",
+    "files": [],
+    "tarball_sha256": ""
+  },
+  "structure": {
+    "bytes": 147614532,
+    "entrypoints": [
+      "rust/src/bench/src/main.rs",
+      "rust/src/cmd/src/main.rs",
+      "rust/src/mock-engine/src/main.rs",
+      "vllm/benchmarks/forward/main.py",
+      "vllm/benchmarks/sweep/cli.py",
+      "vllm/entrypoints/cli/benchmark/main.py",
+      "vllm/entrypoints/cli/main.py",
+      "vllm/entrypoints/launchers/app.py"
+    ],
+    "files": 8981,
+    "loc_total": null,
+    "max_depth": 9,
+    "monorepo": true,
+    "top_modules": [
+      {
+        "bytes": 53538748,
+        "files": 3938,
+        "path": "vllm"
+      },
+      {
+        "bytes": 36419331,
+        "files": 365,
+        "path": "docs"
+      },
+      {
+        "bytes": 33129855,
+        "files": 2709,
+        "path": "tests"
+      },
+      {
+        "bytes": 7735552,
+        "files": 532,
+        "path": "rust"
+      },
+      {
+        "bytes": 6306533,
+        "files": 368,
+        "path": "csrc"
+      },
+      {
+        "bytes": 2393531,
+        "files": 27,
+        "path": "requirements"
+      },
+      {
+        "bytes": 1959272,
+        "files": 196,
+        "path": "recipes"
+      },
+      {
+        "bytes": 1514913,
+        "files": 274,
+        "path": "examples"
+      },
+      {
+        "bytes": 1449002,
+        "files": 221,
+        "path": ".buildkite"
+      },
+      {
+        "bytes": 1386389,
+        "files": 144,
+        "path": "benchmarks"
+      },
+      {
+        "bytes": 864353,
+        "files": 83,
+        "path": "tools"
+      },
+      {
+        "bytes": 261546,
+        "files": 18,
+        "path": "docker"
+      },
+      {
+        "bytes": 250381,
+        "files": 45,
+        "path": ".github"
+      },
+      {
+        "bytes": 211786,
+        "files": 17,
+        "path": "."
+      },
+      {
+        "bytes": 98001,
+        "files": 12,
+        "path": "cmake"
+      },
+      {
+        "bytes": 95000,
+        "files": 23,
+        "path": ".agents"
+      },
+      {
+        "bytes": 339,
+        "files": 9,
+        "path": ".claude"
+      }
+    ]
+  }
+}

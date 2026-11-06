@@ -1,0 +1,98 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": false,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": []
+  },
+  "identity": {
+    "age_days": 1033,
+    "analyzed_at": "2026-11-06T00:00:00Z",
+    "channel": "classic",
+    "commit": "",
+    "created_at": "2024-01-08T04:15:52Z",
+    "repo": "sgl-project/sglang"
+  },
+  "lang": {
+    "shares": {}
+  },
+  "limitations": [
+    "未取得源码切片：parallel/cache/hardware 全部 false、deps.graph 为空（红线 #5）",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null",
+    "commits: failed — 403 {\"message\":\"API rate limit exceeded for 39.144.124.77. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)\",\"documentation_url\":\"h",
+    "contributors: failed — 504 <html><body><h1>504 Gateway Time-out</h1> The server didn't respond in time. </body></html>",
+    "languages: failed — 504 <html><body><h1>504 Gateway Time-out</h1> The server didn't respond in time. </body></html>",
+    "tree: failed — 403 {\"message\":\"API rate limit exceeded for 39.144.124.77. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)\",\"documentation_url\":\"h"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 0,
+    "commits_90d": 0,
+    "contributors": 0,
+    "forks": 10220,
+    "last_commit": "2026-11-06T15:37:16Z",
+    "open_issues": 6576,
+    "release_count_365d": 34,
+    "stars": 38537,
+    "top10_share": null,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": null,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "",
+    "files": [],
+    "tarball_sha256": ""
+  },
+  "structure": {
+    "bytes": 0,
+    "entrypoints": [],
+    "files": 0,
+    "loc_total": null,
+    "max_depth": 0,
+    "monorepo": false,
+    "top_modules": []
+  }
+}

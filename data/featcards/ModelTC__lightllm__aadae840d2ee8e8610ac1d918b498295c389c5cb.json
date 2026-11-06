@@ -1,0 +1,160 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": []
+  },
+  "identity": {
+    "age_days": 1203,
+    "analyzed_at": "2026-11-06T00:00:00Z",
+    "channel": "classic",
+    "commit": "aadae840d2ee8e8610ac1d918b498295c389c5cb",
+    "created_at": "2023-07-22T08:11:15Z",
+    "repo": "ModelTC/lightllm"
+  },
+  "lang": {
+    "shares": {
+      "Dockerfile": 0.0007,
+      "Jinja": 0.001,
+      "Python": 0.991,
+      "Shell": 0.0073
+    }
+  },
+  "limitations": [
+    "未取得源码切片：parallel/cache/hardware 全部 false、deps.graph 为空（红线 #5）",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 332,
+    "commits_90d": 116,
+    "contributors": 54,
+    "forks": 384,
+    "last_commit": "2026-11-05T08:26:44Z",
+    "open_issues": 186,
+    "release_count_365d": 1,
+    "stars": 4357,
+    "top10_share": 0.9012,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.3266,
+    "days_since_commit": 1,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "",
+    "files": [],
+    "tarball_sha256": ""
+  },
+  "structure": {
+    "bytes": 13164794,
+    "entrypoints": [],
+    "files": 2206,
+    "loc_total": null,
+    "max_depth": 9,
+    "monorepo": false,
+    "top_modules": [
+      {
+        "bytes": 6138307,
+        "files": 1650,
+        "path": "lightllm"
+      },
+      {
+        "bytes": 2566650,
+        "files": 285,
+        "path": "unit_tests"
+      },
+      {
+        "bytes": 2502650,
+        "files": 90,
+        "path": "docs"
+      },
+      {
+        "bytes": 972107,
+        "files": 121,
+        "path": "test"
+      },
+      {
+        "bytes": 698255,
+        "files": 4,
+        "path": "assets"
+      },
+      {
+        "bytes": 120155,
+        "files": 16,
+        "path": "skills"
+      },
+      {
+        "bytes": 59454,
+        "files": 14,
+        "path": "format_out"
+      },
+      {
+        "bytes": 45094,
+        "files": 4,
+        "path": "tools"
+      },
+      {
+        "bytes": 33132,
+        "files": 12,
+        "path": "."
+      },
+      {
+        "bytes": 12976,
+        "files": 5,
+        "path": "demos"
+      },
+      {
+        "bytes": 9521,
+        "files": 2,
+        "path": "docker"
+      },
+      {
+        "bytes": 6493,
+        "files": 3,
+        "path": ".github"
+      }
+    ]
+  }
+}

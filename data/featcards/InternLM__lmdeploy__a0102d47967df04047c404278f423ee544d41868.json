@@ -1,0 +1,198 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": false,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": []
+  },
+  "identity": {
+    "age_days": 1240,
+    "analyzed_at": "2026-11-06T00:00:00Z",
+    "channel": "classic",
+    "commit": "a0102d47967df04047c404278f423ee544d41868",
+    "created_at": "2023-06-15T12:38:06Z",
+    "repo": "InternLM/lmdeploy"
+  },
+  "lang": {
+    "shares": {
+      "C": 0.0001,
+      "C++": 0.1826,
+      "CMake": 0.004,
+      "Cuda": 0.0873,
+      "Dockerfile": 0.0003,
+      "Jinja": 0.0015,
+      "PowerShell": 0.0003,
+      "Python": 0.7226,
+      "Shell": 0.0013
+    }
+  },
+  "limitations": [
+    "未取得源码切片：parallel/cache/hardware 全部 false、deps.graph 为空（红线 #5）",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 603,
+    "commits_90d": 154,
+    "contributors": 162,
+    "forks": 773,
+    "last_commit": "2026-11-06T11:25:02Z",
+    "open_issues": 634,
+    "release_count_365d": 14,
+    "stars": 8134,
+    "top10_share": 0.784,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.1939,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "",
+    "files": [],
+    "tarball_sha256": ""
+  },
+  "structure": {
+    "bytes": 17365558,
+    "entrypoints": [
+      "lmdeploy/__main__.py",
+      "lmdeploy/cli/cli.py"
+    ],
+    "files": 2005,
+    "loc_total": null,
+    "max_depth": 7,
+    "monorepo": false,
+    "top_modules": [
+      {
+        "bytes": 7039828,
+        "files": 759,
+        "path": "lmdeploy"
+      },
+      {
+        "bytes": 4434362,
+        "files": 562,
+        "path": "src"
+      },
+      {
+        "bytes": 3454654,
+        "files": 279,
+        "path": "tests"
+      },
+      {
+        "bytes": 1020125,
+        "files": 155,
+        "path": "autotest"
+      },
+      {
+        "bytes": 737459,
+        "files": 139,
+        "path": "docs"
+      },
+      {
+        "bytes": 237882,
+        "files": 13,
+        "path": "benchmark"
+      },
+      {
+        "bytes": 162529,
+        "files": 26,
+        "path": ".github"
+      },
+      {
+        "bytes": 104439,
+        "files": 21,
+        "path": "."
+      },
+      {
+        "bytes": 41480,
+        "files": 1,
+        "path": "resources"
+      },
+      {
+        "bytes": 34791,
+        "files": 3,
+        "path": "scripts"
+      },
+      {
+        "bytes": 23223,
+        "files": 11,
+        "path": "docker"
+      },
+      {
+        "bytes": 19247,
+        "files": 12,
+        "path": "builder"
+      },
+      {
+        "bytes": 18361,
+        "files": 2,
+        "path": ".claude"
+      },
+      {
+        "bytes": 15312,
+        "files": 2,
+        "path": "eval"
+      },
+      {
+        "bytes": 11392,
+        "files": 4,
+        "path": "cmake"
+      },
+      {
+        "bytes": 6392,
+        "files": 2,
+        "path": "examples"
+      },
+      {
+        "bytes": 2130,
+        "files": 12,
+        "path": "requirements"
+      },
+      {
+        "bytes": 1952,
+        "files": 2,
+        "path": "k8s"
+      }
+    ]
+  }
+}
