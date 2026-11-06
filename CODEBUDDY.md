@@ -1,11 +1,13 @@
 # CODEBUDDY.md
 
+This file provides guidance to CodeBuddy Code when working with code in this repository.
+
 > **项目名**：`osslens`（包名 / CLI 名 / 目录名统一，路径 `~/projects/osslens`）
 > **本文件是 AI Agent 在本仓库工作的入口。每次动手前先读。**
 > **生成方**：项目负责人（一次性，Chat 只生成一次）；**维护方**：**Code Agent**（**自维护**：内容有变即直接改，不需逐次授权）。
 > **维护约束**：唯一约束 = `docs/经验库-冲突与覆盖清单.md` §8.2 **六锚点不得漂移**；改后 `git diff -- CODEBUDDY.md` 逐项核对，锚点丢失按该 §8.2 从 SSOT 回填。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.6 · **对应 tag**：`l2` · **日期**：2026-11-05
+> **当前版本**：v1.7 · **对应 tag**：`l2` · **日期**：2026-11-06
 
 ---
 
@@ -19,6 +21,7 @@
 
 **权威顺序**：`任务卡 > 本文件 > 执行手册 > 设计方案 > 其他文档`
 ★ **高优先级 ≠ 正确**：它只决定"听谁的"，不决定"谁是对的"。任务卡与 SSOT 冲突 → 停下上报。
+★ **外部经验库是建议，不是规格**：与本项目红线冲突 → 以红线为准；C1/C2 裁决与 N1–N12 见 §11。
 
 ---
 
@@ -75,6 +78,10 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 `ruff` 的 `select` / `extend-exclude`、`mypy strict` 的口径都在 `pyproject.toml`，改配置先改那里；
 `tests/conftest.py` 默认清空凭据环境变量并以 `OFFLINE_OVERRIDES` 关闭外部探测（单测不发网络请求）。
 
+**测试分布（76 条）**：`test_core.py` 21（L0 幂等/契约）· `test_l1.py` 23（探测/特征卡/Mermaid）·
+`test_l2.py` 14（档位/预算/D10/保留）· `test_collect.py` 7（快照/源码切片）· `test_pool.py` 7（打分/观察期）·
+`test_time.py` 4（跨周/跨月时序）。按领域改代码时优先跑对应文件，收尾仍须门禁四连。
+
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
 
@@ -117,7 +124,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 ### 3.1 大图：一次 `analyze` 的数据流（跨模块，改代码前先看这个）
 
 ```text
-cli.py:_cmd_analyze (cli.py:334) ── 唯一编排入口，串起全链路
+cli.py:_cmd_analyze (cli.py:336) ── 唯一编排入口，串起全链路
   ├─ config.py:Config.load → Layout            # 唯一配置真源 config.yaml + ${ENV} 环境变量
   ├─ collect.py:load_snapshot / fetch_snapshot → RepoSnapshot   # GitHub REST 6 端点，统一走 util.HttpClient
   ├─ collect.py:load_sources / fetch_sources → SourceBundle      # codeload tarball 源码切片（可再生缓存）
