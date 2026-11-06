@@ -2,6 +2,36 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [0.4.0] - 2026-11-06 · tag `l3`
+
+L3：**模式召回 + 四层抽象 + 增量 merge + 反例挖掘 + 抽象 run 成本闸门**。
+交付的是**能力**不是漂亮内容：真实样本不足 S1 阈值时 `insufficient_samples` 产 0 条，真源纯净（S4）。
+
+### 新增
+
+- `osslens/patterns.py`：零 LLM 三态召回（硬 gating `domain.id` + 加权 Jaccard）、四层条目 schema 校验（L2 反例位 / L3 ≥2 跨域 / L4 下钻 L1 代码证据）、ops 六类增量 merge（`falsified` 不删）、反例候选挖掘、自检四问、`assert_storable` 真源纯净闸
+- `osslens/abstract.py`：`cluster_run` / reconcile 编排、run 记录九字段（`run_id/type/cluster/trigger/input_projects/input_patterns/ops/llm_calls/created_at`）、`insufficient_samples` 合法终态、预算闸门（`estimate_safety_factor`）、跨域 L2 结构化摘要、同输入缓存、`off` 档零 LLM
+- CLI `python -m osslens abstract [--as-of] [--cluster] [--off] [--dry-run] [--json]`；`init` 创建 `patterns/library.yaml`、`data/abstract/`
+- `config.yaml` 新增 `domains:`（4 个可枚举 id + 子串归类规则）与 `abstract:` 四项阈值（簇内 ≥6 / 跨域 L2 ≥8 / 每 4 次簇内 run / 每 5 次 reconcile）；**不新建 `scope.yaml`**
+- `tests/test_l3.py` 38 条（含三态、L2 缺反例位、L4 断链、缺对照组、合成条目、样本不足、幂等重放、预算拦截、缓存去重等「故意让它失败」反向用例）
+
+### 变更
+
+- `reports/` 按 S2 / 设计方案 v1.4 §8.2 精确化为**确定性 regenerate 产物**（非 append-only）；`CODEBUDDY §8` 已同步
+- 真源新增 `patterns/library.yaml` / `patterns/ops.jsonl` / `data/abstract/runs.jsonl`
+
+### 实测
+
+- off 档采集 5 个真实 inference 仓库（`vllm` / `sglang` / `lmdeploy` / `text-generation-inference` / `lightllm`）+ 2 个 ai_infra，共 7 张真实特征卡；零 LLM（0 次模型调用、¥0）
+- 真实 `abstract` run：`3f6e4c82e3b95f22`，`status=insufficient_samples`，样本 5 < 6，产 0 条、0 次 LLM；run 记录落 `data/abstract/runs.jsonl`
+- 门禁：114 测试全绿 · `ruff check` · `ruff format --check` · `mypy strict`（15 source files）
+
+### 已知限制
+
+- **首次真实抽象未触发**：同簇真实样本 5 < 6（匿名 GitHub API 60/h 配额 + classic 入池门槛）；不硬凑、不降阈值、不用合成条目充数
+- `patterns/library.yaml` 仍为 `[]`；L3/L4 级条目、跨域抽象、真实 reconcile、抽象 run 的真实 usage 回填均待样本达标后验证
+- `site` / `docs/功能总览.md` 未实现（L4 / 收尾）
+
 ## [0.3.0] - 2026-11-05 · tag `l2`
 
 L2：**strong 档实跑** + 档位四层跨周联动 + 估算安全系数 + D10 口径消歧 + 快照保留策略 + 定时建池 workflow + 成本闭环。
