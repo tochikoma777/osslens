@@ -13,7 +13,7 @@ from typing import Any
 
 import yaml
 
-from .util import ConfigError, as_bool, as_float, as_int, as_str
+from .util import ConfigError, as_bool, as_float, as_int, as_list, as_str
 
 CONFIG_FILENAME = "config.yaml"
 
@@ -82,6 +82,47 @@ DEFAULT_CONFIG: dict[str, Any] = {
         "timeout_seconds": 40.0,
     },
     "sources": {"max_files": 20, "max_total_bytes": 524288, "max_file_bytes": 204800},
+    # L3 / S3：domain.id 是主聚类键，落 config.yaml（不新建 scope.yaml）。
+    # match_any 对 owner/repo 小写串做子串匹配；不匹配 → 归类缺口，上报而不自行补规则。
+    "domains": [
+        {
+            "id": "inference",
+            "match_any": [
+                "inference",
+                "serving",
+                "vllm",
+                "sglang",
+                "tensorrt-llm",
+                "text-generation-inference",
+                "lmdeploy",
+                "lightllm",
+                "llama.cpp",
+                "triton-inference-server",
+            ],
+        },
+        {
+            "id": "ai_infra",
+            "match_any": [
+                "kernel",
+                "cuda",
+                "moe",
+                "deepep",
+                "flashmla",
+                "communication",
+                "attention",
+                "collective",
+            ],
+        },
+        {"id": "agent", "match_any": ["agent", "langgraph", "autogen", "crewai"]},
+        {"id": "training", "match_any": ["training", "deepspeed", "megatron", "trainer"]},
+    ],
+    # L3 / S1：四项触发阈值全部可配置，代码不硬编码。
+    "abstract": {
+        "cluster_min_new_projects": 6,
+        "cross_domain_min_l2_entries": 8,
+        "cross_domain_every_cluster_runs": 4,
+        "reconcile_every_incremental_runs": 5,
+    },
     "watchlist": [],
 }
 
@@ -182,6 +223,27 @@ sources:
   max_total_bytes: 524288
   max_file_bytes: 204800
 
+# L3 / S3：domain.id 主聚类键。归类规则统一在这里，不新建 scope.yaml（两处真相）。
+# match_any 对 owner/repo 小写串做子串匹配；新增方向 = 加一项，不改代码。
+# 一个项目一主簇；特征卡派生的结构软标签作多值补充，用于跨域召回。
+domains:
+  - id: inference
+    match_any: [inference, serving, vllm, sglang, tensorrt-llm,
+                text-generation-inference, lmdeploy, lightllm, llama.cpp, triton-inference-server]
+  - id: ai_infra
+    match_any: [kernel, cuda, moe, deepep, flashmla, communication, attention, collective]
+  - id: agent
+    match_any: [agent, langgraph, autogen, crewai]
+  - id: training
+    match_any: [training, deepspeed, megatron, trainer]
+
+# L3 / S1 四项触发阈值（规律库与范围配置 §E；设计方案 v1.4 §10 精确化为簇内 ≥6）
+abstract:
+  cluster_min_new_projects: 6           # 同 domain.id 簇自上次抽象 run 以来新增真实项目数
+  cross_domain_min_l2_entries: 8        # L2 条目数达此值触发跨域抽象
+  cross_domain_every_cluster_runs: 4    # 或每 N 次簇内 run 触发一次跨域抽象
+  reconcile_every_incremental_runs: 5   # 每 N 次增量 run 做一次全量 reconcile
+
 # 意图层，不是入口过滤器（设计方案 §6.4）
 watchlist: []
 """
@@ -277,6 +339,24 @@ class ScoreConfig:
 
 
 @dataclass(frozen=True)
+class DomainRule:
+    """L3 / S3：一个可枚举的 domain.id + 子串归类规则（主聚类键）。"""
+
+    id: str
+    match_any: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class AbstractConfig:
+    """L3 / S1：四项抽象触发阈值（全部来自 config.yaml）。"""
+
+    cluster_min_new_projects: int
+    cross_domain_min_l2_entries: int
+    cross_domain_every_cluster_runs: int
+    reconcile_every_incremental_runs: int
+
+
+@dataclass(frozen=True)
 class LlmCredentials:
     """凭据只含 key + base_url；模型按档位从 `llm.models` 取。"""
 
@@ -306,8 +386,23 @@ class Layout:
         return self.patterns_dir / "seed.yaml"
 
     @property
+    def library_patterns(self) -> Path:
+        """L3：规律库条目真源（append-only 追加修订，永不删除失效条目）。"""
+        return self.patterns_dir / "library.yaml"
+
+    @property
+    def ops_jsonl(self) -> Path:
+        """L3：ops 追加修订日志（真源 append-only）。"""
+        return self.patterns_dir / "ops.jsonl"
+
+    @property
     def data_dir(self) -> Path:
         return self.root / "data"
+
+    @property
+    def abstract_runs_jsonl(self) -> Path:
+        """L3：抽象 run 记录（append-only JSONL 真源，规律库 §F）。"""
+        return self.data_dir / "abstract" / "runs.jsonl"
 
     @property
     def selected_jsonl(self) -> Path:
@@ -350,6 +445,8 @@ class Layout:
             self.data_dir / "snapshots",
             self.data_dir / "featcards",
             self.data_dir / "costs",
+            self.data_dir / "llm_cache",
+            self.data_dir / "abstract",
             self.reports_dir,
         ):
             path.mkdir(parents=True, exist_ok=True)
@@ -368,6 +465,8 @@ class Config:
     external: ExternalConfig
     sources: SourcesConfig
     retention: RetentionConfig
+    domains: tuple[DomainRule, ...] = field(default_factory=tuple)
+    abstract: AbstractConfig = field(default_factory=lambda: AbstractConfig(6, 8, 4, 5))
     watchlist: tuple[str, ...] = field(default_factory=tuple)
 
     # ------------------------------------------------------------------ 加载
@@ -435,6 +534,53 @@ class Config:
         if not isinstance(watch_raw, list):
             raise ConfigError("watchlist 必须是数组（元素为 owner/repo）")
         watchlist = tuple(sorted(as_str(item, "") for item in watch_raw if as_str(item, "")))
+
+        # L3 / S3：domains 是可枚举的 id 列表 + 归类规则；id 必须唯一且非空。
+        domains_raw = raw.get("domains", [])
+        if not isinstance(domains_raw, list):
+            raise ConfigError("domains 必须是数组（每项含 id / match_any）")
+        domains: list[DomainRule] = []
+        seen_domains: set[str] = set()
+        for item in domains_raw:
+            if not isinstance(item, dict):
+                raise ConfigError("domains 每项必须是映射（含 id / match_any）")
+            domain_id = as_str(item.get("id"))
+            if not domain_id:
+                raise ConfigError("domains 每项必须含非空 id")
+            if domain_id in seen_domains:
+                raise ConfigError(f"domains.id 重复：{domain_id}")
+            seen_domains.add(domain_id)
+            keywords = tuple(
+                sorted(
+                    {
+                        as_str(word).lower()
+                        for word in as_list(item.get("match_any"))
+                        if as_str(word)
+                    }
+                )
+            )
+            domains.append(DomainRule(id=domain_id, match_any=keywords))
+
+        # L3 / S1：四项阈值必须为正整数，代码不内置任何触发数字。
+        abs_raw = _section(raw, "abstract")
+        abstract = AbstractConfig(
+            cluster_min_new_projects=as_int(abs_raw.get("cluster_min_new_projects"), 6),
+            cross_domain_min_l2_entries=as_int(abs_raw.get("cross_domain_min_l2_entries"), 8),
+            cross_domain_every_cluster_runs=as_int(
+                abs_raw.get("cross_domain_every_cluster_runs"), 4
+            ),
+            reconcile_every_incremental_runs=as_int(
+                abs_raw.get("reconcile_every_incremental_runs"), 5
+            ),
+        )
+        for field_name, value in (
+            ("cluster_min_new_projects", abstract.cluster_min_new_projects),
+            ("cross_domain_min_l2_entries", abstract.cross_domain_min_l2_entries),
+            ("cross_domain_every_cluster_runs", abstract.cross_domain_every_cluster_runs),
+            ("reconcile_every_incremental_runs", abstract.reconcile_every_incremental_runs),
+        ):
+            if value <= 0:
+                raise ConfigError(f"abstract.{field_name} 必须为正整数，实际 {value}")
 
         return cls(
             layout=layout,
@@ -507,8 +653,25 @@ class Config:
                 cache_keep_days=as_int(ret_raw.get("cache_keep_days"), 30),
                 archive_dir=as_str(ret_raw.get("archive_dir"), "data/cache_archive"),
             ),
+            domains=tuple(domains),
+            abstract=abstract,
             watchlist=watchlist,
         )
+
+    @property
+    def domain_ids(self) -> tuple[str, ...]:
+        return tuple(sorted(rule.id for rule in self.domains))
+
+    def domain_for(self, slug: str) -> str | None:
+        """确定性主簇归类：按 domains 顺序取**首个**命中项；无命中 → None（归类缺口）。
+
+        ★ 返回 None 时调用方必须上报，不得自行补规则或猜一个簇（L3 卡 §8）。
+        """
+        target = slug.lower()
+        for rule in self.domains:
+            if any(word in target for word in rule.match_any):
+                return rule.id
+        return None
 
     # ------------------------------------------------------------------ 凭据
 

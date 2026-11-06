@@ -14,6 +14,13 @@ from pathlib import Path
 from typing import Any
 
 from . import __version__
+from .abstract import (
+    CachedModelCaller,
+    LlmModelCaller,
+    cluster_run,
+    load_runs,
+    load_samples,
+)
 from .collect import (
     ExternalProbe,
     RepoSnapshot,
@@ -174,6 +181,16 @@ def _build_parser() -> argparse.ArgumentParser:
     cost_parser.add_argument("--json", action="store_true")
     cost_parser.set_defaults(handler=_cmd_cost)
 
+    abstract_parser = sub.add_parser(
+        "abstract", parents=[common], help="L3 规律抽象（批量触发 / 零 LLM 召回）"
+    )
+    abstract_parser.add_argument("--as-of", dest="as_of", default=None)
+    abstract_parser.add_argument("--cluster", default=None, help="指定 domain.id 簇")
+    abstract_parser.add_argument("--off", action="store_true", help="强制零 LLM")
+    abstract_parser.add_argument("--dry-run", action="store_true", help="只打印决策，不落盘")
+    abstract_parser.add_argument("--json", action="store_true")
+    abstract_parser.set_defaults(handler=_cmd_abstract)
+
     return parser
 
 
@@ -199,6 +216,13 @@ def _cmd_init(args: argparse.Namespace) -> int:
         atomic_write_text(layout.seed_patterns, SEED_PATTERNS)
         created.append("patterns/seed.yaml")
 
+    if layout.library_patterns.exists():
+        skipped.append("patterns/library.yaml")
+    else:
+        # L3 / S4：真源初始为空，绝不用合成条目充数。
+        atomic_write_text(layout.library_patterns, "[]\n")
+        created.append("patterns/library.yaml")
+
     for path in (
         "data/ledger/",
         "data/pool/",
@@ -206,6 +230,7 @@ def _cmd_init(args: argparse.Namespace) -> int:
         "data/featcards/",
         "data/costs/",
         "data/llm_cache/",
+        "data/abstract/",
         "reports/",
     ):
         (root / path).mkdir(parents=True, exist_ok=True)
@@ -540,6 +565,82 @@ def _cmd_cost(args: argparse.Namespace) -> int:
         print(f"  成本异常（仅标注，不阻断）：{'；'.join(summary.anomalies)}")
     if not summary.cost_complete:
         print("  费用：—（单价表未配置或存在未计价调用；单价由项目负责人填 config.yaml）")
+    return 0
+
+
+# --------------------------------------------------------------------------- L3 抽象
+
+
+def _abstract_as_of(config: Config, raw: str | None) -> datetime:
+    """时间只来自 `--as-of` 或输入样本；绝不取运行时钟（L3 卡红线 7）。"""
+    explicit = _optional_instant(raw)
+    if explicit is not None:
+        return explicit
+    samples, _ = load_samples(config.layout, config)
+    stamps: list[datetime] = []
+    for sample in samples:
+        if not sample.analyzed_at:
+            continue
+        try:
+            stamps.append(parse_iso(sample.analyzed_at))
+        except ValueError:
+            continue
+    if stamps:
+        return max(stamps)
+    raise UsageError("工作区无真实样本且未传 --as-of：无法确定基准时间（时间不取运行时钟）")
+
+
+def _cmd_abstract(args: argparse.Namespace) -> int:
+    config = Config.load(Path(args.root))
+    as_of = _abstract_as_of(config, args.as_of)
+    caller = None if args.off else CachedModelCaller(LlmModelCaller(config), config.layout)
+    result = cluster_run(
+        config,
+        as_of=as_of,
+        cluster=args.cluster,
+        caller=caller,
+        off=args.off,
+        write=not args.dry_run,
+    )
+    record = result.record
+    if args.json:
+        print(stable_json(record.to_json()))
+        return 0
+
+    samples, uncovered = load_samples(config.layout, config)
+    counts: dict[str, int] = {}
+    for sample in samples:
+        if sample.domain is not None:
+            counts[sample.domain] = counts.get(sample.domain, 0) + 1
+    print(f"抽象 run：{record.run_id}  type={record.type}  cluster={record.cluster}")
+    print(f"  基准时间 (as-of)：{record.created_at}  触发：{record.trigger}")
+    print(
+        f"  状态：{record.status}  LLM 调用={record.llm_calls}  ops={len(record.ops)}  "
+        f"产出条目={len(record.produced_patterns)}"
+    )
+    print(f"  输入项目：{len(record.input_projects)} 个（增量 run 不全量重喂）")
+    print(f"  规律库现有条目：{len(result.entries)}")
+    print(f"  各簇真实样本：{counts or '—'}")
+    if uncovered:
+        print(f"  归类缺口（未自行补规则）：{', '.join(uncovered)}")
+    check = record.self_check
+    print("  自检四问：")
+    print(f"    ① 可下钻到代码证据：{'是' if check.has_drilldown_evidence else '否'}")
+    print(f"    ② 新增反例：{check.new_counterexamples} 条")
+    print(f"    ③ 跨域证据：{'有' if check.has_cross_domain_evidence else '无'}")
+    print(f"    ④ 抽检位：{check.manual_review_target}")
+    for warning in record.warnings:
+        print(f"  ⚠ {warning}")
+    if record.status == "insufficient_samples":
+        print(
+            f"  ★ 首次真实抽象未触发，原因：样本不足 S1 阈值 "
+            f"{config.abstract.cluster_min_new_projects}（本轮产 0 条，真源纯净）"
+        )
+    if args.dry_run:
+        print("  [dry-run] 未落盘（run 记录 / 规律库 / 台账均未写）")
+    else:
+        print(f"  run 记录：{_rel(config.layout.abstract_runs_jsonl, config.layout.root)}")
+        print(f"  历史 run 数：{len(load_runs(config.layout))}")
     return 0
 
 
