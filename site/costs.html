@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>成本</title>
+<style>body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;margin:0;color:#1b1f23;background:#fff;line-height:1.6}header,main,footer{max-width:960px;margin:0 auto;padding:16px 24px}header{border-bottom:1px solid #e1e4e8}footer{border-top:1px solid #e1e4e8;color:#586069;font-size:.85em;margin-top:32px}nav a{margin-right:12px;color:#0366d6;text-decoration:none}h1,h2,h3{line-height:1.25}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid #dfe2e5;padding:6px 10px;text-align:left;vertical-align:top}th{background:#f6f8fa}pre{background:#f6f8fa;padding:12px;overflow:auto}code{background:#f3f4f6;padding:1px 4px;border-radius:3px}pre code{background:none;padding:0}.empty,.note{background:#fff8e5;border-left:4px solid #d9a400;padding:10px 14px;margin:12px 0}ul,ol{padding-left:24px}</style>
+</head>
+<body>
+<header><h1>成本</h1><nav><a href="index.html">首页</a> · <a href="reports.html">报告</a> · <a href="featcards.html">特征卡</a> · <a href="patterns.html">规律库</a> · <a href="costs.html">成本</a> · <a href="runs.html">抽象 run</a> · <a href="index.md">索引(MD)</a></nav></header>
+<main>
+<p class="note">本次分析成本 vs 全局台账两者口径不同（D10）；站点只读真源，不改写 <code>costs.jsonl</code>。</p>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>D10 口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost</td></tr><tr><td>本次分析成本（各报告「成本说明」行）</td><td>InternLM/lmdeploy：本次 —（未调用）；输入 0 tok / 命中 0 tok / 输出 0 tok<br>ModelTC/lightllm：本次 —（未调用）；输入 0 tok / 命中 0 tok / 输出 0 tok<br>deepseek-ai/DeepEP：本次 ¥0.4174（模型调用 1 次）；输入 21,910 tok / 命中 0 tok / 输出 8,156 tok<br>huggingface/text-generation-inference：本次 —（未调用）；输入 0 tok / 命中 0 tok / 输出 0 tok<br>sgl-project/sglang：本次 —（未调用）；输入 0 tok / 命中 0 tok / 输出 0 tok<br>vllm-project/vllm：本次 —（未调用）；输入 0 tok / 命中 0 tok / 输出 0 tok</td></tr><tr><td>全局台账 · 本周 tokens</td><td>97,234</td></tr><tr><td>全局台账 · 本月 tokens</td><td>97,234</td></tr><tr><td>全局台账 · 本周费用</td><td>¥0.5595</td></tr><tr><td>全局台账 · 本月费用</td><td>¥0.5595</td></tr><tr><td>本周降级 / 预算拦截</td><td>2 / 0</td></tr><tr><td>预算剩余（周 / 月）</td><td>1,902,766 / 5,902,766 tok</td></tr><tr><td>单价来源</td><td>单价只来自 config.yaml → llm.price_table（代码不内置任何价格字面量）</td></tr><tr><td>单价表模型（来自 config）</td><td>deepseek-flash, deepseek-v4-pro</td></tr><tr><td>单价核对日期（摘自报告「单价」行）</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）<br>deepseek-v4-pro 输入未命中 ¥9/M · 缓存命中 ¥0.3/M · 输出 ¥27/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>价格复核</td><td>本阶段不做价格复核（定价页正文未获得，E14 / D24 纪律）；跨月或供应商调价且正文可获得时再核并同步 config.yaml</td></tr></tbody></table>
+</main>
+<footer>osslens 静态只读站点 · 无后端 / 无外部 JS 与 CDN / 零 LLM / 零网络</footer>
+</body></html>

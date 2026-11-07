@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>报告 · ModelTC/lightllm</title>
+<style>body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;margin:0;color:#1b1f23;background:#fff;line-height:1.6}header,main,footer{max-width:960px;margin:0 auto;padding:16px 24px}header{border-bottom:1px solid #e1e4e8}footer{border-top:1px solid #e1e4e8;color:#586069;font-size:.85em;margin-top:32px}nav a{margin-right:12px;color:#0366d6;text-decoration:none}h1,h2,h3{line-height:1.25}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid #dfe2e5;padding:6px 10px;text-align:left;vertical-align:top}th{background:#f6f8fa}pre{background:#f6f8fa;padding:12px;overflow:auto}code{background:#f3f4f6;padding:1px 4px;border-radius:3px}pre code{background:none;padding:0}.empty,.note{background:#fff8e5;border-left:4px solid #d9a400;padding:10px 14px;margin:12px 0}ul,ol{padding-left:24px}</style>
+</head>
+<body>
+<header><h1>报告 · ModelTC/lightllm</h1><nav><a href="index.html">首页</a> · <a href="reports.html">报告</a> · <a href="featcards.html">特征卡</a> · <a href="patterns.html">规律库</a> · <a href="costs.html">成本</a> · <a href="runs.html">抽象 run</a> · <a href="index.md">索引(MD)</a></nav></header>
+<main>
+<p class="note">源 MD：<code>../reports/ModelTC__lightllm__2026-11-06.md</code>；下方五区块顺序固定不变。</p>
+<h1>开源项目分析 · ModelTC/lightllm</h1>
+<h2>运行元数据</h2>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>ModelTC/lightllm</td></tr><tr><td>commit</td><td><code>aadae840d2ee8e8610ac1d918b498295c389c5cb</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-06T00:00:00Z</td></tr><tr><td>通道 / 领域</td><td>classic / 未指定</td></tr><tr><td>请求档位 (requested_depth)</td><td>off</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>off</td></tr><tr><td>降级原因 (reason)</td><td>explicit_off — 显式请求 off 档（零 LLM）</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 1/1、fast 3/3（周起点 2026-11-02）；tokens 周 97234/2000000、月 97234/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>d8768ffc18cc81cdac496eae4f61c9206cd15566fd193a350cca676faf21c480</code></td></tr><tr><td>成本说明</td><td>本次 —（未调用）；输入 0 tok / 命中 0 tok / 输出 0 tok</td></tr><tr><td>累计</td><td>本周 ¥0.5595 / 97,234 tok；本月 ¥0.5595 / 97,234 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
+<p><strong>档位决策链路</strong>：</p>
+<ol><li>L4 人工 override：显式 --depth off（不再评估其它层）</li></ol>
+<p><strong>上下文组装</strong>（裁剪发生在调用之前）：</p>
+<table><thead><tr><th>块</th><th>优先级</th><th>估算 token</th></tr></thead><tbody><tr><td>featcard</td><td>1</td><td>—</td></tr><tr><td>readme</td><td>2</td><td>—</td></tr><tr><td>source_files</td><td>4</td><td>—</td></tr></tbody></table>
+<ul><li>丢弃：—（off 档不组装上下文，未发起任何模型请求）</li><li>合计 0 / 上限 120000</li></ul>
+<h2>体检事实（确定性，零 LLM）</h2>
+<table><thead><tr><th>指标</th><th>值</th></tr></thead><tbody><tr><td>Star / Fork</td><td>4,357 / 384</td></tr><tr><td>被依赖 (Used by)</td><td>—</td></tr><tr><td>贡献者 / Top1 占比</td><td>54 / 32.66%</td></tr><tr><td>Top10 贡献集中度</td><td>90.12%</td></tr><tr><td>90 天 / 365 天提交</td><td>116 / 332</td></tr><tr><td>最近提交 / 距今天数</td><td>2026-11-05T08:26:44Z / 1</td></tr><tr><td>维护状态</td><td>active</td></tr><tr><td>项目年龄 / 发布数(365d)</td><td>1,203 天 / 1</td></tr><tr><td>组织类型 / 许可证</td><td>— / Apache-2.0</td></tr><tr><td>文件数 / 体积</td><td>2,206 / 12.6 MiB</td></tr><tr><td>内部模块依赖边</td><td>0</td></tr></tbody></table>
+<p><strong>语言构成</strong>：Dockerfile 0.07%、Jinja 0.10%、Python 99.10%、Shell 0.73%</p>
+<p><strong>模块体量 Top10</strong></p>
+<table><thead><tr><th>模块</th><th>文件数</th><th>字节</th></tr></thead><tbody><tr><td>lightllm</td><td>1,650</td><td>6,138,307</td></tr><tr><td>unit_tests</td><td>285</td><td>2,566,650</td></tr><tr><td>docs</td><td>90</td><td>2,502,650</td></tr><tr><td>test</td><td>121</td><td>972,107</td></tr><tr><td>assets</td><td>4</td><td>698,255</td></tr><tr><td>skills</td><td>16</td><td>120,155</td></tr><tr><td>format_out</td><td>14</td><td>59,454</td></tr><tr><td>tools</td><td>4</td><td>45,094</td></tr><tr><td>.</td><td>12</td><td>33,132</td></tr><tr><td>demos</td><td>5</td><td>12,976</td></tr></tbody></table>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+<h2>特征卡摘要</h2>
+<ul><li>卡文件：<code>data/featcards/ModelTC__lightllm__aadae840d2ee8e8610ac1d918b498295c389c5cb.json</code>（schema 1.0）</li><li>入口文件：—</li><li>最大目录深度：9；monorepo：否</li><li>源码切片：0 个文件（tarball ``）</li><li>依赖：直接 / 传递 = — / —（L1 未解析清单文件）</li></ul>
+<p><strong>并行轴</strong></p>
+<ul><li>并行 <code>CP</code> = false（无证据）</li><li>并行 <code>DP</code> = false（无证据）</li><li>并行 <code>EP</code> = false（无证据）</li><li>并行 <code>PP</code> = false（无证据）</li><li>并行 <code>SP</code> = false（无证据）</li><li>并行 <code>TP</code> = false（无证据）</li></ul>
+<p><strong>缓存</strong></p>
+<ul><li>缓存 <code>kv_offload</code> = false（无证据）</li><li>缓存 <code>paged</code> = false（无证据）</li><li>缓存 <code>prefix_reuse</code> = false（无证据）</li><li>缓存 <code>radix</code> = false（无证据）</li></ul>
+<ul><li>硬件：vendors=[]、arch_gates=[]、kernel_langs=[]</li><li>治理文档：是</li></ul>
+<p><strong>依赖图</strong>（内部模块 import 边，节点/边排序后输出）</p>
+<pre><code class="language-mermaid">graph TD
+  A[无可提取的内部模块依赖边]</code></pre>
+<p><strong>已知限制</strong>：</p>
+<ul><li>未取得源码切片：parallel/cache/hardware 全部 false、deps.graph 为空（红线 #5）</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h2>洞见</h2>
+<p>—</p>
+<h2>外部资料</h2>
+<ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/ModelTC/lightllm</li><li>fetched_at：—</li><li>sha256：<code>—</code></li><li>判定：unavailable — MCP 网络错误：ConnectTimeout</li><li>结论：未获得</li></ul>
+</main>
+<footer>osslens 静态只读站点 · 无后端 / 无外部 JS 与 CDN / 零 LLM / 零网络</footer>
+</body></html>

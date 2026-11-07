@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>报告 · huggingface/text-generation-inference</title>
+<style>body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;margin:0;color:#1b1f23;background:#fff;line-height:1.6}header,main,footer{max-width:960px;margin:0 auto;padding:16px 24px}header{border-bottom:1px solid #e1e4e8}footer{border-top:1px solid #e1e4e8;color:#586069;font-size:.85em;margin-top:32px}nav a{margin-right:12px;color:#0366d6;text-decoration:none}h1,h2,h3{line-height:1.25}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid #dfe2e5;padding:6px 10px;text-align:left;vertical-align:top}th{background:#f6f8fa}pre{background:#f6f8fa;padding:12px;overflow:auto}code{background:#f3f4f6;padding:1px 4px;border-radius:3px}pre code{background:none;padding:0}.empty,.note{background:#fff8e5;border-left:4px solid #d9a400;padding:10px 14px;margin:12px 0}ul,ol{padding-left:24px}</style>
+</head>
+<body>
+<header><h1>报告 · huggingface/text-generation-inference</h1><nav><a href="index.html">首页</a> · <a href="reports.html">报告</a> · <a href="featcards.html">特征卡</a> · <a href="patterns.html">规律库</a> · <a href="costs.html">成本</a> · <a href="runs.html">抽象 run</a> · <a href="index.md">索引(MD)</a></nav></header>
+<main>
+<p class="note">源 MD：<code>../reports/huggingface__text-generation-inference__2026-11-06.md</code>；下方五区块顺序固定不变。</p>
+<h1>开源项目分析 · huggingface/text-generation-inference</h1>
+<h2>运行元数据</h2>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>huggingface/text-generation-inference</td></tr><tr><td>commit</td><td><code>b4adbf2f6e2e721280bd0ea5f91d70f7d033f5ed</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-06T00:00:00Z</td></tr><tr><td>通道 / 领域</td><td>classic / 未指定</td></tr><tr><td>请求档位 (requested_depth)</td><td>off</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>off</td></tr><tr><td>降级原因 (reason)</td><td>explicit_off — 显式请求 off 档（零 LLM）</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 1/1、fast 3/3（周起点 2026-11-02）；tokens 周 97234/2000000、月 97234/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>75d9c6775ec82f12f6ae78ca01091e271ef036c0370b8bad338fc2c5e1c8bb49</code></td></tr><tr><td>成本说明</td><td>本次 —（未调用）；输入 0 tok / 命中 0 tok / 输出 0 tok</td></tr><tr><td>累计</td><td>本周 ¥0.5595 / 97,234 tok；本月 ¥0.5595 / 97,234 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
+<p><strong>档位决策链路</strong>：</p>
+<ol><li>L4 人工 override：显式 --depth off（不再评估其它层）</li></ol>
+<p><strong>上下文组装</strong>（裁剪发生在调用之前）：</p>
+<table><thead><tr><th>块</th><th>优先级</th><th>估算 token</th></tr></thead><tbody><tr><td>featcard</td><td>1</td><td>—</td></tr><tr><td>readme</td><td>2</td><td>—</td></tr><tr><td>source_files</td><td>4</td><td>—</td></tr></tbody></table>
+<ul><li>丢弃：—（off 档不组装上下文，未发起任何模型请求）</li><li>合计 0 / 上限 120000</li></ul>
+<h2>体检事实（确定性，零 LLM）</h2>
+<table><thead><tr><th>指标</th><th>值</th></tr></thead><tbody><tr><td>Star / Fork</td><td>10,882 / 1,287</td></tr><tr><td>被依赖 (Used by)</td><td>—</td></tr><tr><td>贡献者 / Top1 占比</td><td>145 / 25.29%</td></tr><tr><td>Top10 贡献集中度</td><td>81.64%</td></tr><tr><td>90 天 / 365 天提交</td><td>0 / 8</td></tr><tr><td>最近提交 / 距今天数</td><td>2026-03-21T11:34:22Z / 230</td></tr><tr><td>维护状态</td><td>archived</td></tr><tr><td>项目年龄 / 发布数(365d)</td><td>1,490 天 / 1</td></tr><tr><td>组织类型 / 许可证</td><td>— / Apache-2.0</td></tr><tr><td>文件数 / 体积</td><td>878 / 9.3 MiB</td></tr><tr><td>内部模块依赖边</td><td>0</td></tr></tbody></table>
+<p><strong>语言构成</strong>：C 0.02%、C++ 0.85%、CMake 0.17%、Cuda 2.90%、Dockerfile 0.18%、JavaScript 0.12%、Makefile 0.23%、Nix 0.31%、Python 78.72%、Rust 16.26%、Shell 0.25%</p>
+<p><strong>模块体量 Top10</strong></p>
+<table><thead><tr><th>模块</th><th>文件数</th><th>字节</th></tr></thead><tbody><tr><td>server</td><td>215</td><td>2,846,263</td></tr><tr><td>backends</td><td>216</td><td>2,099,489</td></tr><tr><td>integration-tests</td><td>287</td><td>1,973,116</td></tr><tr><td>assets</td><td>4</td><td>1,371,571</td></tr><tr><td>router</td><td>16</td><td>380,653</td></tr><tr><td>.</td><td>26</td><td>290,762</td></tr><tr><td>docs</td><td>46</td><td>268,165</td></tr><tr><td>clients</td><td>15</td><td>235,639</td></tr><tr><td>launcher</td><td>5</td><td>89,520</td></tr><tr><td>load_tests</td><td>10</td><td>68,876</td></tr></tbody></table>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+<h2>特征卡摘要</h2>
+<ul><li>卡文件：<code>data/featcards/huggingface__text-generation-inference__b4adbf2f6e2e721280bd0ea5f91d70f7d033f5ed.json</code>（schema 1.0）</li><li>入口文件：backends/gaudi/server/text_generation_server/cli.py, backends/llamacpp/src/main.rs, backends/neuron/server/text_generation_server/cli.py, backends/trtllm/src/main.rs, backends/v2/src/main.rs, backends/v3/src/main.rs, benchmark/src/main.rs, launcher/src/main.rs, server/text_generation_server/cli.py</li><li>最大目录深度：8；monorepo：是</li><li>源码切片：0 个文件（tarball ``）</li><li>依赖：直接 / 传递 = — / —（L1 未解析清单文件）</li></ul>
+<p><strong>并行轴</strong></p>
+<ul><li>并行 <code>CP</code> = false（无证据）</li><li>并行 <code>DP</code> = false（无证据）</li><li>并行 <code>EP</code> = false（无证据）</li><li>并行 <code>PP</code> = false（无证据）</li><li>并行 <code>SP</code> = false（无证据）</li><li>并行 <code>TP</code> = false（无证据）</li></ul>
+<p><strong>缓存</strong></p>
+<ul><li>缓存 <code>kv_offload</code> = false（无证据）</li><li>缓存 <code>paged</code> = false（无证据）</li><li>缓存 <code>prefix_reuse</code> = false（无证据）</li><li>缓存 <code>radix</code> = false（无证据）</li></ul>
+<ul><li>硬件：vendors=[]、arch_gates=[]、kernel_langs=[]</li><li>治理文档：是</li></ul>
+<p><strong>依赖图</strong>（内部模块 import 边，节点/边排序后输出）</p>
+<pre><code class="language-mermaid">graph TD
+  A[无可提取的内部模块依赖边]</code></pre>
+<p><strong>已知限制</strong>：</p>
+<ul><li>未取得源码切片：parallel/cache/hardware 全部 false、deps.graph 为空（红线 #5）</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h2>洞见</h2>
+<p>—</p>
+<h2>外部资料</h2>
+<ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/huggingface/text-generation-inference</li><li>fetched_at：2026-11-06T15:49:20Z</li><li>sha256：<code>115e02faeb7bfbae17abfaca5dc49ff21aac8ff51432801670bbc9277eff72c6</code></li><li>判定：hit — 正文含 185 个仓库内真实路径（阈值 3）</li><li>原文快照：<code>source.txt</code>（与判定元数据分文件存放）</li></ul>
+</main>
+<footer>osslens 静态只读站点 · 无后端 / 无外部 JS 与 CDN / 零 LLM / 零网络</footer>
+</body></html>
