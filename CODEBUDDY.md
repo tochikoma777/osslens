@@ -320,20 +320,21 @@ data/
 ├── cache_objects/<sha2>/<sha256>                  # 可再生索引（内容寻址去重，.gitignore 忽略）
 └── cache_archive/                                # 可再生归档（按期归档，.gitignore 忽略）
 reports/<owner>__<repo>__<date>.md                  # ★ 确定性 regenerate 产物（非 append-only，S2）
-site/                                              # L4 静态站（可丢弃、可重建；index.md / index.html / 四块 + report-*.html）
+site/                                              # L4 静态站（★ 可重建派生基线，入库；index.md / index.html / 四块 + report-*.html）
 ```
 
-**★ 按可再生性分层（D15，唯一权威 = `docs/设计方案.md` §8.2 v1.4）**：
+**★ 按可再生性分层（D15，唯一权威 = `docs/设计方案.md` v1.5 §8.2）**：
 
 | 路径 | 归类 | 规则 |
 |---|---|---|
 | `patterns/`（library.yaml / ops.jsonl）· `data/ledger` · `data/pool` · `data/costs` · `data/abstract/runs.jsonl` | **真源** | append-only；旧 ID 保留 alias；删除先列清单 + 停下等确认 |
 | `reports/` | ★ **确定性 regenerate 产物**（S2 / 设计方案 v1.4 §8.2 精确化，**非 append-only**） | 同一 `(repo, as-of)` 换档位重跑**允许覆盖**：内容由快照 + 特征卡确定性重建，历史由 git tag 兜底；文件名 / 幂等键 / render / cli 路径均不变 |
+| `site/`（15 个产物 / 104K） | ★ **可重建的派生基线**（v1.5 精确化，**入库**，非真源） | 由 5 类真源确定性渲染；`site --check` 需与**已提交**基线比对；真源变更后须重跑 `site` 并提交，`--check` 给差异清单；**不得手写编辑产物**（D32=A） |
 | `data/snapshots/**/external/`（deepwiki.json / source.txt / sha256） | ★ **不可再生真源** | 外部索引状态错过不可复现，带来源四元组（红线 #13）→ **不删、不覆盖** |
 | `data/snapshots/**/src/`（源码切片 + manifest.json） | **可再生缓存** | 按 commit 从 codeload tarball 可重拉 → 可丢弃、可去重、可归档清理 |
-| `data/featcards/` · `data/llm_cache/` · `site/` · 任何 DB 索引 | **可再生缓存** | 可丢弃、可重建 |
+| `data/featcards/` · `data/llm_cache/` · 任何 DB 索引 | **可再生缓存** | 可丢弃、可重建 |
 
-★ **实测形态（2026-11-07）**：`external/` 下为 `deepwiki.json`（`sha256` 是其内部字段，非独立文件）与 `source.txt`；探测未命中时不写 `source.txt`（6 个 external 目录仅 4 个有）。上表与目录树的清单沿用 `docs/设计方案.md` §8.2 v1.4 口径，**归类不变**。
+★ **实测形态（2026-11-07）**：`external/` 下为 `deepwiki.json`（`sha256` 是其内部字段，非独立文件）与 `source.txt`；探测未命中时不写 `source.txt`（6 个 external 目录仅 4 个有）。此处沿用 `docs/设计方案.md` v1.5 §8.2 的清单表述，`external/` **归类不变**。
 
 ★ **红线 #6 的 append-only 清单只含 3 个 jsonl + `patterns/` + `data/abstract/runs.jsonl`，从未含 `data/snapshots` 整块**
 → 清理 `src/` / `llm_cache/` **不违规**、覆盖 `reports/` **不违规**；`docs/成本预算.md` §4 作为证据层与本表不冲突（D15 已对齐）。
@@ -350,6 +351,7 @@ site/                                              # L4 静态站（可丢弃、
 | **L2** ✅ | strong 档 + 四层跨周联动 + 估算安全系数 + 成本闭环 + 快照保留 + 定时建池 | strong 实跑（¥0.4174 / 5 条带证据洞见）；同 as-of 重跑字节一致；76 测试 |
 | **L3** ✅ | 零 LLM 三态召回 + 四层抽象 + 增量 merge + 反例挖掘 + 抽象 run 成本闸门 | 链路端到端可运行（门槛/ops/反例/reconcile 均有断言）；**真实样本 5 < 簇内阈值 6 → `insufficient_samples` 产 0 条，首次真实抽象未触发**；114 测试 |
 | **L4** ✅ | 静态只读站点（零后端 / 零 LLM / 零网络 / ¥0） | 由 MD + JSON 生成，无后端；15 个产物、`site --check` 一致、同 as-of 字节一致、空态如实、**本阶段 ¥0**；134 测试 |
+| **收尾** ✅ | 全景定稿：`docs/功能总览.md` / 经验固化结构化索引 / D19 口径定稿 / 文档回填 | 功能总览七部分齐全、数字可回溯；门禁四连全绿、`site --check` 一致；零 LLM / 零网络 / 本阶段 ¥0；**不打 tag / 不 push**（D31 延后） |
 
 > ★ L2 局限：actionlint 未安装，走降级静态校验，**不等同于 GitHub 真实 run**（D18 = A 已接受收口）；未 push、未建 remote。
 > ★ D19 补采（2026-11-06，采集环境 B）：`github.com/` 首页与 `trending` **已 200 并归档三份真实片段**，见 `docs/数据源手册.md` §10.1.3；前次「未获得」仅为环境 A 本地 TCP 超时，**不是源不可用**。**反爬特征仍未获得**（未触发 ≠ 无反爬）。详见 `docs/开发日志.md` L2 / D19 章节。
@@ -370,7 +372,7 @@ site/                                              # L4 静态站（可丢弃、
 | `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E12；E11 = D28 三态口径、E12 = HTML 转义断言） |
 | `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护） | ✅ 已建成（v1.3，§8.2 六锚点唯一权威；锚点 ③ 已随 L3 升为「两条 ✅」） |
 | `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.4） |
-| `docs/功能总览.md` | 收尾 | ⬜ **唯一待建** |
+| `docs/功能总览.md` | 收尾 | ✅ 已建成（2026-11-07，七部分全景定稿） |
 
 ★ **不预建空文档**。★ **数据源手册用已有实测材料归并**：
 `外部工具命中率实测_推理Infra组.md` / `_Agent训练组.md` / `watchlist星标活跃度复核.md` / `docs/ref/token_result.json`
