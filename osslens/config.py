@@ -428,6 +428,11 @@ class Layout:
     def reports_dir(self) -> Path:
         return self.root / "reports"
 
+    @property
+    def site_dir(self) -> Path:
+        """L4：静态站点产物目录（可丢弃、可重建；真源只读）。"""
+        return self.root / "site"
+
     def report_path(self, owner: str, repo: str, date: str) -> Path:
         return self.reports_dir / f"{owner}__{repo}__{date}.md"
 

@@ -68,6 +68,12 @@ from .pool import (
 )
 from .prompts import FAST_INSIGHT_SYSTEM, STRONG_INSIGHT_SYSTEM, fast_insight_user
 from .render import CostLine, ReportInputs, render_report
+from .site import (
+    build_site,
+    resolve_site_as_of,
+    site_check,
+    write_site,
+)
 from .util import (
     Clock,
     ConfigError,
@@ -190,6 +196,16 @@ def _build_parser() -> argparse.ArgumentParser:
     abstract_parser.add_argument("--dry-run", action="store_true", help="只打印决策，不落盘")
     abstract_parser.add_argument("--json", action="store_true")
     abstract_parser.set_defaults(handler=_cmd_abstract)
+
+    site_parser = sub.add_parser(
+        "site", parents=[common], help="L4 静态只读站点（零 LLM / 零网络 / ¥0）"
+    )
+    site_parser.add_argument("--out", default=None, help="产物目录（默认 <root>/site）")
+    site_parser.add_argument("--as-of", dest="as_of", default=None)
+    site_parser.add_argument(
+        "--check", action="store_true", help="只比对不写盘，给出差异清单，退出码恒 0"
+    )
+    site_parser.set_defaults(handler=_cmd_site)
 
     return parser
 
@@ -641,6 +657,41 @@ def _cmd_abstract(args: argparse.Namespace) -> int:
     else:
         print(f"  run 记录：{_rel(config.layout.abstract_runs_jsonl, config.layout.root)}")
         print(f"  历史 run 数：{len(load_runs(config.layout))}")
+    return 0
+
+
+# --------------------------------------------------------------------------- L4 静态站点
+
+
+def _cmd_site(args: argparse.Namespace) -> int:
+    config = Config.load(Path(args.root))
+    as_of = resolve_site_as_of(config.layout, args.as_of)
+    out_dir = Path(args.out).resolve() if args.out else config.layout.site_dir
+    plan = build_site(config, as_of=as_of)
+
+    if args.check:
+        diffs = site_check(out_dir, plan.files)
+        if diffs:
+            print(f"site --check：发现 {len(diffs)} 处差异（未写盘）")
+            for item in diffs:
+                print(f"  - {item}")
+        else:
+            print(f"site --check：一致（{len(plan.files)} 个产物，as-of {plan.as_of}；未写盘）")
+        return 0  # 只比对，退出码恒 0
+
+    statuses = write_site(out_dir, plan.files)
+    print(f"静态站点：{out_dir}")
+    print(
+        f"  as-of {plan.as_of}  报告 {plan.report_count} · 特征卡 {plan.featcard_count} · "
+        f"规律库 {plan.pattern_count} · run {plan.run_count}"
+    )
+    for status in statuses:
+        print(f"  {status}")
+    print(f"  索引（纯 MD）：{out_dir / 'index.md'}")
+    print(f"  入口：{out_dir / 'index.html'}")
+    print("  零 LLM / 零网络：本命令不构造任何 HTTP 客户端，不发起请求（增量成本 ¥0）")
+    if plan.empty_note:
+        print(f"  ⚠ {plan.empty_note}")
     return 0
 
 
