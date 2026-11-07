@@ -2,6 +2,33 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [0.5.0] - 2026-11-07 · tag `l4`
+
+L4：**静态只读站点**（最后一个功能阶段）。MD + JSON 真源 → 确定性 HTML/MD；零后端 / 零 LLM / 零网络 / 增量成本恒 ¥0。
+
+### 新增
+
+- `osslens/site.py`：`site` 命令（`--out` / `--as-of` / `--check`）、纯 MD `index.md` 索引、报告 / 特征卡 / 规律库 / 成本四块呈现、极简确定性 MD→HTML、`site --check` 差异清单
+- `tests/test_l4.py` 20 条：四块呈现、五区块顺序、`--check` 不写盘、幂等、零网络双证据、空态、不展示敏感（含反向用例）
+- `Layout.site_dir`；CLI 注册 `python -m osslens site`
+
+### 实测
+
+- 真实站点：15 个产物 / 104K；`site --check` 一致；同 `--as-of` 二次构建 sha256 全同；`costs.jsonl` 相对 `l3` **零改动**
+- 零成本双证据：`site` 与 `site --check` 传输层拦截 `egress=[]`；`site.py` 静态无端点字面量、无 httpx 导入
+- 空态诚实：`patterns/library.yaml = []` → 显示「规律库尚无条目（首次真实抽象未触发：inference 簇 5 < 6）」，`insufficient_samples` 可见
+- 门禁：134 测试全绿 · `ruff check` · `ruff format --check` · `mypy strict`（16 source files）
+
+### 文档
+
+- 成本预算 §9（L4 ¥0 口径）、数据源手册 §10.6（D19 核查，采集环境分栏）、开发日志 L4、经验固化 E11（D28 三态口径）/ E12（`--check` 差异清单）、CODEBUDDY §9 L4 ✅ + 模块地图加 `site`
+
+### 已知限制
+
+- **规律库仍为空**：`library.yaml = []`，首次真实抽象未发生（inference 簇 5 < 6）；站点如实展示空态，不伪造条目
+- **本阶段不做价格复核**（定价页正文未获得，E14 / D24）；单价只从 config 与报告「单价」行读取，未新增任何价格数字
+- 收尾动作（`docs/功能总览.md` / 双方经验固化汇总 / remote / push / 真实 Actions run / 价格复核）**全部等 L4 验收后单独一轮**
+
 ## [0.4.0] - 2026-11-06 · tag `l3`
 
 L3：**模式召回 + 四层抽象 + 增量 merge + 反例挖掘 + 抽象 run 成本闸门**。
