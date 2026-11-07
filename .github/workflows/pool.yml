@@ -5,9 +5,10 @@ name: 定时建池
 # 只追加、不改写；工作区脏则显式跳过，不做 git clean（红线 #7 / N9）。
 
 on:
-  schedule:
-    # 每日 03:17 UTC（避开整点高峰）
-    - cron: "17 3 * * *"
+  # ★ cron 待真实 run 验证通过后由负责人单独授权启用（D31 Gate 3）
+  # schedule:
+  #   # 每日 03:17 UTC（避开整点高峰）
+  #   - cron: "17 3 * * *"
   workflow_dispatch:
 
 permissions:
