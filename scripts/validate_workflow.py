@@ -65,8 +65,8 @@ def main() -> int:
         ("禁止 git clean", "git clean" not in script),
         ("空提交防护（diff --cached --quiet）", "diff --cached --quiet" in script),
         (
-            "真源路径覆盖 pool/ledger/snapshots",
-            all(p in script for p in ("data/pool", "data/ledger", "data/snapshots")),
+            "真源路径覆盖 pool/snapshots（ledger 当前无写入方，接线时加回 pathspec）",
+            all(p in script for p in ("data/pool", "data/snapshots")),
         ),
         ("只调 pool add（零 LLM，深挖不进定时）", "pool" in script and "analyze" not in script),
     ]

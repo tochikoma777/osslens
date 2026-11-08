@@ -84,8 +84,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
-          # N6：按路径分类 add，不用全集暂存；目录级 pathspec 对空目录（ledger）不会报错
-          git add -- data/pool data/ledger data/snapshots
+          # N6：按路径分类 add，不用全集暂存
+          # ★ data/ledger 当前无写入方，故不在 pathspec 内；selected.jsonl 接线时必须把 data/ledger 加回本行，否则 CI 真源漏提交
+          git add -- data/pool data/snapshots
           if git diff --cached --quiet; then
             echo "[skip] 无新增真源，不产生空提交"
             exit 0
