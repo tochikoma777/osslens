@@ -2,6 +2,27 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-08 · D31 发布接线（真实 run = Failure）
+
+**发布接线**：建私有仓库 / remote / 首次 push `main`（`6748b0a`）；**不推 tag**（远端 tag = 0）、不 force、不启用 cron。
+
+### 实测
+
+- `git push -u origin main`：514 objects / 1.56 MiB；`main...origin/main` 建立；远端仅 `refs/heads/main`。
+- 真实 Actions run `42450787839`（run_number 1 / attempt 2；attempt 1 亦 failure）：**Failure**；失败 step「提交真源并推送」0s / exit 128；`fatal: pathspec 'data/ledger' did not match any files`。
+- 成功 step「追加观测」：7 个仓库 `pool add` 全部 exit 0；远端未前进（无 bot 提交）。
+- 限流响应头：**未获得 + 原因**（步骤未输出/采集 `x-ratelimit-*`）。
+
+### 根因与修复
+
+- 根因：Git 不跟踪空目录；`data/ledger/` 无 tracked 文件（`git ls-tree` 为空），本地因 `init.ensure_skeleton()` 留有空的 `data/ledger/`，CI fresh checkout 不物化 → `git add -- data/ledger` pathspec 不匹配。与 `.gitignore` 无关；`pool add` 不写 ledger（`selected_jsonl` 无写入方）。
+- 修复草案（**未落地**，新缺陷轮次）：移除 `data/ledger` pathspec，或 `git add` 前 `mkdir -p data/ledger`。
+
+### 说明
+
+- **D18 = A 不翻案**：真实 run 不改变「降级静态校验即 L2 收口」结论，仅登记新缺陷。
+- **cron 未启用**；Gate 3 单独授权。本轮 ¥0，`costs.jsonl` 零改动；不推 tag。
+
 ## [Unreleased] - 2026-11-07 · 收尾（未打 tag）
 
 **全景定稿**：无代码改动，零 LLM / 零网络 / 本阶段增量成本恒 ¥0。
