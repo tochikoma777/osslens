@@ -2,7 +2,7 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
-## [Unreleased] - 2026-11-08 · D31 发布接线（真实 run = Failure）
+## [Unreleased] - 2026-11-08 · D31 发布接线（#1 Failure → 补丁轮 #2 Success）
 
 **发布接线**：建私有仓库 / remote / 首次 push `main`（`6748b0a`）；**不推 tag**（远端 tag = 0）、不 force、不启用 cron。
 
@@ -22,6 +22,16 @@
 
 - **D18 = A 不翻案**：真实 run 不改变「降级静态校验即 L2 收口」结论，仅登记新缺陷。
 - **cron 未启用**；Gate 3 单独授权。本轮 ¥0，`costs.jsonl` 零改动；不推 tag。
+
+### 补丁轮（2026-11-08，pathspec 修复）
+
+- **修复**：workflow `git add -- data/pool data/ledger data/snapshots` → `git add -- data/pool data/snapshots`（方案 ① 最小移除）；注释改为接线约束；`scripts/validate_workflow.py` 的「真源路径覆盖」项同步适配（13/13）。
+- **反向用例**：`tests/test_workflow_pathspec.py`（2 条）—— clean tree 缺 `data/ledger` 时旧 pathspec 必 fatal、当前 workflow pathspec 必 exit 0；全量 134 → **136**。
+- **真实重跑 #2**：run `42455959308`（run_number 2 / attempt 1）**Success**；06:44:16–06:45:03Z（≈47s）；步骤 1–8 全 success；`git add -- data/pool data/snapshots` → bot commit `ac5d16a`（8 files / 180,805 insertions）→ `bb52f09..ac5d16a main -> main`。
+- **缺陷关闭**：`data/ledger` pathspec 修复在真实 CI 上验证通过；远端 tag 仍 **0**；本地 `l0`–`l4` 未移动。
+- **Gate 3 状态**：由「事实不满足、明确不得启用」变为「**待单独授权**」（仍不自动启用）；cron 未启用。
+- **D18 = A 不翻案**：真实 run 只是补验证据，不追溯改 L2 收口结论。
+- 限流响应头 **未获得 + 原因**（日志无 `x-ratelimit-*`）；本轮 ¥0，`costs.jsonl` 零改动；不推 tag。
 
 ## [Unreleased] - 2026-11-07 · 收尾（未打 tag）
 
