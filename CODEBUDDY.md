@@ -279,6 +279,8 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 | 定时建池 workflow（T7） | `.github/workflows/pool.yml` · `scripts/validate_workflow.py` |
 | 已知账外支出（③′） | `docs/成本预算.md` §0（**不是台账，不参与 `cost` 统计**） |
 
+★ **定时建池 workflow 接线约束**：`selected.jsonl` 接线时必须把 `data/ledger` **加回** `git add` pathspec，否则 CI 真源漏提交（出处：D31 run `42450787839` 的 `fatal: pathspec 'data/ledger'` 根因）；当前 `data/ledger` 无写入方，故不在 pathspec 内。
+
 ---
 
 ## 7. 每阶段收尾必做
