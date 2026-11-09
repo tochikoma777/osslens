@@ -299,6 +299,10 @@ def _insight_section(inputs: ReportInputs) -> list[str]:
                 f"`{item.evidence}` |"
             )
         lines.extend(["", f"- 置信度：{inputs.insight.confidence}"])
+        if inputs.insight.paradigm_tags:
+            # 报告级架构范式标签（受控词表，确定性排序）；供站点标签过滤预生成解析
+            tags = "、".join(inputs.insight.paradigm_tags)
+            lines.append(f"- 架构范式标签：{tags}")
         if inputs.insight.dropped:
             lines.append(f"- 被代码丢弃的条目：{len(inputs.insight.dropped)} 条")
             lines.extend(f"  - {reason}" for reason in inputs.insight.dropped)

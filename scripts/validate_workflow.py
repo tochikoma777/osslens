@@ -43,10 +43,10 @@ def main() -> int:
     script = "\n".join(script_lines)
 
     checks: list[tuple[str, bool]] = [
-        # ★ D31 Gate 2：push 前已消除 schedule（cron 待 Gate 3 单独授权），校验语义随之改为「不含」
+        # ★ 实现轮 v1.0 T1 / D50 Q3：cron 已授权恢复，校验语义随之改回「含」（真实断言，非恒真）
         (
-            "YAML 可解析且不含 schedule（cron 待 Gate 3 授权）",
-            bool(triggers and "schedule" not in triggers),
+            "YAML 可解析且含 schedule（cron 已启用，D50/Q3）",
+            bool(triggers and "schedule" in triggers),
         ),
         ("含 workflow_dispatch 手动入口", bool(triggers and "workflow_dispatch" in triggers)),
         ("runner 固定 ubuntu-24.04", "ubuntu-24.04" in runs),

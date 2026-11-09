@@ -88,7 +88,9 @@ def protected_paths(layout: Layout) -> tuple[str, ...]:
         if base.exists():
             for path in base.rglob("*.jsonl"):
                 out.add(_rel(path, layout))
-    for name in ("patterns", "reports"):
+    # patterns/ · reports/ · site/：派生基线 / 真源一律受保护（设计方案 v1.5 §8.2）。
+    # site/ 是可重建的派生基线（入库作 --check 基线），绝不能进缓存清理清单。
+    for name in ("patterns", "reports", "site"):
         base = layout.root / name
         if base.exists():
             for path in base.rglob("*"):

@@ -15,9 +15,11 @@ from typing import Any
 
 from . import __version__
 from .abstract import (
+    TYPE_CROSS_DOMAIN,
     CachedModelCaller,
     LlmModelCaller,
     cluster_run,
+    cross_domain_run,
     load_runs,
     load_samples,
 )
@@ -68,6 +70,7 @@ from .pool import (
 )
 from .prompts import FAST_INSIGHT_SYSTEM, STRONG_INSIGHT_SYSTEM, fast_insight_user
 from .render import CostLine, ReportInputs, render_report
+from .retention import apply_retention
 from .site import (
     build_site,
     resolve_site_as_of,
@@ -193,6 +196,11 @@ def _build_parser() -> argparse.ArgumentParser:
     abstract_parser.add_argument("--as-of", dest="as_of", default=None)
     abstract_parser.add_argument("--cluster", default=None, help="指定 domain.id 簇")
     abstract_parser.add_argument("--off", action="store_true", help="强制零 LLM")
+    abstract_parser.add_argument(
+        "--cross",
+        action="store_true",
+        help="跨域抽象 run（独立入口，不与簇内 run 混排；消费 L2 条目数 / 簇内 run 数阈值）",
+    )
     abstract_parser.add_argument("--dry-run", action="store_true", help="只打印决策，不落盘")
     abstract_parser.add_argument("--json", action="store_true")
     abstract_parser.set_defaults(handler=_cmd_abstract)
@@ -206,6 +214,18 @@ def _build_parser() -> argparse.ArgumentParser:
         "--check", action="store_true", help="只比对不写盘，给出差异清单，退出码恒 0"
     )
     site_parser.set_defaults(handler=_cmd_site)
+
+    retention_parser = sub.add_parser(
+        "retention", parents=[common], help="缓存层保留策略（默认 dry-run，--apply 才实际清理）"
+    )
+    retention_parser.add_argument("--as-of", dest="as_of", default=None)
+    retention_parser.add_argument(
+        "--apply",
+        action="store_true",
+        help="实际归档缓存层文件；缺省只规划不写盘（dry_run=True）",
+    )
+    retention_parser.add_argument("--json", action="store_true")
+    retention_parser.set_defaults(handler=_cmd_retention)
 
     return parser
 
@@ -610,14 +630,24 @@ def _cmd_abstract(args: argparse.Namespace) -> int:
     config = Config.load(Path(args.root))
     as_of = _abstract_as_of(config, args.as_of)
     caller = None if args.off else CachedModelCaller(LlmModelCaller(config), config.layout)
-    result = cluster_run(
-        config,
-        as_of=as_of,
-        cluster=args.cluster,
-        caller=caller,
-        off=args.off,
-        write=not args.dry_run,
-    )
+    if args.cross:
+        # 跨域 run：独立入口，不传 cluster；消费 L2 条目数 / 簇内 run 数阈值
+        result = cross_domain_run(
+            config,
+            as_of=as_of,
+            caller=caller,
+            off=args.off,
+            write=not args.dry_run,
+        )
+    else:
+        result = cluster_run(
+            config,
+            as_of=as_of,
+            cluster=args.cluster,
+            caller=caller,
+            off=args.off,
+            write=not args.dry_run,
+        )
     record = result.record
     if args.json:
         print(stable_json(record.to_json()))
@@ -648,10 +678,18 @@ def _cmd_abstract(args: argparse.Namespace) -> int:
     for warning in record.warnings:
         print(f"  ⚠ {warning}")
     if record.status == "insufficient_samples":
-        print(
-            f"  ★ 首次真实抽象未触发，原因：样本不足 S1 阈值 "
-            f"{config.abstract.cluster_min_new_projects}（本轮产 0 条，真源纯净）"
-        )
+        if record.type == TYPE_CROSS_DOMAIN:
+            print(
+                "  ★ 跨域抽象未触发，原因：无真实 L2 条目或跨域阈值未达 "
+                f"（L2 ≥ {config.abstract.cross_domain_min_l2_entries} / 每 "
+                f"{config.abstract.cross_domain_every_cluster_runs} 次簇内 run）"
+                "（本轮产 0 条，真源纯净）"
+            )
+        else:
+            print(
+                f"  ★ 首次真实抽象未触发，原因：样本不足 S1 阈值 "
+                f"{config.abstract.cluster_min_new_projects}（本轮产 0 条，真源纯净）"
+            )
     if args.dry_run:
         print("  [dry-run] 未落盘（run 记录 / 规律库 / 台账均未写）")
     else:
@@ -692,6 +730,49 @@ def _cmd_site(args: argparse.Namespace) -> int:
     print("  零 LLM / 零网络：本命令不构造任何 HTTP 客户端，不发起请求（增量成本 ¥0）")
     if plan.empty_note:
         print(f"  ⚠ {plan.empty_note}")
+    return 0
+
+
+# --------------------------------------------------------------------------- T5 缓存保留策略
+
+
+def _cmd_retention(args: argparse.Namespace) -> int:
+    config = Config.load(Path(args.root))
+    as_of = _optional_instant(args.as_of) or SystemClock().now()
+    result = apply_retention(config.layout, config, as_of, dry_run=not args.apply)
+    if args.json:
+        print(
+            stable_json(
+                {
+                    "as_of": fmt_iso(as_of),
+                    "dry_run": result.dry_run,
+                    "cache_files": list(result.cache_files),
+                    "unique_objects": list(result.unique_objects),
+                    "duplicate_files": list(result.duplicate_files),
+                    "archived": list(result.archived),
+                    "protected": list(result.protected),
+                    "bytes_reclaimable": result.bytes_reclaimable,
+                }
+            )
+        )
+        return 0
+    mode = "dry-run（未写盘）" if result.dry_run else "apply（已归档）"
+    print(f"缓存保留策略：{mode}  基准时间 {fmt_iso(as_of)}")
+    print(
+        f"  缓存文件 {len(result.cache_files)} · 唯一对象 {len(result.unique_objects)} · "
+        f"重复 {len(result.duplicate_files)}"
+    )
+    print(f"  归档 {len(result.archived)} 个 · 可回收 {result.bytes_reclaimable} B")
+    print(f"  受保护真源 / 派生基线 {len(result.protected)} 个")
+    for item in result.archived:
+        print(f"    - {item}")
+    if result.dry_run:
+        print("  ★ 默认 dry-run，不写盘；显式 --apply 才实际移动缓存层文件")
+    else:
+        print(
+            "  ★ 仅归档 src/ 与 llm_cache/；external/ · 三个 jsonl · "
+            "patterns/ · reports/ · costs/ · site/ 均未触碰"
+        )
     return 0
 
 

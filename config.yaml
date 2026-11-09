@@ -53,7 +53,7 @@ depth:
     classic: strong
     watchlist: strong
 
-# T5：缓存层保留策略（按可再生性分层，设计方案 v1.3 §8.2 为唯一权威）
+# T5：缓存层保留策略（按可再生性分层，设计方案 v1.5 §8.2 为唯一权威）
 # 只作用于 src/（源码切片）与 data/llm_cache/；external/ 与三个 jsonl 真源永不触碰
 retention:
   enabled: true
@@ -108,7 +108,7 @@ domains:
   - id: training
     match_any: [training, deepspeed, megatron, trainer]
 
-# L3 / S1 四项触发阈值（规律库与范围配置 §E；设计方案 v1.4 §10 精确化为簇内 ≥6）
+# L3 / S1 四项触发阈值（规律库与范围配置 §E；设计方案 v1.5 §10 精确化为簇内 ≥6）
 abstract:
   cluster_min_new_projects: 6           # 同 domain.id 簇自上次抽象 run 以来新增真实项目数
   cross_domain_min_l2_entries: 8        # L2 条目数达此值触发跨域抽象

@@ -43,6 +43,7 @@ from .patterns import (
     needs_reconcile,
     recall,
     save_library,
+    should_cross_domain,
 )
 from .util import (
     append_jsonl,
@@ -68,6 +69,7 @@ TYPE_RECONCILE = "reconcile"
 TYPE_CROSS_DOMAIN = "cross-domain"
 
 ABSTRACT_REPO = "<abstract>"
+CROSS_DOMAIN_CLUSTER = "<cross-domain>"
 
 
 # --------------------------------------------------------------------------- run 记录
@@ -591,6 +593,198 @@ def cluster_run(
         trigger=trigger,
         input_projects=input_projects,
         input_patterns=tuple(sorted(entry.id for entry in entries)),
+        ops=ops,
+        llm_calls=llm_calls,
+        created_at=fmt_iso(as_of),
+        status=status,
+        self_check=self_check,
+        warnings=tuple(warnings),
+        produced_patterns=produced,
+    )
+    appended = append_run(layout, record) if write else False
+    return RunResult(
+        record=record,
+        entries=final_entries,
+        recall_result=recall_result,
+        appended=appended,
+        warnings=tuple(warnings),
+    )
+
+
+# --------------------------------------------------------------------------- 跨域抽象（Q5 / T2）
+
+
+def _completed_cluster_runs(history: Sequence[RunRecord]) -> int:
+    """已完成的簇内增量 run 数（不含 reconcile / 跨域 / 未达阈值）。"""
+    return sum(
+        1 for item in history if item.type == TYPE_CLUSTER and item.status == STATUS_COMPLETED
+    )
+
+
+def cross_domain_run(
+    config: Config,
+    *,
+    as_of: datetime,
+    caller: ModelCaller | None = None,
+    off: bool = False,
+    write: bool = True,
+) -> RunResult:
+    """跨域抽象 run（L3）。**独立入口，不与簇内 run 混排**（`--cross` 显式调用）。
+
+    ★ 触发判定消费 `cross_domain_min_l2_entries`（8）与 `cross_domain_every_cluster_runs`（4），
+      经 `should_cross_domain` 汇总（helper 由此进入生产调用链，不再只被单测调用）。
+    ★ 输入 = L2 **结构化摘要**（`l2_summary`），不重喂全量项目；无真实 L2 条目时
+      `insufficient_samples` 合法终态、产 0 条、0 次 LLM（真源纯净，不伪造条目凑数）。
+    ★ `budget_gate`（`estimate_safety_factor`）与 `off` 零 LLM 与簇内路径一致；
+      `CachedModelCaller` 由调用方注入，命中不重复调用。
+    ★ 所有时间来自 `as_of`；同输入派生同一 run_id → 可重放。
+    """
+    layout = config.layout
+    entries = load_library(layout.library_patterns)
+    history = load_runs(layout)
+
+    l2_entries = [e for e in entries if e.level == "L2" and e.status != "falsified"]
+    cluster_runs = _completed_cluster_runs(history)
+    min_entries = config.abstract.cross_domain_min_l2_entries
+    every_runs = config.abstract.cross_domain_every_cluster_runs
+    triggered = should_cross_domain(
+        len(l2_entries), cluster_runs, min_entries=min_entries, every_runs=every_runs
+    )
+
+    input_patterns = tuple(sorted(e.id for e in l2_entries))
+    input_projects: tuple[str, ...] = ()  # 跨域 run 不重喂全量项目
+    summary = l2_summary(entries)
+    trigger = (
+        f"L2 条目 {len(l2_entries)} (>= {min_entries}) / 簇内 run {cluster_runs} (每 {every_runs})"
+    )
+    run_id = run_id_for(
+        run_type=TYPE_CROSS_DOMAIN,
+        cluster=CROSS_DOMAIN_CLUSTER,
+        as_of=as_of,
+        projects=input_patterns,
+    )
+
+    replay = next((item for item in history if item.run_id == run_id), None)
+    if replay is not None:
+        return RunResult(
+            record=replay,
+            entries=entries,
+            recall_result=RecallResult(rows=(), candidates=()),
+            appended=False,
+            warnings=("同一 run_id 已存在 → 重放，未重复调用模型",),
+        )
+
+    recall_result = RecallResult(rows=(), candidates=())
+    self_check = build_self_check(entries, recall_result.candidates)
+
+    warnings: list[str] = []
+    warnings.extend(self_check.warnings)
+    ops: tuple[Op, ...] = ()
+    llm_calls = 0
+    status = STATUS_INSUFFICIENT
+    produced: tuple[str, ...] = ()
+    final_entries = entries
+
+    if not l2_entries:
+        warnings.append("无真实 L2 条目 → 跨域抽象未触发（真源纯净，不伪造条目凑数）")
+        warnings.append("本轮产 0 条、0 次 LLM；跨域阈值与闸门链路仍已验证")
+    elif not triggered:
+        warnings.append(f"跨域阈值未达：{trigger}")
+        warnings.append("本轮产 0 条、0 次 LLM；未达阈值属合法终态")
+    else:
+        estimated = estimate_tokens(_abstract_user(summary, input_projects))
+        allowed, gate_reason = budget_gate(config, as_of=as_of, estimated_prompt_tokens=estimated)
+        if not allowed:
+            status = STATUS_BUDGET_BLOCKED
+            warnings.append(f"预算闸门拦截：{gate_reason}")
+            if write:
+                record_event(
+                    layout,
+                    _cost_event(
+                        event=EVENT_BLOCKED,
+                        run_id=run_id,
+                        as_of=as_of,
+                        model="",
+                        prompt_tokens=0,
+                        completion_tokens=0,
+                        cache_hit_tokens=0,
+                        reason=f"budget_blocked: {gate_reason}",
+                        purpose=TYPE_CROSS_DOMAIN,
+                        estimated_cost=None,
+                    ),
+                )
+        elif off or caller is None:
+            status = STATUS_NO_CREDENTIALS
+            warnings.append("off 档 / 无凭据 → 零 LLM，跨域 run 未发起调用")
+            if write:
+                record_event(
+                    layout,
+                    _cost_event(
+                        event=EVENT_DOWNGRADE,
+                        run_id=run_id,
+                        as_of=as_of,
+                        model="",
+                        prompt_tokens=0,
+                        completion_tokens=0,
+                        cache_hit_tokens=0,
+                        reason="off / no_credentials",
+                        purpose=TYPE_CROSS_DOMAIN,
+                        estimated_cost=None,
+                    ),
+                )
+        else:
+            result = caller(system=_abstract_system(), user=_abstract_user(summary, input_projects))
+            llm_calls = result.calls
+            ops = result.ops
+            model = result.model or config.model_for("fast")
+            cost = estimate_cost(
+                config,
+                model=model,
+                prompt_tokens=result.prompt_tokens,
+                completion_tokens=result.completion_tokens,
+                cache_hit_tokens=result.cache_hit_tokens,
+            )
+            if write:
+                record_event(
+                    layout,
+                    _cost_event(
+                        event=EVENT_CACHE_HIT if result.status == "cache_hit" else EVENT_CALL,
+                        run_id=run_id,
+                        as_of=as_of,
+                        model=model,
+                        prompt_tokens=result.prompt_tokens,
+                        completion_tokens=result.completion_tokens,
+                        cache_hit_tokens=result.cache_hit_tokens,
+                        reason=result.reason or result.status,
+                        purpose=TYPE_CROSS_DOMAIN,
+                        estimated_cost=cost,
+                    ),
+                )
+            if result.status in ("ok", "cache_hit") and ops:
+                final_entries, op_warnings = apply_ops(entries, ops)
+                warnings.extend(op_warnings)
+                try:
+                    assert_storable(final_entries)
+                except PatternError as exc:
+                    warnings.append(f"ops 产物被拒（真源未写）：{exc}")
+                    final_entries, ops, status = entries, (), STATUS_DEGRADED
+                else:
+                    produced = tuple(sorted({op.id for op in ops if op.op == "add"}))
+                    status = STATUS_COMPLETED
+                    if write:
+                        save_library(layout.library_patterns, final_entries)
+                        append_ops(layout.ops_jsonl, run_id, ops)
+            else:
+                status = STATUS_DEGRADED
+                warnings.append(f"模型输出判废/不可用：{result.reason or result.status}")
+
+    record = RunRecord(
+        run_id=run_id,
+        type=TYPE_CROSS_DOMAIN,
+        cluster=CROSS_DOMAIN_CLUSTER,
+        trigger=trigger,
+        input_projects=input_projects,
+        input_patterns=input_patterns,
         ops=ops,
         llm_calls=llm_calls,
         created_at=fmt_iso(as_of),

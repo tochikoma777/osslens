@@ -85,6 +85,7 @@ class ReportDoc:
     price_line: str
     cost_line: str
     text: str
+    paradigm_tags: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -110,6 +111,26 @@ def _meta_rows(text: str) -> dict[str, str]:
     return rows
 
 
+# 报告洞见段里由 render.py 写出的「- 架构范式标签：」行（受控词表，顿号分隔）。
+_TAG_LINE = re.compile(r"^-\s*架构范式标签：(.+)$")
+
+
+def _report_paradigm_tags(text: str) -> tuple[str, ...]:
+    """从报告洞见段解析架构范式标签；只认受控词表内的值（确定性，绝不猜）。"""
+    from .llm import PARADIGM_TAGS  # 局部导入：与 prompt/schema 单一真源
+
+    found: set[str] = set()
+    for line in text.splitlines():
+        match = _TAG_LINE.match(line.strip())
+        if not match:
+            continue
+        for tag in re.split(r"[、,，/\s]+", match.group(1)):
+            cleaned = tag.strip()
+            if cleaned in PARADIGM_TAGS:
+                found.add(cleaned)
+    return tuple(sorted(found))
+
+
 def load_reports(layout: Layout) -> tuple[ReportDoc, ...]:
     docs: list[ReportDoc] = []
     for path in sorted(layout.reports_dir.glob("*.md")):
@@ -124,6 +145,7 @@ def load_reports(layout: Layout) -> tuple[ReportDoc, ...]:
                 price_line=meta.get("单价", ""),
                 cost_line=meta.get("成本说明", ""),
                 text=text,
+                paradigm_tags=_report_paradigm_tags(text),
             )
         )
     return tuple(sorted(docs, key=lambda item: (item.repo, item.as_of, item.stem)))
@@ -303,6 +325,9 @@ _NAV_ITEMS = (
     ("规律库", "patterns.html"),
     ("成本", "costs.html"),
     ("抽象 run", "runs.html"),
+    ("检索", "search.html"),
+    ("范式标签", "tags.html"),
+    ("并排对比", "compare.html"),
     ("索引(MD)", "index.md"),
 )
 
@@ -433,6 +458,17 @@ def _render_index_html(
                     (_raw('<a href="patterns.html">规律库</a>'), str(pattern_count), "只读真源"),
                     (_raw('<a href="costs.html">成本</a>'), "—", "D10 口径 / 全局台账"),
                     (_raw('<a href="runs.html">抽象 run</a>'), str(run_count), "run 记录九字段"),
+                    (
+                        _raw('<a href="search.html">检索</a>'),
+                        str(report_count),
+                        "本地静态索引 / 关键词",
+                    ),
+                    (_raw('<a href="tags.html">范式标签</a>'), "—", "paradigm_tags 静态过滤"),
+                    (
+                        _raw('<a href="compare.html">并排对比</a>'),
+                        str(featcard_count),
+                        "2–3 张特征卡并排",
+                    ),
                 ),
             ),
             f'<div class="empty">{html.escape(empty_note)}</div>'
@@ -653,6 +689,174 @@ def _render_costs(
 # --------------------------------------------------------------------------- 构建 / 写盘 / 比对
 
 
+# --------------------------------------------------------------------------- Q2 静态三能力（T3）
+
+
+def _tag_anchor(tag: str) -> str:
+    """标签 → 站内锚点 id（确定性，转义后仅保留安全字符）。"""
+    import hashlib
+
+    return "tag-" + hashlib.sha256(tag.encode("utf-8")).hexdigest()[:10]
+
+
+def _render_search(
+    reports: Sequence[ReportDoc], featcards: Sequence[FeatcardDoc]
+) -> tuple[str, str]:
+    """检索：预生成本地索引（HTML 锚点 + JSON 数据），零脚本、零外部依赖。
+
+    - ``search.html``：按仓库名 / 关键词的**静态**可查索引，站内锚点跳转；
+      关键词 = 仓库名片段 + 架构范式标签 + 实际档位（全部来自真源，不猜）。
+    - ``search-index.json``：可脱离站点阅读的本地 JSON 索引（MD/JSON，无外部依赖）。
+    ★ 无 <script> / 无 JS / 无网络：用浏览器自带的页内查找或锚点即可定位。
+    """
+    rows: list[dict[str, Any]] = []
+    for doc in reports:
+        keywords = sorted(
+            {part for part in re.split(r"[/_\-.]+", doc.repo) if part and len(part) > 1}
+            | set(doc.paradigm_tags)
+            | ({doc.depth} if doc.depth and doc.depth != "—" else set())
+        )
+        rows.append(
+            {
+                "repo": doc.repo,
+                "as_of": doc.as_of,
+                "depth": doc.depth,
+                "paradigm_tags": list(doc.paradigm_tags),
+                "keywords": keywords,
+                "url": f"report-{doc.stem}.html",
+            }
+        )
+    index_json = json.dumps({"entries": rows}, ensure_ascii=False, sort_keys=True) + "\n"
+
+    body_rows = [
+        (
+            _raw(f'<a href="{html.escape(row["url"])}">{html.escape(row["repo"])}</a>'),
+            row["as_of"] or "—",
+            row["depth"],
+            "、".join(row["paradigm_tags"]) or "—",
+            "、".join(row["keywords"]) or "—",
+        )
+        for row in rows
+    ]
+    # 关键词 → 仓库的静态倒排（锚点分组），确定性排序
+    inverted: dict[str, list[str]] = {}
+    for row in rows:
+        for keyword in row["keywords"]:
+            inverted.setdefault(keyword, []).append(row["repo"])
+    keyword_lines = [
+        f"<li><strong>{html.escape(kw)}</strong>："
+        + "、".join(html.escape(repo) for repo in sorted(set(repos)))
+        + "</li>"
+        for kw, repos in sorted(inverted.items())
+    ]
+    body = "\n".join(
+        [
+            '<p class="note">纯静态本地索引（零脚本 / 零网络 / 无外部依赖）。'
+            "可用浏览器页内查找按仓库名或关键词定位；下方并附关键词倒排与 "
+            '<a href="search-index.json">JSON 索引</a>。</p>',
+            "<h2>按仓库名</h2>",
+            _table(("仓库", "as-of", "档位", "范式标签", "关键词"), body_rows)
+            if body_rows
+            else '<p class="empty">暂无报告（空态，不伪造内容）。</p>',
+            "<h2>按关键词</h2>",
+            "<ul>" + "".join(keyword_lines) + "</ul>" if keyword_lines else "<p>—</p>",
+        ]
+    )
+    return _page("检索 · 本地静态索引", body), index_json
+
+
+def _render_tags(reports: Sequence[ReportDoc]) -> str:
+    """标签过滤：以 paradigm_tags 为数据源的静态列表页（站内锚点，零脚本）。
+
+    ★ 真源纯净：当前若无 fast/strong 报告带范式标签，显示诚实空态，绝不伪造条目（红线 8）。
+    """
+    from .llm import PARADIGM_TAGS
+
+    by_tag: dict[str, list[ReportDoc]] = {}
+    for doc in reports:
+        for tag in doc.paradigm_tags:
+            by_tag.setdefault(tag, []).append(doc)
+
+    # 词表全量（含 0 条的标签）作为可枚举的过滤维度，计数来自真源
+    tag_rows = [
+        (
+            _raw(f'<a href="#{_tag_anchor(tag)}">{html.escape(tag)}</a>'),
+            str(len(by_tag.get(tag, []))),
+        )
+        for tag in sorted(PARADIGM_TAGS)
+    ]
+    sections: list[str] = []
+    for tag in sorted(PARADIGM_TAGS):
+        docs = sorted(by_tag.get(tag, []), key=lambda item: (item.repo, item.as_of))
+        links = "".join(
+            f'<li><a href="report-{html.escape(doc.stem)}.html">'
+            f"{html.escape(doc.repo)}</a>（{html.escape(doc.as_of or '—')}）</li>"
+            for doc in docs
+        )
+        sections.append(
+            f'<h2 id="{_tag_anchor(tag)}">{html.escape(tag)}</h2>'
+            + (f"<ul>{links}</ul>" if links else '<p class="empty">该标签下暂无报告。</p>')
+        )
+
+    total = sum(len(v) for v in by_tag.values())
+    head = (
+        f'<p class="note">数据源 = 报告洞见段的 <code>paradigm_tags</code>（受控词表，'
+        f"共 {len(PARADIGM_TAGS)} 个标签 / {total} 次标注）。纯静态锚点过滤，零脚本。</p>"
+    )
+    empty = (
+        '<div class="empty">当前无 fast/strong 报告带架构范式标签（现有报告多为 off 档，'
+        "洞见位为 —）。标签体系与过滤页已预生成，待带标签的报告接入后自动填充；不伪造条目。</div>"
+        if total == 0
+        else ""
+    )
+    body = "\n".join(
+        [
+            head,
+            empty,
+            "<h2>标签总览</h2>",
+            _table(("标签", "报告数"), tag_rows),
+            *sections,
+        ]
+    )
+    return _page("范式标签 · 静态过滤", body)
+
+
+def _render_compare(featcards: Sequence[FeatcardDoc]) -> str:
+    """并排对比：选 2–3 个项目特征卡的静态并排表（纯 HTML，零脚本 / 零网络）。
+
+    取按 repo 稳定排序后的前 3 张特征卡（确定性，不随机、不读运行时钟）。
+    """
+    picks = sorted(featcards, key=lambda item: (item.repo, item.commit))[:3]
+    if len(picks) < 2:
+        return _page(
+            "并排对比",
+            '<p class="empty">可用特征卡不足 2 张，无法并排对比（空态，不伪造内容）。</p>',
+        )
+    rows: list[Sequence[str]] = [
+        ("仓库", *[card.repo for card in picks]),
+        ("commit", *[card.commit[:12] or "—" for card in picks]),
+        ("analyzed_at", *[card.analyzed_at or "—" for card in picks]),
+        ("通道", *[card.channel or "—" for card in picks]),
+        ("stars", *[str(card.stars) for card in picks]),
+        (
+            "代码证据条数",
+            *[str(len(card.evidence)) for card in picks],
+        ),
+        (
+            "代码证据 file:line",
+            *[_raw("<br>".join(html.escape(p) for p in card.evidence) or "—") for card in picks],
+        ),
+    ]
+    body = "\n".join(
+        [
+            '<p class="note">纯静态并排对比（取按仓库名排序的前 '
+            f"{len(picks)} 张特征卡，确定性）；零脚本 / 零网络 / 无外部依赖。</p>",
+            _table(("字段", *[f"项目 {i + 1}" for i in range(len(picks))]), rows),
+        ]
+    )
+    return _page("并排对比 · 特征卡", body)
+
+
 def build_site(config: Config, *, as_of: datetime) -> SitePlan:
     """纯构建：只读真源 → 内存中的静态文件集合。不写盘、不发请求。"""
     layout = config.layout
@@ -665,6 +869,7 @@ def build_site(config: Config, *, as_of: datetime) -> SitePlan:
 
     run_page, run_rows = _render_runs(runs, note)
     reports_page, report_pages = _render_reports(reports)
+    search_page, search_index = _render_search(reports, featcards)
     files: dict[str, str] = {
         "index.md": _render_index_md(
             as_of=as_of_text,
@@ -687,6 +892,10 @@ def build_site(config: Config, *, as_of: datetime) -> SitePlan:
         "patterns.html": _render_patterns(entries, note),
         "costs.html": _render_costs(config, as_of=as_of, reports=reports),
         "runs.html": run_page,
+        "search.html": search_page,
+        "search-index.json": search_index,
+        "tags.html": _render_tags(reports),
+        "compare.html": _render_compare(featcards),
         **report_pages,
     }
     return SitePlan(

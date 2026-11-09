@@ -30,6 +30,34 @@ CHARS_PER_TOKEN = 4
 MAX_CONTEXT_FILES = 6
 MAX_CONTEXT_FILE_CHARS = 6000
 
+# 架构范式标签**受控词表**（设计方案 §3.3 L1 schema / §4.4 三条模式轴）。
+# 模型只能从此表选；parse_insight / validate_insight 会过滤表外值，保证确定性与可枚举。
+PARADIGM_TAGS: frozenset[str] = frozenset(
+    {
+        "通用优先",
+        "专用优化",
+        "广适配",
+        "深优化",
+        "社区治理",
+        "厂商主导",
+        "缓存复用",
+        "并行切分",
+        "内核融合",
+        "硬件耦合",
+        "模块化",
+        "单体内核",
+    }
+)
+
+
+def normalize_paradigm_tags(raw: Any) -> tuple[str, ...]:
+    """只保留受控词表内的标签，排序去重（确定性；模型自由文本一律丢弃）。
+
+    兼容 list（JSON 解析）与 tuple（Insight 字段），不依赖 as_list（它只认 list）。
+    """
+    values = raw if isinstance(raw, (list, tuple)) else []
+    return tuple(sorted({item for item in (as_str(x) for x in values) if item in PARADIGM_TAGS}))
+
 
 @dataclass(frozen=True)
 class Usage:
@@ -108,12 +136,16 @@ class Insight:
     items: tuple[InsightItem, ...]
     confidence: str
     dropped: tuple[str, ...]
+    # L1 语义层：架构范式标签（受控词表 PARADIGM_TAGS 内，确定性排序）。
+    # 末尾带默认值，保护 `Insight(items, confidence, dropped)` 位置构造。
+    paradigm_tags: tuple[str, ...] = ()
 
     def to_json(self) -> dict[str, Any]:
         return {
             "items": [item.to_json() for item in self.items],
             "confidence": self.confidence,
             "dropped": list(self.dropped),
+            "paradigm_tags": list(self.paradigm_tags),
         }
 
     @classmethod
@@ -133,6 +165,7 @@ class Insight:
             ),
             confidence=as_str(payload.get("confidence"), "low"),
             dropped=tuple(as_str(item) for item in as_list(payload.get("dropped"))),
+            paradigm_tags=normalize_paradigm_tags(payload.get("paradigm_tags")),
         )
 
 
@@ -320,6 +353,7 @@ def parse_insight(content: str, *, max_tokens: int, usage: Usage) -> Insight | N
         items=tuple(items),
         confidence=as_str(as_dict(payload).get("confidence"), "low"),
         dropped=(),
+        paradigm_tags=normalize_paradigm_tags(as_dict(payload).get("paradigm_tags")),
     )
 
 
@@ -339,7 +373,12 @@ def validate_insight(insight: Insight, *, allowed_paths: set[str]) -> Insight:
             dropped.append(f"{item.id}: 字段不完整")
             continue
         kept.append(item)
-    return Insight(items=tuple(kept), confidence=insight.confidence, dropped=tuple(dropped))
+    return Insight(
+        items=tuple(kept),
+        confidence=insight.confidence,
+        dropped=tuple(dropped),
+        paradigm_tags=normalize_paradigm_tags(insight.paradigm_tags),
+    )
 
 
 def cache_path(layout: Layout, key: str) -> Path:
