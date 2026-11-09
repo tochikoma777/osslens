@@ -58,7 +58,7 @@ python -m osslens abstract [--as-of ISO] [--cluster ID] [--cross] [--off] [--dry
 python -m osslens retention [--as-of ISO] [--apply] [--json]
                                         # T5 缓存保留策略（dry_run 默认；--apply 才归档 src/ 与 llm_cache/）
 python -m osslens site [--out DIR] [--as-of ISO] [--check]
-                                        # L4 静态只读站点（零 LLM / 零网络 / ¥0；19 产物含 search/tags/compare）
+                                        # L4 静态只读站点（零 LLM / 零网络 / ¥0；20 产物含 search/tags/compare）
 ```
 
 全局参数 `--root DIR`：所有子命令共用，指定工作区根目录（默认当前目录，`cli.py:135`）。
@@ -336,7 +336,7 @@ site/                                              # L4 静态站（★ 可重�
 |---|---|---|
 | `patterns/`（library.yaml / ops.jsonl）· `data/ledger` · `data/pool` · `data/costs` · `data/abstract/runs.jsonl` | **真源** | append-only；旧 ID 保留 alias；删除先列清单 + 停下等确认 |
 | `reports/` | ★ **确定性 regenerate 产物**（S2 / 设计方案 v1.5 §8.2 精确化，**非 append-only**） | 同一 `(repo, as-of)` 换档位重跑**允许覆盖**：内容由快照 + 特征卡确定性重建，历史由 git tag 兜底；文件名 / 幂等键 / render / cli 路径均不变 |
-| `site/`（19 个产物） | ★ **可重建的派生基线**（v1.5 精确化，**入库**，非真源） | 由 5 类真源确定性渲染；`site --check` 需与**已提交**基线比对；真源变更后须重跑 `site` 并提交，`--check` 给差异清单；**不得手写编辑产物**（D32=A） |
+| `site/`（20 个产物） | ★ **可重建的派生基线**（v1.5 精确化，**入库**，非真源） | 由 5 类真源确定性渲染；`site --check` 需与**已提交**基线比对；真源变更后须重跑 `site` 并提交，`--check` 给差异清单；**不得手写编辑产物**（D32=A） |
 | `data/snapshots/**/external/`（deepwiki.json / source.txt / sha256） | ★ **不可再生真源** | 外部索引状态错过不可复现，带来源四元组（红线 #13）→ **不删、不覆盖** |
 | `data/snapshots/**/src/`（源码切片 + manifest.json） | **可再生缓存** | 按 commit 从 codeload tarball 可重拉 → 可丢弃、可去重、可归档清理 |
 | `data/featcards/` · `data/llm_cache/` · 任何 DB 索引 | **可再生缓存** | 可丢弃、可重建 |
@@ -360,7 +360,7 @@ site/                                              # L4 静态站（★ 可重�
 | **L4** ✅ | 静态只读站点（零后端 / 零 LLM / 零网络 / ¥0） | 由 MD + JSON 生成，无后端；15 个产物（当时）、`site --check` 一致、同 as-of 字节一致、空态如实、**本阶段 ¥0**；134 测试（当时） |
 | **收尾** ✅ | 全景定稿：`docs/功能总览.md` / 经验固化结构化索引 / D19 口径定稿 / 文档回填 | 功能总览七部分齐全、数字可回溯；门禁四连全绿、`site --check` 一致；零 LLM / 零网络 / 本阶段 ¥0；收尾时未打 tag / 未 push（D31 后续已执行） |
 | **D31 发布接线** ✅ | 私有远端可验证：私有空仓 / remote / push / 真实 Actions run | 建私有仓库 `tochikoma777/osslens`；只推 main（不推 tag，远端 tag 0）；run #2 `42455959308` **Success**；cron 当时未启用（Gate 3 待授权） |
-| **实现轮 v1.0** ✅ | cron 启用 · retention 接线 · 跨域抽象 · paradigm_tags · 静态三能力 | 157 测试 / validate 13·13 / `site --check` 一致（19 产物）；本地打 `l5` 不推远端 tag |
+| **实现轮 v1.0** ✅ | cron 启用 · retention 接线 · 跨域抽象 · paradigm_tags · 静态三能力 | 157 测试 / validate 13·13 / `site --check` 一致（20 产物）；端到端 ①→⑧ 各跑一次（run #3 Success / `pool eligible` 4 候选 / off 分析 / 抽象与跨域空态）；本地打 `l5` 不推远端 tag |
 
 > ★ L2 局限（历史，D18=A 不翻案）：actionlint 未安装，走降级静态校验。D31 后已有真实 Actions run #2 Success（但只证明调度链路通，不等于 8 周无人值守自动编排已跑通）。
 > ★ 发布状态：已建私有 remote `origin` 并 push `main`；D31 只推 main、远端 tag 0；本地 `l0`–`l4` 冻结、`l5` 本地打不推。

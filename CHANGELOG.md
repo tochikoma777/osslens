@@ -11,7 +11,7 @@
 - `retention` CLI 生产命令（默认 dry-run；`--apply` 才归档；`protected_paths` 白名单含 `site/`、`external/`、三 jsonl、`patterns/`、`reports/`、`config.yaml`）。
 - 跨域抽象 `abstract --cross`：独立入口（不与簇内 run 混排），消费 `cross_domain_min_l2_entries`（8）与 `cross_domain_every_cluster_runs`（4），`TYPE_CROSS_DOMAIN` 投入使用，run 记录沿用九字段，`budget_gate` / `off` / `CachedModelCaller` 同样生效。
 - `paradigm_tags`：`llm.py` 受控词表 + `Insight.paradigm_tags`，同步 prompt / 校验 / 缓存键（schema 版本随 system 文本变化自动失效）；报告「洞见」段新增「架构范式标签」行。
-- 站点纯预生成三能力（零脚本 / 零外部 JS·CDN / 零网络）：`search.html` + `search-index.json`（关键词检索）、`tags.html`（按 `paradigm_tags` 静态分组）、`compare.html`（2–3 张特征卡并排）；`index.html` nav 与首页表补入口。产物 15 → **19**。
+- 站点纯预生成三能力（零脚本 / 零外部 JS·CDN / 零网络）：`search.html` + `search-index.json`（关键词检索）、`tags.html`（按 `paradigm_tags` 静态分组）、`compare.html`（2–3 张特征卡并排）；`index.html` nav 与首页表补入口。产物 15 → **19**（端到端演练新增 1 份报告页后为 **20**）。
 - 新增测试：`test_retention_cli.py`（2）· `test_cross_domain.py`（9）· `test_paradigm_site.py`（10）；全量 136 → **157**。
 
 ### 变更
