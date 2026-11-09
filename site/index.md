@@ -1,6 +1,6 @@
 # osslens 静态站点索引
 
-- 基准时间 (as-of)：2026-11-06T00:00:00Z
+- 基准时间 (as-of)：2026-11-09T00:00:00Z
 - 产物：纯静态 HTML/MD；无后端、无外部 JS/CDN、零 LLM、零网络
 - 真源：`reports/*.md` · `data/featcards/` · `patterns/library.yaml` · `data/costs/costs.jsonl` · `data/abstract/runs.jsonl`（站点只读）
 
@@ -22,6 +22,7 @@
 | 仓库 | 基准时间 (as-of) | 实际档位 | 报告 |
 |---|---|---|---|
 | InternLM/lmdeploy | 2026-11-06T00:00:00Z | off | [报告页](report-InternLM__lmdeploy__2026-11-06.html) · [源 MD](../reports/InternLM__lmdeploy__2026-11-06.md) |
+| InternLM/lmdeploy | 2026-11-09T00:00:00Z | off | [报告页](report-InternLM__lmdeploy__2026-11-09.html) · [源 MD](../reports/InternLM__lmdeploy__2026-11-09.md) |
 | ModelTC/lightllm | 2026-11-06T00:00:00Z | off | [报告页](report-ModelTC__lightllm__2026-11-06.html) · [源 MD](../reports/ModelTC__lightllm__2026-11-06.md) |
 | deepseek-ai/DeepEP | 2026-11-02T00:00:00Z | off（降级：未配置 LLM 凭据（api_key / base_url / model 缺一）） | [报告页](report-deepseek-ai__DeepEP__2026-11-02.html) · [源 MD](../reports/deepseek-ai__DeepEP__2026-11-02.md) |
 | deepseek-ai/DeepEP | 2026-11-03T00:00:00Z | strong | [报告页](report-deepseek-ai__DeepEP__2026-11-03.html) · [源 MD](../reports/deepseek-ai__DeepEP__2026-11-03.md) |
@@ -34,7 +35,7 @@
 
 | 仓库 | commit | 通道 | 代码证据条数 |
 |---|---|---|---|
-| InternLM/lmdeploy | `a0102d47967d` | classic | 0 |
+| InternLM/lmdeploy | `a0102d47967d` | classic | 11 |
 | ModelTC/lightllm | `aadae840d2ee` | classic | 0 |
 | deepseek-ai/DeepEP | `f6aa38fe06cd` | classic | 4 |
 | deepseek-ai/FlashMLA | `395cb3afbb33` | hot | 0 |
@@ -44,10 +45,12 @@
 
 ## 规律库
 
-**规律库尚无条目（首次真实抽象未触发：inference 簇 5 < 6）**
+**规律库尚无条目（首次真实抽象未触发：<cross-domain> 簇 0 < 6）**
 
 ## 抽象 run 记录
 
 | run_id | 类型 | 簇 | 状态 | LLM 调用 |
 |---|---|---|---|---|
+| 32a70b9b5b85fd8c | cluster-abstraction | inference | insufficient_samples | 0 |
+| 37af1a65da342b5f | cross-domain | <cross-domain> | insufficient_samples | 0 |
 | 3f6e4c82e3b95f22 | cluster-abstraction | inference | insufficient_samples | 0 |
