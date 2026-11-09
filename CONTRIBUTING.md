@@ -35,10 +35,12 @@ mypy                     # strict，files = ["osslens"]
 
 ## 数据文件
 
-`data/pool/pool.jsonl` / `data/costs/costs.jsonl` / `data/ledger/selected.jsonl` 是 **append-only 真源**：
+`data/pool/pool.jsonl` / `data/costs/costs.jsonl` / `data/ledger/selected.jsonl` / `data/abstract/runs.jsonl` / `patterns/`（`seed.yaml` / `library.yaml` / `ops.jsonl`）是 **append-only 真源**：
 只追加，不修改、不删除。任何删除类操作先列清单、停下等确认。
 
-`data/featcards/` 与 `site/` 可丢弃、可重建。
+`data/featcards/`、`data/snapshots/**/src/`、`data/llm_cache/` 可丢弃、可重建（可再生缓存）。
+`reports/` 是确定性 regenerate 产物，同 `(repo, as-of)` 换档重跑允许覆盖。
+`site/` 是**可重建的派生基线但入库**（设计方案 v1.5 §8.2 / D32=A）：真源变更后重跑 `site` 并提交，**不得手写编辑产物**。
 
 ## 文档
 

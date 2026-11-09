@@ -2,6 +2,30 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-08 · 实现轮 v1.0（D50 Q1–Q8 落地）
+
+**范围**：cron 恢复 · `retention` 生产接线 · 跨域抽象 · `paradigm_tags` · 纯静态前端三能力 · 文档回填 · 一次端到端演练。本轮 **¥0**（端到端 `analyze --depth off`，零 LLM）。
+
+### 新增
+
+- `retention` CLI 生产命令（默认 dry-run；`--apply` 才归档；`protected_paths` 白名单含 `site/`、`external/`、三 jsonl、`patterns/`、`reports/`、`config.yaml`）。
+- 跨域抽象 `abstract --cross`：独立入口（不与簇内 run 混排），消费 `cross_domain_min_l2_entries`（8）与 `cross_domain_every_cluster_runs`（4），`TYPE_CROSS_DOMAIN` 投入使用，run 记录沿用九字段，`budget_gate` / `off` / `CachedModelCaller` 同样生效。
+- `paradigm_tags`：`llm.py` 受控词表 + `Insight.paradigm_tags`，同步 prompt / 校验 / 缓存键（schema 版本随 system 文本变化自动失效）；报告「洞见」段新增「架构范式标签」行。
+- 站点纯预生成三能力（零脚本 / 零外部 JS·CDN / 零网络）：`search.html` + `search-index.json`（关键词检索）、`tags.html`（按 `paradigm_tags` 静态分组）、`compare.html`（2–3 张特征卡并排）；`index.html` nav 与首页表补入口。产物 15 → **19**。
+- 新增测试：`test_retention_cli.py`（2）· `test_cross_domain.py`（9）· `test_paradigm_site.py`（10）；全量 136 → **157**。
+
+### 变更
+
+- `.github/workflows/pool.yml`：按 D50/Q3 恢复 `on.schedule`（原 cron `17 3 * * *` 原文保留），`workflow_dispatch` 并存；删除「cron 待 Gate 3 授权」旧注释。
+- `scripts/validate_workflow.py`：第 1 项断言由「不含 schedule」反转为「含 schedule」（真实断言，非恒真）；仍 13/13。
+- 文档回填：`README.md` / `CODEBUDDY.md` / `docs/功能总览.md` / `CONTRIBUTING.md` / `config.yaml`（版本引用 v1.3 → v1.5）。
+
+### 说明
+
+- **D18 = A 不翻案**：D31 run #2 Success 只证明调度链路通，不改 L2 收口结论。
+- `patterns/library.yaml` 仍为 `[]`；`abstract` / `abstract --cross` 真实运行仍为 `insufficient_samples` 空态（不伪造条目、不降阈值）。
+- 远端 tag 仍 **0**；本地 `l0`–`l4` 未移动。
+
 ## [Unreleased] - 2026-11-08 · D31 发布接线（#1 Failure → 补丁轮 #2 Success）
 
 **发布接线**：建私有仓库 / remote / 首次 push `main`（`6748b0a`）；**不推 tag**（远端 tag = 0）、不 force、不启用 cron。

@@ -53,10 +53,12 @@ python -m osslens pool eligible [--as-of ISO] [--json]      # 深挖候选（热
 python -m osslens analyze <owner/repo> [--depth auto|off|fast|strong] \
         [--channel ...] [--domain ...] [--as-of ISO] [--dry-run] [--no-ledger] [--no-sources]
 python -m osslens cost [--as-of ISO] [--json]   # 成本台账
-python -m osslens abstract [--as-of ISO] [--cluster ID] [--off] [--dry-run] [--json]
-                                        # L3 规律抽象（S1 阈值 / run 记录 / 零 LLM 召回）
+python -m osslens abstract [--as-of ISO] [--cluster ID] [--cross] [--off] [--dry-run] [--json]
+                                        # L3 规律抽象（S1 阈值 / run 记录 / 零 LLM 召回；--cross = 跨域 run，独立入口不与簇内混排）
+python -m osslens retention [--as-of ISO] [--apply] [--json]
+                                        # T5 缓存保留策略（dry_run 默认；--apply 才归档 src/ 与 llm_cache/）
 python -m osslens site [--out DIR] [--as-of ISO] [--check]
-                                        # L4 静态只读站点（零 LLM / 零网络 / ¥0）
+                                        # L4 静态只读站点（零 LLM / 零网络 / ¥0；19 产物含 search/tags/compare）
 ```
 
 全局参数 `--root DIR`：所有子命令共用，指定工作区根目录（默认当前目录，`cli.py:135`）。
@@ -67,7 +69,7 @@ python -m osslens site [--out DIR] [--as-of ISO] [--check]
 pip install -e ".[dev]"        # 装含 pytest / ruff / mypy / respx 的开发依赖；setuptools 后端，无独立 build 步骤（`build` 未装）
 osslens --help                 # 或 python -m osslens；pyproject.toml [project.scripts] 入口
 
-pytest                         # 全量 134 例（含 tests/test_l3.py 38 条、tests/test_l4.py 20 条）
+pytest                         # 全量 157 例（实现轮 v1.0 后：基线 136 + T1 2 + T2 9 + T3 10；含 tests/test_l3.py 38 条、tests/test_l4.py 20 条）
 pytest tests/test_core.py::test_report_is_byte_identical   # 单测（node id）
 pytest tests/test_l4.py -k "check or empty"               # 按关键字筛
 pytest -m "not network"        # 离线；pyproject.toml 定义 network marker，当前无用例带此标记
@@ -85,11 +87,14 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 ★ `mypy` 的 `files = ["osslens"]`（`pyproject.toml:58`）不含 `scripts/`（也不含 `tests/`）；
 `ruff check .` / `ruff format --check .` 按路径发现文件（`extend-exclude` 仅排 `data/` `reports/` `site/`，`:47`），`scripts/` 在 lint 范围内，`src` 只影响 import 解析、不限制检查范围 → 改 `scripts/` 下脚本时门禁四连的 mypy 侧不覆盖。
 
-**测试分布（134 条）**：`test_core.py` 21（L0 幂等/契约）· `test_l1.py` 23（探测/特征卡/Mermaid）·
+**测试分布（157 条）**：`test_core.py` 21（L0 幂等/契约）· `test_l1.py` 23（探测/特征卡/Mermaid）·
 `test_l2.py` 14（档位/预算/D10/保留）· `test_collect.py` 7（快照/源码切片）· `test_pool.py` 7（打分/观察期）·
 `test_time.py` 4（跨周/跨月时序）· `test_l3.py` 38（召回/四层 schema/ops/编排/成本闸门）·
-`test_l4.py` 20（站点四块/空态/`--check`/幂等/零网络/不展示敏感）。
+`test_l4.py` 20（站点四块/空态/`--check`/幂等/零网络/不展示敏感）·
+`test_workflow_pathspec.py` 2 · `test_retention_cli.py` 2（T1）· `test_cross_domain.py` 9（T2）·
+`test_paradigm_site.py` 10（T3）。
 按领域改代码时优先跑对应文件，收尾仍须门禁四连。
+★ 锚文件 v1.5 §8.2 ⑥③ 记「全仓 136」；本轮新增测试后为 157，须在验收报告上报由负责人升版（**Agent 不自行改锚文件**）。
 
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
@@ -126,13 +131,13 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 | `osslens/featcard.py` | 特征卡 L0 提取、`depgraph_mermaid` | 特征卡证据测试 + Mermaid 渲染检查 |
 | `osslens/depth.py` | **档位四层 + 预算闸门 + Ledger** | `test_no_credentials_falls_back_to_off` / `test_quota_downgrade_is_recorded` / `test_budget_gate_*` |
 | `osslens/patterns.py` | L3 规律库：零 LLM 三态召回（硬 gating + 加权 Jaccard）、四层条目 schema 校验、ops 增量 merge、反例挖掘、自检四问、真源纯净闸 | `pytest tests/test_l3.py` |
-| `osslens/abstract.py` | L3 编排：`cluster_run` / reconcile、run 记录九字段、成本闸门（`estimate_safety_factor`）、跨域 L2 结构化摘要、同输入缓存 | `pytest tests/test_l3.py` |
-| `osslens/site.py` | L4 静态只读站点：MD→HTML、四块呈现、纯 MD `index.md`、空态诚实、`site --check` 差异清单、`Layout.site_dir` | `pytest tests/test_l4.py` |
+| `osslens/abstract.py` | L3 编排：`cluster_run` / reconcile / **`cross_domain_run`（Q5，独立 `--cross` 入口，消费 L2 条目数 + 簇内 run 数阈值）**、run 记录九字段、成本闸门、同输入缓存 | `pytest tests/test_l3.py` / `tests/test_cross_domain.py` |
+| `osslens/site.py` | L4 静态只读站点：MD→HTML、四块呈现、纯 MD `index.md`、空态诚实、`site --check`、Q2 静态三能力（检索 / 范式标签 / 并排对比） | `pytest tests/test_l4.py` / `tests/test_paradigm_site.py` |
 | `osslens/pool.py` | 入池、打分、观察期 | 打分与观察期测试 |
 | `osslens/render.py` | 报告渲染（MD）、`D10_WORDING` 常量 | `test_report_is_byte_identical` / `test_report_carries_d10_wording_and_five_sections` |
-| `osslens/llm.py` | LLM 客户端、结构阶梯、判废、结果缓存、上下文裁剪、`Usage.reasoning_tokens` | `test_llm_*` / `test_context_drops_sources_when_over_budget` |
-| `osslens/prompts.py` | 分档 prompt 常量（**代码资产，不放 docs**）：`FAST_INSIGHT_SYSTEM` / `STRONG_INSIGHT_SYSTEM` | `test_llm_success_parses_usage`（断言首级 `json_object`、thinking 关闭） |
-| `osslens/retention.py` | T5 缓存层保留策略（白名单分层 + 内容寻址去重 + 按期归档） | `test_l2.py::test_apply_dedupes_and_never_touches_sources` |
+| `osslens/llm.py` | LLM 客户端、结构阶梯、判废、结果缓存、上下文裁剪、`Usage.reasoning_tokens`；`PARADIGM_TAGS` 受控词表 + `Insight.paradigm_tags`（Q7） | `test_llm_*` / `test_context_drops_sources_when_over_budget` / `tests/test_paradigm_site.py` |
+| `osslens/prompts.py` | 分档 prompt 常量（**代码资产，不放 docs**）：`FAST_INSIGHT_SYSTEM` / `STRONG_INSIGHT_SYSTEM`（含 paradigm_tags schema，进 cache_key） | `test_llm_success_parses_usage`（断言首级 `json_object`、thinking 关闭） / `tests/test_paradigm_site.py` |
+| `osslens/retention.py` | T5 缓存层保留策略（白名单分层 + 内容寻址去重 + 按期归档）；生产入口 `retention` CLI（dry_run 默认，`--apply` 才清理；`protected_paths` 含 `site/`） | `test_l2.py::test_apply_dedupes_and_never_touches_sources` / `tests/test_retention_cli.py` |
 
 ### 3.1 大图：一次 `analyze` 的数据流（跨模块，改代码前先看这个）
 
@@ -193,10 +198,10 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 | `test_site_builds_full_static_site` · `test_empty_patterns_state_is_honest` · `test_site_check_reports_diff_without_writing` · `test_site_zero_network_transport_interception` | L4 | ✅ 已存在（`tests/test_l4.py`，含「故意让它失败」反向用例） |
 
 > ★ L3 两条目标清单已落地（`patterns.py` / `abstract.py` 建成）；L4 站点契约测试 20 条亦已落地。L1 的两条、L2 的 14 条亦已落地。
-> `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 14 条、`tests/test_l3.py` 共 38 条、`tests/test_l4.py` 共 20 条，**全仓 134 条**。
+> `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 14 条、`tests/test_l3.py` 共 38 条、`tests/test_l4.py` 共 20 条，**全仓 157 条**（实现轮 v1.0 后，含 `test_retention_cli.py` 2 · `test_cross_domain.py` 9 · `test_paradigm_site.py` 10）。
 > 核对命令：`pytest --collect-only -q | grep -E "three_class|not_applicable"`（**应输出 2 条 L3**）；
 > `pytest --collect-only -q | grep -E "template_page|real_content"`（**应仅输出 2 条 L1**，不得为 0）。
-> ★ 只读锚文件 `docs/经验库-冲突与覆盖清单.md` **v1.3**（2026-11-06）已由负责人把 §8.2 ③ 升为「L3 两条 ✅ 存在」，并写明锚点 ③ 是**状态型**、随阶段推进由负责人升版、**Agent 只读核对**。本文件与之对齐。
+> ★ 只读锚文件 `docs/经验库-冲突与覆盖清单.md` **v1.5**（2026-11-08）已由负责人把 §8.2 ③ 升为「L3 两条 ✅ 存在」、⑥③ 更新为「全仓 136」（本轮实现轮后升为 157 须上报）。锚点 ③ 是**状态型**、随阶段推进由负责人升版、**Agent 只读核对**。本文件与之对齐（不自行改锚文件）。
 > 若后续发现锚文件状态落后于仓库现实 → 在验收报告注明，由负责人升版，不自行改锚文件。
 
 ---
@@ -330,8 +335,8 @@ site/                                              # L4 静态站（★ 可重�
 | 路径 | 归类 | 规则 |
 |---|---|---|
 | `patterns/`（library.yaml / ops.jsonl）· `data/ledger` · `data/pool` · `data/costs` · `data/abstract/runs.jsonl` | **真源** | append-only；旧 ID 保留 alias；删除先列清单 + 停下等确认 |
-| `reports/` | ★ **确定性 regenerate 产物**（S2 / 设计方案 v1.4 §8.2 精确化，**非 append-only**） | 同一 `(repo, as-of)` 换档位重跑**允许覆盖**：内容由快照 + 特征卡确定性重建，历史由 git tag 兜底；文件名 / 幂等键 / render / cli 路径均不变 |
-| `site/`（15 个产物 / 104K） | ★ **可重建的派生基线**（v1.5 精确化，**入库**，非真源） | 由 5 类真源确定性渲染；`site --check` 需与**已提交**基线比对；真源变更后须重跑 `site` 并提交，`--check` 给差异清单；**不得手写编辑产物**（D32=A） |
+| `reports/` | ★ **确定性 regenerate 产物**（S2 / 设计方案 v1.5 §8.2 精确化，**非 append-only**） | 同一 `(repo, as-of)` 换档位重跑**允许覆盖**：内容由快照 + 特征卡确定性重建，历史由 git tag 兜底；文件名 / 幂等键 / render / cli 路径均不变 |
+| `site/`（19 个产物） | ★ **可重建的派生基线**（v1.5 精确化，**入库**，非真源） | 由 5 类真源确定性渲染；`site --check` 需与**已提交**基线比对；真源变更后须重跑 `site` 并提交，`--check` 给差异清单；**不得手写编辑产物**（D32=A） |
 | `data/snapshots/**/external/`（deepwiki.json / source.txt / sha256） | ★ **不可再生真源** | 外部索引状态错过不可复现，带来源四元组（红线 #13）→ **不删、不覆盖** |
 | `data/snapshots/**/src/`（源码切片 + manifest.json） | **可再生缓存** | 按 commit 从 codeload tarball 可重拉 → 可丢弃、可去重、可归档清理 |
 | `data/featcards/` · `data/llm_cache/` · 任何 DB 索引 | **可再生缓存** | 可丢弃、可重建 |
@@ -352,13 +357,17 @@ site/                                              # L4 静态站（★ 可重�
 | **L1** | 特征卡 L0 + 依赖图 + 外部工具（fail-closed）+ fast 档 | 特征卡含证据；Mermaid 可渲染 |
 | **L2** ✅ | strong 档 + 四层跨周联动 + 估算安全系数 + 成本闭环 + 快照保留 + 定时建池 | strong 实跑（¥0.4174 / 5 条带证据洞见）；同 as-of 重跑字节一致；76 测试 |
 | **L3** ✅ | 零 LLM 三态召回 + 四层抽象 + 增量 merge + 反例挖掘 + 抽象 run 成本闸门 | 链路端到端可运行（门槛/ops/反例/reconcile 均有断言）；**真实样本 5 < 簇内阈值 6 → `insufficient_samples` 产 0 条，首次真实抽象未触发**；114 测试 |
-| **L4** ✅ | 静态只读站点（零后端 / 零 LLM / 零网络 / ¥0） | 由 MD + JSON 生成，无后端；15 个产物、`site --check` 一致、同 as-of 字节一致、空态如实、**本阶段 ¥0**；134 测试 |
-| **收尾** ✅ | 全景定稿：`docs/功能总览.md` / 经验固化结构化索引 / D19 口径定稿 / 文档回填 | 功能总览七部分齐全、数字可回溯；门禁四连全绿、`site --check` 一致；零 LLM / 零网络 / 本阶段 ¥0；**不打 tag / 不 push**（D31 延后） |
+| **L4** ✅ | 静态只读站点（零后端 / 零 LLM / 零网络 / ¥0） | 由 MD + JSON 生成，无后端；15 个产物（当时）、`site --check` 一致、同 as-of 字节一致、空态如实、**本阶段 ¥0**；134 测试（当时） |
+| **收尾** ✅ | 全景定稿：`docs/功能总览.md` / 经验固化结构化索引 / D19 口径定稿 / 文档回填 | 功能总览七部分齐全、数字可回溯；门禁四连全绿、`site --check` 一致；零 LLM / 零网络 / 本阶段 ¥0；收尾时未打 tag / 未 push（D31 后续已执行） |
+| **D31 发布接线** ✅ | 私有远端可验证：私有空仓 / remote / push / 真实 Actions run | 建私有仓库 `tochikoma777/osslens`；只推 main（不推 tag，远端 tag 0）；run #2 `42455959308` **Success**；cron 当时未启用（Gate 3 待授权） |
+| **实现轮 v1.0** ✅ | cron 启用 · retention 接线 · 跨域抽象 · paradigm_tags · 静态三能力 | 157 测试 / validate 13·13 / `site --check` 一致（19 产物）；本地打 `l5` 不推远端 tag |
 
-> ★ L2 局限：actionlint 未安装，走降级静态校验，**不等同于 GitHub 真实 run**（D18 = A 已接受收口）；未 push、未建 remote。
+> ★ L2 局限（历史，D18=A 不翻案）：actionlint 未安装，走降级静态校验。D31 后已有真实 Actions run #2 Success（但只证明调度链路通，不等于 8 周无人值守自动编排已跑通）。
+> ★ 发布状态：已建私有 remote `origin` 并 push `main`；D31 只推 main、远端 tag 0；本地 `l0`–`l4` 冻结、`l5` 本地打不推。
+> ★ cron 状态：实现轮 v1.0 按 D50/Q3 授权恢复 `on.schedule`（`workflow_dispatch` 并存）；保留策略 `retention` 同步接线（Q6）。
 > ★ D19 补采（2026-11-06，采集环境 B）：`github.com/` 首页与 `trending` **已 200 并归档三份真实片段**，见 `docs/数据源手册.md` §10.1.3；前次「未获得」仅为环境 A 本地 TCP 超时，**不是源不可用**。**反爬特征仍未获得**（未触发 ≠ 无反爬）。详见 `docs/开发日志.md` L2 / D19 章节。
-> ★ L3 局限：`patterns/library.yaml` 仍为 `[]`（真源纯净，S4）；匿名 GitHub API 60/h 配额 + classic 入池门槛使同簇真实样本止于 5/6；抽象 run **未发生真实 LLM 调用**（¥0）；规律库条目、跨域 L3/L4 抽象、真实 reconcile 均待样本达标后验证。
-> ★ L4 局限：`patterns/library.yaml` 仍为 `[]`，站点如实展示空态、不伪造条目；站点为只读快照，真源变动后需重跑 `site`（`--check` 给差异清单而非静默覆盖）；设计方案 §5 列的「前端检索 / 标签过滤 / 并排对比」未实现（本阶段按卡只做静态可读呈现，范围裁剪，待收尾轮裁决）；`costs.jsonl` 相对 `l3` 零改动、本阶段 ¥0。
+> ★ L3 局限：`patterns/library.yaml` 仍为 `[]`（真源纯净，S4）；匿名 GitHub API 60/h 配额 + classic 入池门槛使同簇真实样本止于 5/6；抽象 run **未发生真实 LLM 调用**（¥0）；规律库条目、真实跨域 L3/L4 抽象、真实 reconcile 均待样本达标后验证。实现轮 v1.0 T2 已把跨域抽象**接线**（`abstract --cross` 消费 L2 条目数与簇内 run 数两阈值），但真实 L2 条目为 0 → 跨域 run 同样只能产出 `insufficient_samples` 空态。
+> ★ L4 局限：`patterns/library.yaml` 仍为 `[]`，站点如实展示空态、不伪造条目；站点为只读快照，真源变动后需重跑 `site`（`--check` 给差异清单而非静默覆盖）；设计方案 §5 的「前端检索 / 标签过滤 / 并排对比」已按实现轮 v1.0 T3 以**纯预生成静态页**补实现（`search.html` / `tags.html` / `compare.html` + `search-index.json`，零脚本、零外部 JS/CDN、零网络；当前报告无 `paradigm_tags` 数据时标签页如实空态）；`costs.jsonl` 相对 `l3` 零改动。
 > ★ D19 核查（2026-11-07，采集环境 C）：本轮终端 `api.github.com/` · `github.com/` · `github.com/trending` 均 200 并归档小片段，见 `docs/数据源手册.md` §10.6；与 §10.1 的环境 A 超时 / 环境 B 片段**分栏并存、互不覆盖**；**反爬特征仍未获得**（未触发 ≠ 无反爬）。本栏既不写「源不可用」也不写「已证明可达」。
 
 ---
@@ -372,8 +381,8 @@ site/                                              # L4 静态站（★ 可重�
 | `docs/数据源手册.md` | L0 验收后（**归并已有实测文件，不新造**） | ✅ 已建成 |
 | `docs/成本预算.md` | **L1 首次真实调用后**（L0 期间无真实花费，不建） | ✅ 已建成 |
 | `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E12；E11 = D28 三态口径、E12 = HTML 转义断言） |
-| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护） | ✅ 已建成（v1.3，§8.2 六锚点唯一权威；锚点 ③ 已随 L3 升为「两条 ✅」） |
-| `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.4） |
+| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护） | ✅ 已建成（v1.5，§8.2 六锚点唯一权威；锚点 ③ 已随 L3 升为「两条 ✅」） |
+| `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.5） |
 | `docs/功能总览.md` | 收尾 | ✅ 已建成（2026-11-07，七部分全景定稿） |
 
 ★ **不预建空文档**。★ **数据源手册用已有实测材料归并**：
