@@ -1,0 +1,1234 @@
+{
+  "as_of": "2026-11-11T11:02:37Z",
+  "data": {
+    "commits": [
+      {
+        "date": "2026-10-27T02:50:39Z",
+        "sha": "395cb3afbb331fef7b1b21e9340861b9436b42d8"
+      },
+      {
+        "date": "2026-10-15T13:47:29Z",
+        "sha": "0f11e178da1f67becb087a324b400854931ec3e3"
+      },
+      {
+        "date": "2026-09-30T01:58:27Z",
+        "sha": "2e5429fc5653bab6e081f09477126f731882a6a9"
+      },
+      {
+        "date": "2026-09-15T01:50:44Z",
+        "sha": "ba89a3466e9470ad08ab39738d4e7bb66989e1e7"
+      },
+      {
+        "date": "2026-09-14T07:15:18Z",
+        "sha": "063a9f05aaf86d25c3da213a6e79cd5c879f99fe"
+      },
+      {
+        "date": "2026-09-10T05:33:42Z",
+        "sha": "07a1089857b63e74e3133630c02b083b75e8d4b2"
+      },
+      {
+        "date": "2026-07-28T06:18:25Z",
+        "sha": "15f13e5030374295491c5ce31b02d7e63a7772c6"
+      },
+      {
+        "date": "2026-04-29T09:15:04Z",
+        "sha": "9241ae3ef9bac614dd25e45e507e089f888280e0"
+      },
+      {
+        "date": "2026-03-31T09:36:42Z",
+        "sha": "71c737929f2567bd0a094ae140f8f60f390b1232"
+      },
+      {
+        "date": "2026-02-06T07:31:00Z",
+        "sha": "47c35a712362f11bc235854ead51819ad76f5a81"
+      },
+      {
+        "date": "2026-01-20T15:57:41Z",
+        "sha": "48c6dc426f045cb7743b18f5c7329f35f1b7ed79"
+      },
+      {
+        "date": "2026-01-19T06:06:14Z",
+        "sha": "c741387bcb1f17fe86d7367201505a6c4dcfaf42"
+      },
+      {
+        "date": "2026-01-16T09:04:20Z",
+        "sha": "082094b793fcc7452977d0a71a00e266a2e3061e"
+      }
+    ],
+    "contributors": [
+      {
+        "contributions": 23,
+        "login": "beginlner",
+        "type": "User"
+      },
+      {
+        "contributions": 16,
+        "login": "interestingLSY",
+        "type": "User"
+      },
+      {
+        "contributions": 4,
+        "login": "uchihatmtkinu",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "sijiac",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "KnowingNothing",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "dianzhangchen",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "HollowMan6",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "PerkzZheng",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "PerryLink",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "SeanLi-OI",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "chunyang-wen",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "homorunner",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "janeyx99",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "lancerts",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "sazczmh",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "simon-mo",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "wmdi",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "yangsijia-celina",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "zaristei",
+        "type": "User"
+      }
+    ],
+    "languages": {
+      "AGS Script": 1911,
+      "C": 2675,
+      "C++": 647438,
+      "Cuda": 332616,
+      "Python": 183116
+    },
+    "releases": [],
+    "repo": {
+      "archived": false,
+      "created_at": "2025-02-21T06:31:27Z",
+      "default_branch": "main",
+      "description": "FlashMLA: Efficient Multi-head Latent Attention Kernels",
+      "forks": 1273,
+      "has_issues": true,
+      "homepage": "",
+      "language": "C++",
+      "license": "MIT",
+      "open_issues": 149,
+      "owner_login": "deepseek-ai",
+      "owner_type": "Organization",
+      "pushed_at": "2026-10-27T02:50:40Z",
+      "size_kb": 595,
+      "stars": 13261,
+      "topics": [],
+      "watchers": 104
+    },
+    "tree": {
+      "entries": [
+        {
+          "path": ".gitignore",
+          "size": 146,
+          "type": "blob"
+        },
+        {
+          "path": ".gitmodules",
+          "size": 111,
+          "type": "blob"
+        },
+        {
+          "path": "LICENSE",
+          "size": 1065,
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "size": 22629,
+          "type": "blob"
+        },
+        {
+          "path": "csrc",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/cutlass",
+          "size": 0,
+          "type": "commit"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/common",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/common/common.h",
+          "size": 873,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/ascend",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/ascend/common.h",
+          "size": 296,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/common.h",
+          "size": 1751,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/sm100",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/sm100/gemm.cuh",
+          "size": 29995,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/sm100/helpers.cuh",
+          "size": 4399,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/sm100/intrinsics.cuh",
+          "size": 33397,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/sm100/tma_cta_group2_nosplit.cuh",
+          "size": 11354,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/sm80",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/sm80/helpers.cuh",
+          "size": 1244,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/sm80/intrinsics.cuh",
+          "size": 8240,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/sm90",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/sm90/helpers.cuh",
+          "size": 4579,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/cuda/sm90/intrinsics.cuh",
+          "size": 4714,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/device/device.cuh",
+          "size": 475,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/host",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/host/host.h",
+          "size": 12650,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/kerutils.cuh",
+          "size": 144,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/kerutils_for_ascend_npu.h",
+          "size": 3751,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/supplemental",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/3rdparty/kerutils/include/kerutils/supplemental/torch_tensors.h",
+          "size": 3773,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/api",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/api/api.cpp",
+          "size": 2287,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/api/ascend_stream.cpp",
+          "size": 451,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/api/ascend_stream.h",
+          "size": 399,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/api/common.h",
+          "size": 11838,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/api/dense_bwd.cpp",
+          "size": 341,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/api/dense_fwd.cpp",
+          "size": 341,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/api/fused_norm_rope_attn_rope_cast_fwd.cpp",
+          "size": 25572,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/api/sparse_decode.cpp",
+          "size": 18585,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/api/sparse_prefill.cpp",
+          "size": 7634,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/ascend_kernels",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse/config.h",
+          "size": 10898,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse/fast_div_mod.h",
+          "size": 970,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse/instantiations",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse/instantiations/v41_h64_decode_nosink.asc",
+          "size": 317,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse/instantiations/v41_h64_decode_sink.asc",
+          "size": 316,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse/instantiations/v41_h64_prefill_nosink.asc",
+          "size": 319,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse/instantiations/v41_h64_prefill_sink.asc",
+          "size": 318,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse/instantiations/v41fp4_h64_decode_nosink.asc",
+          "size": 321,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse/instantiations/v41fp4_h64_decode_sink.asc",
+          "size": 320,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse/kernel.h",
+          "size": 550,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/ascend_kernels/prefill/sparse/kernel_body.h",
+          "size": 88557,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/defines.h",
+          "size": 340,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/kv_cache_format.h",
+          "size": 3001,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/common_subroutine.h",
+          "size": 7386,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse/head128",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse/head128/README.md",
+          "size": 188,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse/head64",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse/head64/config.h",
+          "size": 7607,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse/head64/instantiations",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse/head64/instantiations/v41_h64.cu",
+          "size": 211,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse/head64/instantiations/v41_h64_no_split.cu",
+          "size": 212,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse/head64/instantiations/v41fp4_h64.cu",
+          "size": 215,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse/head64/instantiations/v41fp4_h64_no_split.cu",
+          "size": 216,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse/head64/kernel.cuh",
+          "size": 37832,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/decode/sparse/head64/kernel.h",
+          "size": 383,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/dequant_utils.cuh",
+          "size": 7338,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/helpers.h",
+          "size": 7087,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/kv_cache_utils.cuh",
+          "size": 3106,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/collective",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/collective/fmha_common.hpp",
+          "size": 5110,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/collective/fmha_fusion.hpp",
+          "size": 13050,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/collective/sm100_fmha_fwd_epilogue_tma_warpspecialized.hpp",
+          "size": 8541,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/collective/sm100_fmha_fwd_mainloop_tma_warpspecialized.hpp",
+          "size": 45626,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/collective/sm100_fmha_load_tma_warpspecialized.hpp",
+          "size": 11571,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/collective/sm100_fmha_mla_fwd_mainloop_tma_warpspecialized.hpp",
+          "size": 46621,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/collective/sm100_fmha_mla_load_tma_warpspecialized.hpp",
+          "size": 12871,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/common",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/common/gather_tensor.hpp",
+          "size": 7080,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/common/helper.h",
+          "size": 3642,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/common/mask.cuh",
+          "size": 132,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/common/pipeline_mla.hpp",
+          "size": 10204,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/common/pow_2.hpp",
+          "size": 3380,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/common/utils.hpp",
+          "size": 565,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/device",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/device/fmha.hpp",
+          "size": 9837,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/device/fmha_device_bwd.hpp",
+          "size": 12737,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/fmha_cutlass_bwd_sm100.cu",
+          "size": 4634,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/fmha_cutlass_bwd_sm100.cuh",
+          "size": 9747,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/fmha_cutlass_fwd_sm100.cu",
+          "size": 4421,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/fmha_cutlass_fwd_sm100.cuh",
+          "size": 14143,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/interface.h",
+          "size": 1135,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/kernel",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/kernel/fmha_causal_tile_scheduler.hpp",
+          "size": 6960,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/kernel/fmha_kernel_bwd_convert.hpp",
+          "size": 6706,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/kernel/fmha_kernel_bwd_sum_OdO.hpp",
+          "size": 6967,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/kernel/fmha_options.hpp",
+          "size": 2852,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/kernel/fmha_tile_scheduler.hpp",
+          "size": 5536,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/kernel/sm100_fmha_bwd_kernel_tma_warpspecialized.hpp",
+          "size": 77689,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/kernel/sm100_fmha_bwd_mla_kernel_tma_warpspecialized.hpp",
+          "size": 78104,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/dense/kernel/sm100_fmha_fwd_kernel_tma_warpspecialized.hpp",
+          "size": 26129,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/config.h",
+          "size": 21232,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41_h128_decode_nonorm.cu",
+          "size": 316,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41_h128_decode_norm.cu",
+          "size": 315,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41_h128_prefill_nonorm.cu",
+          "size": 318,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41_h128_prefill_norm.cu",
+          "size": 317,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41_h64_decode_nonorm.cu",
+          "size": 315,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41_h64_decode_norm.cu",
+          "size": 314,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41_h64_prefill_nonorm.cu",
+          "size": 317,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41_h64_prefill_norm.cu",
+          "size": 316,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41fp4_h128_decode_nonorm.cu",
+          "size": 320,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41fp4_h128_decode_norm.cu",
+          "size": 319,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41fp4_h64_decode_nonorm.cu",
+          "size": 319,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/instantiations/v41fp4_h64_decode_norm.cu",
+          "size": 318,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/kernel.cuh",
+          "size": 103911,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/kernel.h",
+          "size": 2051,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/permute_q_b_proj",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/permute_q_b_proj/kernel.cu",
+          "size": 2782,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/permute_q_b_proj/kernel.h",
+          "size": 1085,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/permute_wv_proj",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/permute_wv_proj/kernel.cu",
+          "size": 5231,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/permute_wv_proj/kernel.h",
+          "size": 1442,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head128",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head128/config.h",
+          "size": 4761,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head128/instantiations",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head128/instantiations/phase1_k512.cu",
+          "size": 48,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head128/phase1.cuh",
+          "size": 30843,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head128/phase1.h",
+          "size": 191,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head64",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head64/config.h",
+          "size": 4440,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head64/instantiations",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head64/instantiations/phase1_h64_k512.cu",
+          "size": 206,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head64/phase1.cuh",
+          "size": 30186,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head64/phase1.h",
+          "size": 190,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128/config.h",
+          "size": 6545,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128/instantiations",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128/instantiations/phase1_decode_k512_v41.cu",
+          "size": 272,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128/instantiations/phase1_decode_k512_v41_splitkv.cu",
+          "size": 283,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128/instantiations/phase1_decode_k512_v41fp4.cu",
+          "size": 276,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128/instantiations/phase1_decode_k512_v41fp4_splitkv.cu",
+          "size": 287,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128/instantiations/phase1_k512.cu",
+          "size": 270,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128/phase1.cuh",
+          "size": 54466,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128/phase1.h",
+          "size": 342,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/smxx",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/smxx/decode",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/smxx/decode/combine",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/smxx/decode/combine/combine.cu",
+          "size": 10554,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/smxx/decode/combine/combine.h",
+          "size": 171,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/smxx/decode/get_decoding_sched_meta",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/cuda_kernels/smxx/decode/get_decoding_sched_meta/get_decoding_sched_meta.cu",
+          "size": 6990,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/smxx/decode/get_decoding_sched_meta/get_decoding_sched_meta.h",
+          "size": 179,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/cuda_kernels/utils.h",
+          "size": 1189,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/device_stream.h",
+          "size": 801,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/params.h",
+          "size": 8354,
+          "type": "blob"
+        },
+        {
+          "path": "docs",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "docs/20250422-new-kernel-deep-dive.md",
+          "size": 8371,
+          "type": "blob"
+        },
+        {
+          "path": "docs/20250929-hopper-fp8-sparse-deep-dive.md",
+          "size": 7259,
+          "type": "blob"
+        },
+        {
+          "path": "docs/20260930-ascend-prefill-deep-dive-zh.md",
+          "size": 16658,
+          "type": "blob"
+        },
+        {
+          "path": "docs/20260930-ascend-prefill-deep-dive.md",
+          "size": 17889,
+          "type": "blob"
+        },
+        {
+          "path": "docs/assets",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "docs/assets/MLA Kernel Sched.drawio.svg",
+          "size": 75404,
+          "type": "blob"
+        },
+        {
+          "path": "flash_mla",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "flash_mla/__init__.py",
+          "size": 1580,
+          "type": "blob"
+        },
+        {
+          "path": "flash_mla/flash_mla_interface.py",
+          "size": 27248,
+          "type": "blob"
+        },
+        {
+          "path": "flash_mla/fused_norm_rope_attn_rope_cast.py",
+          "size": 9603,
+          "type": "blob"
+        },
+        {
+          "path": "scripts",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "scripts/generate_instantiations.py",
+          "size": 2468,
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "size": 16711,
+          "type": "blob"
+        },
+        {
+          "path": "tests",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/__init__.py",
+          "size": 81,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernelkit",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/kernelkit/.gitignore",
+          "size": 74,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernelkit/__init__.py",
+          "size": 872,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernelkit/bench.py",
+          "size": 13604,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernelkit/build.py",
+          "size": 4697,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernelkit/compare.py",
+          "size": 5018,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernelkit/generate.py",
+          "size": 1067,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernelkit/platform.py",
+          "size": 2065,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernelkit/precision.py",
+          "size": 997,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernelkit/utils.py",
+          "size": 2040,
+          "type": "blob"
+        },
+        {
+          "path": "tests/lib.py",
+          "size": 22014,
+          "type": "blob"
+        },
+        {
+          "path": "tests/quant.py",
+          "size": 12173,
+          "type": "blob"
+        },
+        {
+          "path": "tests/ref.py",
+          "size": 5127,
+          "type": "blob"
+        },
+        {
+          "path": "tests/test-fused-norm-rope-attn-rope-cast.py",
+          "size": 25451,
+          "type": "blob"
+        },
+        {
+          "path": "tests/test-sparse-decode.py",
+          "size": 16229,
+          "type": "blob"
+        },
+        {
+          "path": "tests/test-sparse-prefill.py",
+          "size": 6518,
+          "type": "blob"
+        },
+        {
+          "path": "tests/test_fmha_sm100.py",
+          "size": 7553,
+          "type": "blob"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  "fetched_at": "2026-11-11T11:02:39Z",
+  "notes": [
+    {
+      "reason": "GitHub 无公开 API；L0 标注为未获得，不估算",
+      "source": "used_by",
+      "status": "unavailable"
+    }
+  ],
+  "owner": "deepseek-ai",
+  "repo": "FlashMLA",
+  "sha256": "24236da9481ddc0f00ec4ee4d20c5e3af5f8955a75341852afce5c2318e3ee58"
+}
