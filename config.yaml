@@ -57,6 +57,15 @@ depth:
   #   手动 --depth {auto,off,fast,strong} 四档与默认 auto 全保留，勿混用（A-1）。
   auto_default: fast
 
+# 路径 B / 自动链：两次「自动真实分析」之间的最小间隔（天）。
+# ★ 这是「真实分析 / 真实花钱」的间隔，不是任务唤醒频率：定时器可以每天到点检查，
+#   未满间隔即 [skip] interval not reached，且先于选 slug / analyze / 真源回写 / 站点重建。
+# ★ 最小允许值 1；默认 7 = 每周一次。
+#   workflow_dispatch 手动触发只绕过本间隔检查，不绕过成本闸门
+#   （--auto-chain / 周配额 / 预算 / 调用次数上限 / 安全系数照常）。
+auto_chain:
+  min_interval_days: 7
+
 # T5：缓存层保留策略（按可再生性分层，设计方案 v1.5 §8.2 为唯一权威）
 # 只作用于 src/（源码切片）与 data/llm_cache/；external/ 与三个 jsonl 真源永不触碰
 retention:

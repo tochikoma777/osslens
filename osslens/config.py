@@ -57,6 +57,9 @@ DEFAULT_CONFIG: dict[str, Any] = {
         # 自动链默认档位（S1'）：只影响自动 analyze 触发；不影响手动 --depth 四档。
         "auto_default": "fast",
     },
+    # 路径 B / 自动链：两次「自动真实分析」的最小间隔（天）。
+    # 不是任务唤醒频率：schedule 可每日检查，但真实分析 / 真实花钱至少间隔该天数。
+    "auto_chain": {"min_interval_days": 7},
     # T5：缓存层保留策略（按可再生性分层，设计方案 v1.3 §8.2 为唯一权威）
     "retention": {
         "enabled": True,
@@ -187,6 +190,12 @@ depth:
   # 与 baseline 语义不同，勿混用；手动 --depth 四档与默认 auto 全保留。
   auto_default: fast
 
+# 路径 B / 自动链：两次「自动真实分析」之间的最小间隔（天）。
+# 真实分析 / 真实花钱的间隔，不是任务唤醒频率；最小允许值 1，默认 7 = 每周一次。
+# workflow_dispatch 只绕过本间隔，不绕过成本闸门。
+auto_chain:
+  min_interval_days: 7
+
 # T5：缓存层保留策略（按可再生性分层，设计方案 v1.3 §8.2 为唯一权威）
 # 只作用于 src/（源码切片）与 data/llm_cache/；external/ 与三个 jsonl 真源永不触碰
 retention:
@@ -288,6 +297,16 @@ class DepthConfig:
     baseline: dict[str, str]
     # 自动链默认档位（S1'）：只影响自动 analyze 触发；baseline 供 --depth auto 推导，勿混用。
     auto_default: str = "fast"
+
+
+@dataclass(frozen=True)
+class AutoChainConfig:
+    """路径 B：两次「自动真实分析」之间的最小间隔（天）。
+
+    ★ 这是真实分析 / 真实花钱的间隔，不是任务唤醒频率：schedule 可每日到点检查。
+    """
+
+    min_interval_days: int = 7
 
 
 @dataclass(frozen=True)
@@ -477,6 +496,7 @@ class Config:
     external: ExternalConfig
     sources: SourcesConfig
     retention: RetentionConfig
+    auto_chain: AutoChainConfig = field(default_factory=lambda: AutoChainConfig(7))
     domains: tuple[DomainRule, ...] = field(default_factory=tuple)
     abstract: AbstractConfig = field(default_factory=lambda: AbstractConfig(6, 8, 4, 5))
     watchlist: tuple[str, ...] = field(default_factory=tuple)
@@ -519,6 +539,7 @@ class Config:
         ext_raw = _section(raw, "external")
         src_raw = _section(raw, "sources")
         ret_raw = _section(raw, "retention")
+        auto_chain_raw = _section(raw, "auto_chain")
 
         price_table: dict[str, PriceEntry] = {}
         for model, entry in _section(llm_raw, "price_table").items():
@@ -594,6 +615,15 @@ class Config:
             if value <= 0:
                 raise ConfigError(f"abstract.{field_name} 必须为正整数，实际 {value}")
 
+        # 路径 B：自动链真实分析最小间隔。★ 不是任务唤醒频率；最小允许值 1。
+        auto_chain = AutoChainConfig(
+            min_interval_days=as_int(auto_chain_raw.get("min_interval_days"), 7)
+        )
+        if auto_chain.min_interval_days < 1:
+            raise ConfigError(
+                f"auto_chain.min_interval_days 必须 ≥ 1，实际 {auto_chain.min_interval_days}"
+            )
+
         return cls(
             layout=layout,
             github_token_env=as_str(raw.get("github_token_env"), "GITHUB_TOKEN"),
@@ -666,6 +696,7 @@ class Config:
                 cache_keep_days=as_int(ret_raw.get("cache_keep_days"), 30),
                 archive_dir=as_str(ret_raw.get("archive_dir"), "data/cache_archive"),
             ),
+            auto_chain=auto_chain,
             domains=tuple(domains),
             abstract=abstract,
             watchlist=watchlist,

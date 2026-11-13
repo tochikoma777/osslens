@@ -8,6 +8,10 @@ name: 路径 B 自动链（批次 A 静态落地）
 #   （空闲窗口暂定北京 19:00，19:00 − 8h = 11:00），不是已核清的调度断言。
 #   时区未核清 → 待首次 event=schedule run 的 created_at 实测反推，偏移再改；
 #   注释不写死任何绝对时区断言（B-1）。
+# ★ 频率闸门：schedule 只是「低成本检查闹钟」——到点先读 config.yaml 的
+#   auto_chain.min_interval_days（默认 7 = 每周一次），未满即 [skip] interval not reached；
+#   该判断先于 first_auto_slug / analyze / 真源回写 / 站点重建，不调模型、不写 call 行、不提交。
+#   workflow_dispatch 只绕过本间隔检查，不绕过成本闸门（--auto-chain / 配额 / 预算 / 次数 / 系数）。
 # ★ 本文件为批次 A 的代码与配置静态落地：未 push、未启用前不产生任何真实 LLM 调用。
 #   真源持久化（commit/push）、cron 启用、时区校准、真实 run 验证属批次 B 上线观察。
 # ★ 凭据写法（1.3 更正）：config.yaml 用 api_key_env / base_url_env 两个「环境变量名」
@@ -45,7 +49,40 @@ jobs:
           python-version: "3.11"
       - name: 安装 osslens
         run: pip install -e .
+      - name: 频率闸门（schedule 检查真实分析间隔；workflow_dispatch 只绕过间隔）
+        id: interval
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          from osslens.config import Config
+          from osslens.depth import auto_interval_reached, load_events
+          from osslens.util import SystemClock
+
+          config = Config.load(Path("."))
+          event = os.environ.get("GITHUB_EVENT_NAME", "")
+          reached = auto_interval_reached(
+              config, load_events(config.layout), now=SystemClock().now()
+          )
+          # ★ 只在 schedule 时裁决间隔；workflow_dispatch 仅供手动真实验证，
+          #   只绕过间隔，后续仍必须走 --auto-chain 的成本闸门。
+          if event == "schedule" and not reached:
+              print(
+                  "[skip] interval not reached"
+                  f"（min_interval_days={config.auto_chain.min_interval_days}）"
+              )
+              with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
+                  handle.write("skip=true\n")
+          else:
+              print(f"[gate] event={event} interval_reached={reached}")
+          PY
+
       - name: 自动 analyze（A1 首个候选 / S1' 读 auto_default / C1.4 归因 / 零打印凭据）
+        if: steps.interval.outputs.skip != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OSSLENS_LLM_API_KEY: ${{ secrets.OSSLENS_LLM_API_KEY }}
@@ -79,6 +116,7 @@ jobs:
           PY
 
       - name: 重建站点 + 提交本段真源并推送（真源 append-only；按路径 add，不用 -A）
+        if: steps.interval.outputs.skip != 'true'
         shell: bash
         run: |
           # 先按真源重建 site（保持「真源变更 → site 同步」，否则后续 site --check 会不一致）。

@@ -18,6 +18,8 @@ from osslens.depth import (
     ORCHESTRATION_FIELD,
     REQUESTED_DEPTHS,
     CostEvent,
+    auto_interval_reached,
+    last_auto_call_at,
     load_events,
     orchestration_run_from_env,
     record_event,
@@ -29,7 +31,7 @@ from osslens.render import (
     cost_anomaly_block,
     detect_cost_anomalies,
 )
-from osslens.util import FixedClock
+from osslens.util import ConfigError, FixedClock
 
 from .conftest import AS_OF, make_snapshot, read_jsonl_file, seed_workspace
 
@@ -679,3 +681,96 @@ def test_auto_chain_subject_to_max_calls_per_run(
     assert sum(1 for r in rows if r["event"] == "call") == 0
     assert any(r["event"] == "blocked" and r["reason"] == "max_calls_per_run" for r in rows)
     assert read_jsonl_file(config.layout.pool_jsonl), "候选不得因拦截被丢弃"
+
+
+# --- 频率闸门：auto_chain.min_interval_days（真实分析间隔，不是唤醒频率） -------
+
+
+def test_auto_chain_min_interval_config_default_and_validation(tmp_path: Path) -> None:
+    """X1：默认 7 天；可配置；最小值 1；0 拒绝。"""
+    root = seed_workspace(tmp_path / "ws")
+    assert Config.load(root).auto_chain.min_interval_days == 7
+    tight = Config.from_mapping(root, {"auto_chain": {"min_interval_days": 1}})
+    assert tight.auto_chain.min_interval_days == 1
+    with pytest.raises(ConfigError):
+        Config.from_mapping(root, {"auto_chain": {"min_interval_days": 0}})
+
+
+def _attributed_call(as_of: str) -> CostEvent:
+    return CostEvent(
+        event="call",
+        repo="o/r",
+        depth="fast",
+        model="deepseek-flash",
+        prompt_tokens=10,
+        completion_tokens=5,
+        estimated_cost=0.0,
+        source="api",
+        as_of=as_of,
+        run_id="fixed",
+        requested_depth="fast",
+        actual_depth="fast",
+        reason="baseline",
+        orchestration_run="43447876155",
+    )
+
+
+def test_auto_interval_gate_only_counts_attributed_calls(tmp_path: Path) -> None:
+    """X2：只认自动链 event=call 且带归因；降级/blocked/本地调用不算真实分析。"""
+    root = seed_workspace(tmp_path / "ws")
+    config = Config.load(root)
+    now = datetime(2026, 11, 14, 12, tzinfo=UTC)
+
+    # 无历史 → 首次放行
+    assert last_auto_call_at([]) is None
+    assert auto_interval_reached(config, [], now=now) is True
+
+    # 降级行（no_credentials）不是真实分析 → 放行
+    downgrade = CostEvent(
+        event="downgrade",
+        repo="o/r",
+        depth="off",
+        model="",
+        prompt_tokens=0,
+        completion_tokens=0,
+        estimated_cost=None,
+        source="skipped",
+        as_of="2026-11-13T00:00:00Z",
+        run_id="fixed",
+        requested_depth="fast",
+        actual_depth="off",
+        reason="no_credentials",
+        orchestration_run="43447876155",
+    )
+    assert last_auto_call_at([downgrade]) is None
+    assert auto_interval_reached(config, [downgrade], now=now) is True
+
+    # 6 天前 → 未满 7 天 → 跳过
+    recent = _attributed_call("2026-11-08T12:00:00Z")
+    assert auto_interval_reached(config, [recent], now=now) is False
+
+    # 满 7 天 → 放行
+    exact = _attributed_call("2026-11-07T12:00:00Z")
+    assert auto_interval_reached(config, [exact], now=now) is True
+
+    # 改小间隔即可放宽频率
+    tight = Config.from_mapping(root, {"auto_chain": {"min_interval_days": 1}})
+    assert auto_interval_reached(tight, [recent], now=now) is True
+
+
+def test_auto_workflow_interval_gate_precedes_analysis() -> None:
+    """X2：schedule 闸门先于 first_auto_slug / analyze / 真源回写；skip 正确传递。"""
+    raw, doc = _load_auto_workflow()
+    gate_at = raw.index("频率闸门")
+    assert gate_at < raw.index("first_auto_slug")
+    assert gate_at < raw.index("重建站点")
+    assert "[skip] interval not reached" in raw
+    assert "auto_chain.min_interval_days" in raw
+    assert "github.event_name" in raw
+    assert raw.count("if: steps.interval.outputs.skip != 'true'") == 2
+
+    steps = doc["jobs"]["auto-analyze"]["steps"]
+    interval_index = next(i for i, step in enumerate(steps) if step.get("id") == "interval")
+    analyze_index = next(i for i, step in enumerate(steps) if "自动 analyze" in step["name"])
+    assert interval_index < analyze_index
+    assert steps[analyze_index]["if"] == "steps.interval.outputs.skip != 'true'"
