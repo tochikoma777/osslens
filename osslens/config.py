@@ -54,6 +54,8 @@ DEFAULT_CONFIG: dict[str, Any] = {
             "estimate_safety_factor": 1.3,
         },
         "baseline": {"hot": "fast", "classic": "strong", "watchlist": "strong"},
+        # 自动链默认档位（S1'）：只影响自动 analyze 触发；不影响手动 --depth 四档。
+        "auto_default": "fast",
     },
     # T5：缓存层保留策略（按可再生性分层，设计方案 v1.3 §8.2 为唯一权威）
     "retention": {
@@ -176,11 +178,14 @@ depth:
     max_calls_per_run: 12
     # D12-2：估算 × 安全系数 才与闸门比较（L1 实测低估 25.6%）
     estimate_safety_factor: 1.3
-  # 通道基线（设计方案 §2 L1）
+  # 通道基线（设计方案 §2 L1）：供 --depth auto 按通道推导档位
   baseline:
     hot: fast
     classic: strong
     watchlist: strong
+  # 自动链默认档位（路径 B / S1'）：只由自动 analyze 定时触发读取。
+  # 与 baseline 语义不同，勿混用；手动 --depth 四档与默认 auto 全保留。
+  auto_default: fast
 
 # T5：缓存层保留策略（按可再生性分层，设计方案 v1.3 §8.2 为唯一权威）
 # 只作用于 src/（源码切片）与 data/llm_cache/；external/ 与三个 jsonl 真源永不触碰
@@ -281,6 +286,8 @@ class DepthConfig:
     weekly_quota: dict[str, int]
     budget: BudgetConfig
     baseline: dict[str, str]
+    # 自动链默认档位（S1'）：只影响自动 analyze 触发；baseline 供 --depth auto 推导，勿混用。
+    auto_default: str = "fast"
 
 
 @dataclass(frozen=True)
@@ -618,6 +625,7 @@ class Config:
                     estimate_safety_factor=as_float(budget_raw.get("estimate_safety_factor"), 1.3),
                 ),
                 baseline=baseline,
+                auto_default=as_str(depth_raw.get("auto_default"), "fast"),
             ),
             pool=PoolConfig(
                 hot_min_star_delta_7d=as_int(pool_raw.get("hot_min_star_delta_7d"), 200),

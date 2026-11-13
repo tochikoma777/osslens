@@ -7,6 +7,7 @@ L1 只在**已有区块内**追加证据 / 依赖图 / 成本行，不新增第�
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
@@ -21,6 +22,47 @@ DASH = "—"
 
 # D10 = A：报告口径的显式字样（写死，防稀释）。改动需同步改 tests/test_l2.py 的断言。
 D10_WORDING = "本次分析的成本（不含开发期重复调用）；账户累计见 cost"
+
+
+def detect_cost_anomalies(
+    *,
+    week_tokens: int,
+    month_tokens: int,
+    run_tokens: int,
+    weekly_tokens: int,
+    monthly_tokens: int,
+    history: Sequence[int],
+) -> tuple[str, ...]:
+    """成本异常判定（只标注、不阻断）；三条规则与 docs/成本预算.md §5 一致。
+
+    周用量 > 周额度 × 50% · 月用量 > 月额度 × 80% · 本次 > 同仓库近期调用中位数 × 3
+    （中位数为 0 时跳过，不拿 0 冒充）。阈值口径沿用 cli._cost_line 原有实现，
+    抽成纯函数只为可专门断言，不改变任何判定结果或文案。
+    """
+    anomalies: list[str] = []
+    if week_tokens > weekly_tokens * 0.5:
+        anomalies.append("本周用量 > 周额度 50%")
+    if month_tokens > monthly_tokens * 0.8:
+        anomalies.append("本月用量 > 月额度 80%")
+    ordered = sorted(history)
+    if run_tokens and ordered:
+        median = ordered[len(ordered) // 2]
+        if median > 0 and run_tokens > median * 3:
+            anomalies.append(f"本次 {run_tokens} tok > 近期中位数 {median} tok 的 3 倍")
+    return tuple(anomalies)
+
+
+def cost_anomaly_block(cost: CostLine | None) -> list[str]:
+    """报告头部独立区块（Q-K3-1′ 选项①）：不与成本表格混排，只标注、不阻断。
+
+    anomalies 为空时不渲染任何行 → 现有报告字节完全不变（幂等/五区块契约不破）。
+    """
+    if cost is None or not cost.anomalies:
+        return []
+    lines = ["> ⚠ **成本异常（仅标注，不阻断）**", ">"]
+    lines.extend(f"> - {item}" for item in cost.anomalies)
+    lines.append("")
+    return lines
 
 
 @dataclass(frozen=True)
@@ -63,6 +105,7 @@ def render_report(inputs: ReportInputs) -> str:
     lines: list[str] = []
     lines.append(f"# 开源项目分析 · {inputs.owner}/{inputs.repo}")
     lines.append("")
+    lines.extend(cost_anomaly_block(inputs.cost))
     lines.extend(_metadata_section(inputs))
     lines.extend(_facts_section(inputs))
     lines.extend(_featcard_section(inputs))
@@ -145,8 +188,6 @@ def _cost_rows(cost: CostLine | None) -> list[str]:
     ]
     if cost.model_prices:
         rows.append(f"| 单价 | {cost.model_prices[0]} |")
-    if cost.anomalies:
-        rows.append(f"| 成本异常 | {'；'.join(cost.anomalies)}（仅标注，不阻断） |")
     rows.append(
         f"| 口径 | {D10_WORDING}；成本说明同 as-of 重跑不变（幂等优先）；"
         "两者不一致是设计，不是 bug |"
@@ -436,4 +477,11 @@ def _list(value: Any) -> str:
     return "[" + ", ".join(sorted(as_str(item) for item in value)) + "]"
 
 
-__all__ = ["CostLine", "DASH", "ReportInputs", "render_report"]
+__all__ = [
+    "CostLine",
+    "DASH",
+    "ReportInputs",
+    "render_report",
+    "cost_anomaly_block",
+    "detect_cost_anomalies",
+]

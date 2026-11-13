@@ -8,8 +8,9 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
-from dataclasses import dataclass
+import os
+from collections.abc import Mapping, Sequence
+from dataclasses import dataclass, replace
 from datetime import datetime
 from typing import Any
 
@@ -30,6 +31,8 @@ from .util import (
 )
 
 DEPTHS = ("off", "fast", "strong")
+# 档位成本序（off < fast < strong）：供自动链把通道基线收敛到 auto_default 上限。
+_DEPTH_RANK = {name: index for index, name in enumerate(DEPTHS)}
 REQUESTED_DEPTHS = ("auto", "off", "fast", "strong")
 
 EVENT_CALL = "call"
@@ -37,6 +40,19 @@ EVENT_DOWNGRADE = "downgrade"
 EVENT_BLOCKED = "blocked"
 EVENT_CACHE_HIT = "cache_hit"
 EVENT_KINDS = (EVENT_CALL, EVENT_DOWNGRADE, EVENT_BLOCKED, EVENT_CACHE_HIT)
+
+# 路径 B / C1.4：自动链编排 run 归因。workflow 注入 OSSLENS_AUTO_RUN_ID（= github.run_id），
+# record_event 把该值关联到本次编排产生的每一笔 costs.jsonl 行；手动 / 本地不设该环境变量
+# → 字段恒空、to_json 不新增任何 key → 既有台账字节 / 幂等 / 报告契约零影响。
+AUTO_RUN_ID_ENV = "OSSLENS_AUTO_RUN_ID"
+ORCHESTRATION_FIELD = "orchestration_run"
+
+
+def orchestration_run_from_env(environ: Mapping[str, str] | None = None) -> str:
+    """读取自动链编排 run id；未注入返回空串。environ 可注入便于单测，默认读进程环境。"""
+    source = os.environ if environ is None else environ
+    return as_str(source.get(AUTO_RUN_ID_ENV))
+
 
 REASON_TEXT = {
     "explicit_off": "显式请求 off 档（零 LLM）",
@@ -47,6 +63,7 @@ REASON_TEXT = {
     "depth_unavailable_in_l1": "该档位尚未接入（L1 只实跑 fast）",
     "manual_override": "人工 override",
     "baseline": "按通道基线",
+    "auto_default_off": "自动链默认档位为 off（零 LLM）",
 }
 
 
@@ -69,9 +86,11 @@ class CostEvent:
     cache_miss_tokens: int = 0
     purpose: str = ""
     reasoning_tokens: int = 0
+    # 路径 B / C1.4：自动链编排 run 归因（空 = 手动 / 本地，to_json 不写出该 key）。
+    orchestration_run: str = ""
 
     def to_json(self) -> dict[str, Any]:
-        return {
+        payload: dict[str, Any] = {
             "actual_depth": self.actual_depth,
             "as_of": self.as_of,
             "completion_tokens": self.completion_tokens,
@@ -90,6 +109,10 @@ class CostEvent:
             "run_id": self.run_id,
             "source": self.source,
         }
+        # 只在自动链注入时才多一个 key：手动 / 本地字节与既有完全一致（幂等零影响）。
+        if self.orchestration_run:
+            payload[ORCHESTRATION_FIELD] = self.orchestration_run
+        return payload
 
     @classmethod
     def from_json(cls, value: dict[str, Any]) -> CostEvent:
@@ -112,6 +135,7 @@ class CostEvent:
             cache_miss_tokens=as_int(value.get("cache_miss_tokens")),
             purpose=as_str(value.get("purpose")),
             reasoning_tokens=as_int(value.get("reasoning_tokens")),
+            orchestration_run=as_str(value.get(ORCHESTRATION_FIELD)),
         )
 
 
@@ -235,6 +259,16 @@ def compute_quota(config: Config, events: Sequence[CostEvent], as_of: datetime) 
     )
 
 
+def _cap_by_auto_default(channel_baseline: str, auto_default: str) -> str:
+    """自动链最终基线 = 通道基线与 auto_default 中**成本更低者**。
+
+    ★ 通道基线仍被评估（受通道基线约束），自动链只取更省的一档，绝不因 auto_default 抬高。
+    """
+    base_rank = _DEPTH_RANK.get(channel_baseline, len(DEPTHS))
+    auto_rank = _DEPTH_RANK.get(auto_default, len(DEPTHS))
+    return channel_baseline if base_rank <= auto_rank else auto_default
+
+
 def resolve_depth(
     config: Config,
     *,
@@ -246,7 +280,14 @@ def resolve_depth(
     estimated_prompt_tokens: int = 0,
     credentials_present: bool | None = None,
     unavailable_reason: str = "depth_unavailable_in_l0",
+    auto_chain: bool = False,
 ) -> DepthDecision:
+    """四层档位决策。``auto_chain=True`` 时**绝不进入 L4 人工 override**：
+
+    自动链默认档位取 ``depth.auto_default``（fast），但 L1 通道基线、L2 周次数配额、
+    L3 预算（单次 / 周 / 月 token × 安全系数）照常全链生效——同一 fast 值走「基线闸门」
+    而非「人工显式指定档位」，因此不会被 `_cap_by_auto_default` 之外的任何层绕过。
+    """
     if requested not in REQUESTED_DEPTHS:
         raise UsageError(f"--depth 只能是 {', '.join(REQUESTED_DEPTHS)}，实际为 {requested!r}")
 
@@ -273,14 +314,35 @@ def resolve_depth(
         )
 
     if requested == "off":
+        if auto_chain:
+            chain.append("自动链默认档位 auto_default=off（零 LLM；非人工 override）")
+            return decide("off", "auto_default_off", False)
         chain.append("L4 人工 override：显式 --depth off（不再评估其它层）")
         return decide("off", "explicit_off", False)
 
-    manual = requested in ("fast", "strong")
-    baseline = requested if manual else config.depth.baseline.get(channel, "fast")
-    if manual:
+    # ★ 自动链：requested 仅为 auto_default（如 fast），绝不视为「人工显式指定档位」。
+    #   manual 强制 False → 不进入 L4 override；L1 通道基线照常评估，再按 auto_default 取
+    #   成本更低者；L2 周配额 / L3 预算 / 能力 / 凭据全链照常生效（见后续分支）。
+    manual = requested in ("fast", "strong") and not auto_chain
+    if auto_chain:
+        channel_baseline = config.depth.baseline.get(channel, "fast")
+        baseline = _cap_by_auto_default(channel_baseline, config.depth.auto_default)
+        if baseline != channel_baseline:
+            chain.append(
+                f"L1 通道基线：{channel} → {channel_baseline}；"
+                f"自动链按 auto_default={config.depth.auto_default} 取更省档位 → {baseline}"
+                "（非 L4 人工 override）"
+            )
+        else:
+            chain.append(
+                f"L1 通道基线：{channel} → {baseline}"
+                f"（自动链默认档位 auto_default={config.depth.auto_default}，非 L4 人工 override）"
+            )
+    elif manual:
+        baseline = requested
         chain.append(f"L4 人工 override：--depth {requested}（绕过 L1 基线 / L2 配额）")
     else:
+        baseline = config.depth.baseline.get(channel, "fast")
         chain.append(f"L1 通道基线：{channel} → {baseline}")
 
     if not present:
@@ -367,7 +429,13 @@ def record_event(layout: Layout, event: CostEvent) -> bool:
     """追加台账；**同一条记录已存在则跳过**（重跑不产生重复计数，仍保持 append-only）。
 
     返回是否真的追加了。
+    路径 B / C1.4：自动链编排 run 注入 OSSLENS_AUTO_RUN_ID 时，把它关联到本次写出的
+    每一笔台账行；手动 / 本地无该环境变量 → 不注入，event 保持原样（零影响）。
     """
+    if not event.orchestration_run:
+        run = orchestration_run_from_env()
+        if run:
+            event = replace(event, orchestration_run=run)
     payload = event.to_json()
     existing = read_jsonl(layout.costs_jsonl)
     if any(record == payload for record in existing):

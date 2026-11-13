@@ -69,7 +69,7 @@ from .pool import (
     threshold_flags,
 )
 from .prompts import FAST_INSIGHT_SYSTEM, STRONG_INSIGHT_SYSTEM, fast_insight_user
-from .render import CostLine, ReportInputs, render_report
+from .render import CostLine, ReportInputs, detect_cost_anomalies, render_report
 from .retention import apply_retention
 from .site import (
     build_site,
@@ -171,6 +171,13 @@ def _build_parser() -> argparse.ArgumentParser:
     analyze_parser = sub.add_parser("analyze", parents=[common], help="产出体检报告")
     analyze_parser.add_argument("slug", help="owner/repo")
     analyze_parser.add_argument("--depth", choices=REQUESTED_DEPTHS, default="auto")
+    analyze_parser.add_argument(
+        # 内部触发：自动链默认档位（depth.auto_default）走全链闸门，而非人工 override。
+        # help 隐藏以保持 --help 已文档化的 CLI 表面不变（V9）。
+        "--auto-chain",
+        action="store_true",
+        help=argparse.SUPPRESS,
+    )
     analyze_parser.add_argument("--channel", choices=CHANNELS, default=None)
     analyze_parser.add_argument("--domain", default="未指定")
     analyze_parser.add_argument("--as-of", dest="as_of", default=None)
@@ -434,6 +441,8 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
     context = _build_context(config, card, sources)
     estimated = context.tokens if context else 0
     events = _events_excluding_current(load_events(layout), repo=slug, as_of=as_of)
+    # auto_chain=True（隐藏的 --auto-chain）：自动链同一 --depth fast 走全链闸门，
+    # 不进入 resolve_depth 的 L4 人工 override（手动 --depth 四档不受影响：默认 False）。
     decision = resolve_depth(
         config,
         requested=args.depth,
@@ -442,6 +451,7 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
         events=events,
         available_depths=AVAILABLE_DEPTHS,
         estimated_prompt_tokens=estimated,
+        auto_chain=bool(args.auto_chain),
     )
 
     if args.dry_run:
@@ -1081,20 +1091,19 @@ def _cost_line(
     week_cost = summary.week_cost + (run_cost or 0.0)
     month_cost = summary.month_cost + (run_cost or 0.0)
 
-    anomalies: list[str] = []
-    if week_tokens > config.depth.budget.weekly_tokens * 0.5:
-        anomalies.append("本周用量 > 周额度 50%")
-    if month_tokens > config.depth.budget.monthly_tokens * 0.8:
-        anomalies.append("本月用量 > 月额度 80%")
-    history = sorted(
+    history = [
         event.prompt_tokens + event.completion_tokens
         for event in events
         if event.event == "call" and event.repo == repo
+    ]
+    anomalies = detect_cost_anomalies(
+        week_tokens=week_tokens,
+        month_tokens=month_tokens,
+        run_tokens=run_tokens,
+        weekly_tokens=config.depth.budget.weekly_tokens,
+        monthly_tokens=config.depth.budget.monthly_tokens,
+        history=history,
     )
-    if run_tokens and history:
-        median = history[len(history) // 2]
-        if median > 0 and run_tokens > median * 3:
-            anomalies.append(f"本次 {run_tokens} tok > 近期中位数 {median} tok 的 3 倍")
 
     entry = config.llm.price_table.get(model)
     price_note = ""
@@ -1118,7 +1127,7 @@ def _cost_line(
         month_cost=month_cost,
         month_tokens=month_tokens,
         model_prices=(price_note,) if price_note else (),
-        anomalies=tuple(anomalies),
+        anomalies=anomalies,
     )
 
 

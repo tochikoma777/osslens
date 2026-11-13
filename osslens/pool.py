@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any
@@ -31,6 +32,10 @@ HOT = "hot"
 CLASSIC = "classic"
 WATCHLIST = "watchlist"
 CHANNELS = (HOT, CLASSIC, WATCHLIST)
+
+# 路径 B / A1：自动链选候选时的跳过事件（与 depth.EVENT_BLOCKED / EVENT_DOWNGRADE 同值；
+# 沿用 cli._record_blocked / build_ledger_event 里已有的字面写法，不额外引入 pool→depth 依赖）。
+_AUTO_SKIP_EVENTS = frozenset({"blocked", "downgrade"})
 
 
 @dataclass(frozen=True)
@@ -349,3 +354,34 @@ def threshold_flags(
     if observed < config.pool.hot_observe_days:
         flags.append(f"below_hot_observe_days（{observed} < {config.pool.hot_observe_days} 天）")
     return tuple(flags)
+
+
+def first_auto_slug(
+    rows: Sequence[EligibilityRow],
+    *,
+    layout: Layout,
+) -> str | None:
+    """路径 B / A1：从 `pool eligible` 既有打分排序里取首个可深挖候选（每 run 只取 1 个）。
+
+    ★ 只读真源、不写任何文件：不新增 select 命令、不写 chosen.jsonl、不改
+      `pool eligible` 只打印的语义（Q4）；这是自动 analyze 段内部的入参决定，
+      不把 ①–⑧ 串成编排器（Q-K1-2）。分数只用于排序、绝不升档（红线 #12）。
+    ★ 跳过（本轮不再选）：已产出报告 / 已 blocked / 已降级双写留痕的 slug（红线 #10）。
+    ★ 无候选返回 None → 调用方按 pool.yml `[skip] 无候选仓库` 语义退出码 0、不产生任何调用。
+    """
+    spent: set[str] = set()
+    for record in read_jsonl(layout.costs_jsonl):
+        if as_str(record.get("event")) in _AUTO_SKIP_EVENTS:
+            repo = as_str(record.get("repo"))
+            if repo:
+                spent.add(repo)
+
+    for row in rows:
+        if not row.eligible or row.repo in spent:
+            continue
+        owner, _, repo = row.repo.partition("/")
+        # 已产出报告：reports/<owner>__<repo>__<date>.md（确定性 regenerate 产物）
+        if owner and repo and any(layout.reports_dir.glob(f"{owner}__{repo}__*.md")):
+            continue
+        return row.repo
+    return None
