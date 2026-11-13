@@ -1,0 +1,284 @@
+{
+  "cache": {
+    "evidence": {
+      "paged": [
+        {
+          "file": "flash_attn/cute/flash_fwd_sm100.py",
+          "line": 37,
+          "snippet": "from flash_attn.cute.paged_kv import PagedKVManager, resolve_paged_token"
+        },
+        {
+          "file": "flash_attn/cute/flash_fwd_sm100.py",
+          "line": 188,
+          "snippet": "paged_kv_non_tma: bool = False,"
+        },
+        {
+          "file": "flash_attn/cute/flash_fwd_sm100.py",
+          "line": 201,
+          "snippet": "assert not (config.pack_gqa or is_varlen_q or paged_kv_non_tma or config.num_splits > 1)"
+        }
+      ]
+    },
+    "hits": {
+      "kv_offload": false,
+      "paged": true,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [
+        [
+          "flash_attn/cute/flash_fwd_sm100",
+          "flash_attn/cute"
+        ]
+      ],
+      "nodes": [
+        "flash_attn/cute",
+        "flash_attn/cute/flash_fwd_sm100"
+      ],
+      "truncated": false
+    },
+    "internal_edge_count": 1,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": false,
+    "license": "BSD-3-Clause",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [
+      "ampere",
+      "blackwell",
+      "cdna",
+      "hopper"
+    ],
+    "kernel_langs": [
+      "cuda",
+      "triton"
+    ],
+    "lock_in_score": null,
+    "vendors": [
+      "amd",
+      "nvidia"
+    ]
+  },
+  "identity": {
+    "age_days": 1639,
+    "analyzed_at": "2026-11-13T16:16:57Z",
+    "channel": "classic",
+    "commit": "f63c472c4dc19237c0635d6a629df065ff64796e",
+    "created_at": "2022-05-19T21:22:06Z",
+    "repo": "Dao-AILab/flash-attention"
+  },
+  "lang": {
+    "shares": {
+      "C": 0.0002,
+      "C++": 0.1856,
+      "Cuda": 0.0622,
+      "Dockerfile": 0.0007,
+      "Makefile": 0.0,
+      "Python": 0.7506,
+      "Shell": 0.0007
+    }
+  },
+  "limitations": [
+    "证据来自 17 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {
+      "PP": [
+        {
+          "file": "training/README.md",
+          "line": 24,
+          "snippet": "training techniques (e.g., pipeline parallelism, tensor parallelism),"
+        }
+      ],
+      "TP": [
+        {
+          "file": "training/README.md",
+          "line": 24,
+          "snippet": "training techniques (e.g., pipeline parallelism, tensor parallelism),"
+        }
+      ]
+    },
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": true,
+      "SP": false,
+      "TP": true
+    }
+  },
+  "scale": {
+    "commits_365d": 512,
+    "commits_90d": 96,
+    "contributors": 218,
+    "forks": 3224,
+    "last_commit": "2026-11-11T23:13:38Z",
+    "open_issues": 1405,
+    "release_count_365d": 41,
+    "stars": 25292,
+    "top10_share": 0.7764,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.5923,
+    "days_since_commit": 2,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "f63c472c4dc19237c0635d6a629df065ff64796e",
+    "files": [
+      {
+        "path": ".github/workflows/README.md",
+        "sha256": "02e001b3af03f7612f5e0a71ea204bc46ee8cddfb49516e14f78df96a4d2faf2"
+      },
+      {
+        "path": "README.md",
+        "sha256": "0dbaba56da1c8372d460956e2609bfb89acf8f3aadd65d132b1697d221069619"
+      },
+      {
+        "path": "csrc/flash_attn/src/flash_fwd_kernel.h",
+        "sha256": "95357a73bb6a89e49bd81a026a1d3dea03fc4b7b15b6845098dbb4dc261688ee"
+      },
+      {
+        "path": "csrc/fused_dense_lib/README.md",
+        "sha256": "743ab998caaac4d9a721d809937be18627fb24260484317525c95592433078c5"
+      },
+      {
+        "path": "csrc/layer_norm/README.md",
+        "sha256": "f385bbb3755078383e7e9656b124dcddcc2bed888bf7ae0fed0fdc5a8cea05e6"
+      },
+      {
+        "path": "examples/inference/README.md",
+        "sha256": "3123c51584c12a29eb834456d59e623b23e3a7cb1a8d2ee40f4f6c14d12970e7"
+      },
+      {
+        "path": "flash_attn/__init__.py",
+        "sha256": "b26af89142495543726c13defd4913c43476accd46eb13f99375c96c9eb5e28c"
+      },
+      {
+        "path": "flash_attn/cute/README.md",
+        "sha256": "69e70ec669e9a5e1b843e5b8e5e8ec1366c67e70098b84ee0d79b612cb9bad1d"
+      },
+      {
+        "path": "flash_attn/cute/__init__.py",
+        "sha256": "e29975f134f9eb43d18f3ff505f7aaf273a7076ae6d585f0b4d85fcf8cc574bf"
+      },
+      {
+        "path": "flash_attn/cute/flash_fwd_sm100.py",
+        "sha256": "6da2c16390f4c41f6f67210542df340c5e2dd90cd9d3d693cd6bb6551259cbaa"
+      },
+      {
+        "path": "flash_attn/ops/triton/__init__.py",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      {
+        "path": "hopper/__init__.py",
+        "sha256": "1373fa01b9c2c1a5a4ea7751d7336a94e4d579b5fdcf9aeff6fa25b5cef5768b"
+      },
+      {
+        "path": "hopper/flash_attn_3/__init__.py",
+        "sha256": "362bca1d0502eca70a2d051eea4ad27b5ea8ec94132df156d61ff4326e6aaa23"
+      },
+      {
+        "path": "tests/cute/test_flash_attn.py",
+        "sha256": "2df29a0ed4f95c0f2dbe2277dc6f1a830638e28dfd3dc5d7d51e2ba35554e37a"
+      },
+      {
+        "path": "tests/ops/test_fused_dense.py",
+        "sha256": "11e2ce8736ecfc350492e9b8d033e0a6502ff37043ea96842403be81642e532b"
+      },
+      {
+        "path": "tools/ci/README.md",
+        "sha256": "25870dce1c67182b36a9e3e1fc2ef1077a66fb90ed0c034208d62edda18d22b5"
+      },
+      {
+        "path": "training/README.md",
+        "sha256": "b25e97cd5ed4fa667b7a27d333479a0fd7485a51a6dd3e1c236a924d16a049a3"
+      }
+    ],
+    "tarball_sha256": "e58083f8cca64e73106a9ad625df60854ae0a4dc2c578cb6c4515e977f479d20"
+  },
+  "structure": {
+    "bytes": 23125436,
+    "entrypoints": [],
+    "files": 1116,
+    "loc_total": null,
+    "max_depth": 5,
+    "monorepo": true,
+    "top_modules": [
+      {
+        "bytes": 15129325,
+        "files": 17,
+        "path": "assets"
+      },
+      {
+        "bytes": 3288530,
+        "files": 114,
+        "path": "flash_attn"
+      },
+      {
+        "bytes": 1748796,
+        "files": 73,
+        "path": "tests"
+      },
+      {
+        "bytes": 1480464,
+        "files": 507,
+        "path": "hopper"
+      },
+      {
+        "bytes": 795356,
+        "files": 197,
+        "path": "csrc"
+      },
+      {
+        "bytes": 219180,
+        "files": 145,
+        "path": "training"
+      },
+      {
+        "bytes": 162789,
+        "files": 13,
+        "path": "benchmarks"
+      },
+      {
+        "bytes": 141168,
+        "files": 16,
+        "path": "AI"
+      },
+      {
+        "bytes": 84704,
+        "files": 12,
+        "path": "."
+      },
+      {
+        "bytes": 43543,
+        "files": 11,
+        "path": "tools"
+      },
+      {
+        "bytes": 31466,
+        "files": 10,
+        "path": ".github"
+      },
+      {
+        "bytes": 115,
+        "files": 1,
+        "path": "examples"
+      }
+    ]
+  }
+}

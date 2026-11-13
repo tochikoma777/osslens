@@ -1,6 +1,6 @@
 # osslens 静态站点索引
 
-- 基准时间 (as-of)：2026-11-13T14:56:59Z
+- 基准时间 (as-of)：2026-11-13T16:16:57Z
 - 产物：纯静态 HTML/MD；无后端、无外部 JS/CDN、零 LLM、零网络
 - 真源：`reports/*.md` · `data/featcards/` · `patterns/library.yaml` · `data/costs/costs.jsonl` · `data/abstract/runs.jsonl`（站点只读）
 
@@ -21,6 +21,7 @@
 
 | 仓库 | 基准时间 (as-of) | 实际档位 | 报告 |
 |---|---|---|---|
+| Dao-AILab/flash-attention | 2026-11-13T16:16:57Z | fast | [报告页](report-Dao-AILab__flash-attention__2026-11-13.html) · [源 MD](../reports/Dao-AILab__flash-attention__2026-11-13.md) |
 | InternLM/lmdeploy | 2026-11-06T00:00:00Z | off | [报告页](report-InternLM__lmdeploy__2026-11-06.html) · [源 MD](../reports/InternLM__lmdeploy__2026-11-06.md) |
 | InternLM/lmdeploy | 2026-11-09T00:00:00Z | off | [报告页](report-InternLM__lmdeploy__2026-11-09.html) · [源 MD](../reports/InternLM__lmdeploy__2026-11-09.md) |
 | ModelTC/lightllm | 2026-11-06T00:00:00Z | off | [报告页](report-ModelTC__lightllm__2026-11-06.html) · [源 MD](../reports/ModelTC__lightllm__2026-11-06.md) |
@@ -36,6 +37,7 @@
 
 | 仓库 | commit | 通道 | 代码证据条数 |
 |---|---|---|---|
+| Dao-AILab/flash-attention | `f63c472c4dc1` | classic | 4 |
 | InternLM/lmdeploy | `a0102d47967d` | classic | 11 |
 | ModelTC/lightllm | `aadae840d2ee` | classic | 0 |
 | deepseek-ai/DeepEP | `f6aa38fe06cd` | classic | 4 |
