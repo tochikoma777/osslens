@@ -1,6 +1,6 @@
 # osslens 静态站点索引
 
-- 基准时间 (as-of)：2026-11-09T00:00:00Z
+- 基准时间 (as-of)：2026-11-13T14:56:59Z
 - 产物：纯静态 HTML/MD；无后端、无外部 JS/CDN、零 LLM、零网络
 - 真源：`reports/*.md` · `data/featcards/` · `patterns/library.yaml` · `data/costs/costs.jsonl` · `data/abstract/runs.jsonl`（站点只读）
 
@@ -28,6 +28,7 @@
 | deepseek-ai/DeepEP | 2026-11-03T00:00:00Z | strong | [报告页](report-deepseek-ai__DeepEP__2026-11-03.html) · [源 MD](../reports/deepseek-ai__DeepEP__2026-11-03.md) |
 | deepseek-ai/FlashMLA | 2026-11-02T00:00:00Z | off（降级：未配置 LLM 凭据（api_key / base_url / model 缺一）） | [报告页](report-deepseek-ai__FlashMLA__2026-11-02.html) · [源 MD](../reports/deepseek-ai__FlashMLA__2026-11-02.md) |
 | huggingface/text-generation-inference | 2026-11-06T00:00:00Z | off | [报告页](report-huggingface__text-generation-inference__2026-11-06.html) · [源 MD](../reports/huggingface__text-generation-inference__2026-11-06.md) |
+| microsoft/onnxruntime | 2026-11-13T14:56:59Z | off（降级：未配置 LLM 凭据（api_key / base_url / model 缺一）） | [报告页](report-microsoft__onnxruntime__2026-11-13.html) · [源 MD](../reports/microsoft__onnxruntime__2026-11-13.md) |
 | sgl-project/sglang | 2026-11-06T00:00:00Z | off | [报告页](report-sgl-project__sglang__2026-11-06.html) · [源 MD](../reports/sgl-project__sglang__2026-11-06.md) |
 | vllm-project/vllm | 2026-11-06T00:00:00Z | off | [报告页](report-vllm-project__vllm__2026-11-06.html) · [源 MD](../reports/vllm-project__vllm__2026-11-06.md) |
 
@@ -40,6 +41,7 @@
 | deepseek-ai/DeepEP | `f6aa38fe06cd` | classic | 4 |
 | deepseek-ai/FlashMLA | `395cb3afbb33` | hot | 0 |
 | huggingface/text-generation-inference | `b4adbf2f6e2e` | classic | 0 |
+| microsoft/onnxruntime | `fd249b559c48` | classic | 0 |
 | sgl-project/sglang | `—` | classic | 0 |
 | vllm-project/vllm | `11199bcb7872` | classic | 0 |
 

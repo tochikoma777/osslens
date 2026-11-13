@@ -1,0 +1,344 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "MIT",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [
+      "cuda"
+    ],
+    "lock_in_score": null,
+    "vendors": [
+      "amd",
+      "nvidia"
+    ]
+  },
+  "identity": {
+    "age_days": 2925,
+    "analyzed_at": "2026-11-13T14:56:59Z",
+    "channel": "classic",
+    "commit": "fd249b559c4829ddf3c388d621174a098f9e41ee",
+    "created_at": "2018-11-10T02:22:53Z",
+    "repo": "microsoft/onnxruntime"
+  },
+  "lang": {
+    "shares": {
+      "Assembly": 0.0167,
+      "Batchfile": 0.0001,
+      "C": 0.0316,
+      "C#": 0.0141,
+      "C++": 0.8222,
+      "CMake": 0.0041,
+      "CSS": 0.0006,
+      "Cuda": 0.0281,
+      "Dockerfile": 0.0001,
+      "Go": 0.0007,
+      "Go Template": 0.0,
+      "HIP": 0.0,
+      "HLSL": 0.0001,
+      "HTML": 0.0001,
+      "Java": 0.0029,
+      "JavaScript": 0.0045,
+      "Jupyter Notebook": 0.001,
+      "Just": 0.0,
+      "Kotlin": 0.0,
+      "Linker Script": 0.0,
+      "Liquid": 0.0,
+      "NASL": 0.0,
+      "Objective-C": 0.0011,
+      "Objective-C++": 0.0008,
+      "Pascal": 0.0,
+      "PowerShell": 0.0002,
+      "Puppet": 0.0,
+      "Python": 0.0595,
+      "Ruby": 0.0,
+      "Rust": 0.0012,
+      "Shell": 0.0007,
+      "Swift": 0.0,
+      "TypeScript": 0.0093,
+      "Vue": 0.0
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 2000,
+    "commits_90d": 964,
+    "contributors": 403,
+    "forks": 4443,
+    "last_commit": "2026-11-13T06:06:01Z",
+    "open_issues": 1947,
+    "release_count_365d": 28,
+    "stars": 22299,
+    "top10_share": 0.3292,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.0598,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "fd249b559c4829ddf3c388d621174a098f9e41ee",
+    "files": [
+      {
+        "path": "cgmanifests/webgpu/README.md",
+        "sha256": "dfeecae8841f336fb1e891b679d7616a2c836e5fd296feafe725bd2d048b0875"
+      },
+      {
+        "path": "csharp/tools/MauiModelTester/ReadMe.md",
+        "sha256": "5b352da0a825fce79750428cb19cd44558511189d6415deb25f355adf4a75e97"
+      },
+      {
+        "path": "dockerfiles/README.md",
+        "sha256": "73ccdde23c1c4f07b1836f84f7c29ef20204512f77ef3d46397fb0b7c1538362"
+      },
+      {
+        "path": "docs/moe-cpu-offload/README.md",
+        "sha256": "89403a36f80d93de2543f7a93f50b7478874d8bba1a43d6c8312f2d566fab10b"
+      },
+      {
+        "path": "js/README.md",
+        "sha256": "a85eb1643d2b1229ba4a95264f449f2b08250a9ff345c207d030669caef64a02"
+      },
+      {
+        "path": "model_package/README.md",
+        "sha256": "ffb522803d015df3cde53b8c0a0c3a4d1844e271166a9c72287585540cdafbfe"
+      },
+      {
+        "path": "onnxruntime/core/providers/webgpu/ep/README.md",
+        "sha256": "9c48f48ee051616a98cc63b09f54da2fed99c9135f51cfa14f66a529855155d4"
+      },
+      {
+        "path": "onnxruntime/core/session/model_package/README.md",
+        "sha256": "49089b8a31efb97d7dde174f01ec229eb8d61f619d818fa607cce2e9c921f39b"
+      },
+      {
+        "path": "onnxruntime/python/tools/profile_explorer/README.md",
+        "sha256": "202bb156f9b02d16725eb6d4f260d7e88774334e4bfe90da4c7d34265f617725"
+      },
+      {
+        "path": "onnxruntime/python/tools/quantization/README.md",
+        "sha256": "cc0c7168914a91adcfa436c91b423e2b3ead7885eba13cdedea226d24075f4b0"
+      },
+      {
+        "path": "onnxruntime/python/tools/transformers/models/llama/README.md",
+        "sha256": "c631fd558ba88365b9edafebf03c7afaa1cea699d68e5f0485da3baea775b52d"
+      },
+      {
+        "path": "onnxruntime/python/tools/transformers/models/sam2/README.md",
+        "sha256": "3057d116dcdb77197cd3e338ea01cda1809b04d976b512573c89bf551d32f8d8"
+      },
+      {
+        "path": "onnxruntime/python/tools/transformers/models/stable_diffusion/README.md",
+        "sha256": "709860340d8b3e33e77530b8b206ff488eb552282ad511111223a63c7b752208"
+      },
+      {
+        "path": "onnxruntime/python/tools/transformers/models/whisper/README.md",
+        "sha256": "5f9bac705de95f2317131c6977ce130543bfa0d79f52d689b9748b21b7daa1dd"
+      },
+      {
+        "path": "onnxruntime/test/ep_weight_sharing_ctx_gen/README.md",
+        "sha256": "876503bfd362d6ec59b227238cf428c980979162883ac47d30949e5e5073bacc"
+      },
+      {
+        "path": "onnxruntime/test/platform/telemetry_1ds/README.md",
+        "sha256": "199673e82c65f7a0590ac8c91846e628c613abd938fb2cf937884fef515380ba"
+      },
+      {
+        "path": "plugin-ep-cuda/csharp/README.md",
+        "sha256": "c8bee5153dfb20c2163ca98c061a5edd83c6153e11e7b0e8da6015d40f5d8e99"
+      },
+      {
+        "path": "plugin-ep-webgpu/README.md",
+        "sha256": "f0c9204dac4e42377b172d41bcf1ab764e50246bea7323dea915207da5d9c5ff"
+      },
+      {
+        "path": "plugin-ep-webgpu/tools/dawn/README.md",
+        "sha256": "84234dfa626a0f2c7aaa47c258369e57ff46d50d5d7091e4226da3521c3ee05f"
+      },
+      {
+        "path": "rust/README.md",
+        "sha256": "d14896eb55818174a7215a5443091105ad44228089a256b97b21db74ed076b74"
+      }
+    ],
+    "tarball_sha256": "caa8a82b354b991399bff0437bf075ab433cd7d26db7837b27293ef654be52cd"
+  },
+  "structure": {
+    "bytes": 594429761,
+    "entrypoints": [
+      "csharp/test/Microsoft.AI.MachineLearning.Tests/main.cpp",
+      "js/common/lib/index.ts",
+      "js/node/lib/index.ts",
+      "js/node/src/main.cc",
+      "js/node/test/standalone/index.ts",
+      "js/node/test/unittests/lib/index.ts",
+      "js/react_native/lib/index.ts",
+      "js/web/lib/index.ts",
+      "js/web/test/e2e/type/testcases/module-resolution/index.ts",
+      "js/web/test/unittests/index.ts",
+      "onnxruntime/test/ep_weight_sharing_ctx_gen/main.cc",
+      "onnxruntime/test/onnx/main.cc",
+      "onnxruntime/test/onnx/microbenchmark/main.cc",
+      "onnxruntime/test/perftest/main.cc",
+      "onnxruntime/test/webgpu/delay_load/main.cc",
+      "onnxruntime/test/webgpu/external_dawn/main.cc",
+      "onnxruntime/tool/etw/main.cc",
+      "orttraining/orttraining/models/bert/main.cc",
+      "orttraining/orttraining/models/gpt2/main.cc",
+      "orttraining/orttraining/models/mnist/main.cc",
+      "orttraining/orttraining/models/pipeline_poc/main.cc",
+      "orttraining/orttraining/models/squeezenet/main.cc",
+      "samples/cxx/main.cc",
+      "samples/nodejs/01_basic-usage/index.js",
+      "samples/nodejs/02_create-tensor/index.js",
+      "samples/nodejs/04_create-inference-session/index.js",
+      "winml/test/common/googletest/main.cpp"
+    ],
+    "files": 11682,
+    "loc_total": null,
+    "max_depth": 13,
+    "monorepo": true,
+    "top_modules": [
+      {
+        "bytes": 428241693,
+        "files": 7797,
+        "path": "onnxruntime"
+      },
+      {
+        "bytes": 102082049,
+        "files": 341,
+        "path": "winml"
+      },
+      {
+        "bytes": 17524685,
+        "files": 388,
+        "path": "csharp"
+      },
+      {
+        "bytes": 16322408,
+        "files": 729,
+        "path": "js"
+      },
+      {
+        "bytes": 7315852,
+        "files": 154,
+        "path": "docs"
+      },
+      {
+        "bytes": 7258493,
+        "files": 815,
+        "path": "orttraining"
+      },
+      {
+        "bytes": 4991382,
+        "files": 201,
+        "path": "cmake"
+      },
+      {
+        "bytes": 2872909,
+        "files": 587,
+        "path": "tools"
+      },
+      {
+        "bytes": 2387728,
+        "files": 134,
+        "path": "java"
+      },
+      {
+        "bytes": 2103830,
+        "files": 148,
+        "path": "include"
+      },
+      {
+        "bytes": 762981,
+        "files": 35,
+        "path": "."
+      },
+      {
+        "bytes": 750652,
+        "files": 37,
+        "path": "go"
+      },
+      {
+        "bytes": 551920,
+        "files": 104,
+        "path": ".github"
+      },
+      {
+        "bytes": 390794,
+        "files": 39,
+        "path": "rust"
+      },
+      {
+        "bytes": 320697,
+        "files": 21,
+        "path": "model_package"
+      },
+      {
+        "bytes": 169178,
+        "files": 53,
+        "path": "objectivec"
+      },
+      {
+        "bytes": 159938,
+        "files": 29,
+        "path": "plugin-ep-webgpu"
+      },
+      {
+        "bytes": 80838,
+        "files": 8,
+        "path": "cgmanifests"
+      },
+      {
+        "bytes": 61375,
+        "files": 22,
+        "path": "plugin-ep-cuda"
+      },
+      {
+        "bytes": 31040,
+        "files": 13,
+        "path": "dockerfiles"
+      }
+    ]
+  }
+}
