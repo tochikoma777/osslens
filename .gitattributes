@@ -1,0 +1,6 @@
+# 真源 append-only：并行 run 同时追加时保留双方行，避免一方覆盖另一方。
+# 仅作用于这些 JSONL；其它文件仍走默认三方合并。
+data/costs/costs.jsonl merge=union
+data/pool/pool.jsonl merge=union
+data/abstract/runs.jsonl merge=union
+patterns/ops.jsonl merge=union

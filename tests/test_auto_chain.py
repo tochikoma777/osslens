@@ -6,13 +6,15 @@
 
 from __future__ import annotations
 
+import subprocess
 from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
 import yaml
-from osslens.cli import main
+from osslens import abstract
+from osslens.cli import PURPOSE_BY_DEPTH, main
 from osslens.config import Config, Layout
 from osslens.depth import (
     AUTO_ABSTRACT_PURPOSES,
@@ -418,7 +420,7 @@ def test_auto_workflow_candidate_cron_and_independent_jobs() -> None:
 
 
 def test_auto_workflow_wiring_and_credential_safety() -> None:
-    """A1/S1'/C1.4/A2 接线到位；1.2 用 --auto-chain 走全链闸门；凭据只走 secrets、零打印、零 push。"""
+    """A1/S1'/C1.4/A2 接线到位；两段并行回写；凭据只走 secrets、零打印。"""
     raw, _ = _load_auto_workflow()
     assert "first_auto_slug" in raw
     assert "config.depth.auto_default" in raw
@@ -429,12 +431,99 @@ def test_auto_workflow_wiring_and_credential_safety() -> None:
     assert "secrets.OSSLENS_LLM_API_KEY" in raw
     assert "secrets.OSSLENS_LLM_BASE_URL" in raw
     assert "echo $OSSLENS_LLM_API_KEY" not in raw  # 零打印凭据
-    # 上线：仅 analyze 段回写真源（contents: write），按路径 add、禁 -A、禁 git clean
-    assert "contents: write" in raw
-    assert "git push" in raw
+    # 两段都回写：各自调用同一个并行安全脚本，两段都有写权限
+    assert raw.count("bash scripts/auto_persist.sh") == 2
+    assert raw.count("contents: write") == 2
+    assert "git push" not in raw  # push 收敛到脚本，避免两段各写一套
     assert "git add -A" not in raw
     assert "git clean" not in raw
-    assert "git pull --rebase --autostash" in raw
+
+    repo = Path(__file__).resolve().parents[1]
+    script = (repo / "scripts" / "auto_persist.sh").read_text(encoding="utf-8")
+    assert "git push" in script
+    assert "git rebase origin/main" in script
+    assert "python -m osslens site" in script
+    assert "git add --" in script
+    assert "git add -A" not in script
+    assert "git clean" not in script
+
+    attrs = (repo / ".gitattributes").read_text(encoding="utf-8")
+    for path in (
+        "data/costs/costs.jsonl",
+        "data/abstract/runs.jsonl",
+        "data/pool/pool.jsonl",
+        "patterns/ops.jsonl",
+    ):
+        assert f"{path} merge=union" in attrs
+
+
+def test_purpose_sets_match_writers() -> None:
+    """Z5：闸门用途集合必须与写入方字面量完全一致（改一边就失败，防静默失效）。"""
+    assert frozenset(PURPOSE_BY_DEPTH.values()) == AUTO_ANALYSIS_PURPOSES
+    assert (
+        frozenset({abstract.TYPE_CLUSTER, abstract.TYPE_CROSS_DOMAIN, abstract.TYPE_RECONCILE})
+        == AUTO_ABSTRACT_PURPOSES
+    )
+
+
+def test_abstract_anchor_survives_fresh_checkout(tmp_path: Path) -> None:
+    """Z1/Z2：锚点落盘后，全新 Config / load_events 仍能读到 → schedule 未满即跳过。"""
+    root = seed_workspace(tmp_path / "ws")
+    config = Config.load(root)
+    event = replace(_attributed_call("2026-11-13T12:00:00Z"), purpose="cluster-abstraction")
+    assert record_event(config.layout, event) is True
+
+    # 模拟全新检出：重新加载配置与台账（不复用内存中的 events）
+    fresh = Config.load(root)
+    fresh_events = load_events(fresh.layout)
+    now = datetime(2026, 11, 14, 12, tzinfo=UTC)
+    assert (
+        auto_interval_reached(fresh, fresh_events, now=now, purposes=AUTO_ABSTRACT_PURPOSES)
+        is False
+    )
+    # 分析段不被抽象段锚点影响
+    assert (
+        auto_interval_reached(fresh, fresh_events, now=now, purposes=AUTO_ANALYSIS_PURPOSES) is True
+    )
+
+
+def test_union_merge_keeps_both_append_only_sides(tmp_path: Path) -> None:
+    """Z3：两段并行追加 costs.jsonl，union 合并后双方行都在（真实 git 实测，不 mock）。"""
+    repo = tmp_path / "repo"
+    (repo / "data" / "costs").mkdir(parents=True)
+
+    def run(*args: str) -> None:
+        subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True, text=True)
+
+    run("init", "-q", "-b", "main")
+    run("config", "user.name", "t")
+    run("config", "user.email", "t@t")
+
+    (repo / ".gitattributes").write_text("data/costs/costs.jsonl merge=union\n", encoding="utf-8")
+    costs = repo / "data" / "costs" / "costs.jsonl"
+    costs.write_text('{"run":"base"}\n', encoding="utf-8")
+    run("add", "-A")
+    run("commit", "-qm", "base")
+
+    run("checkout", "-qb", "abstract")
+    costs.write_text(
+        '{"run":"base"}\n{"run":"abstract","orchestration_run":"1"}\n', encoding="utf-8"
+    )
+    run("add", "-A")
+    run("commit", "-qm", "abstract")
+
+    run("checkout", "-q", "main")
+    costs.write_text(
+        '{"run":"base"}\n{"run":"analyze","orchestration_run":"2"}\n', encoding="utf-8"
+    )
+    run("add", "-A")
+    run("commit", "-qm", "analyze")
+    run("merge", "--no-edit", "abstract")
+
+    text = costs.read_text(encoding="utf-8")
+    assert '"abstract"' in text
+    assert '"analyze"' in text
+    assert text.count('"run":"base"') == 1
 
 
 # --- A-1：auto_default 只影响自动链，手动四档与 baseline 语义不变 --------------
@@ -802,8 +891,8 @@ def test_auto_workflow_interval_gate_precedes_analysis_and_abstract() -> None:
     assert "github.event_name" in raw
     assert "AUTO_ANALYSIS_PURPOSES" in raw
     assert "AUTO_ABSTRACT_PURPOSES" in raw
-    # 分析段：analyze + 回写两步；抽象段：abstract 一步
-    assert raw.count("if: steps.interval.outputs.skip != 'true'") == 3
+    # 分析段：analyze + 回写；抽象段：abstract + 回写
+    assert raw.count("if: steps.interval.outputs.skip != 'true'") == 4
 
     analyze_steps = doc["jobs"]["auto-analyze"]["steps"]
     analyze_gate = next(i for i, step in enumerate(analyze_steps) if step.get("id") == "interval")

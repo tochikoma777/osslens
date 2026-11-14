@@ -123,27 +123,20 @@ jobs:
           raise SystemExit(code)
           PY
 
-      - name: 重建站点 + 提交本段真源并推送（真源 append-only；按路径 add，不用 -A）
+      - name: 提交本段真源并推送（并行安全：union + 合并后重建站点 + 重试）
         if: steps.interval.outputs.skip != 'true'
         shell: bash
         run: |
-          # 先按真源重建 site（保持「真源变更 → site 同步」，否则后续 site --check 会不一致）。
-          python -m osslens site
-          # 路径分类：只提交本段会写的真源与派生基线；不使用全集暂存，不做清理。
-          git add -- reports data/costs data/featcards site
-          if git diff --cached --quiet; then
-            echo "[skip] 无真源/站点变更，不产生空提交"
-            exit 0
-          fi
-          git -c user.name="osslens-bot" -c user.email="osslens-bot@users.noreply.github.com" \
-            commit -m "chore(auto): 自动分析 $(date -u +%Y-%m-%d)"
-          git pull --rebase --autostash
-          git push
+          bash scripts/auto_persist.sh "chore(auto): 自动分析 $(date -u +%Y-%m-%d)"
 
   auto-abstract:
     # 红线 #25：固定 ubuntu-24.04，不用 ubuntu-latest
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    # 抽象段也回写真源（data/costs / data/abstract / patterns / site）；
+    # 与 analyze 段并行，互不 needs，由 scripts/auto_persist.sh 做并行安全合并。
+    permissions:
+      contents: write
     steps:
       - name: 检出
         uses: actions/checkout@v4
@@ -202,6 +195,14 @@ jobs:
           OSSLENS_LLM_BASE_URL: ${{ secrets.OSSLENS_LLM_BASE_URL }}
           OSSLENS_AUTO_RUN_ID: ${{ github.run_id }}
         run: python -m osslens abstract
+
+      # 抽象段的真实调用台账 / run 记录必须回写，否则下次全新检出读不到锚点，
+      # 「至少间隔 N 天」会退化成每次 schedule 都真实调用。
+      - name: 提交本段真源并推送（并行安全：union + 合并后重建站点 + 重试）
+        if: steps.interval.outputs.skip != 'true'
+        shell: bash
+        run: |
+          bash scripts/auto_persist.sh "chore(auto): 规律抽象 $(date -u +%Y-%m-%d)"
 
   auto-site:
     # 红线 #25：固定 ubuntu-24.04，不用 ubuntu-latest
