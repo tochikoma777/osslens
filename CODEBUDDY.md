@@ -7,7 +7,7 @@ This file provides guidance to CodeBuddy Code when working with code in this rep
 > **生成方**：项目负责人（一次性，Chat 只生成一次）；**维护方**：**Code Agent**（**自维护**：内容有变即直接改，不需逐次授权）。
 > **维护约束**：唯一约束 = `docs/经验库-冲突与覆盖清单.md` §8.2 **六锚点不得漂移**；改后 `git diff -- CODEBUDDY.md` 逐项核对，锚点丢失按该 §8.2 从 SSOT 回填。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.9 · **对应 tag**：`l5` · **日期**：2026-11-10
+> **当前版本**：v1.10 · **对应 tag**：`l5` · **日期**：2026-11-14（文档刷新：路径 B 自动化）
 
 ---
 
@@ -72,7 +72,7 @@ python -m osslens site [--out DIR] [--as-of ISO] [--check]
 pip install -e ".[dev]"        # 装含 pytest / ruff / mypy / respx 的开发依赖；setuptools 后端，无独立 build 步骤（`build` 未装）
 osslens --help                 # 或 python -m osslens；pyproject.toml [project.scripts] 入口
 
-pytest                         # 全量 157 例（实现轮 v1.0 后：基线 136 + T1 2 + T2 9 + T3 10；含 tests/test_l3.py 38 条、tests/test_l4.py 20 条）
+pytest                         # 全量 186 例（实现轮 157 + 路径 B 自动化 29；含 test_l3 38、test_l4 22、test_auto_chain 27）
 pytest tests/test_core.py::test_report_is_byte_identical   # 单测（node id）
 pytest tests/test_l4.py -k "check or empty"               # 按关键字筛
 pytest -m "not network"        # 离线；pyproject.toml 定义 network marker，当前无用例带此标记
@@ -90,14 +90,15 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 ★ `mypy` 的 `files = ["osslens"]`（`pyproject.toml:58`）不含 `scripts/`（也不含 `tests/`）；
 `ruff check .` / `ruff format --check .` 按路径发现文件（`extend-exclude` 仅排 `data/` `reports/` `site/`，`:47`），`scripts/` 在 lint 范围内，`src` 只影响 import 解析、不限制检查范围 → 改 `scripts/` 下脚本时门禁四连的 mypy 侧不覆盖。
 
-**测试分布（157 条）**：`test_core.py` 21（L0 幂等/契约）· `test_l1.py` 23（探测/特征卡/Mermaid）·
+**测试分布（186 条）**：`test_core.py` 21（L0 幂等/契约）· `test_l1.py` 23（探测/特征卡/Mermaid）·
 `test_l2.py` 14（档位/预算/D10/保留）· `test_collect.py` 7（快照/源码切片）· `test_pool.py` 7（打分/观察期）·
 `test_time.py` 4（跨周/跨月时序）· `test_l3.py` 38（召回/四层 schema/ops/编排/成本闸门）·
-`test_l4.py` 20（站点四块/空态/`--check`/幂等/零网络/不展示敏感）·
+`test_l4.py` 22（站点四块/空态/`--check`/幂等/零网络/成本红 badge）·
+`test_auto_chain.py` 27（自动链间隔/闸门/归因/告警/标记守护）·
 `test_workflow_pathspec.py` 2 · `test_retention_cli.py` 2（T1）· `test_cross_domain.py` 9（T2）·
 `test_paradigm_site.py` 10（T3）。
 按领域改代码时优先跑对应文件，收尾仍须门禁四连。
-★ 锚文件 §8.2 ③ 已由负责人升为「全仓 157」（v1.6，2026-11-10）；本文件 §2.1 / §3.1 与之对齐（**Agent 不自行改锚文件**）。
+★ 锚文件 §8.2 ③ 仍为「全仓 157」（v1.6，负责人维护、Agent 只读；尚未升版）；本文件按仓库现实记录 **186**，差异已上报，待负责人升版（**Agent 不自行改锚文件**）。
 
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
@@ -105,6 +106,11 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 ★ **实现进度（L4 / tag `l4`，2026-11-07）**：已实现 `init` · `pool add|list|eligible` · `analyze` · `cost` ·
 `abstract`（L3：零 LLM 三态召回 / 四层 schema / ops 增量 merge / reconcile / 反例挖掘 / 成本闸门 / run 记录）·
 `site`（L4：静态只读站点 / `index.md` / 四块呈现 / `--check` / 零 LLM·零网络·¥0）。
+★ **路径 B 自动化（2026-11-12→14，已 push `main`）**：`schedule` 仅作低成本检查，真实调用间隔由
+`auto_chain.min_interval_days`（默认 7）控制；分析段与抽象段各自闸门、各查各的 `purpose` 锚点；
+锚点随 `data/costs` 回写并跨运行保留（`.gitattributes` → `merge=union`，`scripts/auto_persist.sh`
+负责「提交→rebase→合并后重建站点→push 重试」的并行安全回写）；成本异常三通道
+（报告头部区块 / Actions `::warning` / 站点红色 badge）均只标注、不阻断。
 ★ `patterns/*.yaml` 真源纯净：样本未达 S1 阈值时 `insufficient_samples` 产 0 条，站点如实显示空态、不伪造条目。
 ★ 收尾动作（`docs/功能总览.md` / 经验汇总 / 价格复核 / remote / push / 真实 Actions run）**不在 L4 卡内**，等 L4 验收后单独一轮。
 `analyze` 支持 `off` · **`fast`（deepseek-flash，thinking 关）** · **`strong`（deepseek-v4-pro，thinking 开，已实跑）**。
@@ -201,10 +207,10 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 | `test_site_builds_full_static_site` · `test_empty_patterns_state_is_honest` · `test_site_check_reports_diff_without_writing` · `test_site_zero_network_transport_interception` | L4 | ✅ 已存在（`tests/test_l4.py`，含「故意让它失败」反向用例） |
 
 > ★ L3 两条目标清单已落地（`patterns.py` / `abstract.py` 建成）；L4 站点契约测试 20 条亦已落地。L1 的两条、L2 的 14 条亦已落地。
-> `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 14 条、`tests/test_l3.py` 共 38 条、`tests/test_l4.py` 共 20 条，**全仓 157 条**（实现轮 v1.0 后，含 `test_retention_cli.py` 2 · `test_cross_domain.py` 9 · `test_paradigm_site.py` 10）。
+> `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 14 条、`tests/test_l3.py` 共 38 条、`tests/test_l4.py` 共 22 条、`tests/test_auto_chain.py` 共 27 条，**全仓 186 条**（实现轮 157 + 路径 B 自动化 29）。
 > 核对命令：`pytest --collect-only -q | grep -E "three_class|not_applicable"`（**应输出 2 条 L3**）；
 > `pytest --collect-only -q | grep -E "template_page|real_content"`（**应仅输出 2 条 L1**，不得为 0）。
-> ★ 只读锚文件 `docs/经验库-冲突与覆盖清单.md` **v1.6**（2026-11-10）已由负责人把 §8.2 ③ 升为「L3 两条 ✅ 存在」、③ 由「全仓 136」升为「全仓 157」、⑥ 更新为实现轮完成 / `l5` / `schedule` 恢复。锚点 ③ 是**状态型**、随阶段推进由负责人升版、**Agent 只读核对**。本文件与之对齐（不自行改锚文件）。
+> ★ 只读锚文件 `docs/经验库-冲突与覆盖清单.md` **v1.6**（2026-11-10）已由负责人把 §8.2 ③ 升为「L3 两条 ✅ 存在」、③ 由「全仓 136」升为「全仓 157」、⑥ 更新为实现轮完成 / `l5` / `schedule` 恢复。锚点 ③ 是**状态型**、随阶段推进由负责人升版、**Agent 只读核对**。当前现实为 **186**，锚文件尚停在 157；本文件按现实记录并上报差异，待负责人升版（不自行改锚文件）。
 > 若后续发现锚文件状态落后于仓库现实 → 在验收报告注明，由负责人升版，不自行改锚文件。
 
 ---
@@ -364,6 +370,7 @@ site/                                              # L4 静态站（★ 可重�
 | **收尾** ✅ | 全景定稿：`docs/功能总览.md` / 经验固化结构化索引 / D19 口径定稿 / 文档回填 | 功能总览七部分齐全、数字可回溯；门禁四连全绿、`site --check` 一致；零 LLM / 零网络 / 本阶段 ¥0；收尾时未打 tag / 未 push（D31 后续已执行） |
 | **D31 发布接线** ✅ | 私有远端可验证：私有空仓 / remote / push / 真实 Actions run | 建私有仓库 `tochikoma777/osslens`；只推 main（不推 tag，远端 tag 0）；run #2 `42455959308` **Success**；cron 当时未启用（Gate 3 待授权） |
 | **实现轮 v1.0** ✅ | cron 启用 · retention 接线 · 跨域抽象 · paradigm_tags · 静态三能力 | 157 测试 / validate 13·13 / `site --check` 一致（20 产物）；端到端 ①→⑧ 各跑一次（run #3 Success / `pool eligible` 4 候选 / off 分析 / 抽象与跨域空态）；本地打 `l5` 不推远端 tag |
+| **路径 B 自动化** ✅（本地） | 自动链 7 天间隔 · 抽象段同间隔/分锚点 · 锚点跨运行持久化 · 成本告警三通道 | 186 测试 / validate 13·13 / `site --check` 一致（22 产物）；真实调用 1 笔 ¥0.0278（run 43461199920）；`auto.yml` 首次 `event=schedule` 校准仍「未获得 + 原因」 |
 
 > ★ L2 局限（历史，D18=A 不翻案）：actionlint 未安装，走降级静态校验。D31 后已有真实 Actions run #2 Success（但只证明调度链路通，不等于 8 周无人值守自动编排已跑通）。
 > ★ 发布状态：已建私有 remote `origin` 并 push `main`；D31 只推 main、远端 tag 0；本地 `l0`–`l4` 冻结、`l5` 本地打不推。
@@ -384,7 +391,7 @@ site/                                              # L4 静态站（★ 可重�
 | `docs/数据源手册.md` | L0 验收后（**归并已有实测文件，不新造**） | ✅ 已建成 |
 | `docs/成本预算.md` | **L1 首次真实调用后**（L0 期间无真实花费，不建） | ✅ 已建成 |
 | `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E12；E11 = D28 三态口径、E12 = HTML 转义断言） |
-| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护） | ✅ 已建成（v1.6，§8.2 六锚点唯一权威；锚点 ③ 已随 L3 升为「两条 ✅」、并随实现轮升为「全仓 157」） |
+| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护） | ✅ 已建成（v1.6，§8.2 六锚点唯一权威；锚点 ③ 仍为「全仓 157」，落后于现实 186，待负责人升版） |
 | `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.5） |
 | `docs/功能总览.md` | 收尾 | ✅ 已建成（2026-11-07，七部分全景定稿） |
 
