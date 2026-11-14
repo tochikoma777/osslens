@@ -9,7 +9,7 @@
 from __future__ import annotations
 
 import os
-from collections.abc import Mapping, Sequence
+from collections.abc import Collection, Mapping, Sequence
 from dataclasses import dataclass, replace
 from datetime import datetime, timedelta
 from typing import Any
@@ -46,6 +46,13 @@ EVENT_KINDS = (EVENT_CALL, EVENT_DOWNGRADE, EVENT_BLOCKED, EVENT_CACHE_HIT)
 # → 字段恒空、to_json 不新增任何 key → 既有台账字节 / 幂等 / 报告契约零影响。
 AUTO_RUN_ID_ENV = "OSSLENS_AUTO_RUN_ID"
 ORCHESTRATION_FIELD = "orchestration_run"
+
+# 自动链分段锚点（1.2）：`purpose` 是写入方用途标签，用来隔离两段的「上次真实调用」。
+#   分析段：cli.PURPOSE_BY_DEPTH 写入 fast_insight / strong_insight；
+#   抽象段：abstract.py 写入 run_type（cluster-abstraction / cross-domain / reconcile）。
+# 两段各查各的集合，互不占用对方的间隔锚点。
+AUTO_ANALYSIS_PURPOSES = frozenset({"fast_insight", "strong_insight"})
+AUTO_ABSTRACT_PURPOSES = frozenset({"cluster-abstraction", "cross-domain", "reconcile"})
 
 
 def orchestration_run_from_env(environ: Mapping[str, str] | None = None) -> str:
@@ -211,15 +218,22 @@ class CostSummary:
     anomalies: tuple[str, ...]
 
 
-def last_auto_call_at(events: Sequence[CostEvent]) -> datetime | None:
-    """最近一次「自动链真实分析」时间：`event=call` 且带编排归因字段。
+def last_auto_call_at(
+    events: Sequence[CostEvent],
+    *,
+    purposes: Collection[str] | None = None,
+) -> datetime | None:
+    """最近一次「自动链真实调用」时间：`event=call` 且带编排归因字段。
 
     ★ 只认自动链（`orchestration_run` 非空）：降级 / blocked / 本地手动调用都不算真实分析。
+    ★ `purposes=None` 不区分用途；传集合则只认该段用途 → 分析段与抽象段锚点互不干扰。
     ★ 解析失败的行跳过（台账允许历史字段缺失，不因单行脏数据阻断闸门）。
     """
     latest: datetime | None = None
     for event in events:
         if event.event != EVENT_CALL or not event.orchestration_run:
+            continue
+        if purposes is not None and event.purpose not in purposes:
             continue
         try:
             moment = parse_iso(event.as_of)
@@ -235,16 +249,19 @@ def auto_interval_reached(
     events: Sequence[CostEvent],
     *,
     now: datetime,
+    purposes: Collection[str] | None = None,
 ) -> bool:
-    """路径 B：`schedule` 的「自动真实分析最小间隔」闸门。
+    """路径 B：`schedule` 的「自动真实调用最小间隔」闸门。
 
-    - 无历史自动真实分析 → True（首次放行）。
-    - 距最近一次自动真实分析满 `auto_chain.min_interval_days` 天 → True。
-    - 未满 → False；调用方必须在 `first_auto_slug` / `analyze` / 真源回写 / 站点重建**之前**退出。
+    - 无历史自动真实调用 → True（首次放行）。
+    - 距最近一次自动真实调用满 `auto_chain.min_interval_days` 天 → True。
+    - 未满 → False；调用方必须在真实调用 / 真源回写**之前**退出。
+    - `purposes` 用于分段：分析段传 `AUTO_ANALYSIS_PURPOSES`、抽象段传
+      `AUTO_ABSTRACT_PURPOSES`，两段各查各的锚点，互不影响。
     - `workflow_dispatch` 不由本函数区分：调用方只对 `schedule` 使用本结果
       （手动绕过间隔、不绕过成本闸门）。
     """
-    last = last_auto_call_at(events)
+    last = last_auto_call_at(events, purposes=purposes)
     if last is None:
         return True
     return now - last >= timedelta(days=config.auto_chain.min_interval_days)

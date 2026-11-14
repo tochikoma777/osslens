@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -14,6 +15,8 @@ import yaml
 from osslens.cli import main
 from osslens.config import Config, Layout
 from osslens.depth import (
+    AUTO_ABSTRACT_PURPOSES,
+    AUTO_ANALYSIS_PURPOSES,
     AUTO_RUN_ID_ENV,
     ORCHESTRATION_FIELD,
     REQUESTED_DEPTHS,
@@ -758,8 +761,38 @@ def test_auto_interval_gate_only_counts_attributed_calls(tmp_path: Path) -> None
     assert auto_interval_reached(tight, [recent], now=now) is True
 
 
-def test_auto_workflow_interval_gate_precedes_analysis() -> None:
-    """X2：schedule 闸门先于 first_auto_slug / analyze / 真源回写；skip 正确传递。"""
+def test_auto_interval_segments_are_independent(tmp_path: Path) -> None:
+    """Y2：分析段与抽象段各查各的 purpose 锚点，互不占用间隔。"""
+    root = seed_workspace(tmp_path / "ws")
+    config = Config.load(root)
+    now = datetime(2026, 11, 14, 12, tzinfo=UTC)
+
+    analysis_call = replace(_attributed_call("2026-11-13T12:00:00Z"), purpose="fast_insight")
+    abstract_call = replace(analysis_call, purpose="cluster-abstraction")
+
+    # 抽象段刚跑过 → 抽象段未满；分析段不受影响（放行）
+    assert (
+        auto_interval_reached(config, [abstract_call], now=now, purposes=AUTO_ABSTRACT_PURPOSES)
+        is False
+    )
+    assert (
+        auto_interval_reached(config, [abstract_call], now=now, purposes=AUTO_ANALYSIS_PURPOSES)
+        is True
+    )
+
+    # 分析段刚跑过 → 分析段未满；抽象段不受影响（放行）
+    assert (
+        auto_interval_reached(config, [analysis_call], now=now, purposes=AUTO_ANALYSIS_PURPOSES)
+        is False
+    )
+    assert (
+        auto_interval_reached(config, [analysis_call], now=now, purposes=AUTO_ABSTRACT_PURPOSES)
+        is True
+    )
+
+
+def test_auto_workflow_interval_gate_precedes_analysis_and_abstract() -> None:
+    """X2 / Y1：schedule 闸门先于 analyze / 抽象 / 真源回写；skip 分别传递。"""
     raw, doc = _load_auto_workflow()
     gate_at = raw.index("频率闸门")
     assert gate_at < raw.index("first_auto_slug")
@@ -767,10 +800,23 @@ def test_auto_workflow_interval_gate_precedes_analysis() -> None:
     assert "[skip] interval not reached" in raw
     assert "auto_chain.min_interval_days" in raw
     assert "github.event_name" in raw
-    assert raw.count("if: steps.interval.outputs.skip != 'true'") == 2
+    assert "AUTO_ANALYSIS_PURPOSES" in raw
+    assert "AUTO_ABSTRACT_PURPOSES" in raw
+    # 分析段：analyze + 回写两步；抽象段：abstract 一步
+    assert raw.count("if: steps.interval.outputs.skip != 'true'") == 3
 
-    steps = doc["jobs"]["auto-analyze"]["steps"]
-    interval_index = next(i for i, step in enumerate(steps) if step.get("id") == "interval")
-    analyze_index = next(i for i, step in enumerate(steps) if "自动 analyze" in step["name"])
-    assert interval_index < analyze_index
-    assert steps[analyze_index]["if"] == "steps.interval.outputs.skip != 'true'"
+    analyze_steps = doc["jobs"]["auto-analyze"]["steps"]
+    analyze_gate = next(i for i, step in enumerate(analyze_steps) if step.get("id") == "interval")
+    analyze_index = next(
+        i for i, step in enumerate(analyze_steps) if "自动 analyze" in step["name"]
+    )
+    assert analyze_gate < analyze_index
+    assert analyze_steps[analyze_index]["if"] == "steps.interval.outputs.skip != 'true'"
+
+    abstract_steps = doc["jobs"]["auto-abstract"]["steps"]
+    abstract_gate = next(i for i, step in enumerate(abstract_steps) if step.get("id") == "interval")
+    abstract_index = next(
+        i for i, step in enumerate(abstract_steps) if "独立定时抽象" in step["name"]
+    )
+    assert abstract_gate < abstract_index
+    assert abstract_steps[abstract_index]["if"] == "steps.interval.outputs.skip != 'true'"
