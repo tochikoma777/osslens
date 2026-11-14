@@ -246,6 +246,14 @@ def test_featcard_evidence_file_line_rendered(tmp_path: Path) -> None:
     assert "org/one" in files["featcards.html"]
 
 
+def test_cost_anomaly_marker_matches_site_parser() -> None:
+    """H1：报告写出标记与站点解析标记必须逐字一致；任一侧改了而不同步即失败。"""
+    from osslens.render import COST_ANOMALY_MARKER
+    from osslens.site import _ANOMALY_MARKER
+
+    assert COST_ANOMALY_MARKER == _ANOMALY_MARKER
+
+
 def test_cost_anomaly_renders_red_badge(tmp_path: Path) -> None:
     """G2：报告头部异常 → 成本页与报告页出现红色 badge，普通报告列表不受影响。"""
     root = _workspace(tmp_path)

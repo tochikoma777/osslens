@@ -23,6 +23,10 @@ DASH = "—"
 # D10 = A：报告口径的显式字样（写死，防稀释）。改动需同步改 tests/test_l2.py 的断言。
 D10_WORDING = "本次分析的成本（不含开发期重复调用）；账户累计见 cost"
 
+# 报告头部成本异常区块的标记行（站点 site._ANOMALY_MARKER 必须与此完全一致；
+# 两侧各自保留字面量，由 tests 的标记一致性守护测试防漂移）。
+COST_ANOMALY_MARKER = "> ⚠ **成本异常（仅标注，不阻断）**"
+
 
 def detect_cost_anomalies(
     *,
@@ -59,7 +63,7 @@ def cost_anomaly_block(cost: CostLine | None) -> list[str]:
     """
     if cost is None or not cost.anomalies:
         return []
-    lines = ["> ⚠ **成本异常（仅标注，不阻断）**", ">"]
+    lines = [COST_ANOMALY_MARKER, ">"]
     lines.extend(f"> - {item}" for item in cost.anomalies)
     lines.append("")
     return lines
@@ -478,6 +482,7 @@ def _list(value: Any) -> str:
 
 
 __all__ = [
+    "COST_ANOMALY_MARKER",
     "CostLine",
     "DASH",
     "ReportInputs",
