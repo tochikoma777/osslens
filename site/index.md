@@ -49,7 +49,7 @@
 
 ## 规律库
 
-**规律库尚无条目（首次真实抽象未触发：<cross-domain> 簇 0 < 6）**
+**规律库尚无条目（首次真实抽象未触发：inference 簇 5 < 6）**
 
 ## 抽象 run 记录
 
@@ -58,3 +58,4 @@
 | 32a70b9b5b85fd8c | cluster-abstraction | inference | insufficient_samples | 0 |
 | 37af1a65da342b5f | cross-domain | <cross-domain> | insufficient_samples | 0 |
 | 3f6e4c82e3b95f22 | cluster-abstraction | inference | insufficient_samples | 0 |
+| 5e1a6cd25e4ae82b | cluster-abstraction | inference | insufficient_samples | 0 |
