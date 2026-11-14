@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from collections.abc import Sequence
 from datetime import datetime
@@ -497,6 +498,7 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
         requested=decision.requested,
         actual=decision.actual,
     )
+    _emit_actions_cost_warning(cost_line.anomalies)
 
     report = render_report(
         ReportInputs(
@@ -1057,6 +1059,22 @@ def _build_context(config: Config, card: dict[str, Any], sources: Any) -> Any:
         source_files=others,
         budget_tokens=config.depth.budget.per_run_prompt_tokens,
     )
+
+
+COST_ANOMALY_WARNING_TITLE = "成本异常（仅标注，不阻断）"
+
+
+def _emit_actions_cost_warning(anomalies: Sequence[str]) -> None:
+    """GitHub Actions 原生告警（仅标注、不阻断）。
+
+    ★ 只在 `GITHUB_ACTIONS=true` 时输出，避免污染本地 CLI / 报告输出。
+    ★ title 与 pool.yml 的「工作区有未提交改动」脏守卫显式区分，避免误读为构建失败。
+    ★ 不改退出码、不写 degraded、不加任何阻断语义。
+    """
+    if not anomalies or os.environ.get("GITHUB_ACTIONS") != "true":
+        return
+    for item in anomalies:
+        print(f"::warning title={COST_ANOMALY_WARNING_TITLE}::{item}")
 
 
 def _cost_line(

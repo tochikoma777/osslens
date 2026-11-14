@@ -246,6 +246,27 @@ def test_featcard_evidence_file_line_rendered(tmp_path: Path) -> None:
     assert "org/one" in files["featcards.html"]
 
 
+def test_cost_anomaly_renders_red_badge(tmp_path: Path) -> None:
+    """G2：报告头部异常 → 成本页与报告页出现红色 badge，普通报告列表不受影响。"""
+    root = _workspace(tmp_path)
+    path = root / "reports" / "org__one__2026-11-06.md"
+    text = path.read_text(encoding="utf-8")
+    block = "> ⚠ **成本异常（仅标注，不阻断）**\n>\n> - 本周用量 > 周额度 50%\n\n"
+    path.write_text(text.replace("## 运行元数据", block + "## 运行元数据", 1), encoding="utf-8")
+
+    files = _build(root, tmp_path / "site")
+    costs = files["costs.html"]
+    assert 'class="badge-alert"' in costs
+    assert "本周用量 &gt; 周额度 50%" in costs
+    assert ".alert{background:#ffeef0" in costs  # 红色告警样式，区别于 .empty/.note 黄色
+
+    page = files["report-org__one__2026-11-06.html"]
+    assert 'class="badge-alert"' in page
+    assert "本周用量 &gt; 周额度 50%" in page
+    # 列表页不渲染 badge（只有命中的成本页/报告页）
+    assert 'class="badge-alert"' not in files["reports.html"]
+
+
 def test_costs_block_has_d10_wording_and_price_source(tmp_path: Path) -> None:
     root = _workspace(tmp_path)
     files = _build(root, tmp_path / "site")

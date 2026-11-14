@@ -233,6 +233,54 @@ def test_analyze_emits_header_anomaly_block_when_threshold_hit(tmp_path: Path) -
     assert not any(r["event"] in ("downgrade", "blocked") for r in rows)
 
 
+def test_analyze_emits_actions_warning_only_on_anomaly(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """G1：异常命中 + GITHUB_ACTIONS=true → ::warning；文案与 pool.yml 脏守卫显式区分。"""
+    monkeypatch.setenv("GITHUB_ACTIONS", "true")
+    root = seed_workspace(tmp_path / "ws")
+    config = Config.load(root)
+    record_event(
+        config.layout,
+        CostEvent(
+            event="call",
+            repo="deepseek-ai/DeepEP",
+            depth="fast",
+            model="deepseek-flash",
+            prompt_tokens=1_500_000,
+            completion_tokens=0,
+            estimated_cost=0.0,
+            source="api",
+            as_of="2026-11-02T09:00:00Z",
+            run_id="seed-actions-warning",
+            requested_depth="fast",
+            actual_depth="fast",
+            reason="baseline",
+            purpose="seed",
+        ),
+    )
+    code = main(
+        [
+            "analyze",
+            "deepseek-ai/DeepEP",
+            "--root",
+            str(root),
+            "--no-sources",
+            "--as-of",
+            "2026-11-02T00:00:00Z",
+            "--depth",
+            "off",
+        ]
+    )
+    out = capsys.readouterr().out
+    assert code == 0
+    assert "::warning title=成本异常（仅标注，不阻断）::" in out
+    assert "本周用量 > 周额度 50%" in out
+    assert "工作区有未提交改动" not in out  # 与 pool.yml 脏守卫区分
+    rows = read_jsonl_file(config.layout.costs_jsonl)
+    assert not any(r["event"] in ("downgrade", "blocked") for r in rows)
+
+
 def test_steady_report_has_no_anomaly_block(tmp_path: Path) -> None:
     """稳态（阈值未触发）：报告不含异常区块，字节与既有渲染一致（幂等不受影响）。"""
     root = seed_workspace(tmp_path / "ws")

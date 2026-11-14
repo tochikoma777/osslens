@@ -86,6 +86,8 @@ class ReportDoc:
     cost_line: str
     text: str
     paradigm_tags: tuple[str, ...] = ()
+    # 报告头部「成本异常（仅标注，不阻断）」区块的条目（无异常时为空）。
+    anomalies: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -113,6 +115,29 @@ def _meta_rows(text: str) -> dict[str, str]:
 
 # 报告洞见段里由 render.py 写出的「- 架构范式标签：」行（受控词表，顿号分隔）。
 _TAG_LINE = re.compile(r"^-\s*架构范式标签：(.+)$")
+
+# render.py 写出的头部异常区块标记（只用于站点呈现，不改写报告正文）。
+_ANOMALY_MARKER = "> ⚠ **成本异常（仅标注，不阻断）**"
+
+
+def _report_anomalies(text: str) -> tuple[str, ...]:
+    """解析报告头部「成本异常」区块的 `> - ` 条目；无区块返回空。"""
+    items: list[str] = []
+    in_block = False
+    for line in text.splitlines():
+        stripped = line.strip()
+        if stripped.startswith(_ANOMALY_MARKER):
+            in_block = True
+            continue
+        if not in_block:
+            continue
+        if stripped.startswith("> - "):
+            items.append(stripped[len("> - ") :].strip())
+            continue
+        if stripped.startswith(">"):
+            continue
+        break
+    return tuple(items)
 
 
 def _report_paradigm_tags(text: str) -> tuple[str, ...]:
@@ -146,6 +171,7 @@ def load_reports(layout: Layout) -> tuple[ReportDoc, ...]:
                 cost_line=meta.get("成本说明", ""),
                 text=text,
                 paradigm_tags=_report_paradigm_tags(text),
+                anomalies=_report_anomalies(text),
             )
         )
     return tuple(sorted(docs, key=lambda item: (item.repo, item.as_of, item.stem)))
@@ -315,6 +341,9 @@ _CSS = (
     "code{background:#f3f4f6;padding:1px 4px;border-radius:3px}"
     "pre code{background:none;padding:0}"
     ".empty,.note{background:#fff8e5;border-left:4px solid #d9a400;padding:10px 14px;margin:12px 0}"
+    ".alert{background:#ffeef0;border-left:4px solid #d1242f;padding:10px 14px;margin:12px 0}"
+    ".badge-alert{display:inline-block;background:#d1242f;color:#fff;border-radius:3px;"
+    "padding:1px 8px;font-size:.85em;font-weight:600}"
     "ul,ol{padding-left:24px}"
 )
 
@@ -480,6 +509,17 @@ def _render_index_html(
     return _page("osslens · 静态只读站点", body)
 
 
+def _anomaly_alert(pairs: Sequence[tuple[str, str]]) -> str:
+    """红色告警块：与 .empty/.note（黄色提示）及普通 warnings 文本区分。"""
+    if not pairs:
+        return ""
+    items = "".join(f"<li>{html.escape(repo)}：{html.escape(text)}</li>" for repo, text in pairs)
+    return (
+        '<div class="alert"><span class="badge-alert">⚠ 成本异常（仅标注，不阻断）</span>'
+        f"<ul>{items}</ul></div>\n"
+    )
+
+
 def _render_reports(reports: Sequence[ReportDoc]) -> tuple[str, dict[str, str]]:
     rows = [
         (
@@ -500,7 +540,9 @@ def _render_reports(reports: Sequence[ReportDoc]) -> tuple[str, dict[str, str]]:
         f"report-{doc.stem}.html": _page(
             f"报告 · {doc.repo}",
             f'<p class="note">源 MD：<code>../reports/{html.escape(doc.stem)}.md</code>；'
-            "下方五区块顺序固定不变。</p>\n" + md_to_html(doc.text),
+            "下方五区块顺序固定不变。</p>\n"
+            + _anomaly_alert([(doc.repo, item) for item in doc.anomalies])
+            + md_to_html(doc.text),
         )
         for doc in reports
     }
@@ -679,9 +721,11 @@ def _render_costs(
             "跨月或供应商调价且正文可获得时再核并同步 config.yaml",
         ),
     ]
+    anomaly_pairs = sorted({(doc.repo, item) for doc in reports for item in doc.anomalies})
     return _page(
         "成本",
-        '<p class="note">本次分析成本 vs 全局台账两者口径不同（D10）；'
+        _anomaly_alert(anomaly_pairs)
+        + '<p class="note">本次分析成本 vs 全局台账两者口径不同（D10）；'
         "站点只读真源，不改写 <code>costs.jsonl</code>。</p>\n" + _table(("项", "值"), rows),
     )
 
