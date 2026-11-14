@@ -67,8 +67,12 @@ data/costs/costs.jsonl          # append-only
 reports/
 ```
 
-**真源**：`patterns/` · `data/ledger` · `data/pool` · `data/snapshots` · `data/costs` · `reports/`
-**可丢弃**：`data/featcards/` · `site/` · 任何索引
+**真源（append-only）**：`patterns/`（含 `ops.jsonl`）· `data/ledger` · `data/pool` · `data/costs` · `data/abstract/runs.jsonl` · `data/snapshots/**/external/`（不可再生）
+**确定性 regenerate 产物**：`reports/` —— 同 `(repo, as-of)` 换档重跑允许覆盖，非 append-only
+**可重建派生基线（入库、不得手写）**：`site/` —— 真源变更后重跑 `python -m osslens site` 并提交
+**可再生缓存（可丢弃）**：`data/featcards/` · `data/llm_cache/` · `data/snapshots/**/src/` · 任何索引
+
+完整分层以 `CODEBUDDY.md` §8 / `docs/设计方案.md` v1.5 §8.2 为准（D15）。
 
 ## 幂等
 

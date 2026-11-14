@@ -7,7 +7,7 @@ This file provides guidance to CodeBuddy Code when working with code in this rep
 > **生成方**：项目负责人（一次性，Chat 只生成一次）；**维护方**：**Code Agent**（**自维护**：内容有变即直接改，不需逐次授权）。
 > **维护约束**：唯一约束 = `docs/经验库-冲突与覆盖清单.md` §8.2 **六锚点不得漂移**；改后 `git diff -- CODEBUDDY.md` 逐项核对，锚点丢失按该 §8.2 从 SSOT 回填。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.9 · **对应 tag**：`l4` · **日期**：2026-11-07
+> **当前版本**：v1.9 · **对应 tag**：`l5` · **日期**：2026-11-10
 
 ---
 
@@ -22,6 +22,9 @@ This file provides guidance to CodeBuddy Code when working with code in this rep
 **权威顺序**：`任务卡 > 本文件 > 执行手册 > 设计方案 > 其他文档`
 ★ **高优先级 ≠ 正确**：它只决定"听谁的"，不决定"谁是对的"。任务卡与 SSOT 冲突 → 停下上报。
 ★ **外部经验库是建议，不是规格**：与本项目红线冲突 → 以红线为准；C1/C2 裁决与 N1–N12 见 §11。
+★ **自维护范围**：`CODEBUDDY.md` 与 §10 的 README / CONTRIBUTING 等文档由 Agent 直接改、不需逐次授权（见文件头「维护方」）；只读/禁改的只有锚文件 `docs/经验库-冲突与覆盖清单.md`（负责人维护、Agent 只读）与红线 #1 的三份 SSOT。前者过期引用/冲突对齐属自维护，后者才停下引双方原文上报。
+★ **引用与挥发性状态**：本文件内 `file:line` 是近似值，以符号名为准；测试条数 / tag 哈希 / cron 状态 / run 编号等以 `docs/经验库-冲突与覆盖清单.md §8.2`（第 6 类事实性陈述）为唯一权威，本文件仅速查；改后 `git diff -- CODEBUDDY.md` 逐项核对六锚点。
+★ **本文件较长**：约束文件尾部最易被截掉；开工按 N2 `grep -n "红线\|必须\|不得" CODEBUDDY.md` 核对硬约束，务必读到 §11 结尾。
 
 ---
 
@@ -61,7 +64,7 @@ python -m osslens site [--out DIR] [--as-of ISO] [--check]
                                         # L4 静态只读站点（零 LLM / 零网络 / ¥0；20 产物含 search/tags/compare）
 ```
 
-全局参数 `--root DIR`：所有子命令共用，指定工作区根目录（默认当前目录，`cli.py:135`）。
+全局参数 `--root DIR`：所有子命令共用，指定工作区根目录（默认当前目录，见 `osslens/cli.py` 顶层 `common` 解析器）。
 
 ### 2.1 开发命令（build / lint / test / 单测）
 
@@ -94,7 +97,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 `test_workflow_pathspec.py` 2 · `test_retention_cli.py` 2（T1）· `test_cross_domain.py` 9（T2）·
 `test_paradigm_site.py` 10（T3）。
 按领域改代码时优先跑对应文件，收尾仍须门禁四连。
-★ 锚文件 v1.5 §8.2 ⑥③ 记「全仓 136」；本轮新增测试后为 157，须在验收报告上报由负责人升版（**Agent 不自行改锚文件**）。
+★ 锚文件 §8.2 ③ 已由负责人升为「全仓 157」（v1.6，2026-11-10）；本文件 §2.1 / §3.1 与之对齐（**Agent 不自行改锚文件**）。
 
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
@@ -142,7 +145,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 ### 3.1 大图：一次 `analyze` 的数据流（跨模块，改代码前先看这个）
 
 ```text
-cli.py:_cmd_analyze (cli.py:377) ── 唯一编排入口，串起全链路
+cli.py:_cmd_analyze ── 唯一编排入口，串起全链路
   ├─ config.py:Config.load → Layout            # 唯一配置真源 config.yaml + ${ENV} 环境变量
   ├─ collect.py:load_snapshot / fetch_snapshot → RepoSnapshot   # GitHub REST 6 端点，统一走 util.HttpClient
   ├─ collect.py:load_sources / fetch_sources → SourceBundle      # codeload tarball 源码切片（可再生缓存）
@@ -201,7 +204,7 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 > `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 14 条、`tests/test_l3.py` 共 38 条、`tests/test_l4.py` 共 20 条，**全仓 157 条**（实现轮 v1.0 后，含 `test_retention_cli.py` 2 · `test_cross_domain.py` 9 · `test_paradigm_site.py` 10）。
 > 核对命令：`pytest --collect-only -q | grep -E "three_class|not_applicable"`（**应输出 2 条 L3**）；
 > `pytest --collect-only -q | grep -E "template_page|real_content"`（**应仅输出 2 条 L1**，不得为 0）。
-> ★ 只读锚文件 `docs/经验库-冲突与覆盖清单.md` **v1.5**（2026-11-08）已由负责人把 §8.2 ③ 升为「L3 两条 ✅ 存在」、⑥③ 更新为「全仓 136」（本轮实现轮后升为 157 须上报）。锚点 ③ 是**状态型**、随阶段推进由负责人升版、**Agent 只读核对**。本文件与之对齐（不自行改锚文件）。
+> ★ 只读锚文件 `docs/经验库-冲突与覆盖清单.md` **v1.6**（2026-11-10）已由负责人把 §8.2 ③ 升为「L3 两条 ✅ 存在」、③ 由「全仓 136」升为「全仓 157」、⑥ 更新为实现轮完成 / `l5` / `schedule` 恢复。锚点 ③ 是**状态型**、随阶段推进由负责人升版、**Agent 只读核对**。本文件与之对齐（不自行改锚文件）。
 > 若后续发现锚文件状态落后于仓库现实 → 在验收报告注明，由负责人升版，不自行改锚文件。
 
 ---
@@ -297,7 +300,7 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 - [ ] **提交 + 打 tag**（如 `l0`），再通知项目负责人刷新文档
 - [ ] 输出验收报告（八段，在会话输出**不落成文件**），**停下**
 
-★ **禁止 force 更新 tag**；`l0` = 792894d、`l1` = 289beed **冻结、不得移动**（见 `docs/执行手册.md` / `docs/文档维护日志.md`）。`l2` = 787d8f5、`l3` 为新增 tag，同样冻结；新 tag 由项目负责人定（N7）。
+★ **禁止 force 更新 tag**；`l0` = 792894d、`l1` = 289beed **冻结、不得移动**（见 `docs/执行手册.md` / `docs/文档维护日志.md`）。`l2` = 787d8f5、`l3` / `l4` / `l5` 同样冻结（`l5`=6912add 本地、未推远端）；新 tag 由项目负责人定（N7）。
 
 **验收报告八段**：`已完成 / DoD 核对 / 关键文件清单 / 测试与覆盖率 / 真实运行证据 / 遇到的坑与解决 / 待决策问题（≤1）/ 下一步`
 
@@ -374,14 +377,14 @@ site/                                              # L4 静态站（★ 可重�
 
 ## 10. 你还要维护的文档
 
-| 文档 | 建的时刻 | 状态（2026-11-07） |
+| 文档 | 建的时刻 | 状态（2026-11-10） |
 |---|---|---|
 | `README.md` / `CONTRIBUTING.md` / `CHANGELOG.md` | L0 首个 tag | ✅ 已建成 |
 | `docs/开发日志.md` | L0 验收后（按时间记事实、实测、坑） | ✅ 已建成（开发者每阶段收尾追加） |
 | `docs/数据源手册.md` | L0 验收后（**归并已有实测文件，不新造**） | ✅ 已建成 |
 | `docs/成本预算.md` | **L1 首次真实调用后**（L0 期间无真实花费，不建） | ✅ 已建成 |
 | `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E12；E11 = D28 三态口径、E12 = HTML 转义断言） |
-| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护） | ✅ 已建成（v1.5，§8.2 六锚点唯一权威；锚点 ③ 已随 L3 升为「两条 ✅」） |
+| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护） | ✅ 已建成（v1.6，§8.2 六锚点唯一权威；锚点 ③ 已随 L3 升为「两条 ✅」、并随实现轮升为「全仓 157」） |
 | `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.5） |
 | `docs/功能总览.md` | 收尾 | ✅ 已建成（2026-11-07，七部分全景定稿） |
 
@@ -395,7 +398,7 @@ site/                                              # L4 静态站（★ 可重�
 
 | 文件 | 用法 |
 |---|---|
-| `docs/经验库-冲突与覆盖清单.md` | ★ **新会话开工前必读**（已裁决冲突，约 4KB） |
+| `docs/经验库-冲突与覆盖清单.md` | ★ **新会话开工前必读**（已裁决冲突；篇幅约 20KB，六锚点见 §8.2） |
 | `docs/ref/经验库-执行版.md`（41KB） | **不必通读**；遇到具体问题时按章节检索 |
 | `docs/ref/经验库-全量.md`（96KB） | **禁止全量读**（`cat` 即违规）；按《章节索引卡》定位后按章节 grep |
 | `docs/经验库-章节索引卡.md` | 检索导航 |
