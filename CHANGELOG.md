@@ -2,6 +2,27 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-15 · 路径 B 自动化 + 文档体系刷新
+
+**范围**：自动链自动化落地 · 成本告警三通道 · 治理决策（外部 LLM 退出开发）· 全仓文档事实刷新。本轮零真实模型调用、`costs.jsonl` 11 行不变、¥0。
+
+### 新增
+
+- **路径 B 自动链**（`.github/workflows/auto.yml`）：三段独立 job（`auto-analyze` / `auto-abstract` / `auto-site`），真实调用间隔由 `auto_chain.min_interval_days`（默认 7，可配置）控制，分析段与抽象段各自独立闸门、各查各的 `purpose` 锚点；锚点随真源跨运行持久化（`.gitattributes` `merge=union` + `scripts/auto_persist.sh` 并行安全回写）。
+- **成本异常三通道**：报告头部区块 / Actions `::warning` / 站点红色 badge，统一 `render.COST_ANOMALY_MARKER == site._ANOMALY_MARKER` 标记一致性守护（单侧改动即失败）；`::warning` 仅在 `analyze` 路径命中时输出，`cost` 子命令为查询、不扩告警、不新增口径。**只标注、不阻断**。
+- 测试 157 → **186**（路径 B 自动化新增 29 条）；`site/` 20 → **22 产物**；`ruff format` 53 files、mypy 16 source、`validate_workflow.py` 13/13、`site --check` 一致，门禁六连全绿。
+
+### 校验 / 校准
+
+- `auto.yml` 首个 `event=schedule` run `43618367472` 已获得（`created_at` `2026-11-14T16:56:51Z` = 北京 2026-11-15 00:56:51 周日），落在低谷半价便宜时段；按「真实 API 调用是否落便宜时段」口径判**无便宜时段偏移**，cron 候选值 `0 11 * * *` 未改；`pool.yml` 的 `17 3 * * *` 与实测约 8 小时差仅留证据、不外推、不改 cron。
+
+### 治理 / 文档
+
+- **治理决策（项目负责人 2026-11-15）**：外部 LLM 退出项目开发，方案设计 / 任务卡制定 / 代码开发 / 文档维护全由本 Agent 负责 —— 落盘 `CODEBUDDY.md` §0-A + 锚文件 §8.2 附记 + 会话记忆。
+- **本质诉求口径纠正**：核心是「保证输出质量前提下把控成本」，非零 LLM 一刀切；成本把控 = 成本闸门 / 异常告警 / 可回溯账单 / 低谷时段调度整套工程。
+- 锚文件 v1.6 → **v1.7**（§8.2 ② 0 条 → 恰 2 条 L3、③ 157 → 186、⑥ 20 → 22 产物 / 哈希不硬编码 / schedule 已获得；D53 待定措辞保留）；文档维护日志 v1.31 → **v1.32**（补路径 B 章节）；CODEBUDDY.md → **v1.12**；README / 功能总览 / 开发日志 / 成本预算同步计数与能力。
+- 远端 `main` 每日由 `chore(pool)`/`chore(auto)` 自动提交前移，文档不再硬编码哈希、以 `git rev-parse origin/main` 自取为准；远端 tag 0，本地 `l0`–`l5` 冻结未动。
+
 ## [Unreleased] - 2026-11-08 · 实现轮 v1.0（D50 Q1–Q8 落地）
 
 **范围**：cron 恢复 · `retention` 生产接线 · 跨域抽象 · `paradigm_tags` · 纯静态前端三能力 · 文档回填 · 一次端到端演练。本轮 **¥0**（端到端 `analyze --depth off`，零 LLM）。

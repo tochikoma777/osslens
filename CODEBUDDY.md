@@ -7,7 +7,7 @@ This file provides guidance to CodeBuddy Code when working with code in this rep
 > **生成方**：项目负责人（一次性，Chat 只生成一次）；**维护方**：**Code Agent**（**自维护**：内容有变即直接改，不需逐次授权）。
 > **维护约束**：唯一约束 = `docs/经验库-冲突与覆盖清单.md` §8.2 **六锚点不得漂移**；改后 `git diff -- CODEBUDDY.md` 逐项核对，锚点丢失按该 §8.2 从 SSOT 回填。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.11 · **对应 tag**：`l5` · **日期**：2026-11-15（新增 §0-A 最新治理决策：外部 LLM 退出开发 / 本质诉求口径纠正；改动见 §0-A）
+> **当前版本**：v1.12 · **对应 tag**：`l5` · **日期**：2026-11-15（v1.12：全仓挥发性事实刷新 157→186 / v1.6→v1.7 / 20→22 产物 / schedule 已获得、三套版本号口径说明；v1.11：新增 §0-A 治理决策）
 
 ---
 
@@ -122,6 +122,8 @@ python scripts/validate_workflow.py   # T7 workflow 降级静态校验（13 项 
 pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（全绿才可提交）
 ```
 
+★ **三套版本号互不相关，勿「对齐」**：`pyproject.toml` 的 `version = "0.5.0"` 是**包发布版本**；本文件头的 `v1.12` 是**文档版本**（随事实刷新递增）；README / CHANGELOG 里的「实现轮 v1.0」是**阶段轮次名**。三者命名空间不同，把包版本「对齐」成 1.0 或把文档版本当包版本都是误读。
+
 `ruff` 的 `select` / `extend-exclude`、`mypy strict` 的口径都在 `pyproject.toml`，改配置先改那里；
 `tests/conftest.py` 默认清空凭据环境变量并以 `OFFLINE_OVERRIDES` 关闭外部探测（单测不发网络请求）。
 ★ `mypy` 的 `files = ["osslens"]`（`pyproject.toml:58`）不含 `scripts/`（也不含 `tests/`）；
@@ -135,12 +137,12 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 `test_workflow_pathspec.py` 2 · `test_retention_cli.py` 2（T1）· `test_cross_domain.py` 9（T2）·
 `test_paradigm_site.py` 10（T3）。
 按领域改代码时优先跑对应文件，收尾仍须门禁四连。
-★ 锚文件 §8.2 ③ 仍为「全仓 157」（v1.6，负责人维护、Agent 只读；尚未升版）；本文件按仓库现实记录 **186**，差异已上报，待负责人升版（**Agent 不自行改锚文件**）。
+★ 锚文件 §8.2 已同步为 **v1.7 / 全仓 186**（2026-11-15，依 §0-A 由本 Agent 维护升版；② 0 条 → 恰 2 条 L3、③ 157 → 186、⑥ 20 → 22 产物 / 哈希不硬编码 / schedule 已获得）。本文件与锚文件口径一致，**无待上报差异**。
 
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
 
-★ **实现进度（截至 v1.10 / tag `l5`，2026-11-14）**：已实现 `init` · `pool add|list|eligible` · `analyze` · `cost` ·
+★ **实现进度（截至 v1.12 / tag `l5`，2026-11-15）**：已实现 `init` · `pool add|list|eligible` · `analyze` · `cost` ·
 `abstract`（L3：零 LLM 三态召回 / 四层 schema / ops 增量 merge / reconcile / 反例挖掘 / 成本闸门 / run 记录）·
 `site`（L4：静态只读站点 / `index.md` / 四块呈现 / `--check` / 零 LLM·零网络·¥0）·
 `retention` · `abstract --cross` · `paradigm_tags` · 静态三能力 · 路径 B 三段自动链。
@@ -256,8 +258,8 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 > `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 14 条、`tests/test_l3.py` 共 38 条、`tests/test_l4.py` 共 22 条、`tests/test_auto_chain.py` 共 27 条，**全仓 186 条**（实现轮 157 + 路径 B 自动化 29）。
 > 核对命令：`pytest --collect-only -q | grep -E "three_class|not_applicable"`（**应输出 2 条 L3**）；
 > `pytest --collect-only -q | grep -E "template_page|real_content"`（**应仅输出 2 条 L1**，不得为 0）。
-> ★ 只读锚文件 `docs/经验库-冲突与覆盖清单.md` **v1.6**（2026-11-10）已由负责人把 §8.2 ③ 升为「L3 两条 ✅ 存在」、③ 由「全仓 136」升为「全仓 157」、⑥ 更新为实现轮完成 / `l5` / `schedule` 恢复。锚点 ③ 是**状态型**、随阶段推进由负责人升版、**Agent 只读核对**。当前现实为 **186**，锚文件尚停在 157；本文件按现实记录并上报差异，待负责人升版（不自行改锚文件）。
-> 若后续发现锚文件状态落后于仓库现实 → 在验收报告注明，由负责人升版，不自行改锚文件。
+> ★ 锚文件 `docs/经验库-冲突与覆盖清单.md` 已同步为 **v1.7**（2026-11-15，依 §0-A 由本 Agent 维护升版）：§8.2 ② 由「0 条」改为「恰 2 条 L3」、③ 由「全仓 157」升为「全仓 186」、⑥ 更新为 22 产物 / 哈希不硬编码 / `event=schedule` 已获得。锚点 ③ 是**状态型**事实，随阶段推进刷新、**不得把已 ✅ 存在的测试重置为「⬜ 待建」**（第 4 类锚点语义不变）。
+> 若后续发现锚文件状态落后于仓库现实 → 依 §0-A 由本 Agent 直接同步升版，改后按 §8.2 核对六锚点（不再「停下上报等负责人」）。
 
 ---
 
@@ -421,7 +423,7 @@ site/                                              # L4 静态站（★ 可重�
 | **收尾** ✅ | 全景定稿：`docs/功能总览.md` / 经验固化结构化索引 / D19 口径定稿 / 文档回填 | 功能总览七部分齐全、数字可回溯；门禁四连全绿、`site --check` 一致；零 LLM / 零网络 / 本阶段 ¥0；收尾时未打 tag / 未 push（D31 后续已执行） |
 | **D31 发布接线** ✅ | 私有远端可验证：私有空仓 / remote / push / 真实 Actions run | 建私有仓库 `tochikoma777/osslens`；只推 main（不推 tag，远端 tag 0）；run #2 `42455959308` **Success**；cron 当时未启用（Gate 3 待授权） |
 | **实现轮 v1.0** ✅ | cron 启用 · retention 接线 · 跨域抽象 · paradigm_tags · 静态三能力 | 157 测试 / validate 13·13 / `site --check` 一致（20 产物）；端到端 ①→⑧ 各跑一次（run #3 Success / `pool eligible` 4 候选 / off 分析 / 抽象与跨域空态）；本地打 `l5` 不推远端 tag |
-| **路径 B 自动化** ✅（本地） | 自动链 7 天间隔 · 抽象段同间隔/分锚点 · 锚点跨运行持久化 · 成本告警三通道 | 186 测试 / validate 13·13 / `site --check` 一致（22 产物）；真实调用 1 笔 ¥0.0278（run 43461199920）；`auto.yml` 首次 `event=schedule` 校准仍「未获得 + 原因」 |
+| **路径 B 自动化** ✅（本地） | 自动链 7 天间隔 · 抽象段同间隔/分锚点 · 锚点跨运行持久化 · 成本告警三通道 | 186 测试 / validate 13·13 / `site --check` 一致（22 产物）；真实调用 1 笔 ¥0.0278（run 43461199920）；`auto.yml` 首个 `event=schedule` run `43618367472` 已获得（2026-11-14T16:56:51Z = 北京周日 00:56，落便宜时段，判无便宜时段偏移，cron 候选值 `0 11 * * *` 未改） |
 
 > ★ L2 局限（历史，D18=A 不翻案）：actionlint 未安装，走降级静态校验。D31 后已有真实 Actions run #2 Success（但只证明调度链路通，不等于 8 周无人值守自动编排已跑通）。
 > ★ 发布状态：已建私有 remote `origin` 并 push `main`；D31 只推 main、远端 tag 0；本地 `l0`–`l4` 冻结、`l5` 本地打不推。
@@ -442,7 +444,7 @@ site/                                              # L4 静态站（★ 可重�
 | `docs/数据源手册.md` | L0 验收后（**归并已有实测文件，不新造**） | ✅ 已建成 |
 | `docs/成本预算.md` | **L1 首次真实调用后**（L0 期间无真实花费，不建） | ✅ 已建成 |
 | `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E12；E11 = D28 三态口径、E12 = HTML 转义断言） |
-| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护） | ✅ 已建成（v1.6，§8.2 六锚点唯一权威；锚点 ③ 仍为「全仓 157」，落后于现实 186，待负责人升版） |
+| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护；旧归属表述依 §0-A 覆盖、原文保留） | ✅ 已建成（v1.7，2026-11-15 事实刷新：② 恰 2 条 L3 / ③ 全仓 186 / ⑥ 22 产物 / 哈希不硬编码 / schedule 已获得；与仓库现实一致） |
 | `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.5） |
 | `docs/功能总览.md` | 收尾 | ✅ 已建成（2026-11-07，七部分全景定稿） |
 
