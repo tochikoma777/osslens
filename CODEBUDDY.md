@@ -61,7 +61,7 @@ python -m osslens abstract [--as-of ISO] [--cluster ID] [--cross] [--off] [--dry
 python -m osslens retention [--as-of ISO] [--apply] [--json]
                                         # T5 缓存保留策略（dry_run 默认；--apply 才归档 src/ 与 llm_cache/）
 python -m osslens site [--out DIR] [--as-of ISO] [--check]
-                                        # L4 静态只读站点（零 LLM / 零网络 / ¥0；20 产物含 search/tags/compare）
+                                        # L4 静态只读站点（零 LLM / 零网络 / ¥0；当前 22 产物，含 search/tags/compare）
 ```
 
 全局参数 `--root DIR`：所有子命令共用，指定工作区根目录（默认当前目录，见 `osslens/cli.py` 顶层 `common` 解析器）。
@@ -81,6 +81,7 @@ pytest --cov=osslens --cov-report=term-missing            # 覆盖率（pytest-c
 ruff check . && ruff format --check .   # lint + 格式（line-length 100；排除 data/ reports/ site/）
 ruff format .                  # 自动格式化
 mypy                           # strict，files = ["osslens"]（16 个源文件），不走 tests/
+python scripts/validate_workflow.py   # T7 workflow 降级静态校验（13 项 PASS，替代未安装的 actionlint）
 
 pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（全绿才可提交）
 ```
@@ -103,16 +104,18 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
 
-★ **实现进度（L4 / tag `l4`，2026-11-07）**：已实现 `init` · `pool add|list|eligible` · `analyze` · `cost` ·
+★ **实现进度（截至 v1.10 / tag `l5`，2026-11-14）**：已实现 `init` · `pool add|list|eligible` · `analyze` · `cost` ·
 `abstract`（L3：零 LLM 三态召回 / 四层 schema / ops 增量 merge / reconcile / 反例挖掘 / 成本闸门 / run 记录）·
-`site`（L4：静态只读站点 / `index.md` / 四块呈现 / `--check` / 零 LLM·零网络·¥0）。
+`site`（L4：静态只读站点 / `index.md` / 四块呈现 / `--check` / 零 LLM·零网络·¥0）·
+`retention` · `abstract --cross` · `paradigm_tags` · 静态三能力 · 路径 B 三段自动链。
+各阶段完成判据见 §9（收尾 / D31 / 实现轮 v1.0 / 路径 B 均已 ✅），本节只列当前能力，不复述历史状态。
 ★ **路径 B 自动化（2026-11-12→14，已 push `main`）**：`schedule` 仅作低成本检查，真实调用间隔由
 `auto_chain.min_interval_days`（默认 7）控制；分析段与抽象段各自闸门、各查各的 `purpose` 锚点；
 锚点随 `data/costs` 回写并跨运行保留（`.gitattributes` → `merge=union`，`scripts/auto_persist.sh`
 负责「提交→rebase→合并后重建站点→push 重试」的并行安全回写）；成本异常三通道
 （报告头部区块 / Actions `::warning` / 站点红色 badge）均只标注、不阻断。
 ★ `patterns/*.yaml` 真源纯净：样本未达 S1 阈值时 `insufficient_samples` 产 0 条，站点如实显示空态、不伪造条目。
-★ 收尾动作（`docs/功能总览.md` / 经验汇总 / 价格复核 / remote / push / 真实 Actions run）**不在 L4 卡内**，等 L4 验收后单独一轮。
+★ 收尾动作（`docs/功能总览.md` / 经验汇总 / 价格复核 / remote / push / 真实 Actions run）原为 L4 卡外单独一轮，**现已在 D31 / 实现轮 v1.0 / 路径 B 三轮完成**（见 §9）；此处保留仅为说明演进，**不再是待办**。
 `analyze` 支持 `off` · **`fast`（deepseek-flash，thinking 关）** · **`strong`（deepseek-v4-pro，thinking 开，已实跑）**。
 模型/thinking/输出上限按档位配置：`config.yaml → llm.models / llm.thinking / llm.max_output_tokens`；`api_key`/`base_url` 缺任一即降级 `off`。
 闸门按 `估算 × budget.estimate_safety_factor(1.3)` 判断；报告成本行带 D10 口径字样。
@@ -186,6 +189,13 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
   └─ 零 LLM/零网络：不构造 HTTP 客户端；时间只来自 --as-of 或真源派生；产物不含绝对路径/运行时间戳
 横切：util.py —— HttpClient（限速/重试/UA）、FixedClock / SystemClock、stable_json / sort_paths / r4（幂等）、
       atomic_write_text、read_jsonl / append_jsonl（真源 append-only）。改它必须跑全套（见上表）。
+自动化层（路径 B，跨文件；改代码前先看这个）：
+  .github/workflows/pool.yml ── T7 定时建池（cron `17 3 * * *`；零 LLM；dirty 守卫 → 按路径 add → bot 提交 → push）
+  .github/workflows/auto.yml ── 三段独立 job，彼此无 needs（auto-analyze / auto-abstract / auto-site）
+        ├─ 频率闸门：config.yaml `auto_chain.min_interval_days`（默认 7）；分析段 / 抽象段各查各的 purpose 锚点
+        ├─ auto-analyze / auto-abstract 回写真源 → scripts/auto_persist.sh（提交→rebase→合并后重建 site→push 重试）
+        └─ auto-site 只读：python -m osslens site --check（不写盘 / 退出码 0）
+  scripts/validate_workflow.py ── pool.yml 降级静态校验（13 项；命令见 §2.1，mypy/门禁四连不覆盖 scripts/）
 ```
 
 设计层大图见 `docs/总体架构设计.md` §2（五段工作流）/ §3.1（分层）——补充件、非 SSOT，冲突以设计方案为准。
@@ -233,6 +243,11 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 | 10 | ★ **降级必须双写留痕**：报告头部「运行元数据」块 + `costs.jsonl` 追加一条。**静默降级 = 失控** |
 | 11 | ★ **召回零 LLM 且必须三分类**（采用 / 未采用=反例候选 / 不适用）。**无反例位的模式条目禁止入库** |
 | 12 | ★ **打分只用于排序，绝不用于升档**（自己造的指标决定自己花多少钱 = 循环论证） |
+
+> ★ #2 的**静态侧守门**：`tests/test_core.py::test_llm_endpoint_only_in_llm_module` 断言模型端点字面量
+> （`chat/completions` / `api.openai.com` / `api.anthropic.com` / `generativelanguage`）只出现在 `osslens/llm.py`；
+> `tests/test_l4.py::test_site_module_has_no_endpoint_literals_and_no_http_import` 守站点模块。
+> 运行期由 `tests/conftest.py` 的 `OFFLINE_OVERRIDES` + respx 在 httpx 传输层拦截真实外发（见 §2.1）。
 
 ### 4.2 项目特有 8 条
 
@@ -345,7 +360,7 @@ site/                                              # L4 静态站（★ 可重�
 |---|---|---|
 | `patterns/`（library.yaml / ops.jsonl）· `data/ledger` · `data/pool` · `data/costs` · `data/abstract/runs.jsonl` | **真源** | append-only；旧 ID 保留 alias；删除先列清单 + 停下等确认 |
 | `reports/` | ★ **确定性 regenerate 产物**（S2 / 设计方案 v1.5 §8.2 精确化，**非 append-only**） | 同一 `(repo, as-of)` 换档位重跑**允许覆盖**：内容由快照 + 特征卡确定性重建，历史由 git tag 兜底；文件名 / 幂等键 / render / cli 路径均不变 |
-| `site/`（20 个产物） | ★ **可重建的派生基线**（v1.5 精确化，**入库**，非真源） | 由 5 类真源确定性渲染；`site --check` 需与**已提交**基线比对；真源变更后须重跑 `site` 并提交，`--check` 给差异清单；**不得手写编辑产物**（D32=A） |
+| `site/`（当前 22 个产物，2026-11-14） | ★ **可重建的派生基线**（v1.5 精确化，**入库**，非真源） | 由 5 类真源确定性渲染；`site --check` 需与**已提交**基线比对；真源变更后须重跑 `site` 并提交，`--check` 给差异清单；**不得手写编辑产物**（D32=A） |
 | `data/snapshots/**/external/`（deepwiki.json / source.txt / sha256） | ★ **不可再生真源** | 外部索引状态错过不可复现，带来源四元组（红线 #13）→ **不删、不覆盖** |
 | `data/snapshots/**/src/`（源码切片 + manifest.json） | **可再生缓存** | 按 commit 从 codeload tarball 可重拉 → 可丢弃、可去重、可归档清理 |
 | `data/featcards/` · `data/llm_cache/` · 任何 DB 索引 | **可再生缓存** | 可丢弃、可重建 |
