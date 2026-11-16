@@ -1,0 +1,1279 @@
+{
+  "as_of": "2026-11-16T11:26:50Z",
+  "data": {
+    "commits": [
+      {
+        "date": "2026-10-21T03:50:43Z",
+        "sha": "f6aa38fe06cd4a0489e7730365d4e0114970a2f3"
+      },
+      {
+        "date": "2026-10-15T09:56:42Z",
+        "sha": "b5a33eefda39485f438dc764695b71ba7b9249b6"
+      },
+      {
+        "date": "2026-09-30T01:09:46Z",
+        "sha": "93eb6eb238127e96c6d7a4a625a6dad158348509"
+      },
+      {
+        "date": "2026-09-29T05:22:15Z",
+        "sha": "def865146e95aa9ea223e277c0a8a4c6b81e5ac7"
+      },
+      {
+        "date": "2026-09-16T05:04:13Z",
+        "sha": "a56d6156febcd9976e55adc85b5155bfac9f28f8"
+      },
+      {
+        "date": "2026-08-04T05:31:31Z",
+        "sha": "01dc3aaac82068020353dce2c302e38153c0bfaa"
+      },
+      {
+        "date": "2026-08-04T01:25:50Z",
+        "sha": "11d1cab604bba8ebe15022be44e09c22a659c857"
+      },
+      {
+        "date": "2026-07-14T03:13:52Z",
+        "sha": "dd758caf451848bd150e1046af3d0a73e5fff38d"
+      },
+      {
+        "date": "2026-07-09T05:32:07Z",
+        "sha": "60d44037a702f651a6e18bd4aea65ed8409051c2"
+      },
+      {
+        "date": "2026-07-03T02:53:50Z",
+        "sha": "099d5f2bad488b9c534ea785062b12f2e91d1d41"
+      },
+      {
+        "date": "2026-06-15T02:48:00Z",
+        "sha": "af9a0403188392824fc3057452822235873e0612"
+      },
+      {
+        "date": "2026-05-26T02:49:43Z",
+        "sha": "d4f41e4e93602a15e95f55f6ee8df8f1aaa0e4bb"
+      },
+      {
+        "date": "2026-05-22T03:24:54Z",
+        "sha": "723716fc11ee44cbd87035fe9c3a360feca33528"
+      },
+      {
+        "date": "2026-05-22T03:20:35Z",
+        "sha": "56169594eb83e882124d6b8ad43e56303e798926"
+      },
+      {
+        "date": "2026-05-22T02:36:37Z",
+        "sha": "bb29c6bfd033ff255e7cc4b4971f3148f7603b95"
+      },
+      {
+        "date": "2026-05-22T02:35:59Z",
+        "sha": "a1b3af393843dda98c270b5c98a49bb505e38e34"
+      },
+      {
+        "date": "2026-05-21T07:29:25Z",
+        "sha": "a422b5a3693ff8b72a8ab414677c0acb57b5ffcb"
+      },
+      {
+        "date": "2026-04-29T18:37:17Z",
+        "sha": "b306af06afd412c88e51e71802951606e40b7358"
+      },
+      {
+        "date": "2026-02-03T07:51:04Z",
+        "sha": "567632dd59810d77b3cc05553df953cc0f779799"
+      },
+      {
+        "date": "2026-01-20T01:28:05Z",
+        "sha": "29d31c095796f3c8ece47ee9cdcc167051bbeed9"
+      },
+      {
+        "date": "2025-12-29T02:24:09Z",
+        "sha": "309785a94dedeb9ca3cb01091048584a31bfc799"
+      },
+      {
+        "date": "2025-12-24T05:37:00Z",
+        "sha": "3fcf25ed1b50f8abab6bac71e792432f7158fc26"
+      },
+      {
+        "date": "2025-12-23T01:44:05Z",
+        "sha": "0a08009edf0740803caabcc6a240131e3eb8a8eb"
+      },
+      {
+        "date": "2025-12-05T09:21:54Z",
+        "sha": "b57e5e212ab75350f53c72064333e4fe1076b1da"
+      },
+      {
+        "date": "2025-12-04T05:42:34Z",
+        "sha": "1300811e24dccdd01316530f67e4d33c0a877434"
+      }
+    ],
+    "contributors": [
+      {
+        "contributions": 93,
+        "login": "LyricZhao",
+        "type": "User"
+      },
+      {
+        "contributions": 69,
+        "login": "sphish",
+        "type": "User"
+      },
+      {
+        "contributions": 16,
+        "login": "fzyzcjy",
+        "type": "User"
+      },
+      {
+        "contributions": 10,
+        "login": "seth-howell",
+        "type": "User"
+      },
+      {
+        "contributions": 5,
+        "login": "wangfakang",
+        "type": "User"
+      },
+      {
+        "contributions": 5,
+        "login": "youkaichao",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "GuangguanWang",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "ZhiyiHu1999",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "alpha-baby",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "moningchen",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "zheanxu",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "dzhulgakov",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "polarstormx",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "wzc-wuzhicheng",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "yuantailing",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "DanielDanyang",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "Eliasthunderdog",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "EvadLee",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "JimmyWang6",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "MARD1NO",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "MaoZiming",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "MayDomine",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "RayWang96",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "Thunderbrook",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "andylin-hao",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "cywork121",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "dongwang4096",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "guyueh1",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "haswelliris",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "hirschsn",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "isytwu",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "jammycc",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "jeejeelee",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "liuH6",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "phantom5125",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "ruizhang1230",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "salmanmkc",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "shifangx",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "sleepcoo",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "songhexiang",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "tianchongchong",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "tianr22",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "varun-sundar-rabindranath",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "vicoooo26",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "windreamer",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "wplf",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "yifeizhang-c",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "yilin-void",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "yukuai26",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "yurekami",
+        "type": "User"
+      }
+    ],
+    "languages": {
+      "C++": 207185,
+      "CMake": 2396,
+      "Cuda": 357112,
+      "Python": 291436,
+      "Shell": 1114
+    },
+    "releases": [
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2025-09-16T01:48:40Z",
+        "tag_name": "v1.2.1"
+      }
+    ],
+    "repo": {
+      "archived": false,
+      "created_at": "2025-02-17T01:33:04Z",
+      "default_branch": "main",
+      "description": "DeepEP: an efficient expert-parallel communication library",
+      "forks": 1563,
+      "has_issues": true,
+      "homepage": "",
+      "language": "Cuda",
+      "license": "MIT",
+      "open_issues": 333,
+      "owner_login": "deepseek-ai",
+      "owner_type": "Organization",
+      "pushed_at": "2026-10-21T03:50:43Z",
+      "size_kb": 3919,
+      "stars": 10447,
+      "topics": [],
+      "watchers": 109
+    },
+    "tree": {
+      "entries": [
+        {
+          "path": ".editorconfig",
+          "size": 812,
+          "type": "blob"
+        },
+        {
+          "path": ".gitignore",
+          "size": 228,
+          "type": "blob"
+        },
+        {
+          "path": ".gitmodules",
+          "size": 114,
+          "type": "blob"
+        },
+        {
+          "path": "CMakeLists.txt",
+          "size": 1790,
+          "type": "blob"
+        },
+        {
+          "path": "LICENSE",
+          "size": 1065,
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "size": 32914,
+          "type": "blob"
+        },
+        {
+          "path": "build.sh",
+          "size": 290,
+          "type": "blob"
+        },
+        {
+          "path": "csrc",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/CMakeLists.txt",
+          "size": 26,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/buffers",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/buffers/base.hpp",
+          "size": 2384,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/buffers/bucket.hpp",
+          "size": 17442,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/buffers/engram.hpp",
+          "size": 15545,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/buffers/ep.hpp",
+          "size": 60540,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/buffers/pp.hpp",
+          "size": 6140,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/comm",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/comm/api.hpp",
+          "size": 81,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/comm/barrier.hpp",
+          "size": 1298,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/comm/handle.hpp",
+          "size": 1492,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/comm/stream.hpp",
+          "size": 784,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/indexing",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/indexing/main.cu",
+          "size": 1130,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/kernels/CMakeLists.txt",
+          "size": 487,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/bucket",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/kernels/bucket/all_gather.hpp",
+          "size": 11381,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/bucket/all_reduce.hpp",
+          "size": 6354,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/bucket/reduce_scatter.hpp",
+          "size": 7536,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/comm",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/kernels/comm/CMakeLists.txt",
+          "size": 46,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/comm/api.hpp",
+          "size": 2749,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/comm/barrier.hpp",
+          "size": 1955,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/comm/context.cpp",
+          "size": 12061,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/comm/symmetric.hpp",
+          "size": 14628,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/driver",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/kernels/driver/CMakeLists.txt",
+          "size": 47,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/driver/api.hpp",
+          "size": 750,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/driver/driver.cpp",
+          "size": 3597,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/engram",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/kernels/engram/engram.hpp",
+          "size": 4838,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/ep",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/kernels/ep/api.hpp",
+          "size": 161,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/ep/combine.hpp",
+          "size": 8668,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/ep/dispatch.hpp",
+          "size": 10075,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/ep/prefetch_weights.hpp",
+          "size": 2472,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/ep/reduce_grads.hpp",
+          "size": 2640,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/kernels/pp",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/kernels/pp/pp_send_recv.hpp",
+          "size": 3165,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/python_api.cpp",
+          "size": 1462,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/runtime",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/runtime/jit.hpp",
+          "size": 2199,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/utils",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "csrc/utils/event.hpp",
+          "size": 988,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/utils/lazy_driver.hpp",
+          "size": 2301,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/utils/system.hpp",
+          "size": 807,
+          "type": "blob"
+        },
+        {
+          "path": "csrc/utils/tensor.hpp",
+          "size": 692,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/__init__.py",
+          "size": 2660,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/buffers",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/buffers/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/buffers/allocator.py",
+          "size": 1476,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/buffers/base.py",
+          "size": 953,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/buffers/bucket.py",
+          "size": 18365,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/buffers/engram.py",
+          "size": 7684,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/buffers/ep.py",
+          "size": 51176,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/buffers/pp.py",
+          "size": 3045,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/comm",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/comm/__init__.py",
+          "size": 433,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/comm/barrier.py",
+          "size": 489,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/comm/handle.py",
+          "size": 3519,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/comm/stream.py",
+          "size": 355,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/comm",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/comm/barrier.cuh",
+          "size": 11335,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/comm/bucket.cuh",
+          "size": 1257,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/comm/handle.cuh",
+          "size": 11249,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/common",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/common/compiled.cuh",
+          "size": 2416,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/common/exception.cuh",
+          "size": 3147,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/common/math.cuh",
+          "size": 2483,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/common/ptx.cuh",
+          "size": 23332,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/common/utils.cuh",
+          "size": 3195,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket/all_gather",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket/all_gather/hybrid.cuh",
+          "size": 4427,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket/all_gather/rdma.cuh",
+          "size": 2132,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket/all_reduce",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket/all_reduce/hybrid.cuh",
+          "size": 20395,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket/all_reduce/nvlink.cuh",
+          "size": 2901,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket/all_reduce/rdma.cuh",
+          "size": 13972,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket/reduce_scatter",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket/reduce_scatter/hybrid.cuh",
+          "size": 16888,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket/reduce_scatter/nvlink.cuh",
+          "size": 2779,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/bucket/reduce_scatter/rdma.cuh",
+          "size": 37269,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/comm",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/comm/barrier.cuh",
+          "size": 2093,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/engram",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/engram/engram_fetch.cuh",
+          "size": 12845,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/engram/engram_fetch_wait.cuh",
+          "size": 1289,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/ep",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/ep/combine.cuh",
+          "size": 12081,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/ep/combine_reduce_epilogue.cuh",
+          "size": 7524,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/ep/combine_utils.cuh",
+          "size": 7352,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/ep/dispatch.cuh",
+          "size": 20457,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/ep/dispatch_copy_epilogue.cuh",
+          "size": 16356,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/ep/hybrid_combine.cuh",
+          "size": 33159,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/ep/hybrid_dispatch.cuh",
+          "size": 36817,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/ep/prefetch_weights.cuh",
+          "size": 3865,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/ep/reduce_grads.cuh",
+          "size": 3948,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/pp",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/impls/pp/pp_send_recv.cuh",
+          "size": 11028,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/bucket",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/bucket/all_gather.cuh",
+          "size": 468,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/bucket/all_reduce.cuh",
+          "size": 410,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/bucket/chunk.cuh",
+          "size": 4623,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/bucket/copy_engine.cuh",
+          "size": 361,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/bucket/reduce_scatter.cuh",
+          "size": 855,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/bucket/workspace.cuh",
+          "size": 907,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/common",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/common/barrier.cuh",
+          "size": 700,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/engram",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/engram/workspace.cuh",
+          "size": 3119,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/ep",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/ep/eplb.cuh",
+          "size": 5708,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/ep/token.cuh",
+          "size": 5653,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/ep/workspace.cuh",
+          "size": 4583,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/pp",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/include/deep_ep/layout/pp/workspace.cuh",
+          "size": 604,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/utils",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "deep_ep/utils/__init__.py",
+          "size": 97,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/utils/envs.py",
+          "size": 9121,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/utils/event.py",
+          "size": 4255,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/utils/find_pkgs.py",
+          "size": 2782,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/utils/gate.py",
+          "size": 8787,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/utils/math.py",
+          "size": 3576,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/utils/refs.py",
+          "size": 12462,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/utils/semantic.py",
+          "size": 822,
+          "type": "blob"
+        },
+        {
+          "path": "deep_ep/utils/testing.py",
+          "size": 8957,
+          "type": "blob"
+        },
+        {
+          "path": "develop.sh",
+          "size": 555,
+          "type": "blob"
+        },
+        {
+          "path": "figures",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "figures/low-latency.png",
+          "size": 688315,
+          "type": "blob"
+        },
+        {
+          "path": "figures/normal.png",
+          "size": 518233,
+          "type": "blob"
+        },
+        {
+          "path": "install.sh",
+          "size": 269,
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "size": 5539,
+          "type": "blob"
+        },
+        {
+          "path": "tests",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/bucket",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/bucket/test_all_gather.py",
+          "size": 4986,
+          "type": "blob"
+        },
+        {
+          "path": "tests/bucket/test_all_reduce.py",
+          "size": 3857,
+          "type": "blob"
+        },
+        {
+          "path": "tests/bucket/test_mixed.py",
+          "size": 19020,
+          "type": "blob"
+        },
+        {
+          "path": "tests/bucket/test_perf.py",
+          "size": 13918,
+          "type": "blob"
+        },
+        {
+          "path": "tests/bucket/test_reduce_scatter.py",
+          "size": 5952,
+          "type": "blob"
+        },
+        {
+          "path": "tests/bucket/test_session.py",
+          "size": 4821,
+          "type": "blob"
+        },
+        {
+          "path": "tests/buffer",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/buffer/test_allocation.py",
+          "size": 1962,
+          "type": "blob"
+        },
+        {
+          "path": "tests/comm",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/comm/test_barrier.py",
+          "size": 2723,
+          "type": "blob"
+        },
+        {
+          "path": "tests/engram",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/engram/test_engram.py",
+          "size": 8080,
+          "type": "blob"
+        },
+        {
+          "path": "tests/ep",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/ep/test_ep.py",
+          "size": 39012,
+          "type": "blob"
+        },
+        {
+          "path": "tests/ep/test_prefetch_weights.py",
+          "size": 14803,
+          "type": "blob"
+        },
+        {
+          "path": "tests/ep/test_reduce_grads.py",
+          "size": 15407,
+          "type": "blob"
+        },
+        {
+          "path": "tests/pp",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/pp/test_pp.py",
+          "size": 6791,
+          "type": "blob"
+        },
+        {
+          "path": "tests/utils",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/utils/test_gate.py",
+          "size": 3551,
+          "type": "blob"
+        },
+        {
+          "path": "third-party",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "third-party/deep_jit",
+          "size": 0,
+          "type": "commit"
+        },
+        {
+          "path": "third-party/tilelang_ops",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "third-party/tilelang_ops/__init__.py",
+          "size": 54,
+          "type": "blob"
+        },
+        {
+          "path": "third-party/tilelang_ops/stochastic_rounding.py",
+          "size": 5051,
+          "type": "blob"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  "fetched_at": "2026-11-16T11:26:51Z",
+  "notes": [
+    {
+      "reason": "GitHub 无公开 API；L0 标注为未获得，不估算",
+      "source": "used_by",
+      "status": "unavailable"
+    }
+  ],
+  "owner": "deepseek-ai",
+  "repo": "DeepEP",
+  "sha256": "12bf0777d6f4ac71cbc4ec855e700aa8e738d17e10bbbe32b0935d17fa76d472"
+}
