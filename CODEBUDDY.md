@@ -7,7 +7,7 @@ This file provides guidance to CodeBuddy Code when working with code in this rep
 > **生成方**：项目负责人（一次性，Chat 只生成一次）；**维护方**：**Code Agent**（**自维护**：内容有变即直接改，不需逐次授权）。
 > **维护约束**：唯一约束 = `docs/经验库-冲突与覆盖清单.md` §8.2 **六锚点不得漂移**；改后 `git diff -- CODEBUDDY.md` 逐项核对，锚点丢失按该 §8.2 从 SSOT 回填。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.13 · **对应 tag**：`l5` · **日期**：2026-11-16（v1.13：§2.1 补充 `.venv` 运行口径；v1.12：全仓挥发性事实刷新 157→186 / v1.6→v1.7 / 20→22 产物 / schedule 已获得、三套版本号口径说明；v1.11：新增 §0-A 治理决策）
+> **当前版本**：v1.14 · **对应 tag**：`l5` · **日期**：2026-11-16（v1.14：B1 快照 90 天 gzip 归档 · B2 `site --check --strict` 接入 auto-site · B4 追加 E13；v1.13：§2.1 补充 `.venv` 运行口径；v1.12：全仓挥发性事实刷新 157→186 / v1.6→v1.7 / 20→22 产物 / schedule 已获得、三套版本号口径说明；v1.11：新增 §0-A 治理决策）
 
 ---
 
@@ -94,9 +94,10 @@ python -m osslens analyze <owner/repo> [--depth auto|off|fast|strong] \
 python -m osslens cost [--as-of ISO] [--json]   # 成本台账
 python -m osslens abstract [--as-of ISO] [--cluster ID] [--cross] [--off] [--dry-run] [--json]
                                         # L3 规律抽象（S1 阈值 / run 记录 / 零 LLM 召回；--cross = 跨域 run，独立入口不与簇内混排）
-python -m osslens retention [--as-of ISO] [--apply] [--json]
-                                        # T5 缓存保留策略（dry_run 默认；--apply 才归档 src/ 与 llm_cache/）
-python -m osslens site [--out DIR] [--as-of ISO] [--check]
+python -m osslens retention [--as-of ISO] [--apply] [--snapshots-only] [--json]
+                                        # T5 保留策略（dry_run 默认）；--apply 归档 src/ 与 llm_cache/；
+                                        # --snapshots-only 只做快照元数据 gzip（超 retention.snapshot_keep_days）
+python -m osslens site [--out DIR] [--as-of ISO] [--check] [--strict]
                                         # L4 静态只读站点（零 LLM / 零网络 / ¥0；当前 22 产物，含 search/tags/compare）
 ```
 
@@ -108,7 +109,7 @@ python -m osslens site [--out DIR] [--as-of ISO] [--check]
 pip install -e ".[dev]"        # 装含 pytest / ruff / mypy / respx 的开发依赖；setuptools 后端，无独立 build 步骤（`build` 未装）
 osslens --help                 # 或 python -m osslens；pyproject.toml [project.scripts] 入口
 
-pytest                         # 全量 186 例（实现轮 157 + 路径 B 自动化 29；含 test_l3 38、test_l4 22、test_auto_chain 27）
+pytest                         # 全量 192 例（186 + 审查整改 6；含 test_l3 38、test_l4 24、test_auto_chain 27）
 pytest tests/test_core.py::test_report_is_byte_identical   # 单测（node id）
 pytest tests/test_l4.py -k "check or empty"               # 按关键字筛
 pytest -m "not network"        # 离线；pyproject.toml 定义 network marker，当前无用例带此标记
@@ -133,15 +134,15 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 ★ `mypy` 的 `files = ["osslens"]`（`pyproject.toml:58`）不含 `scripts/`（也不含 `tests/`）；
 `ruff check .` / `ruff format --check .` 按路径发现文件（`extend-exclude` 仅排 `data/` `reports/` `site/`，`:47`），`scripts/` 在 lint 范围内，`src` 只影响 import 解析、不限制检查范围 → 改 `scripts/` 下脚本时门禁四连的 mypy 侧不覆盖。
 
-**测试分布（186 条）**：`test_core.py` 21（L0 幂等/契约）· `test_l1.py` 23（探测/特征卡/Mermaid）·
-`test_l2.py` 14（档位/预算/D10/保留）· `test_collect.py` 7（快照/源码切片）· `test_pool.py` 7（打分/观察期）·
+**测试分布（192 条）**：`test_core.py` 21（L0 幂等/契约）· `test_l1.py` 23（探测/特征卡/Mermaid）·
+`test_l2.py` 17（档位/预算/D10/保留/快照归档）· `test_collect.py` 7（快照/源码切片）· `test_pool.py` 7（打分/观察期）·
 `test_time.py` 4（跨周/跨月时序）· `test_l3.py` 38（召回/四层 schema/ops/编排/成本闸门）·
-`test_l4.py` 22（站点四块/空态/`--check`/幂等/零网络/成本红 badge）·
+`test_l4.py` 24（站点四块/空态/`--check`/`--strict`/幂等/零网络/成本红 badge）·
 `test_auto_chain.py` 27（自动链间隔/闸门/归因/告警/标记守护）·
-`test_workflow_pathspec.py` 2 · `test_retention_cli.py` 2（T1）· `test_cross_domain.py` 9（T2）·
+`test_workflow_pathspec.py` 3 · `test_retention_cli.py` 2（T1）· `test_cross_domain.py` 9（T2）·
 `test_paradigm_site.py` 10（T3）。
 按领域改代码时优先跑对应文件，收尾仍须门禁四连。
-★ 锚文件 §8.2 已同步为 **v1.7 / 全仓 186**（2026-11-15，依 §0-A 由本 Agent 维护升版；② 0 条 → 恰 2 条 L3、③ 157 → 186、⑥ 20 → 22 产物 / 哈希不硬编码 / schedule 已获得）。本文件与锚文件口径一致，**无待上报差异**。
+★ 锚文件 §8.2 已同步为 **v1.8 / 全仓 192**（2026-11-16，依 §0-A 由本 Agent 维护升版；② 恰 2 条 L3、③ 157 → 192（含审查整改 +6）、④ 快照 `.json.gz` 归档、⑥ 22 产物 / 哈希不硬编码 / schedule 已获得）。本文件与锚文件口径一致，**无待上报差异**。
 
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
@@ -191,7 +192,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 | `osslens/render.py` | 报告渲染（MD）、`D10_WORDING` 常量 | `test_report_is_byte_identical` / `test_report_carries_d10_wording_and_five_sections` |
 | `osslens/llm.py` | LLM 客户端、结构阶梯、判废、结果缓存、上下文裁剪、`Usage.reasoning_tokens`；`PARADIGM_TAGS` 受控词表 + `Insight.paradigm_tags`（Q7） | `test_llm_*` / `test_context_drops_sources_when_over_budget` / `tests/test_paradigm_site.py` |
 | `osslens/prompts.py` | 分档 prompt 常量（**代码资产，不放 docs**）：`FAST_INSIGHT_SYSTEM` / `STRONG_INSIGHT_SYSTEM`（含 paradigm_tags schema，进 cache_key） | `test_llm_success_parses_usage`（断言首级 `json_object`、thinking 关闭） / `tests/test_paradigm_site.py` |
-| `osslens/retention.py` | T5 缓存层保留策略（白名单分层 + 内容寻址去重 + 按期归档）；生产入口 `retention` CLI（dry_run 默认，`--apply` 才清理；`protected_paths` 含 `site/`） | `test_l2.py::test_apply_dedupes_and_never_touches_sources` / `tests/test_retention_cli.py` |
+| `osslens/retention.py` | T5 缓存层保留策略（白名单分层 + 内容寻址去重 + 按期归档）；生产入口 `retention` CLI（dry_run 默认，`--apply` 才清理；`--snapshots-only` 供定时建池做快照 gzip；`protected_paths` 含 `site/`） | `test_l2.py::test_apply_dedupes_and_never_touches_sources` / `tests/test_retention_cli.py` |
 
 ### 3.1 大图：一次 `analyze` 的数据流（跨模块，改代码前先看这个）
 
@@ -227,7 +228,7 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
   ├─ 输入：reports/*.md · data/featcards/*.json · patterns/library.yaml · costs.jsonl · abstract/runs.jsonl
   ├─ 产物：site/index.md（纯 MD 索引）· index.html · reports.html · featcards.html · patterns.html
   │        · costs.html · runs.html · report-<stem>.html（五区块顺序不变）
-  ├─ --check：只比对不写盘，差异清单 + 退出码 0；正常 site 逐文件打印 新增/更新/未变
+  ├─ --check：只比对不写盘，差异清单 + 默认退出码 0；--strict（CI 用）有差异退 1；正常 site 逐文件打印 新增/更新/未变
   └─ 零 LLM/零网络：不构造 HTTP 客户端；时间只来自 --as-of 或真源派生；产物不含绝对路径/运行时间戳
 横切：util.py —— HttpClient（限速/重试/UA）、FixedClock / SystemClock、stable_json / sort_paths / r4（幂等）、
       atomic_write_text、read_jsonl / append_jsonl（真源 append-only）。改它必须跑全套（见上表）。
@@ -259,10 +260,10 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 | `test_site_builds_full_static_site` · `test_empty_patterns_state_is_honest` · `test_site_check_reports_diff_without_writing` · `test_site_zero_network_transport_interception` | L4 | ✅ 已存在（`tests/test_l4.py`，含「故意让它失败」反向用例） |
 
 > ★ L3 两条目标清单已落地（`patterns.py` / `abstract.py` 建成）；L4 站点契约测试 20 条亦已落地。L1 的两条、L2 的 14 条亦已落地。
-> `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 14 条、`tests/test_l3.py` 共 38 条、`tests/test_l4.py` 共 22 条、`tests/test_auto_chain.py` 共 27 条，**全仓 186 条**（实现轮 157 + 路径 B 自动化 29）。
+> `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 17 条、`tests/test_l3.py` 共 38 条、`tests/test_l4.py` 共 24 条、`tests/test_auto_chain.py` 共 27 条，**全仓 192 条**（实现轮 157 + 路径 B 自动化 29 + 审查整改 6）。
 > 核对命令：`pytest --collect-only -q | grep -E "three_class|not_applicable"`（**应输出 2 条 L3**）；
 > `pytest --collect-only -q | grep -E "template_page|real_content"`（**应仅输出 2 条 L1**，不得为 0）。
-> ★ 锚文件 `docs/经验库-冲突与覆盖清单.md` 已同步为 **v1.7**（2026-11-15，依 §0-A 由本 Agent 维护升版）：§8.2 ② 由「0 条」改为「恰 2 条 L3」、③ 由「全仓 157」升为「全仓 186」、⑥ 更新为 22 产物 / 哈希不硬编码 / `event=schedule` 已获得。锚点 ③ 是**状态型**事实，随阶段推进刷新、**不得把已 ✅ 存在的测试重置为「⬜ 待建」**（第 4 类锚点语义不变）。
+> ★ 锚文件 `docs/经验库-冲突与覆盖清单.md` 已同步为 **v1.8**（2026-11-16，依 §0-A 由本 Agent 维护升版）：§8.2 ②「恰 2 条 L3」、③「全仓 192」（186 + 审查整改 6）、④ 快照 `.json.gz` 归档、⑥ 22 产物 / 哈希不硬编码 / `event=schedule` 已获得。锚点 ③ 是**状态型**事实，随阶段推进刷新、**不得把已 ✅ 存在的测试重置为「⬜ 待建」**（第 4 类锚点语义不变）。
 > 若后续发现锚文件状态落后于仓库现实 → 依 §0-A 由本 Agent 直接同步升版，改后按 §8.2 核对六锚点（不再「停下上报等负责人」）。
 
 ---
@@ -390,7 +391,7 @@ data/
 ├── pool/pool.jsonl                                # ★ 真源 append-only + 观测序列
 ├── costs/costs.jsonl                              # ★ 真源 append-only：调用/降级/预算事件
 ├── abstract/runs.jsonl                            # ★ 真源 append-only：L3 run 记录（九字段）
-├── snapshots/<owner>__<repo>/<date>.json           # 采集快照元数据 + sha256
+├── snapshots/<owner>__<repo>/<date>.json           # 采集快照元数据 + sha256（超 90 天 → .json.gz，内容不变）
 │   ├── src/                                       # 源码切片 + manifest.json（可再生缓存）
 │   └── external/                                  # ★ deepwiki.json + source.txt + sha256（不可再生真源）
 ├── featcards/<owner>__<repo>__<commit>.json        # 可再生
@@ -411,6 +412,8 @@ site/                                              # L4 静态站（★ 可重�
 | `data/snapshots/**/external/`（deepwiki.json / source.txt / sha256） | ★ **不可再生真源** | 外部索引状态错过不可复现，带来源四元组（红线 #13）→ **不删、不覆盖** |
 | `data/snapshots/**/src/`（源码切片 + manifest.json） | **可再生缓存** | 按 commit 从 codeload tarball 可重拉 → 可丢弃、可去重、可归档清理 |
 | `data/featcards/` · `data/llm_cache/` · 任何 DB 索引 | **可再生缓存** | 可丢弃、可重建 |
+
+★ **快照元数据保留窗口**：超 `retention.snapshot_keep_days`（默认 90 天）在**原地** gzip 为 `<date>.json.gz`；内容与 `sha256` 字段不变、解压字节校验后才删源、重复执行幂等；`load_snapshot` 兼容 `.json.gz`；仍属真源，不删除、不移动目录。
 
 ★ **实测形态（2026-11-07）**：`external/` 下为 `deepwiki.json`（`sha256` 是其内部字段，非独立文件）与 `source.txt`；探测未命中时不写 `source.txt`（6 个 external 目录仅 4 个有）。此处沿用 `docs/设计方案.md` v1.5 §8.2 的清单表述，`external/` **归类不变**。
 
@@ -452,8 +455,8 @@ site/                                              # L4 静态站（★ 可重�
 | `docs/开发日志.md` | L0 验收后（按时间记事实、实测、坑） | ✅ 已建成（开发者每阶段收尾追加） |
 | `docs/数据源手册.md` | L0 验收后（**归并已有实测文件，不新造**） | ✅ 已建成 |
 | `docs/成本预算.md` | **L1 首次真实调用后**（L0 期间无真实花费，不建） | ✅ 已建成 |
-| `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E12；E11 = D28 三态口径、E12 = HTML 转义断言） |
-| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护；旧归属表述依 §0-A 覆盖、原文保留） | ✅ 已建成（v1.7，2026-11-15 事实刷新：② 恰 2 条 L3 / ③ 全仓 186 / ⑥ 22 产物 / 哈希不硬编码 / schedule 已获得；与仓库现实一致） |
+| `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E13；E11 = D28 三态口径、E12 = HTML 转义断言、E13 = 分段验收 ≠ 端到端闭合） |
+| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护；旧归属表述依 §0-A 覆盖、原文保留） | ✅ 已建成（v1.8，2026-11-16 事实刷新：② 恰 2 条 L3 / ③ 全仓 192 / ④ 快照 gzip 归档 / ⑥ 22 产物 / 哈希不硬编码 / schedule 已获得；与仓库现实一致） |
 | `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.5） |
 | `docs/功能总览.md` | 收尾 | ✅ 已建成（2026-11-07，七部分全景定稿） |
 

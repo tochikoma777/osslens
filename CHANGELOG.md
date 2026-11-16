@@ -2,6 +2,21 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-16 · 审查整改（A 级 + B1/B2/B4）
+
+**范围**：注释与文案校准 · 快照元数据 90 天 gzip 归档 · `site --check --strict` 接入 CI · E13 追加。本轮零真实模型调用。
+
+### 新增
+
+- **快照保留（B1）**：`retention --snapshots-only` 把超 `retention.snapshot_keep_days`（默认 90 天）的 `data/snapshots/<repo>/<date>.json` **原地** gzip 为 `.json.gz`；gzip 头时间固定为 0（字节确定）、解压字节校验通过才删源、重复执行幂等。`load_snapshot` 兼容 `.json.gz`（`--as-of` 语义不变）；`pool.yml` 在 dirty 守卫后调用，归档结果随真源同批提交。
+- **站点严格核验（B2）**：`site --check --strict` 在有差异时退出 1（缺省仍 0）；`auto.yml` 的 `auto-site` 改用 strict，站点漂移从此会让定时任务变红。`--strict` 脱离 `--check` 使用按参数错误（2）处理。
+
+### 变更
+
+- **测试 186 → 192**（+3 快照归档 / +2 strict / +1 pool workflow 守卫）：`test_l2` 17、`test_l4` 24、`test_workflow_pathspec` 3。
+- **文档校准（A 级）**：`CODEBUDDY.md` §4.1 的 respx 表述改为实际保护（清空凭据 + 禁用 external + 传输层间谍）；CLI `--help` 描述 L2 → L4；README/CODEBUDDY 退出码 1 措辞统一；`pool.dedupe` 标注"当前无消费者"。
+- **E13（B4）**：`docs/经验固化.md` 追加「分段验收通过 ≠ 端到端需求闭合」，关闭 D49 #55。
+
 ## [Unreleased] - 2026-11-15 · 路径 B 自动化 + 文档体系刷新
 
 **范围**：自动链自动化落地 · 成本告警三通道 · 治理决策（外部 LLM 退出开发）· 全仓文档事实刷新。本轮零真实模型调用、`costs.jsonl` 11 行不变、¥0。
