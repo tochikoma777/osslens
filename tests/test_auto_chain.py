@@ -452,14 +452,14 @@ def _load_auto_workflow() -> tuple[str, dict]:
 
 
 def test_auto_workflow_candidate_cron_and_independent_jobs() -> None:
-    """S4'：候选 UTC 11:00 初值、无绝对时区断言、三段无 needs 依赖（不新增编排器）。"""
+    """S4'：cron 初值 0 11 UTC、三段无 needs 依赖（不新增编排器）、固定 runner。"""
     raw, doc = _load_auto_workflow()
     triggers = doc.get("on", doc.get(True, {}))
     crons = [item["cron"] for item in triggers["schedule"]]
     assert crons == ["0 11 * * *"]
     assert "workflow_dispatch" in triggers
-    assert "候选" in raw and "实测校准" in raw
-    assert "每日" not in raw  # 不写死「每日 XX UTC」这类未核清的绝对时区断言
+    # 时间一律走 --as-of / 真源派生：workflow 不得靠进程时区（TZ）改变行为
+    assert "TZ:" not in raw
     jobs = doc["jobs"]
     assert set(jobs) == {"auto-analyze", "auto-abstract", "auto-site"}
     assert all("needs" not in job for job in jobs.values())

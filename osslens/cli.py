@@ -132,7 +132,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m osslens",
-        description="低成本、可长期运行的开源项目深度分析系统（L2：证据 + 依赖图 + 双档）",
+        description="低成本、可长期运行的开源项目深度分析系统（L4：静态只读站点）",
     )
     parser.add_argument("--version", action="version", version=f"osslens {__version__}")
     common = argparse.ArgumentParser(add_help=False)

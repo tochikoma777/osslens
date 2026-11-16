@@ -167,7 +167,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 | 码 | 含义 |
 |---|---|
 | **0** | 完成（**可能已降级**——降级在报告元数据块与 `costs.jsonl` 中可见） |
-| 1 | 配置错误 |
+| 1 | 配置错误 / 运行错误（引擎错误、中断） |
 | 2 | 参数错误 |
 
 > ★ **可选源失败、配额耗尽、预算拦截、未配 key 一律退出码 0**。非 0 只能是真失败。
@@ -289,7 +289,12 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 > ★ #2 的**静态侧守门**：`tests/test_core.py::test_llm_endpoint_only_in_llm_module` 断言模型端点字面量
 > （`chat/completions` / `api.openai.com` / `api.anthropic.com` / `generativelanguage`）只出现在 `osslens/llm.py`；
 > `tests/test_l4.py::test_site_module_has_no_endpoint_literals_and_no_http_import` 守站点模块。
-> 运行期由 `tests/conftest.py` 的 `OFFLINE_OVERRIDES` + respx 在 httpx 传输层拦截真实外发（见 §2.1）。
+> 运行期默认**不发外发**：`tests/conftest.py` 的 `_no_credentials` 清空 `GITHUB_TOKEN` / `OSSLENS_LLM_*`，
+> `OFFLINE_OVERRIDES` 关闭 `external.deepwiki_enabled`；`test_no_llm_involved` 与
+> `test_site_zero_network_transport_interception` 另在 `httpx.HTTPTransport.handle_request` 装间谍并断言
+> `egress == []`（后者含反向探针，证明间谍本身有效）。
+> ★ `respx` 虽在 dev 依赖（`pyproject.toml:22`），**当前用例未使用**；新增联网路径测试需拦截时，
+> 显式引入 respx 或复用同一间谍写法，不要假设 conftest 已全局拦截。
 
 ### 4.2 项目特有 8 条
 

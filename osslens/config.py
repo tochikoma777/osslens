@@ -208,6 +208,8 @@ pool:
   hot_observe_days: 7
   classic_min_stars: 5000
   classic_min_age_days: 730
+  # ★ 当前无消费者（审查 2026-11-16 F4）：load_series 恒定按 (repo, channel) 去重，
+  #   本键只保留 schema 兼容，改 true/false 不改变行为。
   dedupe: true
 
 score:
