@@ -71,7 +71,7 @@ from .pool import (
 )
 from .prompts import FAST_INSIGHT_SYSTEM, STRONG_INSIGHT_SYSTEM, fast_insight_user
 from .render import CostLine, ReportInputs, detect_cost_anomalies, render_report
-from .retention import apply_retention
+from .retention import apply_retention, archive_snapshots
 from .site import (
     build_site,
     resolve_site_as_of,
@@ -219,7 +219,12 @@ def _build_parser() -> argparse.ArgumentParser:
     site_parser.add_argument("--out", default=None, help="产物目录（默认 <root>/site）")
     site_parser.add_argument("--as-of", dest="as_of", default=None)
     site_parser.add_argument(
-        "--check", action="store_true", help="只比对不写盘，给出差异清单，退出码恒 0"
+        "--check", action="store_true", help="只比对不写盘，给出差异清单，退出码默认恒 0"
+    )
+    site_parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="仅配合 --check：有差异时退出码 1（CI 用；本地缺省保持 0）",
     )
     site_parser.set_defaults(handler=_cmd_site)
 
@@ -231,6 +236,11 @@ def _build_parser() -> argparse.ArgumentParser:
         "--apply",
         action="store_true",
         help="实际归档缓存层文件；缺省只规划不写盘（dry_run=True）",
+    )
+    retention_parser.add_argument(
+        "--snapshots-only",
+        action="store_true",
+        help="只处理超保留期的快照元数据（原地 gzip），不动 src/ 与 llm_cache/；供定时建池使用",
     )
     retention_parser.add_argument("--json", action="store_true")
     retention_parser.set_defaults(handler=_cmd_retention)
@@ -727,7 +737,10 @@ def _cmd_site(args: argparse.Namespace) -> int:
                 print(f"  - {item}")
         else:
             print(f"site --check：一致（{len(plan.files)} 个产物，as-of {plan.as_of}；未写盘）")
-        return 0  # 只比对，退出码恒 0
+        # 缺省恒 0（只标注）；--strict 供 CI 把漂移变成红灯
+        return 1 if (args.strict and diffs) else 0
+    if args.strict:
+        raise UsageError("--strict 只能与 --check 联用")
 
     statuses = write_site(out_dir, plan.files)
     print(f"静态站点：{out_dir}")
@@ -751,7 +764,28 @@ def _cmd_site(args: argparse.Namespace) -> int:
 def _cmd_retention(args: argparse.Namespace) -> int:
     config = Config.load(Path(args.root))
     as_of = _optional_instant(args.as_of) or SystemClock().now()
-    result = apply_retention(config.layout, config, as_of, dry_run=not args.apply)
+    dry_run = not args.apply
+    snapshots_done = archive_snapshots(config.layout, config, as_of, dry_run=dry_run)
+    if args.snapshots_only:
+        if args.json:
+            print(
+                stable_json(
+                    {
+                        "as_of": fmt_iso(as_of),
+                        "dry_run": dry_run,
+                        "snapshots_archived": list(snapshots_done),
+                    }
+                )
+            )
+            return 0
+        mode = "dry-run（未写盘）" if dry_run else "apply（已归档）"
+        print(f"快照保留策略：{mode}  基准时间 {fmt_iso(as_of)}")
+        keep_days = config.retention.snapshot_keep_days
+        print(f"  归档快照 {len(snapshots_done)} 个（超 {keep_days} 天原地 gzip）")
+        for item in snapshots_done:
+            print(f"    - {item}")
+        return 0
+    result = apply_retention(config.layout, config, as_of, dry_run=dry_run)
     if args.json:
         print(
             stable_json(
@@ -762,6 +796,7 @@ def _cmd_retention(args: argparse.Namespace) -> int:
                     "unique_objects": list(result.unique_objects),
                     "duplicate_files": list(result.duplicate_files),
                     "archived": list(result.archived),
+                    "snapshots_archived": list(snapshots_done),
                     "protected": list(result.protected),
                     "bytes_reclaimable": result.bytes_reclaimable,
                 }
@@ -774,7 +809,9 @@ def _cmd_retention(args: argparse.Namespace) -> int:
         f"  缓存文件 {len(result.cache_files)} · 唯一对象 {len(result.unique_objects)} · "
         f"重复 {len(result.duplicate_files)}"
     )
-    print(f"  归档 {len(result.archived)} 个 · 可回收 {result.bytes_reclaimable} B")
+    print(f"  归档缓存 {len(result.archived)} 个 · 可回收 {result.bytes_reclaimable} B")
+    keep_days = config.retention.snapshot_keep_days
+    print(f"  归档快照 {len(snapshots_done)} 个（超 {keep_days} 天原地 gzip）")
     print(f"  受保护真源 / 派生基线 {len(result.protected)} 个")
     for item in result.archived:
         print(f"    - {item}")

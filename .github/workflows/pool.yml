@@ -78,6 +78,11 @@ jobs:
               print(f"pool add {slug} -> exit {code}")
           PY
 
+      - name: 快照保留（超保留期原地 gzip；内容不变、可回放）
+        if: steps.guard.outputs.dirty == 'false'
+        shell: bash
+        run: python -m osslens retention --apply --snapshots-only
+
       - name: 提交真源并推送
         if: steps.guard.outputs.dirty == 'false'
         env:

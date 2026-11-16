@@ -13,6 +13,7 @@ import subprocess
 from pathlib import Path
 
 import pytest
+import yaml
 
 WORKFLOW = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "pool.yml"
 
@@ -68,3 +69,14 @@ def test_workflow_add_pathspecs_succeed_on_clean_tree(tmp_path: Path) -> None:
     )
     result = _git(["add", "--", *pathspecs], root)
     assert result.returncode == 0, result.stderr
+
+
+def test_pool_workflow_archives_old_snapshots_under_dirty_guard() -> None:
+    """快照归档步骤必须在 dirty 守卫之后、且只动 snapshots（--snapshots-only）。"""
+    doc = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+    steps = doc["jobs"]["build-pool"]["steps"]
+    targets = [step for step in steps if "snapshots-only" in str(step.get("run", ""))]
+    assert len(targets) == 1, "应当恰有一个 --snapshots-only 步骤"
+    step = targets[0]
+    assert "--apply" in step["run"]
+    assert step.get("if") == "steps.guard.outputs.dirty == 'false'", "归档须在 dirty 守卫之后"

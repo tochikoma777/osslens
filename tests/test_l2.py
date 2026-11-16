@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import gzip
 import json
 import os
 import time
@@ -16,6 +17,7 @@ from pathlib import Path
 import pytest
 from osslens import llm as llm_module
 from osslens.cli import AVAILABLE_DEPTHS, PURPOSE_BY_DEPTH, main
+from osslens.collect import load_snapshot, save_snapshot
 from osslens.config import Config, Layout
 from osslens.depth import (
     CostEvent,
@@ -29,9 +31,11 @@ from osslens.pool import observe
 from osslens.render import D10_WORDING
 from osslens.retention import (
     apply_retention,
+    archive_snapshots,
     cache_files,
     dedupe_caches,
     is_cache_layer,
+    plan_snapshot_archive,
     protected_paths,
 )
 from osslens.util import FixedClock, sha256_bytes
@@ -436,3 +440,80 @@ def test_sha256_of_duplicate_content_is_single_object(tmp_path: Path) -> None:
     assert len(unique) == 2
     assert len(duplicates) == 2
     assert sha256_bytes(b"same content") == sha256_bytes(b"same content")
+
+
+# --------------------------------------------------------------------- T5b 快照元数据归档
+
+
+def _seed_snapshot(root: Path, as_of: datetime) -> Path:
+    """写入一份**真实结构**的快照（与线上 <date>.json 同源：save_snapshot 生成）。"""
+    return save_snapshot(Layout(root), make_snapshot(as_of=as_of))
+
+
+def test_snapshot_archive_gzips_old_meta_and_stays_readable(tmp_path: Path) -> None:
+    root = tmp_path / "ws"
+    seed_workspace(root)
+    old_date = datetime(2026, 8, 1, tzinfo=UTC)
+    plain = _seed_snapshot(root, old_date)
+    raw_before = plain.read_bytes()
+    config = Config.load(root)
+    as_of = datetime(2026, 11, 16, tzinfo=UTC)
+
+    planned = plan_snapshot_archive(config.layout, config, as_of)
+    assert [p.name for p in planned] == ["2026-08-01.json"]
+
+    dry = archive_snapshots(config.layout, config, as_of, dry_run=True)
+    assert dry == ("data/snapshots/deepseek-ai__DeepEP/2026-08-01.json.gz",)
+    assert plain.exists(), "dry_run 绝不写盘/删源"
+
+    done = archive_snapshots(config.layout, config, as_of, dry_run=False)
+    assert done == dry
+    packed = plain.with_name(plain.name + ".gz")
+    assert not plain.exists() and packed.exists()
+    assert gzip.decompress(packed.read_bytes()) == raw_before, "归档必须字节等价"
+
+    restored = load_snapshot(config.layout, "deepseek-ai", "DeepEP", old_date)
+    assert restored is not None
+    assert restored.sha256 == make_snapshot(as_of=old_date).sha256
+    assert restored.to_json() == make_snapshot(as_of=old_date).to_json()
+
+
+def test_snapshot_archive_keeps_recent_and_external_and_can_be_disabled(tmp_path: Path) -> None:
+    root = tmp_path / "ws"
+    seed_workspace(root)
+    layout = Layout(root)
+    recent = _seed_snapshot(root, datetime(2026, 11, 10, tzinfo=UTC))
+    old = _seed_snapshot(root, datetime(2026, 8, 1, tzinfo=UTC))
+    external = layout.snapshots_dir / "deepseek-ai__DeepEP" / "2026-08-01" / "external"
+    external.mkdir(parents=True, exist_ok=True)
+    (external / "deepwiki.json").write_text('{"status":"hit"}', encoding="utf-8")
+    config = Config.load(root)
+    as_of = datetime(2026, 11, 16, tzinfo=UTC)
+
+    done = archive_snapshots(config.layout, config, as_of, dry_run=False)
+    assert len(done) == 1 and "2026-08-01.json.gz" in done[0]
+    assert not old.exists()
+    assert recent.exists(), "未超保留期的快照不得归档"
+    assert (external / "deepwiki.json").exists(), "external/ 真源永不触碰"
+
+    disabled = Config.from_mapping(root, {"retention": {"snapshot_keep_days": 0}})
+    assert plan_snapshot_archive(disabled.layout, disabled, as_of) == ()
+
+
+def test_snapshot_archive_is_deterministic_and_idempotent(tmp_path: Path) -> None:
+    root_a = tmp_path / "a"
+    root_b = tmp_path / "b"
+    for root in (root_a, root_b):
+        seed_workspace(root)
+        _seed_snapshot(root, datetime(2026, 8, 1, tzinfo=UTC))
+    as_of = datetime(2026, 11, 16, tzinfo=UTC)
+    cfg_a, cfg_b = Config.load(root_a), Config.load(root_b)
+    archive_snapshots(cfg_a.layout, cfg_a, as_of, dry_run=False)
+    archive_snapshots(cfg_b.layout, cfg_b, as_of, dry_run=False)
+    gz_a = next(cfg_a.layout.snapshots_dir.rglob("*.json.gz"))
+    gz_b = next(cfg_b.layout.snapshots_dir.rglob("*.json.gz"))
+    assert gz_a.read_bytes() == gz_b.read_bytes(), "gzip 头时间固定为 0，字节确定"
+
+    before = gz_a.read_bytes()
+    assert archive_snapshots(cfg_a.layout, cfg_a, as_of, dry_run=False) == ()
+    assert gz_a.read_bytes() == before, "重复执行必须幂等"

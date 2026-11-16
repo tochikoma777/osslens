@@ -3,9 +3,11 @@
 分层是**白名单**而非黑名单：只有两类路径被视为可再生缓存——
   * ``data/snapshots/**/src/**``           源码切片（按 commit 可重拉，L1 坑 E7）
   * ``data/llm_cache/**``                  LLM 结果缓存
-其余一律视为真源，函数拒绝处理并在 ``protected`` 中列出：
+其余一律视为真源，**缓存清理**拒绝处理并在 ``protected`` 中列出：
   * ``data/snapshots/**/external/**``     外部资料快照（不可再生真源，红线 #13）
-  * ``data/snapshots/**/*.json``          采集快照元数据 + sha256
+  * ``data/snapshots/*/<date>.json``      采集快照元数据 + sha256 —— 唯一例外：超
+    ``retention.snapshot_keep_days`` 后**原地 gzip**（``<date>.json.gz``，内容不变、可回放、
+    经 sha256 校验），仍属真源，不删除、不移动目录
   * ``data/{ledger,pool,costs}/*.jsonl``  append-only 真源（红线 #6）
   * ``patterns/`` · ``reports/`` · ``config.yaml``
 
@@ -15,13 +17,15 @@
 
 from __future__ import annotations
 
+import gzip
+import os
 import shutil
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from .config import Config, Layout
-from .util import sha256_bytes
+from .util import OsslensError, sha256_bytes
 
 SNAPSHOTS = "snapshots"
 SRC = "src"
@@ -205,6 +209,73 @@ def apply_retention(
         bytes_reclaimable=reclaimable,
         dry_run=dry_run,
     )
+
+
+# --------------------------------------------------------------------------- 快照元数据归档
+
+
+def snapshot_meta_files(layout: Layout) -> tuple[Path, ...]:
+    """列出 ``snapshots/<owner>__<repo>/<YYYY-MM-DD>.json``（真实快照元数据，确定性排序）。
+
+    只认「仓库目录下一层的日期文件」；``external/``、``src/``、``manifest.json`` 一律不在此列。
+    """
+    if not layout.snapshots_dir.exists():
+        return ()
+    out: list[Path] = []
+    for path in sorted(layout.snapshots_dir.glob("*/*.json")):
+        if not path.is_file() or path.is_symlink():
+            continue
+        stem = path.name[: -len(".json")]
+        if len(stem) != 10 or stem[4] != "-" or stem[7] != "-":
+            continue
+        try:
+            datetime.strptime(stem, "%Y-%m-%d")
+        except ValueError:
+            continue
+        out.append(path)
+    return tuple(out)
+
+
+def plan_snapshot_archive(layout: Layout, config: Config, as_of: datetime) -> tuple[Path, ...]:
+    """列出超过 ``snapshot_keep_days`` 的快照元数据（纯规划，不写盘）。"""
+    if not config.retention.enabled or config.retention.snapshot_keep_days <= 0:
+        return ()
+    cutoff = as_of - timedelta(days=config.retention.snapshot_keep_days)
+    return tuple(
+        path
+        for path in snapshot_meta_files(layout)
+        if datetime.strptime(path.name[: -len(".json")], "%Y-%m-%d").date() < cutoff.date()
+    )
+
+
+def archive_snapshots(
+    layout: Layout, config: Config, as_of: datetime, *, dry_run: bool = True
+) -> tuple[str, ...]:
+    """把超保留期的快照元数据**原地** gzip，返回 ``<date>.json.gz`` 相对路径。
+
+    安全约束：先解压校验与原字节完全一致才删原文件；gzip 头时间固定为 0（字节确定）；
+    已存在 ``.json.gz`` 时跳过（幂等）；``snapshot_keep_days <= 0`` 时整体关闭。
+    """
+    planned = plan_snapshot_archive(layout, config, as_of)
+    done: list[str] = []
+    for path in planned:
+        target = path.with_name(path.name + ".gz")
+        if target.exists():
+            continue
+        if not dry_run:
+            raw = path.read_bytes()
+            packed = gzip.compress(raw, compresslevel=9, mtime=0)
+            if gzip.decompress(packed) != raw:
+                raise OsslensError(f"快照归档校验失败，已中止并保留原文件：{_rel(path, layout)}")
+            tmp = target.with_name(target.name + ".tmp")
+            try:
+                tmp.write_bytes(packed)
+                os.replace(tmp, target)
+                path.unlink()
+            finally:
+                tmp.unlink(missing_ok=True)
+        done.append(_rel(target, layout))
+    return tuple(done)
 
 
 def _rel(path: Path, layout: Layout) -> str:

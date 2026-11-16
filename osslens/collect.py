@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import gzip
 import io
 import json
 import re
@@ -128,11 +129,26 @@ def snapshot_path(layout: Layout, owner: str, repo: str, as_of: datetime) -> Pat
 
 
 def load_snapshot(layout: Layout, owner: str, repo: str, as_of: datetime) -> RepoSnapshot | None:
+    """读快照；兼容保留期归档后的 ``<date>.json.gz``（内容与 .json 完全一致）。
+
+    归档只改变存放形态，不改内容：真源仍是同一天同一份快照，``--as-of`` 语义不变。
+    """
     path = snapshot_path(layout, owner, repo, as_of)
-    if not path.exists():
-        return None
+    if path.exists():
+        try:
+            raw = path.read_text(encoding="utf-8")
+        except OSError:
+            return None
+    else:
+        packed = path.with_name(path.name + ".gz")
+        if not packed.exists():
+            return None
+        try:
+            raw = gzip.decompress(packed.read_bytes()).decode("utf-8")
+        except (OSError, UnicodeDecodeError):
+            return None
     try:
-        parsed = json.loads(path.read_text(encoding="utf-8"))
+        parsed = json.loads(raw)
     except json.JSONDecodeError:
         return None
     if not isinstance(parsed, dict):
@@ -145,6 +161,10 @@ def load_snapshot(layout: Layout, owner: str, repo: str, as_of: datetime) -> Rep
 
 def save_snapshot(layout: Layout, snapshot: RepoSnapshot) -> Path:
     path = snapshot_path(layout, snapshot.owner, snapshot.repo, parse_iso(snapshot.as_of))
+    packed = path.with_name(path.name + ".gz")
+    if packed.exists():
+        # 已归档真源：不写第二份未压缩副本（同一天同一份快照，避免真源双份漂移）
+        return packed
     atomic_write_text(path, stable_json(snapshot.to_json()) + "\n")
     return path
 

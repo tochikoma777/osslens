@@ -531,3 +531,35 @@ def test_site_does_not_render_secrets_or_ref_docs(tmp_path: Path) -> None:
     assert "SHOULD_NOT_APPEAR_IN_SITE" not in blob
     assert "docs/ref" not in blob
     assert "sk-" not in blob  # 站点不渲染任何 key 形态字符串
+
+
+def test_cli_check_strict_fails_on_drift_but_default_stays_zero(tmp_path: Path) -> None:
+    root = _workspace(tmp_path)
+    out = tmp_path / "site"
+    as_of = fmt_iso(AS_OF)
+    assert main(["site", "--root", str(root), "--out", str(out), "--as-of", as_of]) == 0
+    (out / "index.md").write_text("被篡改", encoding="utf-8")
+
+    assert main(["site", "--root", str(root), "--out", str(out), "--check", "--as-of", as_of]) == 0
+    assert (
+        main(
+            [
+                "site",
+                "--root",
+                str(root),
+                "--out",
+                str(out),
+                "--check",
+                "--strict",
+                "--as-of",
+                as_of,
+            ]
+        )
+        == 1
+    ), "严格模式必须把漂移变成非 0"
+
+
+def test_cli_strict_without_check_is_usage_error(tmp_path: Path) -> None:
+    root = _workspace(tmp_path)
+    code = main(["site", "--root", str(root), "--out", str(tmp_path / "site"), "--strict"])
+    assert code == 2, "--strict 单独使用应报参数错误，而不是静默忽略"

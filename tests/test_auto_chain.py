@@ -462,6 +462,8 @@ def test_auto_workflow_candidate_cron_and_independent_jobs() -> None:
     assert "TZ:" not in raw
     jobs = doc["jobs"]
     assert set(jobs) == {"auto-analyze", "auto-abstract", "auto-site"}
+    site_runs = " ".join(str(step.get("run", "")) for step in jobs["auto-site"]["steps"])
+    assert "site --check --strict" in site_runs, "auto-site 必须用严格模式，漂移才能变红"
     assert all("needs" not in job for job in jobs.values())
     runs = " ".join(str(job.get("runs-on", "")) for job in jobs.values())
     assert "ubuntu-24.04" in runs and "ubuntu-latest" not in runs

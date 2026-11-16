@@ -64,6 +64,9 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "retention": {
         "enabled": True,
         "cache_keep_days": 30,
+        # 快照元数据（data/snapshots/<repo>/<date>.json）原地 gzip 的保留窗口（天）；
+        # 0 = 关闭。真源内容不变，只是压缩存放，分析按 --as-of 仍可读（.json.gz 回退）。
+        "snapshot_keep_days": 90,
         "archive_dir": "data/cache_archive",
     },
     "pool": {
@@ -201,6 +204,8 @@ auto_chain:
 retention:
   enabled: true
   cache_keep_days: 30
+  # 快照元数据保留窗口（天）：超期后原地 gzip（内容不变、可回放）；0 = 关闭
+  snapshot_keep_days: 90
   archive_dir: data/cache_archive
 
 pool:
@@ -290,6 +295,8 @@ class RetentionConfig:
     enabled: bool
     cache_keep_days: int
     archive_dir: str
+    # 快照元数据保留窗口（天）；0 = 不归档。与 cache_keep_days 分开，避免真源被缓存策略误伤。
+    snapshot_keep_days: int = 90
 
 
 @dataclass(frozen=True)
@@ -697,6 +704,7 @@ class Config:
                 enabled=as_bool(ret_raw.get("enabled"), True),
                 cache_keep_days=as_int(ret_raw.get("cache_keep_days"), 30),
                 archive_dir=as_str(ret_raw.get("archive_dir"), "data/cache_archive"),
+                snapshot_keep_days=as_int(ret_raw.get("snapshot_keep_days"), 90),
             ),
             auto_chain=auto_chain,
             domains=tuple(domains),
