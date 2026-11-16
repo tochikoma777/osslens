@@ -7,7 +7,7 @@ This file provides guidance to CodeBuddy Code when working with code in this rep
 > **生成方**：项目负责人（一次性，Chat 只生成一次）；**维护方**：**Code Agent**（**自维护**：内容有变即直接改，不需逐次授权）。
 > **维护约束**：唯一约束 = `docs/经验库-冲突与覆盖清单.md` §8.2 **六锚点不得漂移**；改后 `git diff -- CODEBUDDY.md` 逐项核对，锚点丢失按该 §8.2 从 SSOT 回填。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.12 · **对应 tag**：`l5` · **日期**：2026-11-15（v1.12：全仓挥发性事实刷新 157→186 / v1.6→v1.7 / 20→22 产物 / schedule 已获得、三套版本号口径说明；v1.11：新增 §0-A 治理决策）
+> **当前版本**：v1.13 · **对应 tag**：`l5` · **日期**：2026-11-16（v1.13：§2.1 补充 `.venv` 运行口径；v1.12：全仓挥发性事实刷新 157→186 / v1.6→v1.7 / 20→22 产物 / schedule 已获得、三套版本号口径说明；v1.11：新增 §0-A 治理决策）
 
 ---
 
@@ -122,7 +122,11 @@ python scripts/validate_workflow.py   # T7 workflow 降级静态校验（13 项 
 pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（全绿才可提交）
 ```
 
-★ **三套版本号互不相关，勿「对齐」**：`pyproject.toml` 的 `version = "0.5.0"` 是**包发布版本**；本文件头的 `v1.12` 是**文档版本**（随事实刷新递增）；README / CHANGELOG 里的「实现轮 v1.0」是**阶段轮次名**。三者命名空间不同，把包版本「对齐」成 1.0 或把文档版本当包版本都是误读。
+★ **用仓库自带 `.venv` 跑**：仓库根已有 `.venv/`，系统解释器不一定装了 dev 依赖。先 `source .venv/bin/activate`
+（或直接用 `.venv/bin/python -m pytest`），上面的 `pytest` / `ruff` / `mypy` / `python -m osslens` 全部在同一虚拟环境里执行；
+否则会出现「装了依赖却 import 失败」或 `site --check` 用到另一份旧包。
+
+★ **三套版本号互不相关，勿「对齐」**：`pyproject.toml` 的 `version = "0.5.0"` 是**包发布版本**；本文件头的 `v1.13` 是**文档版本**（随事实刷新递增）；README / CHANGELOG 里的「实现轮 v1.0」是**阶段轮次名**。三者命名空间不同，把包版本「对齐」成 1.0 或把文档版本当包版本都是误读。
 
 `ruff` 的 `select` / `extend-exclude`、`mypy strict` 的口径都在 `pyproject.toml`，改配置先改那里；
 `tests/conftest.py` 默认清空凭据环境变量并以 `OFFLINE_OVERRIDES` 关闭外部探测（单测不发网络请求）。
