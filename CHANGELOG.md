@@ -2,6 +2,13 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-18 · 报告 v2a（可读性重构）
+
+- **报告结构 v2a**：`render.py` 改为「导读 + 6 个阅读模块（定位 / 许可 / 架构 / 工程 / 维护 / 扩展）+ 附录 A–E」；正文以文字叙述为主，运行元数据、特征卡、体检事实、洞见表、外部资料下沉到附录。许可证/依赖链/CI/issue 等未采集项明确写「未采集 + 原因」，不编造。
+- **兼容**：既有 11 份报告仍为旧五区块格式，站点可正常渲染；新生成的报告使用 v2a。`D10_WORDING`、成本异常块、`- 架构范式标签：` 行保持不变，站点解析不受影响。
+- 测试 199 → **200**（新增 v2a 可读性守护）；锚文件 v1.10 → **v1.11**；`CODEBUDDY.md` v1.16 → **v1.17**；`docs/执行手册.md` §4 报告结构同步更新。
+- **DeepEP v2a 实例**：`analyze --depth fast --as-of 2026-11-18` 生成 `reports/deepseek-ai__DeepEP__2026-11-18.md`（8036 字符；旧 11-03 strong 报告 4939 字符、洞见仅 10%）。本次输入 21,930 tok / 输出 410 tok，¥0.0469；同 as-of 重跑命中缓存 ¥0。新报告 domain 自动归为 `ai_infra`，README 摘要已去 Markdown/链接噪声。
+
 ## [Unreleased] - 2026-11-17 · 独立周期 + 时间线归档
 
 - **周期解耦**：新增 `auto_chain.analysis_interval_days` / `abstract_interval_days`，分别控制自动分析与抽象的最小真实调用间隔；缺省继承旧键 `min_interval_days`（默认 7），旧配置不改行为不变。`auto_interval_reached()` 支持 `days` 参数，workflow 两段各传各的值。

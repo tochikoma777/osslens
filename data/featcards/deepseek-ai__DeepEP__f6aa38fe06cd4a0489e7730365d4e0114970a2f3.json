@@ -80,8 +80,8 @@
     ]
   },
   "identity": {
-    "age_days": 624,
-    "analyzed_at": "2026-11-03T00:00:00Z",
+    "age_days": 639,
+    "analyzed_at": "2026-11-18T00:00:00Z",
     "channel": "classic",
     "commit": "f6aa38fe06cd4a0489e7730365d4e0114970a2f3",
     "created_at": "2025-02-17T01:33:04Z",
@@ -157,21 +157,21 @@
     }
   },
   "scale": {
-    "commits_365d": 27,
+    "commits_365d": 25,
     "commits_90d": 5,
     "contributors": 50,
-    "forks": 1543,
+    "forks": 1563,
     "last_commit": "2026-10-21T03:50:43Z",
-    "open_issues": 318,
+    "open_issues": 334,
     "release_count_365d": 0,
-    "stars": 10411,
+    "stars": 10454,
     "top10_share": 0.8203,
     "used_by": null
   },
   "schema_version": "1.0",
   "signals": {
     "bus_factor_top1_share": 0.3633,
-    "days_since_commit": 13,
+    "days_since_commit": 28,
     "issue_close_ratio_90d": null,
     "maintenance_state": "active"
   },

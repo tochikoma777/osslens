@@ -1,0 +1,79 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "安装期预编译全部内核",
+        "chose": "运行时 DeepJIT 编译通信内核",
+        "cost": "运行时需保留 CUDA 工具链与主机编译器",
+        "evidence": "README.md:5",
+        "id": "t1"
+      },
+      {
+        "alternative": "保留 NVSHMEM 后端",
+        "chose": "基于 NCCL Gin 轻量设备端通信后端",
+        "cost": "强依赖 NCCL 版本与 Gin 能力",
+        "evidence": "README.md:20",
+        "id": "t2"
+      },
+      {
+        "alternative": "自动调优搜索最优配置",
+        "chose": "按拓扑解析式估算 SM 与 QP 数",
+        "cost": "极端拓扑下可能非最优",
+        "evidence": "README.md:20",
+        "id": "t3"
+      },
+      {
+        "alternative": "单一 ElasticBuffer 承载全部",
+        "chose": "拆分 EP/Engram/PP/Bucket 多缓冲类",
+        "cost": "接口与生命周期管理更复杂",
+        "evidence": "README.md:9",
+        "id": "t4"
+      },
+      {
+        "alternative": "每次 dispatch 立即同步完成",
+        "chose": "延迟 epilogue 与缓存展开布局",
+        "cost": "需保存 handle 并保证 topk_idx 不变",
+        "evidence": "README.md:9",
+        "id": "t5"
+      },
+      {
+        "alternative": "冗余专家各自独立计算",
+        "chose": "NVLink 域内预取权重并归约冗余梯度",
+        "cost": "需调用方提供复制映射与预留存储",
+        "evidence": "README.md:9",
+        "id": "t6"
+      },
+      {
+        "alternative": "仅支持单一传输域",
+        "chose": "Bucket 集合通信支持 NVLink/RDMA/混合域",
+        "cost": "需同时探测两种带宽",
+        "evidence": "README.md:20",
+        "id": "t7"
+      },
+      {
+        "alternative": "始终自建 DeepEP 通信器",
+        "chose": "复用 PyTorch 进程组 NCCL 通信器",
+        "cost": "依赖后端暴露 _comm_ptr",
+        "evidence": "README.md:404",
+        "id": "t8"
+      }
+    ],
+    "paradigm_tags": [
+      "并行切分",
+      "深优化",
+      "硬件耦合"
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 128,
+    "cache_miss_tokens": 21802,
+    "completion_tokens": 410,
+    "prompt_tokens": 21930,
+    "reasoning_tokens": 0,
+    "total_tokens": 22340
+  }
+}

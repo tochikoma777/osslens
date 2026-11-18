@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>报告 · deepseek-ai/DeepEP</title>
+<style>:root{--bg:#f4f7fb;--surface:#fff;--ink:#14213d;--muted:#64748b;--line:#e2e8f0;--brand:#2563eb;--brand2:#06b6d4;--radius:16px;--shadow:0 10px 30px rgba(15,23,42,.07)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+.site-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#0e7490 100%);color:#fff;padding:30px 24px 24px}
+.wrap{max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.brand-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,#38bdf8,#2563eb);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.brand small{display:block;color:#bfdbfe;letter-spacing:.16em;font-size:.72em;text-transform:uppercase}
+header h1{font-size:1.9rem;margin:0 0 16px;letter-spacing:.01em}
+header nav{display:flex;flex-wrap:wrap;gap:8px}
+header nav a{color:#e0f2fe;text-decoration:none;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:.88em}
+header nav a:hover,header nav a.active{background:#fff;color:#1e3a8a;border-color:transparent}
+main{max-width:1120px;margin:26px auto 0;padding:0 24px}
+main>section,main>.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:20px}
+h1,h2,h3{line-height:1.25;color:#0f172a}
+.site-header h1,.site-header h2{color:#fff}
+h2{font-size:1.3rem;margin:0 0 12px}h3{font-size:1.06rem;margin:22px 0 8px}
+p{margin:8px 0}a{color:#1d4ed8}
+code{background:#eef2ff;color:#3730a3;padding:2px 6px;border-radius:6px;font-size:.9em}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px;overflow:auto}
+pre code{background:none;color:inherit;padding:0}
+.hero{background:linear-gradient(135deg,#eff6ff,#f0fdfa);border-color:#bfdbfe}
+.hero h2{font-size:1.55rem;margin:4px 0 8px}
+.kicker{color:var(--brand);font-weight:700;letter-spacing:.14em;font-size:.72em;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0}
+.stat{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;transition:transform .18s,border-color .18s;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+.stat:hover{transform:translateY(-2px);border-color:#93c5fd;box-shadow:0 12px 24px rgba(37,99,235,.12)}
+.stat-label{display:block;color:var(--muted);font-size:.82em}
+.stat strong{display:block;font-size:2rem;line-height:1.2;margin:6px 0;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-desc{color:var(--muted);font-size:.78em}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;margin:0;background:#fff;font-size:.92em}
+th,td{padding:10px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#f8fafc;color:#334155;font-weight:600;white-space:nowrap;position:sticky;top:0}
+tbody tr:hover{background:#f8fbff}tbody tr:last-child td{border-bottom:0}
+.empty,.note{background:#fffbeb;border-left:4px solid #f59e0b;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#78350f}
+.alert{background:#ffeef0;border-left:4px solid #d1242f;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#7f1d1d}
+.badge-alert{display:inline-block;background:#d1242f;color:#fff;border-radius:999px;padding:2px 10px;font-size:.8em;font-weight:700}
+.pill{display:inline-block;background:#eff6ff;color:#1e40af;border:1px solid #dbeafe;border-radius:999px;padding:2px 10px;font-size:.78em;margin:2px}
+footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);font-size:.82em;text-align:center}
+@media(max-width:700px){header h1{font-size:1.45rem}main{padding:0 14px}main>section,main>.panel{padding:16px}.grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap"><div class="brand"><span class="brand-mark">O</span><div><small>osslens / static insights</small></div></div><h1>报告 · deepseek-ai/DeepEP</h1><nav><a href="index.html">首页</a> · <a class="active" href="reports.html">报告</a> · <a href="timeline.html">时间线</a> · <a href="featcards.html">特征卡</a> · <a href="patterns.html">规律库</a> · <a href="costs.html">成本</a> · <a href="runs.html">抽象 run</a> · <a href="search.html">检索</a> · <a href="tags.html">范式标签</a> · <a href="compare.html">并排对比</a></nav></div></header>
+<main class="wrap">
+<p class="note">源 MD：<code>../reports/deepseek-ai__DeepEP__2026-11-18.md</code>；下方六个阅读模块 + 附录顺序固定不变。</p>
+<h1>deepseek-ai/DeepEP 深度分析</h1>
+<h2>导读</h2>
+<p>&gt; <strong>一句话</strong>：deepseek-ai/DeepEP 是一个以 Cuda（42%）为主的项目，约 10,454 stars，仓库年龄 639 天，近 90 天 5 次提交，维护状态「active」。 &gt; &gt; <strong>先注意</strong>：许可证 MIT；依赖链许可证、模型权重/数据许可、CLA 当前未采集；以下判断凡未注明证据的，均为仓库信号推断，需人工复核。</p>
+<p><strong>它大概在做什么</strong>：DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It provides high-throughput and low-latency expert-parallel (EP) all-to-all GPU kernels for MoE dispatch and combine, including FP8 dispatch, and NVLink weight and gradient exchange for redundant experts. It also offers experimental primitives for pipeline parallelism (PP), context parallelism (CP), data parallelism (DP), and remote memory access (Engram). Communication kernels are compiled at runtime via DeepJIT, with the supporting extension built during installation.</p>
+<h2>1. 项目定位与目标</h2>
+<p>从仓库元数据看，deepseek-ai/DeepEP 属于 <code>ai_infra</code> 领域、<code>classic</code> 通道，主语言为 Cuda（42%），当前约 10,454 stars / 1,563 forks。</p>
+<p>项目阶段只能做<strong>信号级判断</strong>：仓库已存在 639 天，近一年发布 0 个版本，最近提交距今 28 天。这只能说明它是否还在维护，不能替代对 roadmap、竞品与真实用户群的判断。</p>
+<p>入口文件：csrc/indexing/main.cu。本次<strong>未采集</strong> roadmap、竞品对比、用户画像与商业模式；这些空白不应被读成“没有”。</p>
+<h2>2. 许可证与合规风险</h2>
+<p>主许可证为 <strong>MIT</strong>，组织类型为 —，治理文档：未检出。</p>
+<p><strong>当前无法回答但必须人工确认</strong>：</p>
+<ul><li>依赖链中是否存在 GPL/AGPL 等强传染许可证；</li><li>模型权重、数据集、第三方素材的许可与商用限制；</li><li>是否要求签署 CLA，以及贡献代码的版权归属。</li></ul>
+<p>&gt; 结论：许可证字段可用于初筛，但不能替代法务审查；本报告不给出“可商用”结论。</p>
+<h2>3. 架构与模块</h2>
+<p>代码主体集中在：<code>figures</code>（2 文件）、<code>deep_ep</code>（62 文件）、<code>csrc</code>（36 文件）、<code>tests</code>（14 文件）、<code>.</code>（10 文件）；最大目录深度 7，monorepo：否。</p>
+<p>内部模块 import 边约 8 条（依赖图见下）。检测到并行轴 CP, DP, EP, PP，具体证据见附录 B。</p>
+<p>从代码证据看，最关键的几个取舍是：</p>
+<ul><li>选择「运行时 DeepJIT 编译通信内核」，放弃「安装期预编译全部内核」，代价是「运行时需保留 CUDA 工具链与主机编译器」（证据 <code>README.md:5</code>）。</li><li>选择「基于 NCCL Gin 轻量设备端通信后端」，放弃「保留 NVSHMEM 后端」，代价是「强依赖 NCCL 版本与 Gin 能力」（证据 <code>README.md:20</code>）。</li><li>选择「按拓扑解析式估算 SM 与 QP 数」，放弃「自动调优搜索最优配置」，代价是「极端拓扑下可能非最优」（证据 <code>README.md:20</code>）。</li></ul>
+<pre><code class="language-mermaid">graph TD
+  deep_ep --&gt; deep_ep_buffers_bucket
+  deep_ep --&gt; deep_ep_buffers_ep
+  deep_ep --&gt; deep_ep_comm
+  deep_ep --&gt; deep_ep_utils
+  deep_ep_buffers_bucket --&gt; deep_ep
+  deep_ep_buffers_bucket --&gt; deep_ep_utils
+  deep_ep_buffers_ep --&gt; deep_ep
+  deep_ep_buffers_ep --&gt; deep_ep_utils</code></pre>
+<h2>4. 运行与工程体系</h2>
+<p>仓库约 126 个文件、2.0 MiB；本次采集到 20 个源码切片（tarball <code>a561c7a463ba056d</code>）。</p>
+<p>语言构成：C++ 24.11%、CMake 0.28%、Cuda 41.56%、Python 33.92%、Shell 0.13%。硬件相关：vendors=[amd, ascend, nvidia]、kernel_langs=[cuda]。</p>
+<p><strong>本次未采集</strong>：构建脚本、依赖安装、测试体系、CI/CD、配置与 secret 管理。因此本报告不能回答“能否在目标环境跑起来”，只能给结构线索。</p>
+<p><strong>特征卡已知限制</strong>：</p>
+<ul><li>证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h2>5. 维护状态与风险</h2>
+<p>贡献者 50 人，Top1 占比 36.33%；近 90 天 / 365 天提交 5 / 25 次；最近提交距今 28 天，维护状态「active」。</p>
+<p><strong>主要风险（基于现有信号）</strong>：</p>
+<ul><li>Top1 贡献者占比 36.33%，集中度需关注</li><li>未检出治理文档，贡献流程可能不透明</li></ul>
+<h2>6. 扩展与二次开发</h2>
+<p>本次<strong>未识别到显式的插件/适配器注册机制</strong>；这不等于没有，只说明当前采集粒度看不到。可优先人工检查以下位置：</p>
+<ul><li><code>csrc/indexing/main.cu</code></li><li><code>figures</code></li><li><code>deep_ep</code></li><li><code>csrc</code></li><li><code>tests</code></li><li><code>.</code></li></ul>
+<p>&gt; 二次开发前建议先确认：扩展点、配置注入方式、测试与发布流程；本报告不替代实际试跑。</p>
+<h2>洞见（附录 A）</h2>
+<table><thead><tr><th>id</th><th>选择</th><th>放弃的替代</th><th>代价</th><th>证据</th></tr></thead><tbody><tr><td>t1</td><td>运行时 DeepJIT 编译通信内核</td><td>安装期预编译全部内核</td><td>运行时需保留 CUDA 工具链与主机编译器</td><td><code>README.md:5</code></td></tr><tr><td>t2</td><td>基于 NCCL Gin 轻量设备端通信后端</td><td>保留 NVSHMEM 后端</td><td>强依赖 NCCL 版本与 Gin 能力</td><td><code>README.md:20</code></td></tr><tr><td>t3</td><td>按拓扑解析式估算 SM 与 QP 数</td><td>自动调优搜索最优配置</td><td>极端拓扑下可能非最优</td><td><code>README.md:20</code></td></tr><tr><td>t4</td><td>拆分 EP/Engram/PP/Bucket 多缓冲类</td><td>单一 ElasticBuffer 承载全部</td><td>接口与生命周期管理更复杂</td><td><code>README.md:9</code></td></tr><tr><td>t5</td><td>延迟 epilogue 与缓存展开布局</td><td>每次 dispatch 立即同步完成</td><td>需保存 handle 并保证 topk_idx 不变</td><td><code>README.md:9</code></td></tr><tr><td>t6</td><td>NVLink 域内预取权重并归约冗余梯度</td><td>冗余专家各自独立计算</td><td>需调用方提供复制映射与预留存储</td><td><code>README.md:9</code></td></tr><tr><td>t7</td><td>Bucket 集合通信支持 NVLink/RDMA/混合域</td><td>仅支持单一传输域</td><td>需同时探测两种带宽</td><td><code>README.md:20</code></td></tr><tr><td>t8</td><td>复用 PyTorch 进程组 NCCL 通信器</td><td>始终自建 DeepEP 通信器</td><td>依赖后端暴露 _comm_ptr</td><td><code>README.md:404</code></td></tr></tbody></table>
+<ul><li>置信度：med</li><li>架构范式标签：并行切分、深优化、硬件耦合</li></ul>
+<h2>外部资料（附录 B）</h2>
+<ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/deepseek-ai/DeepEP</li><li>fetched_at：2026-11-18T15:42:11Z</li><li>sha256：<code>962b36db33b3c7bc0252eb81f0ceb4888678cb3d7bfa6ff66ad09a7fc54a69da</code></li><li>判定：hit — 正文含 10 个仓库内真实路径（阈值 3）</li><li>原文快照：<code>source.txt</code>（与判定元数据分文件存放）</li></ul>
+<h2>运行元数据（附录 C）</h2>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>deepseek-ai/DeepEP</td></tr><tr><td>commit</td><td><code>f6aa38fe06cd4a0489e7730365d4e0114970a2f3</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-18T00:00:00Z</td></tr><tr><td>通道 / 领域</td><td>classic / ai_infra</td></tr><tr><td>请求档位 (requested_depth)</td><td>fast</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>fast</td></tr><tr><td>降级原因 (reason)</td><td>manual_override — 人工 override</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 0/1、fast 3/3（周起点 2026-11-16）；tokens 周 1856/2000000、月 112006/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>2d8fbfd546cd0dc4a1c4611612d835d01f50ef1bb1fe011eb959bda66250ebaa</code></td></tr><tr><td>成本说明</td><td>本次 ¥0.0469（模型调用 1 次）；输入 21,930 tok / 命中 128 tok / 输出 410 tok</td></tr><tr><td>累计</td><td>本周 ¥0.0554 / 24,196 tok；本月 ¥0.6427 / 134,346 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
+<p><strong>档位决策链路</strong>：</p>
+<ol><li>L4 人工 override：--depth fast（绕过 L1 基线 / L2 配额）</li><li>凭据：齐全</li><li>L2 周配额：人工 override 绕过（本周 strong 0/1、fast 3/3）</li><li>L3 预算：估算 17280 × 安全系数 1.3 = 22464 tok（单选上限 120000），周 1856/2000000</li><li>结论：实际档位 fast（人工 override）</li></ol>
+<p><strong>上下文组装</strong>（裁剪发生在调用之前）：</p>
+<table><thead><tr><th>块</th><th>优先级</th><th>估算 token</th></tr></thead><tbody><tr><td>featcard</td><td>1</td><td>2,054</td></tr><tr><td>readme</td><td>2</td><td>8,228</td></tr><tr><td>source_files:csrc/buffers/bucket.hpp</td><td>4</td><td>1,509</td></tr><tr><td>source_files:csrc/buffers/ep.hpp</td><td>4</td><td>1,508</td></tr><tr><td>source_files:csrc/indexing/main.cu</td><td>4</td><td>291</td></tr><tr><td>source_files:deep_ep/__init__.py</td><td>4</td><td>673</td></tr><tr><td>source_files:deep_ep/buffers/bucket.py</td><td>4</td><td>1,509</td></tr><tr><td>source_files:deep_ep/buffers/ep.py</td><td>4</td><td>1,508</td></tr></tbody></table>
+<ul><li>丢弃：—</li><li>合计 17,280 / 上限 120,000</li></ul>
+<h2>特征卡摘要（附录 D）</h2>
+<ul><li>卡文件：<code>data/featcards/deepseek-ai__DeepEP__f6aa38fe06cd4a0489e7730365d4e0114970a2f3.json</code>（schema 1.0）</li><li>入口文件：csrc/indexing/main.cu</li><li>最大目录深度：7；monorepo：否</li><li>源码切片：20 个文件（tarball <code>a561c7a463ba056d</code>）</li><li>依赖：直接 / 传递 = — / —（L1 未解析清单文件）</li></ul>
+<p><strong>并行轴</strong></p>
+<ul><li>并行 <code>CP</code> = true（证据 1 条）</li><li><code>README.md:3</code> — <code>DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p</code></li><li>并行 <code>DP</code> = true（证据 1 条）</li><li><code>README.md:3</code> — <code>DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p</code></li><li>并行 <code>EP</code> = true（证据 3 条）</li><li><code>deep_ep/buffers/ep.py:211</code> — <code>- high-throughput expert-parallel all-to-all (dispatch and combine, using NVLink and/or RDMA)</code></li><li><code>README.md:3</code> — <code>DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p</code></li><li><code>README.md:20</code> — <code>- <strong>V2 release</strong>: A complete refactoring of expert parallelism, with support for larger scale-up and scale-out domains a</code></li><li>并行 <code>PP</code> = true（证据 2 条）</li><li><code>README.md:3</code> — <code>DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p</code></li><li><code>README.md:388</code> — <code>### Pipeline parallelism (experimental)</code></li><li>并行 <code>SP</code> = false（无证据）</li><li>并行 <code>TP</code> = false（无证据）</li></ul>
+<p><strong>缓存</strong></p>
+<ul><li>缓存 <code>kv_offload</code> = false（无证据）</li><li>缓存 <code>paged</code> = false（无证据）</li><li>缓存 <code>prefix_reuse</code> = false（无证据）</li><li>缓存 <code>radix</code> = false（无证据）</li></ul>
+<ul><li>硬件：vendors=[amd, ascend, nvidia]、arch_gates=[blackwell, hopper]、kernel_langs=[cuda]</li><li>治理文档：否</li></ul>
+<p><strong>依赖图</strong>（内部模块 import 边，节点/边排序后输出）</p>
+<pre><code class="language-mermaid">graph TD
+  deep_ep --&gt; deep_ep_buffers_bucket
+  deep_ep --&gt; deep_ep_buffers_ep
+  deep_ep --&gt; deep_ep_comm
+  deep_ep --&gt; deep_ep_utils
+  deep_ep_buffers_bucket --&gt; deep_ep
+  deep_ep_buffers_bucket --&gt; deep_ep_utils
+  deep_ep_buffers_ep --&gt; deep_ep
+  deep_ep_buffers_ep --&gt; deep_ep_utils</code></pre>
+<p><strong>已知限制</strong>：</p>
+<ul><li>证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h2>体检事实（确定性，零 LLM）（附录 E）</h2>
+<table><thead><tr><th>指标</th><th>值</th></tr></thead><tbody><tr><td>Star / Fork</td><td>10,454 / 1,563</td></tr><tr><td>被依赖 (Used by)</td><td>—</td></tr><tr><td>贡献者 / Top1 占比</td><td>50 / 36.33%</td></tr><tr><td>Top10 贡献集中度</td><td>82.03%</td></tr><tr><td>90 天 / 365 天提交</td><td>5 / 25</td></tr><tr><td>最近提交 / 距今天数</td><td>2026-10-21T03:50:43Z / 28</td></tr><tr><td>维护状态</td><td>active</td></tr><tr><td>项目年龄 / 发布数(365d)</td><td>639 天 / 0</td></tr><tr><td>组织类型 / 许可证</td><td>— / MIT</td></tr><tr><td>文件数 / 体积</td><td>126 / 2.0 MiB</td></tr><tr><td>内部模块依赖边</td><td>8</td></tr></tbody></table>
+<p><strong>语言构成</strong>：C++ 24.11%、CMake 0.28%、Cuda 41.56%、Python 33.92%、Shell 0.13%</p>
+<p><strong>模块体量 Top10</strong></p>
+<table><thead><tr><th>模块</th><th>文件数</th><th>字节</th></tr></thead><tbody><tr><td>figures</td><td>2</td><td>1,206,548</td></tr><tr><td>deep_ep</td><td>62</td><td>496,996</td></tr><tr><td>csrc</td><td>36</td><td>208,921</td></tr><tr><td>tests</td><td>14</td><td>144,883</td></tr><tr><td>.</td><td>10</td><td>43,576</td></tr><tr><td>third-party</td><td>2</td><td>5,105</td></tr></tbody></table>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+</main>
+<footer>osslens 静态只读站点 · 无后端 / 无外部 JS 与 CDN / 零 LLM / 零网络</footer>
+</body></html>

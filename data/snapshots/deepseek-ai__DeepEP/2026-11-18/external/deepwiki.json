@@ -1,0 +1,10 @@
+{
+  "fetched_at": "2026-11-18T15:42:11Z",
+  "paths_found": 10,
+  "raw_relpath": "source.txt",
+  "reason": "正文含 10 个仓库内真实路径（阈值 3）",
+  "sha256": "962b36db33b3c7bc0252eb81f0ceb4888678cb3d7bfa6ff66ad09a7fc54a69da",
+  "source": "deepwiki",
+  "status": "hit",
+  "url": "https://deepwiki.com/deepseek-ai/DeepEP"
+}
