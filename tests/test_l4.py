@@ -563,3 +563,13 @@ def test_cli_strict_without_check_is_usage_error(tmp_path: Path) -> None:
     root = _workspace(tmp_path)
     code = main(["site", "--root", str(root), "--out", str(tmp_path / "site"), "--strict"])
     assert code == 2, "--strict 单独使用应报参数错误，而不是静默忽略"
+
+
+def test_timeline_groups_reports_by_month(tmp_path: Path) -> None:
+    root = _workspace(tmp_path)
+    files = _build(root, tmp_path / "site")
+    page = files["timeline.html"]
+    assert "时间线归档" in page
+    assert "2026-11" in page
+    assert 'href="report-org__one__2026-11-06.html"' in page
+    assert "<script" not in page

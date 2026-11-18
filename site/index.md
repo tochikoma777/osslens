@@ -8,6 +8,7 @@
 
 - [首页](index.html)
 - [报告](reports.html)
+- [时间线](timeline.html)
 - [特征卡](featcards.html)
 - [规律库](patterns.html)
 - [成本](costs.html)

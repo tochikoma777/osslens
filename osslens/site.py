@@ -401,6 +401,7 @@ _CSS = (
 _NAV_ITEMS = (
     ("首页", "index.html"),
     ("报告", "reports.html"),
+    ("时间线", "timeline.html"),
     ("特征卡", "featcards.html"),
     ("规律库", "patterns.html"),
     ("成本", "costs.html"),
@@ -628,6 +629,33 @@ def _render_reports(reports: Sequence[ReportDoc]) -> tuple[str, dict[str, str]]:
         for doc in reports
     }
     return listing, pages
+
+
+def _render_timeline(reports: Sequence[ReportDoc]) -> str:
+    """按 as-of 的年月分组报告，提供可读的时间线视图（纯静态、无脚本）。"""
+    intro = _intro(
+        "TIMELINE / ARCHIVE",
+        "时间线归档",
+        "报告按基准时间 (as-of) 的年月分组；点击条目阅读完整报告。",
+    )
+    if not reports:
+        return _page("时间线", intro + '<p class="empty">暂无报告（空态，不伪造内容）。</p>')
+    by_month: dict[str, list[ReportDoc]] = {}
+    for doc in reports:
+        by_month.setdefault((doc.as_of or "未知")[:7], []).append(doc)
+    sections: list[str] = []
+    for month in sorted(by_month, reverse=True):
+        docs = sorted(by_month[month], key=lambda item: (item.as_of, item.repo), reverse=True)
+        items = "".join(
+            f'<li><a href="report-{html.escape(doc.stem)}.html">{html.escape(doc.repo)}</a>'
+            f" · {html.escape(doc.as_of)} · {html.escape(doc.depth)}</li>"
+            for doc in docs
+        )
+        sections.append(
+            f'<h3>{html.escape(month)} <span class="pill">{len(docs)} 份</span></h3>'
+            f"<ul>{items}</ul>"
+        )
+    return _page("时间线", intro + "".join(sections))
 
 
 def _render_featcards(cards: Sequence[FeatcardDoc]) -> str:
@@ -1038,6 +1066,7 @@ def build_site(config: Config, *, as_of: datetime) -> SitePlan:
             empty_note=note,
         ),
         "reports.html": reports_page,
+        "timeline.html": _render_timeline(reports),
         "featcards.html": _render_featcards(featcards),
         "patterns.html": _render_patterns(entries, note),
         "costs.html": _render_costs(config, as_of=as_of, reports=reports),

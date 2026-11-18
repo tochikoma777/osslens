@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>时间线</title>
+<style>:root{--bg:#f4f7fb;--surface:#fff;--ink:#14213d;--muted:#64748b;--line:#e2e8f0;--brand:#2563eb;--brand2:#06b6d4;--radius:16px;--shadow:0 10px 30px rgba(15,23,42,.07)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+.site-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#0e7490 100%);color:#fff;padding:30px 24px 24px}
+.wrap{max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.brand-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,#38bdf8,#2563eb);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.brand small{display:block;color:#bfdbfe;letter-spacing:.16em;font-size:.72em;text-transform:uppercase}
+header h1{font-size:1.9rem;margin:0 0 16px;letter-spacing:.01em}
+header nav{display:flex;flex-wrap:wrap;gap:8px}
+header nav a{color:#e0f2fe;text-decoration:none;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:.88em}
+header nav a:hover,header nav a.active{background:#fff;color:#1e3a8a;border-color:transparent}
+main{max-width:1120px;margin:26px auto 0;padding:0 24px}
+main>section,main>.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:20px}
+h1,h2,h3{line-height:1.25;color:#0f172a}
+.site-header h1,.site-header h2{color:#fff}
+h2{font-size:1.3rem;margin:0 0 12px}h3{font-size:1.06rem;margin:22px 0 8px}
+p{margin:8px 0}a{color:#1d4ed8}
+code{background:#eef2ff;color:#3730a3;padding:2px 6px;border-radius:6px;font-size:.9em}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px;overflow:auto}
+pre code{background:none;color:inherit;padding:0}
+.hero{background:linear-gradient(135deg,#eff6ff,#f0fdfa);border-color:#bfdbfe}
+.hero h2{font-size:1.55rem;margin:4px 0 8px}
+.kicker{color:var(--brand);font-weight:700;letter-spacing:.14em;font-size:.72em;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0}
+.stat{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;transition:transform .18s,border-color .18s;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+.stat:hover{transform:translateY(-2px);border-color:#93c5fd;box-shadow:0 12px 24px rgba(37,99,235,.12)}
+.stat-label{display:block;color:var(--muted);font-size:.82em}
+.stat strong{display:block;font-size:2rem;line-height:1.2;margin:6px 0;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-desc{color:var(--muted);font-size:.78em}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;margin:0;background:#fff;font-size:.92em}
+th,td{padding:10px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#f8fafc;color:#334155;font-weight:600;white-space:nowrap;position:sticky;top:0}
+tbody tr:hover{background:#f8fbff}tbody tr:last-child td{border-bottom:0}
+.empty,.note{background:#fffbeb;border-left:4px solid #f59e0b;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#78350f}
+.alert{background:#ffeef0;border-left:4px solid #d1242f;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#7f1d1d}
+.badge-alert{display:inline-block;background:#d1242f;color:#fff;border-radius:999px;padding:2px 10px;font-size:.8em;font-weight:700}
+.pill{display:inline-block;background:#eff6ff;color:#1e40af;border:1px solid #dbeafe;border-radius:999px;padding:2px 10px;font-size:.78em;margin:2px}
+footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);font-size:.82em;text-align:center}
+@media(max-width:700px){header h1{font-size:1.45rem}main{padding:0 14px}main>section,main>.panel{padding:16px}.grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap"><div class="brand"><span class="brand-mark">O</span><div><small>osslens / static insights</small></div></div><h1>时间线</h1><nav><a href="index.html">首页</a> · <a href="reports.html">报告</a> · <a class="active" href="timeline.html">时间线</a> · <a href="featcards.html">特征卡</a> · <a href="patterns.html">规律库</a> · <a href="costs.html">成本</a> · <a href="runs.html">抽象 run</a> · <a href="search.html">检索</a> · <a href="tags.html">范式标签</a> · <a href="compare.html">并排对比</a></nav></div></header>
+<main class="wrap">
+<section><p class="kicker">TIMELINE / ARCHIVE</p><h2>时间线归档</h2><p>报告按基准时间 (as-of) 的年月分组；点击条目阅读完整报告。</p></section><h3>2026-11 <span class="pill">11 份</span></h3><ul><li><a href="report-Dao-AILab__flash-attention__2026-11-13.html">Dao-AILab/flash-attention</a> · 2026-11-13T16:16:57Z · fast</li><li><a href="report-microsoft__onnxruntime__2026-11-13.html">microsoft/onnxruntime</a> · 2026-11-13T14:56:59Z · off（降级：未配置 LLM 凭据（api_key / base_url / model 缺一））</li><li><a href="report-InternLM__lmdeploy__2026-11-09.html">InternLM/lmdeploy</a> · 2026-11-09T00:00:00Z · off</li><li><a href="report-vllm-project__vllm__2026-11-06.html">vllm-project/vllm</a> · 2026-11-06T00:00:00Z · off</li><li><a href="report-sgl-project__sglang__2026-11-06.html">sgl-project/sglang</a> · 2026-11-06T00:00:00Z · off</li><li><a href="report-huggingface__text-generation-inference__2026-11-06.html">huggingface/text-generation-inference</a> · 2026-11-06T00:00:00Z · off</li><li><a href="report-ModelTC__lightllm__2026-11-06.html">ModelTC/lightllm</a> · 2026-11-06T00:00:00Z · off</li><li><a href="report-InternLM__lmdeploy__2026-11-06.html">InternLM/lmdeploy</a> · 2026-11-06T00:00:00Z · off</li><li><a href="report-deepseek-ai__DeepEP__2026-11-03.html">deepseek-ai/DeepEP</a> · 2026-11-03T00:00:00Z · strong</li><li><a href="report-deepseek-ai__FlashMLA__2026-11-02.html">deepseek-ai/FlashMLA</a> · 2026-11-02T00:00:00Z · off（降级：未配置 LLM 凭据（api_key / base_url / model 缺一））</li><li><a href="report-deepseek-ai__DeepEP__2026-11-02.html">deepseek-ai/DeepEP</a> · 2026-11-02T00:00:00Z · off（降级：未配置 LLM 凭据（api_key / base_url / model 缺一））</li></ul>
+</main>
+<footer>osslens 静态只读站点 · 无后端 / 无外部 JS 与 CDN / 零 LLM / 零网络</footer>
+</body></html>
