@@ -329,22 +329,73 @@ def md_to_html(text: str) -> str:
 
 
 _CSS = (
-    "body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;margin:0;color:#1b1f23;"
-    "background:#fff;line-height:1.6}"
-    "header,main,footer{max-width:960px;margin:0 auto;padding:16px 24px}"
-    "header{border-bottom:1px solid #e1e4e8}footer{border-top:1px solid #e1e4e8;color:#586069;"
-    "font-size:.85em;margin-top:32px}"
-    "nav a{margin-right:12px;color:#0366d6;text-decoration:none}"
-    "h1,h2,h3{line-height:1.25}table{border-collapse:collapse;width:100%;margin:12px 0}"
-    "th,td{border:1px solid #dfe2e5;padding:6px 10px;text-align:left;vertical-align:top}"
-    "th{background:#f6f8fa}pre{background:#f6f8fa;padding:12px;overflow:auto}"
-    "code{background:#f3f4f6;padding:1px 4px;border-radius:3px}"
-    "pre code{background:none;padding:0}"
-    ".empty,.note{background:#fff8e5;border-left:4px solid #d9a400;padding:10px 14px;margin:12px 0}"
-    ".alert{background:#ffeef0;border-left:4px solid #d1242f;padding:10px 14px;margin:12px 0}"
-    ".badge-alert{display:inline-block;background:#d1242f;color:#fff;border-radius:3px;"
-    "padding:1px 8px;font-size:.85em;font-weight:600}"
-    "ul,ol{padding-left:24px}"
+    ":root{--bg:#f4f7fb;--surface:#fff;--ink:#14213d;--muted:#64748b;--line:#e2e8f0;"
+    "--brand:#2563eb;--brand2:#06b6d4;--radius:16px;--shadow:0 10px 30px rgba(15,23,42,.07)}\n"
+    "*{box-sizing:border-box}\n"
+    "body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','PingFang SC',"
+    "'Microsoft YaHei',sans-serif;"
+    "background:var(--bg);color:var(--ink);line-height:1.65}\n"
+    ".site-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#0e7490 100%);"
+    "color:#fff;padding:30px 24px 24px}\n"
+    ".wrap{max-width:1120px;margin:0 auto}\n"
+    ".brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}\n"
+    ".brand-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;"
+    "font-weight:800;background:linear-gradient(135deg,#38bdf8,#2563eb);"
+    "box-shadow:0 6px 18px rgba(0,0,0,.25)}\n"
+    ".brand small{display:block;color:#bfdbfe;letter-spacing:.16em;"
+    "font-size:.72em;text-transform:uppercase}\n"
+    "header h1{font-size:1.9rem;margin:0 0 16px;letter-spacing:.01em}\n"
+    "header nav{display:flex;flex-wrap:wrap;gap:8px}\n"
+    "header nav a{color:#e0f2fe;text-decoration:none;padding:6px 12px;border-radius:999px;"
+    "background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:.88em}\n"
+    "header nav a:hover,header nav a.active{background:#fff;"
+    "color:#1e3a8a;border-color:transparent}\n"
+    "main{max-width:1120px;margin:26px auto 0;padding:0 24px}\n"
+    "main>section,main>.panel{background:var(--surface);border:1px solid var(--line);"
+    "border-radius:var(--radius);padding:22px 24px;"
+    "box-shadow:var(--shadow);margin-bottom:20px}\n"
+    "h1,h2,h3{line-height:1.25;color:#0f172a}\n"
+    ".site-header h1,.site-header h2{color:#fff}\n"
+    "h2{font-size:1.3rem;margin:0 0 12px}"
+    "h3{font-size:1.06rem;margin:22px 0 8px}\n"
+    "p{margin:8px 0}a{color:#1d4ed8}\n"
+    "code{background:#eef2ff;color:#3730a3;padding:2px 6px;border-radius:6px;font-size:.9em}\n"
+    "pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px;overflow:auto}\n"
+    "pre code{background:none;color:inherit;padding:0}\n"
+    ".hero{background:linear-gradient(135deg,#eff6ff,#f0fdfa);border-color:#bfdbfe}\n"
+    ".hero h2{font-size:1.55rem;margin:4px 0 8px}\n"
+    ".kicker{color:var(--brand);font-weight:700;letter-spacing:.14em;font-size:.72em;margin:0}\n"
+    ".grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));"
+    "gap:14px;margin:18px 0}\n"
+    ".stat{display:block;text-decoration:none;color:inherit;background:#fff;"
+    "border:1px solid var(--line);"
+    "border-radius:14px;padding:18px;transition:transform .18s,border-color .18s;"
+    "box-shadow:0 4px 14px rgba(15,23,42,.04)}\n"
+    ".stat:hover{transform:translateY(-2px);border-color:#93c5fd;"
+    "box-shadow:0 12px 24px rgba(37,99,235,.12)}\n"
+    ".stat-label{display:block;color:var(--muted);font-size:.82em}\n"
+    ".stat strong{display:block;font-size:2rem;line-height:1.2;margin:6px 0;"
+    "background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;"
+    "background-clip:text;color:transparent}\n"
+    ".stat-desc{color:var(--muted);font-size:.78em}\n"
+    ".table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}\n"
+    "table{border-collapse:collapse;width:100%;margin:0;background:#fff;font-size:.92em}\n"
+    "th,td{padding:10px 14px;text-align:left;vertical-align:top;"
+    "border-bottom:1px solid var(--line)}\n"
+    "th{background:#f8fafc;color:#334155;font-weight:600;white-space:nowrap;position:sticky;top:0}\n"
+    "tbody tr:hover{background:#f8fbff}tbody tr:last-child td{border-bottom:0}\n"
+    ".empty,.note{background:#fffbeb;border-left:4px solid #f59e0b;padding:12px 16px;margin:14px 0;"
+    "border-radius:0 10px 10px 0;color:#78350f}\n"
+    ".alert{background:#ffeef0;border-left:4px solid #d1242f;padding:12px 16px;margin:14px 0;"
+    "border-radius:0 10px 10px 0;color:#7f1d1d}\n"
+    ".badge-alert{display:inline-block;background:#d1242f;color:#fff;border-radius:999px;"
+    "padding:2px 10px;font-size:.8em;font-weight:700}\n"
+    ".pill{display:inline-block;background:#eff6ff;color:#1e40af;border:1px solid #dbeafe;"
+    "border-radius:999px;padding:2px 10px;font-size:.78em;margin:2px}\n"
+    "footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);"
+    "font-size:.82em;text-align:center}\n"
+    "@media(max-width:700px){header h1{font-size:1.45rem}main{padding:0 14px}"
+    "main>section,main>.panel{padding:16px}.grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}\n"
 )
 
 _NAV_ITEMS = (
@@ -357,18 +408,30 @@ _NAV_ITEMS = (
     ("检索", "search.html"),
     ("范式标签", "tags.html"),
     ("并排对比", "compare.html"),
-    ("索引(MD)", "index.md"),
 )
 
 
 def _page(title: str, body: str) -> str:
-    nav = " · ".join(f'<a href="{url}">{html.escape(label)}</a>' for label, url in _NAV_ITEMS)
+    active = (
+        "首页"
+        if title.startswith("osslens")
+        else max((label for label, _ in _NAV_ITEMS if label in title), key=len, default="")
+    )
+    links: list[str] = []
+    for label, url in _NAV_ITEMS:
+        cls = ' class="active"' if label == active else ""
+        links.append(f'<a{cls} href="{url}">{html.escape(label)}</a>')
+    nav = " · ".join(links)
     return (
         "<!doctype html>\n"
         '<html lang="zh-CN">\n<head>\n<meta charset="utf-8">\n'
         f"<title>{html.escape(title)}</title>\n<style>{_CSS}</style>\n</head>\n<body>\n"
-        f"<header><h1>{html.escape(title)}</h1><nav>{nav}</nav></header>\n"
-        f"<main>\n{body}\n</main>\n"
+        '<header class="site-header"><div class="wrap">'
+        '<div class="brand"><span class="brand-mark">O</span>'
+        "<div><small>osslens / static insights</small></div></div>"
+        f"<h1>{html.escape(title)}</h1><nav>{nav}</nav>"
+        "</div></header>\n"
+        f'<main class="wrap">\n{body}\n</main>\n'
         "<footer>osslens 静态只读站点 · 无后端 / 无外部 JS 与 CDN / 零 LLM / 零网络</footer>\n"
         "</body></html>\n"
     )
@@ -379,7 +442,10 @@ def _table(headers: Sequence[str], rows: Sequence[Sequence[str]]) -> str:
     body = "".join(
         "<tr>" + "".join(f"<td>{_inline(cell)}</td>" for cell in row) + "</tr>" for row in rows
     )
-    return f"<table><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>"
+    return (
+        f'<div class="table-wrap"><table class="data-table"><thead><tr>{head}</tr></thead>'
+        f"<tbody>{body}</tbody></table></div>"
+    )
 
 
 # --------------------------------------------------------------------------- 四块 + 索引
@@ -471,42 +537,50 @@ def _render_index_html(
     run_count: int,
     empty_note: str,
 ) -> str:
+    stats = (
+        ("报告", report_count, "reports.html", "五区块顺序固定"),
+        ("特征卡", featcard_count, "featcards.html", "file:line 证据"),
+        ("规律库", pattern_count, "patterns.html", "真源条目"),
+        ("抽象 run", run_count, "runs.html", "九字段记录"),
+        ("检索", report_count, "search.html", "本地静态索引"),
+        ("并排对比", featcard_count, "compare.html", "固定前三张卡"),
+    )
+    cards = "".join(
+        f'<a class="stat" href="{url}"><span class="stat-label">{html.escape(label)}</span>'
+        f'<strong>{count}</strong><span class="stat-desc">{html.escape(desc)}</span></a>'
+        for label, count, url, desc in stats
+    )
+    empty_block = (
+        f'<div class="empty"><strong>{html.escape(empty_note)}</strong></div>'
+        if pattern_count == 0
+        else '<div class="note">规律库已有条目，可在规律库页查看。</div>'
+    )
     body = "\n".join(
         [
+            '<section class="hero panel">'
+            '<p class="kicker">STATIC · READ-ONLY · DETERMINISTIC</p>'
+            "<h2>把开源项目的证据，变成可阅读的知识</h2>"
             f"<p>基准时间 (as-of)：<code>{html.escape(as_of)}</code>。"
-            "时间只来自 <code>--as-of</code> 或输入真源，不含运行时钟。</p>",
-            _table(
-                ("区块", "条目数", "说明"),
-                (
-                    (_raw('<a href="reports.html">报告</a>'), str(report_count), "五区块顺序不变"),
-                    (
-                        _raw('<a href="featcards.html">特征卡</a>'),
-                        str(featcard_count),
-                        "含 file:line 证据",
-                    ),
-                    (_raw('<a href="patterns.html">规律库</a>'), str(pattern_count), "只读真源"),
-                    (_raw('<a href="costs.html">成本</a>'), "—", "D10 口径 / 全局台账"),
-                    (_raw('<a href="runs.html">抽象 run</a>'), str(run_count), "run 记录九字段"),
-                    (
-                        _raw('<a href="search.html">检索</a>'),
-                        str(report_count),
-                        "本地静态索引 / 关键词",
-                    ),
-                    (_raw('<a href="tags.html">范式标签</a>'), "—", "paradigm_tags 静态过滤"),
-                    (
-                        _raw('<a href="compare.html">并排对比</a>'),
-                        str(featcard_count),
-                        "2–3 张特征卡并排",
-                    ),
-                ),
-            ),
-            f'<div class="empty">{html.escape(empty_note)}</div>'
-            if pattern_count == 0
-            else "<p>规律库已有条目，见规律库页。</p>",
-            '<p class="note">站点为只读静态产物，可丢弃、可重建；不改写任何真源。</p>',
+            "时间只来自 <code>--as-of</code> 或输入真源，不含运行时钟。</p>"
+            "</section>",
+            f'<div class="grid">{cards}</div>',
+            "<section>"
+            + empty_block
+            + '<div class="note">站点为只读静态产物，可丢弃、可重建；不改写任何真源。'
+            + '另见 <a href="tags.html">范式标签</a> 与 <a href="costs.html">成本</a>。'
+            + "<code>index.md</code> 是纯文本索引，供下载 / 编辑器阅读；浏览器请直接用本页。</div>"
+            + "</section>",
         ]
     )
     return _page("osslens · 静态只读站点", body)
+
+
+def _intro(kicker: str, title: str, text: str) -> str:
+    """统一的页内导言块：标题上方小标签 + 一句话说明。"""
+    return (
+        f'<section><p class="kicker">{html.escape(kicker)}</p>'
+        f"<h2>{html.escape(title)}</h2><p>{html.escape(text)}</p></section>"
+    )
 
 
 def _anomaly_alert(pairs: Sequence[tuple[str, str]]) -> str:
@@ -532,9 +606,16 @@ def _render_reports(reports: Sequence[ReportDoc]) -> tuple[str, dict[str, str]]:
     ]
     listing = _page(
         "报告",
-        _table(("仓库", "基准时间 (as-of)", "实际档位", "链接"), rows)
-        if rows
-        else '<p class="empty">暂无报告（空态，不伪造内容）。</p>',
+        _intro(
+            "REPORTS / DEEP DIVES",
+            "单项目分析报告",
+            f"当前 {len(reports)} 份；每份固定五区块，时间只来自 as-of 或真源。",
+        )
+        + (
+            _table(("仓库", "基准时间 (as-of)", "实际档位", "链接"), rows)
+            if rows
+            else '<p class="empty">暂无报告（空态，不伪造内容）。</p>'
+        ),
     )
     pages = {
         f"report-{doc.stem}.html": _page(
@@ -572,7 +653,12 @@ def _render_featcards(cards: Sequence[FeatcardDoc]) -> str:
     body = _table(("仓库", "commit", "analyzed_at", "通道", "stars", "代码证据 file:line"), rows)
     return _page(
         "特征卡",
-        body if rows else '<p class="empty">暂无特征卡（空态，不伪造内容）。</p>',
+        _intro(
+            "EVIDENCE / FEATURE CARDS",
+            "确定性提取的特征卡",
+            f"当前 {len(cards)} 张；代码证据以 file:line 留痕，缺失则如实标注。",
+        )
+        + (body if rows else '<p class="empty">暂无特征卡（空态，不伪造内容）。</p>'),
     )
 
 
@@ -580,8 +666,13 @@ def _render_patterns(entries: Sequence[PatternEntry], empty_note: str) -> str:
     if not entries:
         return _page(
             "规律库",
-            f'<div class="empty"><strong>{html.escape(empty_note)}</strong></div>'
-            "<p>真源 <code>patterns/library.yaml</code> 为 <code>[]</code>；"
+            _intro(
+                "PATTERNS / LIVING LIBRARY",
+                "规律库",
+                "只收录由真实样本与代码证据支撑的条目；宁可空态，不用合成条目充数。",
+            )
+            + f'<div class="empty"><strong>{html.escape(empty_note)}</strong></div>'
+            + "<p>真源 <code>patterns/library.yaml</code> 为 <code>[]</code>；"
             "按 S4 不用合成条目充数，本块保留且如实展示。</p>",
         )
     rows: list[Sequence[str]] = []
@@ -602,7 +693,12 @@ def _render_patterns(entries: Sequence[PatternEntry], empty_note: str) -> str:
         )
     return _page(
         "规律库",
-        _table(("id", "层", "簇", "陈述", "状态", "正例", "反例", "revision"), rows),
+        _intro(
+            "PATTERNS / LIVING LIBRARY",
+            "规律库",
+            f"当前 {len(entries)} 条；每条都必须能下钻到真实样本的代码证据。",
+        )
+        + _table(("id", "层", "簇", "陈述", "状态", "正例", "反例", "revision"), rows),
     )
 
 
@@ -724,7 +820,12 @@ def _render_costs(
     anomaly_pairs = sorted({(doc.repo, item) for doc in reports for item in doc.anomalies})
     return _page(
         "成本",
-        _anomaly_alert(anomaly_pairs)
+        _intro(
+            "COST / GUARDRAILS",
+            "成本与预算",
+            "闸门按时发生，台账按事件留痕；只标注异常，不阻断产出。",
+        )
+        + _anomaly_alert(anomaly_pairs)
         + '<p class="note">本次分析成本 vs 全局台账两者口径不同（D10）；'
         "站点只读真源，不改写 <code>costs.jsonl</code>。</p>\n" + _table(("项", "值"), rows),
     )
@@ -893,12 +994,17 @@ def _render_compare(featcards: Sequence[FeatcardDoc]) -> str:
     ]
     body = "\n".join(
         [
+            _intro(
+                "COMPARE / SIDE BY SIDE",
+                "并排对比",
+                f"按仓库名稳定排序取前 {len(picks)} 张特征卡，逐字段对照；零脚本 / 零网络。",
+            ),
             '<p class="note">纯静态并排对比（取按仓库名排序的前 '
             f"{len(picks)} 张特征卡，确定性）；零脚本 / 零网络 / 无外部依赖。</p>",
             _table(("字段", *[f"项目 {i + 1}" for i in range(len(picks))]), rows),
         ]
     )
-    return _page("并排对比 · 特征卡", body)
+    return _page("并排对比", body)
 
 
 def build_site(config: Config, *, as_of: datetime) -> SitePlan:
