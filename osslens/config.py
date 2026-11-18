@@ -59,7 +59,12 @@ DEFAULT_CONFIG: dict[str, Any] = {
     },
     # 路径 B / 自动链：两次「自动真实分析」的最小间隔（天）。
     # 不是任务唤醒频率：schedule 可每日检查，但真实分析 / 真实花钱至少间隔该天数。
-    "auto_chain": {"min_interval_days": 7},
+    "auto_chain": {
+        "min_interval_days": 7,
+        # None = 继承 min_interval_days（兼容只配置旧键的工作区）；显式数字优先
+        "analysis_interval_days": None,
+        "abstract_interval_days": None,
+    },
     # T5：缓存层保留策略（按可再生性分层，设计方案 v1.3 §8.2 为唯一权威）
     "retention": {
         "enabled": True,
@@ -198,6 +203,9 @@ depth:
 # workflow_dispatch 只绕过本间隔，不绕过成本闸门。
 auto_chain:
   min_interval_days: 7
+  # 分析与抽象各自的最小真实调用间隔（天）；缺省继承 min_interval_days
+  analysis_interval_days: 7
+  abstract_interval_days: 7
 
 # T5：缓存层保留策略（按可再生性分层，设计方案 v1.3 §8.2 为唯一权威）
 # 只作用于 src/（源码切片）与 data/llm_cache/；external/ 与三个 jsonl 真源永不触碰
@@ -316,6 +324,9 @@ class AutoChainConfig:
     """
 
     min_interval_days: int = 7
+    # 独立周期：缺省继承 min_interval_days（旧配置不改也能跑），可分别调大/调小。
+    analysis_interval_days: int = 7
+    abstract_interval_days: int = 7
 
 
 @dataclass(frozen=True)
@@ -625,13 +636,25 @@ class Config:
                 raise ConfigError(f"abstract.{field_name} 必须为正整数，实际 {value}")
 
         # 路径 B：自动链真实分析最小间隔。★ 不是任务唤醒频率；最小允许值 1。
+        legacy_min = as_int(auto_chain_raw.get("min_interval_days"), 7)
+        analysis_raw = auto_chain_raw.get("analysis_interval_days")
+        abstract_raw = auto_chain_raw.get("abstract_interval_days")
         auto_chain = AutoChainConfig(
-            min_interval_days=as_int(auto_chain_raw.get("min_interval_days"), 7)
+            min_interval_days=legacy_min,
+            analysis_interval_days=(
+                legacy_min if analysis_raw is None else as_int(analysis_raw, legacy_min)
+            ),
+            abstract_interval_days=(
+                legacy_min if abstract_raw is None else as_int(abstract_raw, legacy_min)
+            ),
         )
-        if auto_chain.min_interval_days < 1:
-            raise ConfigError(
-                f"auto_chain.min_interval_days 必须 ≥ 1，实际 {auto_chain.min_interval_days}"
-            )
+        for field_name, value in (
+            ("min_interval_days", auto_chain.min_interval_days),
+            ("analysis_interval_days", auto_chain.analysis_interval_days),
+            ("abstract_interval_days", auto_chain.abstract_interval_days),
+        ):
+            if value < 1:
+                raise ConfigError(f"auto_chain.{field_name} 必须 ≥ 1，实际 {value}")
 
         return cls(
             layout=layout,

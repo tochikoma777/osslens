@@ -8,8 +8,8 @@ name: 路径 B 自动链（批次 A 静态落地）
 #   run 的 created_at = 2026-11-14T16:56:51Z（北京 00:56，落 DeepSeek 低谷时段），
 #   故保留该 cron 不改；是否命中低谷以 costs.jsonl 的真实调用时间为准，不按名义 cron 推断。
 # ★ 频率闸门：schedule 只是「低成本检查闹钟」——到点先读 config.yaml 的
-#   auto_chain.min_interval_days（默认 7 = 每周一次），未满即 [skip] interval not reached。
-#   分析段与抽象段**各自独立判断**（不同 purpose 锚点，互不占用）；
+#   auto_chain.analysis_interval_days / abstract_interval_days（缺省继承旧键 auto_chain.min_interval_days = 7），
+#   两段各自独立判断（不同 purpose 锚点 + 各自周期配置，互不占用）；
 #   判断先于真实调用 / 真源回写 / 站点重建，不调模型、不写 call 行、不提交。
 #   workflow_dispatch 只绕过本间隔检查，不绕过成本闸门（--auto-chain / 配额 / 预算 / 次数 / 系数）。
 # ★ 上线状态（2026-11-16）：cron 已启用（D50 / Q3）、真源已 push main；11-14 / 11-15 / 11-16
@@ -75,13 +75,14 @@ jobs:
               load_events(config.layout),
               now=SystemClock().now(),
               purposes=AUTO_ANALYSIS_PURPOSES,
+              days=config.auto_chain.analysis_interval_days,
           )
           # ★ 只在 schedule 时裁决间隔；workflow_dispatch 仅供手动真实验证，
           #   只绕过间隔，后续仍必须走 --auto-chain 的成本闸门。
           if event == "schedule" and not reached:
               print(
                   "[skip] interval not reached"
-                  f"（analysis, min_interval_days={config.auto_chain.min_interval_days}）"
+                  f"（analysis, interval_days={config.auto_chain.analysis_interval_days}）"
               )
               with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
                   handle.write("skip=true\n")
@@ -174,13 +175,14 @@ jobs:
               load_events(config.layout),
               now=SystemClock().now(),
               purposes=AUTO_ABSTRACT_PURPOSES,
+              days=config.auto_chain.abstract_interval_days,
           )
           # ★ 抽象段独立锚点：只统计 purpose ∈ 抽象 run_type 的自动 call，
           #   与分析段互不占用；workflow_dispatch 只绕过间隔，仍受抽象段预算闸门约束。
           if event == "schedule" and not reached:
               print(
                   "[skip] interval not reached"
-                  f"（abstract, min_interval_days={config.auto_chain.min_interval_days}）"
+                  f"（abstract, interval_days={config.auto_chain.abstract_interval_days}）"
               )
               with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
                   handle.write("skip=true\n")

@@ -250,11 +250,13 @@ def auto_interval_reached(
     *,
     now: datetime,
     purposes: Collection[str] | None = None,
+    days: int | None = None,
 ) -> bool:
     """路径 B：`schedule` 的「自动真实调用最小间隔」闸门。
 
     - 无历史自动真实调用 → True（首次放行）。
-    - 距最近一次自动真实调用满 `auto_chain.min_interval_days` 天 → True。
+    - 距最近一次自动真实调用满 `days` 天 → True；`days=None` 时回退到
+      `auto_chain.min_interval_days`（旧行为）。分析与抽象可各传各的独立周期。
     - 未满 → False；调用方必须在真实调用 / 真源回写**之前**退出。
     - `purposes` 用于分段：分析段传 `AUTO_ANALYSIS_PURPOSES`、抽象段传
       `AUTO_ABSTRACT_PURPOSES`，两段各查各的锚点，互不影响。
@@ -264,7 +266,8 @@ def auto_interval_reached(
     last = last_auto_call_at(events, purposes=purposes)
     if last is None:
         return True
-    return now - last >= timedelta(days=config.auto_chain.min_interval_days)
+    effective_days = config.auto_chain.min_interval_days if days is None else days
+    return now - last >= timedelta(days=effective_days)
 
 
 def load_events(layout: Layout) -> list[CostEvent]:

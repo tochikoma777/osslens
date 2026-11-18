@@ -831,11 +831,27 @@ def test_auto_chain_subject_to_max_calls_per_run(
 def test_auto_chain_min_interval_config_default_and_validation(tmp_path: Path) -> None:
     """X1：默认 7 天；可配置；最小值 1；0 拒绝。"""
     root = seed_workspace(tmp_path / "ws")
-    assert Config.load(root).auto_chain.min_interval_days == 7
+    loaded = Config.load(root)
+    assert loaded.auto_chain.min_interval_days == 7
+    assert loaded.auto_chain.analysis_interval_days == 7
+    assert loaded.auto_chain.abstract_interval_days == 7
     tight = Config.from_mapping(root, {"auto_chain": {"min_interval_days": 1}})
     assert tight.auto_chain.min_interval_days == 1
+    assert tight.auto_chain.analysis_interval_days == 1  # 缺省继承旧键
+    assert tight.auto_chain.abstract_interval_days == 1
+    split = Config.from_mapping(
+        root,
+        {"auto_chain": {"analysis_interval_days": 14, "abstract_interval_days": 3}},
+    )
+    assert split.auto_chain.min_interval_days == 7
+    assert split.auto_chain.analysis_interval_days == 14
+    assert split.auto_chain.abstract_interval_days == 3
     with pytest.raises(ConfigError):
         Config.from_mapping(root, {"auto_chain": {"min_interval_days": 0}})
+    with pytest.raises(ConfigError):
+        Config.from_mapping(root, {"auto_chain": {"analysis_interval_days": 0}})
+    with pytest.raises(ConfigError):
+        Config.from_mapping(root, {"auto_chain": {"abstract_interval_days": 0}})
 
 
 def _attributed_call(as_of: str) -> CostEvent:
@@ -938,6 +954,8 @@ def test_auto_workflow_interval_gate_precedes_analysis_and_abstract() -> None:
     assert gate_at < raw.index("重建站点")
     assert "[skip] interval not reached" in raw
     assert "auto_chain.min_interval_days" in raw
+    assert "config.auto_chain.analysis_interval_days" in raw
+    assert "config.auto_chain.abstract_interval_days" in raw
     assert "github.event_name" in raw
     assert "AUTO_ANALYSIS_PURPOSES" in raw
     assert "AUTO_ABSTRACT_PURPOSES" in raw
@@ -959,3 +977,13 @@ def test_auto_workflow_interval_gate_precedes_analysis_and_abstract() -> None:
     )
     assert abstract_gate < abstract_index
     assert abstract_steps[abstract_index]["if"] == "steps.interval.outputs.skip != 'true'"
+
+
+def test_auto_interval_days_parameter_overrides_shared_default(tmp_path: Path) -> None:
+    """独立周期：同一个锚点事件，传不同 days 得到不同闸门结论。"""
+    root = seed_workspace(tmp_path / "ws")
+    config = Config.load(root)
+    now = datetime(2026, 11, 14, 12, tzinfo=UTC)
+    six_days_ago = _attributed_call("2026-11-08T12:00:00Z")
+    assert auto_interval_reached(config, [six_days_ago], now=now, days=14) is False
+    assert auto_interval_reached(config, [six_days_ago], now=now, days=3) is True

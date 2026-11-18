@@ -65,6 +65,9 @@ depth:
 #   （--auto-chain / 周配额 / 预算 / 调用次数上限 / 安全系数照常）。
 auto_chain:
   min_interval_days: 7
+  # 分析与抽象各自的最小真实调用间隔（天）；缺省继承 min_interval_days
+  analysis_interval_days: 7
+  abstract_interval_days: 7
 
 # T5：缓存层保留策略（按可再生性分层，设计方案 v1.5 §8.2 为唯一权威）
 # 只作用于 src/（源码切片）与 data/llm_cache/；external/ 与三个 jsonl 真源永不触碰
