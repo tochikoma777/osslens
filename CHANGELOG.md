@@ -2,6 +2,12 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-17 · 独立周期 + 时间线归档
+
+- **周期解耦**：新增 `auto_chain.analysis_interval_days` / `abstract_interval_days`，分别控制自动分析与抽象的最小真实调用间隔；缺省继承旧键 `min_interval_days`（默认 7），旧配置不改行为不变。`auto_interval_reached()` 支持 `days` 参数，workflow 两段各传各的值。
+- **站点时间线**：新增 `timeline.html`，按报告 `as-of` 的年月分组并链接到完整报告，导航加入「时间线」入口；产物 22 → **23**，仍零 JS / 零 CDN / 零网络。
+- 测试 197 → **199**（独立周期 +1 / 时间线 +1）；锚文件 v1.9 → **v1.10**；`CODEBUDDY.md` v1.15 → **v1.16**。
+
 ## [Unreleased] - 2026-11-17 · 抽象链路闭合 + 站点视觉升级
 
 **范围**：修复规律库首条无法生成的 S4 缺陷 · 强化证据格式提示与重试 · 授权冒烟真跑产出 3 条 L1 · 静态站点视觉重构。本轮 3 次真实抽象调用合计 ¥0.0085。
