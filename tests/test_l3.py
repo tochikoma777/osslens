@@ -31,6 +31,7 @@ from osslens.abstract import (
     l2_summary,
     load_runs,
     load_samples,
+    ops_from_items,
     run_id_for,
 )
 from osslens.cli import main
@@ -707,3 +708,84 @@ def test_config_template_has_domains_and_abstract(tmp_path: Path) -> None:
     config = Config.load(tmp_path)
     assert config.domain_ids and config.abstract.cluster_min_new_projects == 6
     assert parse_iso(fmt_iso(LATER)).year == 2026
+
+
+# ------------------------------------------------------- S4 add op 的真实样本准入
+
+
+def _raw_add_item(repo: str = "test-org/inference-0", path: str = "src/a.py:12") -> dict:
+    return {
+        "id": "P-NEW",
+        "chose": "add",
+        "cost": "前缀重叠高时采用复用",
+        "alternative": "分离实现会增加重复代码",
+        "evidence": f"{repo}|{path}",
+    }
+
+
+def test_add_op_requires_real_sample_and_file_line() -> None:
+    ops = ops_from_items(
+        [_raw_add_item()], frozenset({"test-org/inference-0"}), cluster="inference"
+    )
+    assert len(ops) == 1
+    entry = ops[0].entry
+    assert entry is not None
+    assert entry.level == "L1" and entry.cluster == "inference"
+    assert entry.evidence[0].path == "src/a.py:12"
+    p.assert_storable((entry,))
+
+
+def test_add_op_rejects_foreign_repo_and_missing_line() -> None:
+    allowed = frozenset({"test-org/inference-0"})
+    assert ops_from_items([_raw_add_item(repo="evil/repo")], allowed, cluster="inference") == ()
+    assert ops_from_items([_raw_add_item(path="src/a.py")], allowed, cluster="inference") == ()
+    assert ops_from_items([_raw_add_item()], allowed, cluster="") == ()
+
+
+def test_cluster_run_accepts_validated_add_from_raw_items(tmp_path: Path) -> None:
+    config = _workspace(tmp_path, n_samples=6)
+
+    class Fake:
+        def __call__(self, *, system: str, user: str) -> ModelResult:
+            return ModelResult(
+                ops=(),
+                raw_items=(_raw_add_item(),),
+                prompt_tokens=100,
+                completion_tokens=20,
+                cache_hit_tokens=0,
+                calls=1,
+                status="ok",
+                reason="",
+                model="deepseek-flash",
+            )
+
+    result = cluster_run(
+        config, as_of=datetime(2026, 11, 17, tzinfo=UTC), caller=Fake(), write=False
+    )
+    assert result.record.status == STATUS_COMPLETED
+    assert [entry.id for entry in result.entries] == ["P-NEW"]
+    assert not any("无可用 ops" in warning for warning in result.record.warnings)
+
+
+def test_abstract_prompt_demands_repo_and_file_line() -> None:
+    from osslens.abstract import _abstract_system, _abstract_user, _evidence_format_ok
+
+    system = _abstract_system()
+    assert "owner/repo|path/file.py:123" in system
+    assert "只写仓库名" in system
+    user = _abstract_user("summary", ("o/r",), ("o/r|src/a.py:12",))
+    assert "o/r|src/a.py:12" in user
+    assert _evidence_format_ok({"evidence": "o/r|src/a.py:12"}) is True
+    assert _evidence_format_ok({"evidence": "o/r"}) is False
+
+
+def test_evidence_hints_come_from_real_featcards(tmp_path: Path) -> None:
+    from osslens.abstract import _evidence_hints, load_samples
+
+    config = _workspace(tmp_path, n_samples=1)
+    card_path = next(config.layout.featcards_dir.glob("*.json"))
+    card = json.loads(card_path.read_text(encoding="utf-8"))
+    card["cache"] = {"evidence": {"paged": [{"file": "src/a.py", "line": 12}]}}
+    card_path.write_text(json.dumps(card), encoding="utf-8")
+    samples, _ = load_samples(config.layout, config)
+    assert "test-org/inference-0|src/a.py:12" in _evidence_hints(samples)

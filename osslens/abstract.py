@@ -29,6 +29,7 @@ from .depth import (
 )
 from .llm import estimate_tokens
 from .patterns import (
+    Evidence,
     Op,
     PatternEntry,
     PatternError,
@@ -273,6 +274,8 @@ class ModelResult:
     status: str
     reason: str
     model: str = ""
+    # 原始模型条目：add op 需要在编排处按「真实样本仓库 + 代码证据」复核后才能构造（S4）。
+    raw_items: tuple[dict[str, Any], ...] = ()
 
 
 class ModelCaller(Protocol):
@@ -283,22 +286,90 @@ def _abstract_system() -> str:
     return (
         "你是规律库抽象助手。只返回 JSON 对象，不要 markdown、不要解释。\n"
         '输出 schema：{"items":[{"id":"P-001","chose":"add|strengthen|weaken|refine|falsify|merge",'
-        '"alternative":"原因短句","cost":"陈述短句","evidence":"repo|file:line"}]}\n'
-        "只写有代码证据的条目；证据不足就少写。不要写「无法判断/无法验证」。"
+        '"alternative":"原因短句","cost":"陈述短句","evidence":"owner/repo|path/file.py:123"}]}\n'
+        "★ evidence 必须严格写成 `owner/repo|文件路径:行号`（竖线分隔，行号为正整数），"
+        "例如 `vllm-project/vllm|vllm/entrypoints/llm.py:42`。"
+        "只写仓库名（如 `vllm-project/vllm`）会被系统判废，条目无法入库。\n"
+        "优先从下面给出的「可用代码证据」中挑一条与陈述真正相关的；"
+        "没有合适证据就少写。不要写「无法判断/无法验证」。"
     )
 
 
-def _abstract_user(summary: str, projects: Sequence[str]) -> str:
+def _abstract_user(
+    summary: str, projects: Sequence[str], evidence_hints: Sequence[str] = ()
+) -> str:
+    hints = "\n".join(sorted(set(evidence_hints))[:24])
     return (
         f"## L2 结构化摘要（跨域 run 唯一输入）\n{summary or '（暂无 L2 条目）'}\n\n"
-        f"## 本次新增真实项目\n{chr(10).join(sorted(projects))}"
+        f"## 本次新增真实项目\n{chr(10).join(sorted(projects))}\n\n"
+        f"## 可用代码证据（真实样本的特征卡提取，evidence 必须从这里选或同格式）\n"
+        f"{hints or '（暂无可用的 file:line 证据，宁可不写 add）'}"
     )
 
 
-def ops_from_items(items: Any, allowed_repos: frozenset[str]) -> tuple[Op, ...]:
-    """模型输出 → ops；收紧为真实样本（S4）：`add` 条目必须来自允许的真实仓库。"""
+def _evidence_hints(samples: Sequence[Sample]) -> tuple[str, ...]:
+    """从真实样本的特征卡提取 `owner/repo|file:line`，作为模型可引用的证据池。"""
+    out: list[str] = []
+    for sample in samples:
+        for group in ("parallel", "cache"):
+            entries = as_dict(as_dict(sample.card.get(group)).get("evidence"))
+            for values in entries.values():
+                for item in as_list(values):
+                    payload = as_dict(item)
+                    path = as_str(payload.get("file"))
+                    line = as_int(payload.get("line"))
+                    if path and line > 0:
+                        out.append(f"{sample.repo}|{path}:{line}")
+    return tuple(sorted(set(out)))
+
+
+def _evidence_format_ok(item: dict[str, Any]) -> bool:
+    """evidence 必须是 `owner/repo|file:line`，只写仓库名不算。"""
+    repo, sep, path = as_str(item.get("evidence")).partition("|")
+    tail = path.rsplit(":", 1)[-1]
+    return bool(sep and repo and ":" in path and tail.isdigit() and int(tail) > 0)
+
+
+def _add_op_from_item(
+    payload: dict[str, Any], *, allowed_repos: frozenset[str], cluster: str
+) -> Op | None:
+    """把模型 `add` 条目收敛为**真实样本可核验**的 L1 条目（S4）。
+
+    准入条件：证据写成 ``owner/repo|file:line``；repo 必须是本次真实样本，
+    且 path 必须是 file:line。任一条不满足 → 拒绝，模型不能凭空造条目。
+    """
+    if not cluster:
+        return None
+    op_id = as_str(payload.get("id"))
+    if not op_id:
+        return None
+    raw_evidence = as_str(payload.get("evidence"))
+    repo, sep, path = raw_evidence.partition("|")
+    repo, path = repo.strip(), path.strip()
+    tail = path.rsplit(":", 1)[-1]
+    if not sep or repo not in allowed_repos or ":" not in path or not tail.isdigit():
+        return None
+    statement = as_str(payload.get("cost")) or as_str(payload.get("alternative"))
+    if not statement:
+        return None
+    entry = PatternEntry(
+        id=op_id,
+        level="L1",
+        cluster=cluster,
+        statement=statement,
+        evidence=(Evidence(repo=repo, kind="正例", path=path),),
+        source="real",
+    )
+    return Op(op="add", id=op_id, reason=as_str(payload.get("alternative")), entry=entry)
+
+
+def ops_from_items(
+    items: Any, allowed_repos: frozenset[str], *, cluster: str = ""
+) -> tuple[Op, ...]:
+    """模型输出 → ops：`add` 只有在真实样本 + file:line 证据齐全时才允许（S4）。"""
     result: list[Op] = []
-    for raw in as_list(items):
+    raw_seq = list(items) if isinstance(items, (list, tuple)) else as_list(items)
+    for raw in raw_seq:
         payload = as_dict(raw)
         kind = as_str(payload.get("chose"))
         op_id = as_str(payload.get("id"))
@@ -307,7 +378,9 @@ def ops_from_items(items: Any, allowed_repos: frozenset[str]) -> tuple[Op, ...]:
         if not op_id:
             continue
         if kind == "add":
-            # 只有真实样本能进真源；模型不能凭空造条目（S4）。
+            add_op = _add_op_from_item(payload, allowed_repos=allowed_repos, cluster=cluster)
+            if add_op is not None:
+                result.append(add_op)
             continue
         result.append(Op(op=kind, id=op_id, reason=as_str(payload.get("alternative"))))
     return tuple(result)
@@ -319,6 +392,8 @@ class LlmModelCaller:
 
     config: Config
     max_tokens: int = 4096
+    # 证据格式不合规时最多重试一次（计入调用次数与费用，不绕过成本闸门）。
+    max_evidence_retries: int = 1
 
     def __call__(self, *, system: str, user: str) -> ModelResult:
         from .llm import LlmClient  # 局部导入：off 档路径根本不构造模型客户端
@@ -341,16 +416,34 @@ class LlmModelCaller:
             timeout_seconds=self.config.llm.timeout_seconds,
             max_retries=self.config.llm.max_retries,
         )
-        outcome = client.chat_json(system, user, max_tokens=self.max_tokens)
-        items = outcome.insight.items if outcome.insight else ()
+        retry_user = user
+        total_prompt = total_completion = total_hit = total_calls = 0
+        for attempt in range(self.max_evidence_retries + 1):
+            outcome = client.chat_json(system, retry_user, max_tokens=self.max_tokens)
+            total_prompt += outcome.usage.prompt_tokens
+            total_completion += outcome.usage.completion_tokens
+            total_hit += outcome.usage.cache_hit_tokens
+            total_calls += outcome.calls
+            items = outcome.insight.items if outcome.insight else ()
+            raw_items = tuple(item.to_json() | {"chose": item.chose} for item in items)
+            if outcome.status not in ("ok", "cache_hit") or not raw_items:
+                break
+            if all(_evidence_format_ok(item) for item in raw_items):
+                break
+            if attempt == self.max_evidence_retries:
+                break
+            retry_user = (
+                user
+                + "\n\n【格式纠正】上一轮 evidence 只写了仓库名，必须为 `owner/repo|路径:行号`"
+                + "（行号为正整数）。请重新输出完整 JSON，每条 evidence 都带上真实 file:line。"
+            )
         return ModelResult(
-            ops=ops_from_items(
-                [item.to_json() | {"chose": item.chose} for item in items], frozenset()
-            ),
-            prompt_tokens=outcome.usage.prompt_tokens,
-            completion_tokens=outcome.usage.completion_tokens,
-            cache_hit_tokens=outcome.usage.cache_hit_tokens,
-            calls=outcome.calls,
+            ops=ops_from_items(raw_items, frozenset()),
+            raw_items=raw_items,
+            prompt_tokens=total_prompt,
+            completion_tokens=total_completion,
+            cache_hit_tokens=total_hit,
+            calls=total_calls,
             status="ok" if outcome.status in ("ok", "cache_hit") else "degraded",
             reason=outcome.reason,
             model=outcome.model,
@@ -366,7 +459,8 @@ class CachedModelCaller:
         self.hits = 0
 
     def __call__(self, *, system: str, user: str) -> ModelResult:
-        key = sha256_text(f"{system}|{user}")
+        # v2：缓存里同时保存 raw_items（供 add op 按真实样本复核）；旧 key 失效。
+        key = sha256_text(f"v2|{system}|{user}")
         path = self._layout.data_dir / "llm_cache" / f"abstract-{key}.json"
         if path.exists():
             try:
@@ -384,6 +478,7 @@ class CachedModelCaller:
                     status="cache_hit",
                     reason="同一输入已有结果（结果持久化）",
                     model=as_str(payload.get("model")),
+                    raw_items=tuple(as_list(payload.get("raw_items"))),
                 )
         result = self._inner(system=system, user=user)
         if result.status == "ok":
@@ -392,6 +487,7 @@ class CachedModelCaller:
                 stable_json(
                     {
                         "ops": [item.to_json() for item in result.ops],
+                        "raw_items": [dict(item) for item in result.raw_items],
                         "prompt_tokens": result.prompt_tokens,
                         "model": result.model,
                     }
@@ -536,9 +632,23 @@ def cluster_run(
                     ),
                 )
         else:
-            result = caller(system=_abstract_system(), user=_abstract_user(summary, input_projects))
+            hints = _evidence_hints(samples)
+            result = caller(
+                system=_abstract_system(),
+                user=_abstract_user(summary, input_projects, hints),
+            )
             llm_calls = result.calls
-            ops = result.ops
+            # S4：模型原始 add 条目必须按本次真实样本 + file:line 证据复核后才能成为 op。
+            existing_ids = {entry.id for entry in entries}
+            add_ops = ops_from_items(result.raw_items, frozenset(input_projects), cluster=target)
+            seen_ids: set[str] = set()
+            validated_adds: list[Op] = []
+            for item in add_ops:
+                if item.id in existing_ids or item.id in seen_ids:
+                    continue
+                seen_ids.add(item.id)
+                validated_adds.append(item)
+            ops = result.ops + tuple(validated_adds)
             model = result.model or config.model_for("fast")
             cost = estimate_cost(
                 config,
@@ -584,7 +694,11 @@ def cluster_run(
                         append_ops(layout.ops_jsonl, run_id, ops)
             else:
                 status = STATUS_DEGRADED
-                warnings.append(f"模型输出判废/不可用：{result.reason or result.status}")
+                if result.status in ("ok", "cache_hit") and not ops:
+                    warnings.append("模型输出无可用 ops：add 条目未带「真实样本 + file:line」证据")
+                else:
+                    reason = result.reason or "无"
+                    warnings.append(f"模型输出判废/不可用：status={result.status} reason={reason}")
 
     record = RunRecord(
         run_id=run_id,
@@ -735,7 +849,18 @@ def cross_domain_run(
         else:
             result = caller(system=_abstract_system(), user=_abstract_user(summary, input_projects))
             llm_calls = result.calls
-            ops = result.ops
+            existing_ids = {entry.id for entry in entries}
+            add_ops = ops_from_items(
+                result.raw_items, frozenset(input_projects), cluster=CROSS_DOMAIN_CLUSTER
+            )
+            seen_ids: set[str] = set()
+            validated_adds: list[Op] = []
+            for item in add_ops:
+                if item.id in existing_ids or item.id in seen_ids:
+                    continue
+                seen_ids.add(item.id)
+                validated_adds.append(item)
+            ops = result.ops + tuple(validated_adds)
             model = result.model or config.model_for("fast")
             cost = estimate_cost(
                 config,
@@ -776,7 +901,11 @@ def cross_domain_run(
                         append_ops(layout.ops_jsonl, run_id, ops)
             else:
                 status = STATUS_DEGRADED
-                warnings.append(f"模型输出判废/不可用：{result.reason or result.status}")
+                if result.status in ("ok", "cache_hit") and not ops:
+                    warnings.append("模型输出无可用 ops：add 条目未带「真实样本 + file:line」证据")
+                else:
+                    reason = result.reason or "无"
+                    warnings.append(f"模型输出判废/不可用：status={result.status} reason={reason}")
 
     record = RunRecord(
         run_id=run_id,
