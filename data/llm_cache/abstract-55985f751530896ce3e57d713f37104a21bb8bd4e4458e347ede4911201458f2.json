@@ -1,0 +1,42 @@
+{
+  "model": "deepseek-flash",
+  "ops": [],
+  "prompt_tokens": 669,
+  "raw_items": [
+    {
+      "alternative": "推理引擎通过统一 CLI 子命令暴露服务与量化入口",
+      "chose": "add",
+      "cost": "子命令增多后需要维护命令与后端映射",
+      "evidence": "InternLM/lmdeploy|lmdeploy/cli/cli.py:57",
+      "id": "P-001"
+    },
+    {
+      "alternative": "注意力后端按 CUDA 版本分派实现",
+      "chose": "add",
+      "cost": "后端分派逻辑增加维护分支",
+      "evidence": "InternLM/lmdeploy|lmdeploy/pytorch/backends/cuda/attention/__init__.py:87",
+      "id": "P-002"
+    },
+    {
+      "alternative": "引擎层以 README 描述调度与请求生命周期",
+      "chose": "add",
+      "cost": "文档与实现易脱节",
+      "evidence": "InternLM/lmdeploy|src/turbomind/engine/README.md:56",
+      "id": "P-003"
+    },
+    {
+      "alternative": "MoE 通信库以高吞吐 all-to-all 为核心目标",
+      "chose": "add",
+      "cost": "依赖特定网络与 GPU 拓扑",
+      "evidence": "deepseek-ai/DeepEP|README.md:3",
+      "id": "P-004"
+    },
+    {
+      "alternative": "通信缓冲区按低延迟模式与普通模式分流",
+      "chose": "add",
+      "cost": "两套路径增加测试矩阵",
+      "evidence": "deepseek-ai/DeepEP|deep_ep/buffers/ep.py:211",
+      "id": "P-005"
+    }
+  ]
+}

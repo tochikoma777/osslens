@@ -1,1 +1,78 @@
-[]
+- aliases: []
+  anti_patterns: []
+  applicability: []
+  boundaries: []
+  claim_kind: ''
+  cluster: inference
+  confidence: 中
+  control_group: []
+  counterexamples: []
+  cross_domains: []
+  drilldown: []
+  evidence:
+  - commit: ''
+    kind: 正例
+    note: ''
+    path: lmdeploy/cli/cli.py:57
+    repo: InternLM/lmdeploy
+  falsification: ''
+  id: P-001
+  level: L1
+  revision: 1
+  soft_labels: []
+  source: real
+  statement: 子命令增多后需要维护命令与后端映射
+  status: active
+  tags: []
+- aliases: []
+  anti_patterns: []
+  applicability: []
+  boundaries: []
+  claim_kind: ''
+  cluster: inference
+  confidence: 中
+  control_group: []
+  counterexamples: []
+  cross_domains: []
+  drilldown: []
+  evidence:
+  - commit: ''
+    kind: 正例
+    note: ''
+    path: lmdeploy/pytorch/backends/cuda/attention/__init__.py:87
+    repo: InternLM/lmdeploy
+  falsification: ''
+  id: P-002
+  level: L1
+  revision: 1
+  soft_labels: []
+  source: real
+  statement: 后端分派逻辑增加维护分支
+  status: active
+  tags: []
+- aliases: []
+  anti_patterns: []
+  applicability: []
+  boundaries: []
+  claim_kind: ''
+  cluster: inference
+  confidence: 中
+  control_group: []
+  counterexamples: []
+  cross_domains: []
+  drilldown: []
+  evidence:
+  - commit: ''
+    kind: 正例
+    note: ''
+    path: src/turbomind/engine/README.md:56
+    repo: InternLM/lmdeploy
+  falsification: ''
+  id: P-003
+  level: L1
+  revision: 1
+  soft_labels: []
+  source: real
+  statement: 文档与实现易脱节
+  status: active
+  tags: []

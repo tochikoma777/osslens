@@ -1,0 +1,49 @@
+{
+  "model": "deepseek-flash",
+  "ops": [],
+  "prompt_tokens": 190,
+  "raw_items": [
+    {
+      "alternative": "推理引擎普遍采用PagedAttention管理KV缓存",
+      "chose": "add",
+      "cost": "需实现块表与显存分页调度",
+      "evidence": "vllm-project/vllm",
+      "id": "P-001"
+    },
+    {
+      "alternative": "连续批处理提升吞吐",
+      "chose": "add",
+      "cost": "需调度器支持请求动态进出批次",
+      "evidence": "vllm-project/vllm",
+      "id": "P-002"
+    },
+    {
+      "alternative": "张量并行切分大模型权重",
+      "chose": "add",
+      "cost": "需多卡通信与权重分片加载",
+      "evidence": "InternLM/lmdeploy",
+      "id": "P-003"
+    },
+    {
+      "alternative": "前缀缓存复用相同prompt的KV",
+      "chose": "add",
+      "cost": "需哈希索引与缓存淘汰策略",
+      "evidence": "sgl-project/sglang",
+      "id": "P-004"
+    },
+    {
+      "alternative": "量化降低显存占用与带宽",
+      "chose": "add",
+      "cost": "需校准或权重量化实现",
+      "evidence": "ModelTC/lightllm",
+      "id": "P-005"
+    },
+    {
+      "alternative": "分页KV缓存与连续批处理结合",
+      "chose": "add",
+      "cost": "调度与显存管理耦合复杂",
+      "evidence": "huggingface/text-generation-inference",
+      "id": "P-006"
+    }
+  ]
+}
