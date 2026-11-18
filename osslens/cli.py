@@ -180,7 +180,7 @@ def _build_parser() -> argparse.ArgumentParser:
         help=argparse.SUPPRESS,
     )
     analyze_parser.add_argument("--channel", choices=CHANNELS, default=None)
-    analyze_parser.add_argument("--domain", default="未指定")
+    analyze_parser.add_argument("--domain", default=None, help="留空时按 config.domains 自动归类")
     analyze_parser.add_argument("--as-of", dest="as_of", default=None)
     analyze_parser.add_argument("--dry-run", action="store_true", help="只打印决策，不落盘")
     analyze_parser.add_argument(
@@ -516,7 +516,7 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
             repo=repo,
             as_of=as_of,
             channel=channel,
-            domain=str(args.domain),
+            domain=args.domain or config.domain_for(slug) or "未指定",
             requested_depth=decision.requested,
             decision=decision,
             card=card,

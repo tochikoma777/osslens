@@ -98,7 +98,7 @@ def test_render_insight_section_has_paradigm_tag_line() -> None:
     lines = _insight_section(SimpleNamespace(insight=ins, insight_reason=""))
     text = "\n".join(lines)
     assert "- 架构范式标签：缓存复用、深优化" in text
-    assert lines[0] == "## 洞见"  # 区块名不变
+    assert lines[0] == "## 洞见（附录 A）"  # 区块名带附录标记
     assert "## 外部资料" not in text  # 未新增第六区块
 
 

@@ -1,12 +1,13 @@
 """报告渲染（Markdown，字节一致）。
 
-结构写死为执行手册附录 A 的五个区块，顺序不可变：
-运行元数据 → 体检事实 → 特征卡摘要 → 洞见 → 外部资料。
-L1 只在**已有区块内**追加证据 / 依赖图 / 成本行，不新增第六区块。
+v2a 结构：导读 + 6 个阅读模块（定位 / 许可 / 架构 / 工程 / 维护 / 扩展），
+参数表与证据下沉到 5 个附录（洞见 / 外部资料 / 运行元数据 / 特征卡 / 体检事实）。
+确定性内容仍由代码生成，LLM 只提供带 file:line 证据的取舍判断。
 """
 
 from __future__ import annotations
 
+import re
 from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime
@@ -59,7 +60,7 @@ def detect_cost_anomalies(
 def cost_anomaly_block(cost: CostLine | None) -> list[str]:
     """报告头部独立区块（Q-K3-1′ 选项①）：不与成本表格混排，只标注、不阻断。
 
-    anomalies 为空时不渲染任何行 → 现有报告字节完全不变（幂等/五区块契约不破）。
+    anomalies 为空时不渲染任何行 → 现有报告字节完全不变（幂等契约不破）。
     """
     if cost is None or not cost.anomalies:
         return []
@@ -107,15 +108,276 @@ class ReportInputs:
 
 def render_report(inputs: ReportInputs) -> str:
     lines: list[str] = []
-    lines.append(f"# 开源项目分析 · {inputs.owner}/{inputs.repo}")
+    lines.append(f"# {inputs.owner}/{inputs.repo} 深度分析")
     lines.append("")
     lines.extend(cost_anomaly_block(inputs.cost))
-    lines.extend(_metadata_section(inputs))
-    lines.extend(_facts_section(inputs))
-    lines.extend(_featcard_section(inputs))
+    lines.extend(_lead_section(inputs))
+    lines.extend(_positioning_section(inputs))
+    lines.extend(_license_section(inputs))
+    lines.extend(_architecture_section(inputs))
+    lines.extend(_engineering_section(inputs))
+    lines.extend(_maintenance_section(inputs))
+    lines.extend(_extension_section(inputs))
     lines.extend(_insight_section(inputs))
     lines.extend(_external_section(inputs))
+    lines.extend(_metadata_section(inputs))
+    lines.extend(_featcard_section(inputs))
+    lines.extend(_facts_section(inputs))
     return "\n".join(lines).rstrip("\n") + "\n"
+
+
+def _first_language(inputs: ReportInputs) -> str:
+    shares = _section(inputs.card, "lang").get("shares")
+    if not isinstance(shares, dict) or not shares:
+        return DASH
+    name, value = max(shares.items(), key=lambda pair: float(pair[1] or 0))
+    if not isinstance(value, (int, float)):
+        return as_str(name)
+    return f"{as_str(name)}（{float(value) * 100:.0f}%）"
+
+
+def _readme_excerpt(inputs: ReportInputs) -> str:
+    """从上下文块提取 README 的前两段纯文本，用于「项目是干嘛的」。"""
+    if inputs.context is None:
+        return ""
+    text = ""
+    for block in inputs.context.blocks:
+        if block.name == "readme":
+            text = block.text
+            break
+    if not text:
+        return ""
+    lines: list[str] = []
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith(("##", "#", "```", "![", "[![", "<", "|", "---")):
+            continue
+        # 去掉图片 / 链接 / HTML，保留可读文字
+        line = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", line)
+        line = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", line)
+        line = re.sub(r"<[^>]+>", "", line).strip()
+        if not line:
+            continue
+        lines.append(line)
+        if len(" ".join(lines)) > 420:
+            break
+    return " ".join(lines)[:600].strip()
+
+
+def _lead_section(inputs: ReportInputs) -> list[str]:
+    card = inputs.card
+    scale, signals = _section(card, "scale"), _section(card, "signals")
+    identity, governance = _section(card, "identity"), _section(card, "governance")
+    state = _cell(as_str(signals.get("maintenance_state")))
+    license_id = _cell(as_str(governance.get("license")))
+    lines = [
+        "## 导读",
+        "",
+        f"> **一句话**：{inputs.owner}/{inputs.repo} 是一个以 "
+        f"{_first_language(inputs)}为主的项目，"
+        f"约 {_whole(scale.get('stars'))} stars，仓库年龄 {_age(identity.get('age_days'))}，"
+        f"近 90 天 {_whole(scale.get('commits_90d'))} 次提交，维护状态「{state}」。",
+        ">",
+        f"> **先注意**：许可证 {license_id}；"
+        "依赖链许可证、模型权重/数据许可、CLA 当前未采集；"
+        "以下判断凡未注明证据的，均为仓库信号推断，需人工复核。",
+        "",
+    ]
+    excerpt = _readme_excerpt(inputs)
+    lines.append(
+        f"**它大概在做什么**：{excerpt}"
+        if excerpt
+        else "**它大概在做什么**：本次未获得可用 README 摘要（未伪造描述）。"
+    )
+    lines.append("")
+    return lines
+
+
+def _positioning_section(inputs: ReportInputs) -> list[str]:
+    card = inputs.card
+    scale, structure = _section(card, "scale"), _section(card, "structure")
+    entrypoints = [as_str(item) for item in structure.get("entrypoints", []) if as_str(item)]
+    return [
+        "## 1. 项目定位与目标",
+        "",
+        f"从仓库元数据看，{inputs.owner}/{inputs.repo} 属于 `{inputs.domain}` 领域、"
+        f"`{inputs.channel}` 通道，主语言为 {_first_language(inputs)}，"
+        f"当前约 {_whole(scale.get('stars'))} stars / {_whole(scale.get('forks'))} forks。",
+        "",
+        "项目阶段只能做**信号级判断**："
+        f"仓库已存在 {_age(_section(card, 'identity').get('age_days'))}，"
+        f"近一年发布 {_whole(scale.get('release_count_365d'))} 个版本，"
+        f"最近提交距今 {_whole(_section(card, 'signals').get('days_since_commit'))} 天。"
+        "这只能说明它是否还在维护，不能替代对 roadmap、竞品与真实用户群的判断。",
+        "",
+        f"入口文件：{', '.join(entrypoints) if entrypoints else '未识别'}。"
+        "本次**未采集** roadmap、竞品对比、用户画像与商业模式；这些空白不应被读成“没有”。",
+        "",
+    ]
+
+
+def _license_section(inputs: ReportInputs) -> list[str]:
+    governance = _section(inputs.card, "governance")
+    return [
+        "## 2. 许可证与合规风险",
+        "",
+        f"主许可证为 **{_cell(as_str(governance.get('license')))}**，"
+        f"组织类型为 {_cell(as_str(governance.get('org_type')))}，"
+        f"治理文档：{'有' if governance.get('has_governance_docs') else '未检出'}。",
+        "",
+        "**当前无法回答但必须人工确认**：",
+        "",
+        "- 依赖链中是否存在 GPL/AGPL 等强传染许可证；",
+        "- 模型权重、数据集、第三方素材的许可与商用限制；",
+        "- 是否要求签署 CLA，以及贡献代码的版权归属。",
+        "",
+        "> 结论：许可证字段可用于初筛，但不能替代法务审查；本报告不给出“可商用”结论。",
+        "",
+    ]
+
+
+def _insight_bullets(inputs: ReportInputs, limit: int | None = None) -> list[str]:
+    if inputs.insight is None or not inputs.insight.items:
+        return []
+    items = inputs.insight.items[:limit] if limit else inputs.insight.items
+    return [
+        f"- 选择「{item.chose}」，放弃「{item.alternative}」，代价是「{item.cost}」"
+        f"（证据 `{item.evidence}`）。"
+        for item in items
+    ]
+
+
+def _architecture_section(inputs: ReportInputs) -> list[str]:
+    card = inputs.card
+    structure, deps = _section(card, "structure"), _section(card, "deps")
+    parallel, cache = _section(card, "parallel"), _section(card, "cache")
+    modules = _rows(structure.get("top_modules"))[:5]
+    module_text = "、".join(
+        f"`{as_str(row.get('path'))}`（{_whole(row.get('files'))} 文件）" for row in modules
+    )
+    hits = []
+    for label, section in (("并行", parallel), ("缓存", cache)):
+        enabled = [as_str(key) for key, value in _section(section, "hits").items() if value]
+        if enabled:
+            hits.append(f"{label}轴 {', '.join(sorted(enabled))}")
+    lines = [
+        "## 3. 架构与模块",
+        "",
+        f"代码主体集中在：{module_text or '未识别 Top 模块'}；"
+        f"最大目录深度 {_whole(structure.get('max_depth'))}，"
+        f"monorepo：{'是' if structure.get('monorepo') else '否'}。",
+        "",
+        f"内部模块 import 边约 {_whole(deps.get('internal_edge_count'))} 条（依赖图见下）。"
+        + (
+            "检测到" + "；".join(hits) + "，具体证据见附录 B。"
+            if hits
+            else "未检测到并行/缓存轴证据。"
+        ),
+        "",
+    ]
+    bullets = _insight_bullets(inputs, limit=3)
+    if bullets:
+        lines.append("从代码证据看，最关键的几个取舍是：")
+        lines.append("")
+        lines.extend(bullets)
+        lines.append("")
+    lines.extend(
+        [
+            "```mermaid",
+            depgraph_mermaid(_graph_dict(deps)),
+            "```",
+            "",
+        ]
+    )
+    return lines
+
+
+def _engineering_section(inputs: ReportInputs) -> list[str]:
+    card = inputs.card
+    structure, sources = _section(card, "structure"), _section(card, "sources")
+    hardware = _section(card, "hardware")
+    lines = [
+        "## 4. 运行与工程体系",
+        "",
+        f"仓库约 {_whole(structure.get('files'))} 个文件、"
+        f"{_bytes(_int_or_none(structure.get('bytes')))}；"
+        f"本次采集到 {len(_rows(sources.get('files')))} 个源码切片"
+        f"（tarball `{as_str(sources.get('tarball_sha256'))[:16] or DASH}`）。",
+        "",
+        f"语言构成：{_languages(_section(card, 'lang').get('shares'))}。"
+        f"硬件相关：vendors={_list(hardware.get('vendors'))}、"
+        f"kernel_langs={_list(hardware.get('kernel_langs'))}。",
+        "",
+        "**本次未采集**：构建脚本、依赖安装、测试体系、CI/CD、配置与 secret 管理。"
+        "因此本报告不能回答“能否在目标环境跑起来”，只能给结构线索。",
+        "",
+    ]
+    limitations = [as_str(item) for item in card.get("limitations", []) if as_str(item)]
+    if limitations:
+        lines.append("**特征卡已知限制**：")
+        lines.append("")
+        lines.extend(f"- {item}" for item in limitations)
+        lines.append("")
+    return lines
+
+
+def _maintenance_section(inputs: ReportInputs) -> list[str]:
+    card = inputs.card
+    scale, signals = _section(card, "scale"), _section(card, "signals")
+    contributors = _int_or_none(scale.get("contributors"))
+    bus = _ratio(signals.get("bus_factor_top1_share"))
+    risks: list[str] = []
+    if isinstance(contributors, int) and contributors <= 2:
+        risks.append("贡献者很少，存在 bus factor 风险")
+    if bus != DASH:
+        risks.append(f"Top1 贡献者占比 {bus}，集中度需关注")
+    if _section(card, "governance").get("has_governance_docs") is not True:
+        risks.append("未检出治理文档，贡献流程可能不透明")
+    if inputs.external is None or inputs.external.status != "hit":
+        risks.append("外部架构资料未命中，架构判断主要依赖本地代码")
+    lines = [
+        "## 5. 维护状态与风险",
+        "",
+        f"贡献者 {_whole(contributors)} 人，Top1 占比 {bus}；"
+        f"近 90 天 / 365 天提交 {_whole(scale.get('commits_90d'))} / "
+        f"{_whole(scale.get('commits_365d'))} 次；"
+        f"最近提交距今 {_whole(signals.get('days_since_commit'))} 天，"
+        f"维护状态「{_cell(as_str(signals.get('maintenance_state')))}」。",
+        "",
+        "**主要风险（基于现有信号）**：",
+        "",
+    ]
+    lines.extend(
+        f"- {item}"
+        for item in (risks or ["未发现明显信号级风险；仍需人工复核 issue/PR 与版本策略。"])
+    )
+    lines.append("")
+    return lines
+
+
+def _extension_section(inputs: ReportInputs) -> list[str]:
+    structure = _section(inputs.card, "structure")
+    entrypoints = [as_str(item) for item in structure.get("entrypoints", []) if as_str(item)]
+    modules = _rows(structure.get("top_modules"))[:5]
+    lines = [
+        "## 6. 扩展与二次开发",
+        "",
+        "本次**未识别到显式的插件/适配器注册机制**；这不等于没有，只说明当前采集粒度看不到。"
+        "可优先人工检查以下位置：",
+        "",
+    ]
+    candidates = entrypoints + [as_str(row.get("path")) for row in modules]
+    lines.extend(f"- `{path}`" for path in dict.fromkeys(candidates) if path)
+    if not candidates:
+        lines.append("- 未获得可用入口/模块线索。")
+    lines.extend(
+        [
+            "",
+            "> 二次开发前建议先确认：扩展点、配置注入方式、测试与发布流程；本报告不替代实际试跑。",
+            "",
+        ]
+    )
+    return lines
 
 
 def _metadata_section(inputs: ReportInputs) -> list[str]:
@@ -126,7 +388,7 @@ def _metadata_section(inputs: ReportInputs) -> list[str]:
     if decision.downgraded:
         depth_cell = f"{decision.actual}（降级：{decision.reason_text}）"
     lines = [
-        "## 运行元数据",
+        "## 运行元数据（附录 C）",
         "",
         "| 项 | 值 |",
         "|---|---|",
@@ -221,7 +483,7 @@ def _facts_section(inputs: ReportInputs) -> list[str]:
     org_type = _cell(as_str(governance.get("org_type")))
     license_id = _cell(as_str(governance.get("license")))
     lines = [
-        "## 体检事实（确定性，零 LLM）",
+        "## 体检事实（确定性，零 LLM）（附录 E）",
         "",
         "| 指标 | 值 |",
         "|---|---|",
@@ -269,7 +531,7 @@ def _featcard_section(inputs: ReportInputs) -> list[str]:
     gov_docs = "是" if _section(card, "governance").get("has_governance_docs") else "否"
     entrypoints = [as_str(item) for item in structure.get("entrypoints", []) if as_str(item)]
     lines = [
-        "## 特征卡摘要",
+        "## 特征卡摘要（附录 D）",
         "",
         f"- 卡文件：`{inputs.featcard_relpath}`（schema {as_str(card.get('schema_version'))}）",
         f"- 入口文件：{', '.join(entrypoints) if entrypoints else DASH}",
@@ -333,7 +595,7 @@ def _evidence_block(section: dict[str, Any], label: str) -> list[str]:
 def _insight_section(inputs: ReportInputs) -> list[str]:
     if inputs.insight is not None and inputs.insight.items:
         lines = [
-            "## 洞见",
+            "## 洞见（附录 A）",
             "",
             "| id | 选择 | 放弃的替代 | 代价 | 证据 |",
             "|---|---|---|---|---|",
@@ -354,7 +616,7 @@ def _insight_section(inputs: ReportInputs) -> list[str]:
         lines.append("")
         return lines
 
-    lines = ["## 洞见", "", DASH]
+    lines = ["## 洞见（附录 A）", "", DASH]
     if inputs.insight_reason:
         lines.extend(["", f"> fast 档未产出洞见：{inputs.insight_reason}"])
     lines.append("")
@@ -365,7 +627,7 @@ def _external_section(inputs: ReportInputs) -> list[str]:
     probe = inputs.external
     if probe is None:
         return [
-            "## 外部资料",
+            "## 外部资料（附录 B）",
             "",
             "- DeepWiki / Zread：不可用（未索引）",
             "- 判定原因：本次未启用外部工具探测",
@@ -373,7 +635,7 @@ def _external_section(inputs: ReportInputs) -> list[str]:
         ]
 
     lines = [
-        "## 外部资料",
+        "## 外部资料（附录 B）",
         "",
         f"- 来源：{probe.source}",
         f"- url：{probe.url}",

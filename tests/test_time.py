@@ -109,7 +109,7 @@ def test_report_rerun_across_days_only_moves_time_fields(tmp_path: Path) -> None
     diffs = [(a, b) for a, b in zip(first, second, strict=True) if a != b]
     assert diffs, "两天报告应至少时间字段不同"
     # 允许的时间派生字段只有三类：as-of、距今天数、项目年龄
-    time_fields = ("as-of", "距今天数", "项目年龄")
+    time_fields = ("as-of", "距今天数", "项目年龄", "仓库年龄", "仓库已存在", "最近提交距今")
     for left, right in diffs:
         assert any(field in left and field in right for field in time_fields), (
             f"意外差异：{left!r} vs {right!r}"

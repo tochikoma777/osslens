@@ -302,7 +302,7 @@ def test_downgrade_is_double_written(tmp_path: Path) -> None:
 # --------------------------------------------------------------------------- 报告结构
 
 
-def test_report_has_five_sections_in_order(tmp_path: Path) -> None:
+def test_report_has_six_modules_and_appendices_in_order(tmp_path: Path) -> None:
     root = seed_workspace(tmp_path / "ws")
     assert (
         main(
@@ -320,18 +320,25 @@ def test_report_has_five_sections_in_order(tmp_path: Path) -> None:
     )
     text = (root / "reports" / REPORT_NAME).read_text(encoding="utf-8")
     headings = [
-        "## 运行元数据",
-        "## 体检事实（确定性，零 LLM）",
-        "## 特征卡摘要",
-        "## 洞见",
-        "## 外部资料",
+        "## 导读",
+        "## 1. 项目定位与目标",
+        "## 2. 许可证与合规风险",
+        "## 3. 架构与模块",
+        "## 4. 运行与工程体系",
+        "## 5. 维护状态与风险",
+        "## 6. 扩展与二次开发",
+        "## 洞见（附录 A）",
+        "## 外部资料（附录 B）",
+        "## 运行元数据（附录 C）",
+        "## 特征卡摘要（附录 D）",
+        "## 体检事实（确定性，零 LLM）（附录 E）",
     ]
     positions = [text.index(heading) for heading in headings]
     assert positions == sorted(positions)
 
-    insight = text.split("## 洞见", 1)[1].split("## 外部资料", 1)[0]
+    insight = text.split("## 洞见（附录 A）", 1)[1].split("## 外部资料", 1)[0]
     assert insight.strip() == "—", "off 档洞见位必须且只能是 —"
-    assert "## 外部资料" in text
+    assert "## 外部资料（附录 B）" in text
 
 
 # --------------------------------------------------------------------------- 其他
@@ -501,3 +508,39 @@ def test_featcard_has_deps_graph_shape(tmp_path: Path) -> None:
     text = (root / "reports" / REPORT_NAME).read_text(encoding="utf-8")
     assert "```mermaid" in text, "L1 起报告必须内嵌 Mermaid 代码块"
     assert "无可提取的内部模块依赖边" in text, "无源码切片时走 §6.5 的显式空态"
+
+
+def test_report_v2_has_reader_modules_and_appendix(tmp_path: Path) -> None:
+    """v2a：正文是 6 个可读模块，参数表下沉到附录；正文不再先甩元数据表。"""
+    root = seed_workspace(tmp_path / "ws")
+    assert (
+        main(
+            [
+                "analyze",
+                "deepseek-ai/DeepEP",
+                "--root",
+                str(root),
+                "--no-sources",
+                "--as-of",
+                "2026-11-02T00:00:00Z",
+            ]
+        )
+        == 0
+    )
+    text = (root / "reports" / REPORT_NAME).read_text(encoding="utf-8")
+    assert "## 导读" in text
+    assert "**它大概在做什么**" in text
+    for heading in (
+        "## 1. 项目定位与目标",
+        "## 2. 许可证与合规风险",
+        "## 3. 架构与模块",
+        "## 4. 运行与工程体系",
+        "## 5. 维护状态与风险",
+        "## 6. 扩展与二次开发",
+    ):
+        assert heading in text
+    body = text.split("## 洞见（附录 A）", 1)[0]
+    assert "| 项 | 值 |" not in body, "运行元数据表必须下沉到附录"
+    assert "| 指标 | 值 |" not in body, "体检事实表必须下沉到附录"
+    assert "本次**未采集**" in text
+    assert "不能替代法务审查" in text

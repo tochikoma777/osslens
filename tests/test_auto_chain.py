@@ -226,8 +226,8 @@ def test_analyze_emits_header_anomaly_block_when_threshold_hit(tmp_path: Path) -
     assert text.index("成本异常（仅标注，不阻断）") < text.index("## 运行元数据")
     # 不与成本表格混排
     assert "| 成本异常 |" not in text
-    # 五区块顺序/数量不变（不新增第六区块）
-    assert sum(1 for line in text.splitlines() if line.startswith("## ")) == 5
+    # 六模块 + 附录数量固定
+    assert sum(1 for line in text.splitlines() if line.startswith("## ")) == 12
     # 异常不写 degraded：不产生新的 downgrade/blocked 事件
     rows = read_jsonl_file(config.layout.costs_jsonl)
     assert not any(r["event"] in ("downgrade", "blocked") for r in rows)
@@ -299,7 +299,7 @@ def test_steady_report_has_no_anomaly_block(tmp_path: Path) -> None:
     text = (root / "reports" / REPORT_NAME).read_text(encoding="utf-8")
     assert "成本异常" not in text
     assert "> ⚠" not in text
-    assert sum(1 for line in text.splitlines() if line.startswith("## ")) == 5
+    assert sum(1 for line in text.splitlines() if line.startswith("## ")) == 12
 
 
 # ---------------------------------------------------------------------------

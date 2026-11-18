@@ -305,7 +305,7 @@ def test_safety_adjusted_value_is_deterministic(tmp_path: Path) -> None:
 # --------------------------------------------------------------------------- T4 D10 口径消歧
 
 
-def test_report_carries_d10_wording_and_five_sections(tmp_path: Path) -> None:
+def test_report_carries_d10_wording_and_modules(tmp_path: Path) -> None:
     root = seed_workspace(tmp_path / "ws")
     assert (
         main(
@@ -323,7 +323,15 @@ def test_report_carries_d10_wording_and_five_sections(tmp_path: Path) -> None:
     )
     text = (root / "reports" / "deepseek-ai__DeepEP__2026-11-02.md").read_text(encoding="utf-8")
     assert D10_WORDING in text
-    assert sum(1 for line in text.splitlines() if line.startswith("## ")) == 5
+    assert sum(1 for line in text.splitlines() if line.startswith("## ")) == 12
+    for heading in (
+        "## 导读",
+        "## 1. 项目定位与目标",
+        "## 6. 扩展与二次开发",
+        "## 洞见（附录 A）",
+        "## 运行元数据（附录 C）",
+    ):
+        assert heading in text
     # 故意让它失败：把字样稀释掉后，同一断言必须不成立（证明不是恒真）
     diluted = text.replace(D10_WORDING, "本次成本")
     assert D10_WORDING not in diluted

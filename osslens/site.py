@@ -243,7 +243,7 @@ def _inline(raw: str) -> str:
 
 
 def md_to_html(text: str) -> str:
-    """只处理报告实际用到的构造，保持五区块顺序；不做任何外部依赖或脚本。"""
+    """只处理报告实际用到的构造，保持模块顺序；不做任何外部依赖或脚本。"""
     lines = text.splitlines()
     out: list[str] = []
     index = 0
@@ -539,7 +539,7 @@ def _render_index_html(
     empty_note: str,
 ) -> str:
     stats = (
-        ("报告", report_count, "reports.html", "五区块顺序固定"),
+        ("报告", report_count, "reports.html", "六模块 + 附录"),
         ("特征卡", featcard_count, "featcards.html", "file:line 证据"),
         ("规律库", pattern_count, "patterns.html", "真源条目"),
         ("抽象 run", run_count, "runs.html", "九字段记录"),
@@ -610,7 +610,7 @@ def _render_reports(reports: Sequence[ReportDoc]) -> tuple[str, dict[str, str]]:
         _intro(
             "REPORTS / DEEP DIVES",
             "单项目分析报告",
-            f"当前 {len(reports)} 份；每份固定五区块，时间只来自 as-of 或真源。",
+            f"当前 {len(reports)} 份；每份为六模块 + 附录，时间只来自 as-of 或真源。",
         )
         + (
             _table(("仓库", "基准时间 (as-of)", "实际档位", "链接"), rows)
@@ -622,7 +622,7 @@ def _render_reports(reports: Sequence[ReportDoc]) -> tuple[str, dict[str, str]]:
         f"report-{doc.stem}.html": _page(
             f"报告 · {doc.repo}",
             f'<p class="note">源 MD：<code>../reports/{html.escape(doc.stem)}.md</code>；'
-            "下方五区块顺序固定不变。</p>\n"
+            "下方六个阅读模块 + 附录顺序固定不变。</p>\n"
             + _anomaly_alert([(doc.repo, item) for item in doc.anomalies])
             + md_to_html(doc.text),
         )
