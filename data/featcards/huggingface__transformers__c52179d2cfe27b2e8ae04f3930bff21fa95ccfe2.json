@@ -1,0 +1,255 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": [
+      "amd",
+      "nvidia"
+    ]
+  },
+  "identity": {
+    "age_days": 2943,
+    "analyzed_at": "2026-11-19T15:09:20Z",
+    "channel": "classic",
+    "commit": "c52179d2cfe27b2e8ae04f3930bff21fa95ccfe2",
+    "created_at": "2018-10-29T13:56:00Z",
+    "repo": "huggingface/transformers"
+  },
+  "lang": {
+    "shares": {
+      "Dockerfile": 0.0006,
+      "HCL": 0.0,
+      "Makefile": 0.0,
+      "Python": 0.9993,
+      "Shell": 0.0
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 2000,
+    "commits_90d": 1186,
+    "contributors": 439,
+    "forks": 35248,
+    "last_commit": "2026-11-19T14:27:46Z",
+    "open_issues": 1099,
+    "release_count_365d": 52,
+    "stars": 169256,
+    "top10_share": 0.4447,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.0829,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "c52179d2cfe27b2e8ae04f3930bff21fa95ccfe2",
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "b9f1f01787738eab63e57aea1081b560e90b2880e1555395b3a683198dd474c6"
+      },
+      {
+        "path": "i18n/README_ar.md",
+        "sha256": "4204422fff126ca6b774aaf363ac95dc721c062302601d91472e8f8140b0d220"
+      },
+      {
+        "path": "i18n/README_bn.md",
+        "sha256": "76a739e6afdb760aeb644dc11d13a4e0a478f495b7d050851620014ecd97958a"
+      },
+      {
+        "path": "i18n/README_de.md",
+        "sha256": "1c37a7c54e3363158800b30b01fda4d2c3c61bd29a9771e734cc84d54a914345"
+      },
+      {
+        "path": "i18n/README_es.md",
+        "sha256": "3409c0732a8d02cc59066fc6cd7b21e60413f0cb1ce1096a11e51d19028c3127"
+      },
+      {
+        "path": "i18n/README_fa.md",
+        "sha256": "619868f700edf90bc936f8fea5fe27adb24a4db23260024274be35b2ecd5acd9"
+      },
+      {
+        "path": "i18n/README_fr.md",
+        "sha256": "090cb76f8d2dddebf397e7e94fbde61ba7f713ae5c7cd5f7194a06796cb1acf3"
+      },
+      {
+        "path": "i18n/README_hd.md",
+        "sha256": "2667641da0af53d2193645a46c804e959f81a9e43cc1ff097a3e11867fd1b29c"
+      },
+      {
+        "path": "i18n/README_it.md",
+        "sha256": "cebbe314d4ed3786ba7cf279db6201eeefa6fce50de63367942dbd876a5f6356"
+      },
+      {
+        "path": "i18n/README_ja.md",
+        "sha256": "f2eaf9b32e7946f35bc1105a635599f8a0c2dab6775054f42b40018818c40f86"
+      },
+      {
+        "path": "i18n/README_ko.md",
+        "sha256": "377fd4f3a8856c6659957d36b6e02d241400ccc287fb57e832eb6216a2095cc9"
+      },
+      {
+        "path": "i18n/README_mr.md",
+        "sha256": "ebd30a36c518ea4f108d3c4a5c074a90f7748421635df6185485bb7261902bfc"
+      },
+      {
+        "path": "i18n/README_pt-br.md",
+        "sha256": "50b9b84dad6fa7aa07a2f35bb2f9622c86c3225f6dea7c714d4eb392ee877d48"
+      },
+      {
+        "path": "i18n/README_ro.md",
+        "sha256": "e4a50de9bcc12cef83e5f5d5bcbd7e65c9a29a3af419c340bafcf5bf719623ed"
+      },
+      {
+        "path": "i18n/README_ru.md",
+        "sha256": "c455fef7b01d212c1ba38eed9a56baa5fc2558eceb75153a2cbb4a96bf00e8d2"
+      },
+      {
+        "path": "i18n/README_te.md",
+        "sha256": "49a860491c5fe9f20947aa348539e798cfe7efed593a13fdaae78d601d65308d"
+      },
+      {
+        "path": "i18n/README_tr.md",
+        "sha256": "a5add57377c84c87f59bade23811ee22e24303415dd7a7df0e5214daaf5a8b68"
+      },
+      {
+        "path": "i18n/README_ur.md",
+        "sha256": "a4675f4908335cfca15b25c29558a1e7b1b6fe230826c867e02e9d104ffe10d9"
+      },
+      {
+        "path": "i18n/README_vi.md",
+        "sha256": "cbb35619186a032105cda7f7a1650002ddde02d8981db36f7d421c3c1e732cce"
+      },
+      {
+        "path": "notebooks/README.md",
+        "sha256": "154492a2b8cf102c4290f4996dea058695ce060f75f8550ee01e781dad44f8b9"
+      }
+    ],
+    "tarball_sha256": "7b633d32df1bf025e4cf5f5e2e398e97fc5da29129022a8218b42949925cbdd7"
+  },
+  "structure": {
+    "bytes": 100625900,
+    "entrypoints": [],
+    "files": 6853,
+    "loc_total": null,
+    "max_depth": 6,
+    "monorepo": false,
+    "top_modules": [
+      {
+        "bytes": 58092549,
+        "files": 3248,
+        "path": "src"
+      },
+      {
+        "bytes": 26488971,
+        "files": 1889,
+        "path": "tests"
+      },
+      {
+        "bytes": 13145150,
+        "files": 1423,
+        "path": "docs"
+      },
+      {
+        "bytes": 1322175,
+        "files": 89,
+        "path": "utils"
+      },
+      {
+        "bytes": 476247,
+        "files": 20,
+        "path": "i18n"
+      },
+      {
+        "bytes": 331954,
+        "files": 74,
+        "path": ".github"
+      },
+      {
+        "bytes": 320971,
+        "files": 47,
+        "path": "examples"
+      },
+      {
+        "bytes": 194123,
+        "files": 19,
+        "path": "."
+      },
+      {
+        "bytes": 89202,
+        "files": 9,
+        "path": "benchmark_v2"
+      },
+      {
+        "bytes": 53657,
+        "files": 22,
+        "path": "docker"
+      },
+      {
+        "bytes": 42347,
+        "files": 5,
+        "path": ".circleci"
+      },
+      {
+        "bytes": 29107,
+        "files": 1,
+        "path": "notebooks"
+      },
+      {
+        "bytes": 27274,
+        "files": 4,
+        "path": ".ai"
+      },
+      {
+        "bytes": 12173,
+        "files": 3,
+        "path": "scripts"
+      }
+    ]
+  }
+}
