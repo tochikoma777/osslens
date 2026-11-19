@@ -2,6 +2,14 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-19 · 发现主题轮转 + agent 基础设施
+
+- **主题 3 → 4**：新增 `topic:ai-agent`，只收基础设施型（sandbox / protocol / orchestration / runtime / tool-use / multi-agent framework），排除个人助理、聊天壳、教程与 prompt 集合。
+- **每主题独立关键词**：`queries` 支持 `{q, require, exclude}`（字符串写法仍兼容）；此前全局 `exclude: agent` 会把 agent 主题全部剔光。
+- **按日轮转**：每日取 1 个，起点由 `as_of` 日序决定（可复算、无状态），空主题自动跳过；避免全局 stars 排序被 30 万星项目垄断。
+- **决策依据与被否决方案**：见 `docs/设计方案.md` §6.6（v1.8）。
+- 测试 225 → **227**（轮转、每主题过滤覆盖、配置对象解析）。
+
 ## [Unreleased] - 2026-11-19 · pool.skip 跳过已消失仓库
 
 - **配置**：`pool.skip`（owner/repo 列表，大小写不敏感、非法项 fail-fast）；`pool discover` 不会重新加入，`pool eligible` 不再列为候选，`pool add` 显式拒绝，每日观测经 `observe_targets()` 过滤。
