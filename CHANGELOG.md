@@ -4,7 +4,7 @@
 
 ## [Unreleased] - 2026-11-19 · 自动发现建池 + v3 全量重建
 
-- **每日自动发现（原需求补齐）**：新增 `pool discover [--apply]`，调用 GitHub Search `/search/repositories`（`topic:llm|inference|cuda` + `stars:>=5000`，零 LLM）；本地再剔除 archived / fork / 低星 / 久未更新 / 已入池，按 stars 降序去重后取 `max_new_per_run` 个；`pool.yml` 在「追加观测」前执行 `--apply`。
+- **每日自动发现（原需求补齐）**：新增 `pool discover [--apply]`，调用 GitHub Search `/search/repositories`（`topic:llm|inference|cuda` + `stars:>=5000`，零 LLM）；本地再剔除 archived / fork / 低星 / 久未更新 / 已入池，按 stars 降序去重后取 `max_new_per_run` 个（**默认 1**，与每周 fast=5 的分析能力匹配，避免池子膨胀快于分析）；`pool.yml` 在「追加观测」前执行 `--apply`。
 - **配置**：`pool.discovery`（`enabled` / `queries` / `per_page` / `max_new_per_run` / `min_stars` / `max_pushed_age_days`），非法值 fail-fast；默认值与模板同步。
 - **报告全量转 v3**：11 份 v1/v2a 报告归档到 `reports/archive/2026-11/`（不参与站点与“已分析”判断），9 个仓库按 v3 重跑：8 份产出 5 张经验卡，`microsoft/onnxruntime` 因 codeload 404 + LLM 空输出未产出 ADR（如实标注，待跟进）。
 - **站点**：旧报告页清理，产物 **24 → 21**（12 固定页 + 9 报告页）；`site --check --strict` 一致。

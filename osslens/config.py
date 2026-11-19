@@ -259,7 +259,8 @@ pool:
       - "topic:inference stars:>=5000"
       - "topic:cuda stars:>=5000"
     per_page: 20
-    max_new_per_run: 5
+    # 与每周分析配额（fast=5）匹配：每日最多新增 1 个，避免池子膨胀快于分析能力
+    max_new_per_run: 1
     min_stars: 5000
     max_pushed_age_days: 365
     # 相关性 / 噪音过滤：匹配 slug + description（小写子串）；为空则不启用该侧过滤
