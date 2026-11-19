@@ -289,6 +289,21 @@ def _module_duty(path: str) -> str:
     return "业务实现（职责需人工确认）"
 
 
+def _core_modules(deps: dict[str, Any], limit: int = 2) -> list[str]:
+    """按依赖边度数挑出最“中心”的模块，作为运行时链路的中间节点（纯静态线索）。"""
+    graph = _graph_dict(deps)
+    raw_edges = graph.get("edges")
+    degree: dict[str, int] = {}
+    if isinstance(raw_edges, list):
+        for item in raw_edges:
+            if isinstance(item, list) and len(item) == 2:
+                for node in (as_str(item[0]), as_str(item[1])):
+                    if node:
+                        degree[node] = degree.get(node, 0) + 1
+    ordered = sorted(degree.items(), key=lambda pair: (-pair[1], pair[0]))
+    return [name for name, _ in ordered[:limit]]
+
+
 def _lead_v3(inputs: ReportInputs) -> list[str]:
     """导读：是什么 / 架构一句话 / 最大风险 / 不适合谁（120–180 字）。"""
     card = inputs.card
@@ -392,15 +407,20 @@ def _architecture_v3(inputs: ReportInputs) -> list[str]:
         )
     else:
         lines.append("[未获得] 未识别 Top 模块（快照可能被截断）。")
+    core = _core_modules(deps)
+    chain = " → ".join(
+        [", ".join(f"`{item}`" for item in entrypoints) or "入口未识别"]
+        + [f"`{name}`（依赖最集中）" for name in core]
+        + ["输出"]
+    )
     lines.extend(
         [
             "",
             "### 2.3 一次调用的路径（运行时视图）",
             "",
-            f"[判断] 静态推断：{', '.join(f'`{item}`' for item in entrypoints) or '入口未识别'}"
-            f" → 调度/核心模块（见上表） → 输出。"
+            f"[判断] 静态推断：{chain}。"
             f"内部 import 边约 {_whole(deps.get('internal_edge_count'))} 条，"
-            "可作为调用方向的粗线索；**未做运行时跟踪**，具体分支需读源码确认。",
+            "只用于判断调用方向；**未做运行时跟踪**，参数与分支需读源码确认。",
             "",
             "### 2.4 数据与控制流",
             "",
@@ -517,16 +537,26 @@ def _extension_v3(inputs: ReportInputs) -> list[str]:
         if re.search(r"contribut|extend|plugin|developer|hacking", path, re.I)
     ]
     lines = ["## 5. 扩展与改造路径", ""]
-    if inputs.pattern_hits:
-        lines.append("[事实] 可扩展点候选（与第 3 章同源）：")
+    # 扩展点只认产品代码：测试夹具里的 dispatch 不是对外扩展入口
+    extension_hits = [
+        item
+        for item in inputs.pattern_hits
+        if not item[1].startswith(("tests/", "test/")) and "/tests/" not in item[1]
+    ]
+    if extension_hits:
+        lines.append("[事实] 可扩展点候选（与第 3 章同源，已排除测试目录）：")
         lines.append("")
-        lines.extend(
-            f"- `{path}:{line}` → {pattern}" for pattern, path, line in inputs.pattern_hits[:6]
-        )
+        lines.extend(f"- `{path}:{line}` → {pattern}" for pattern, path, line in extension_hits[:6])
         lines.append("")
     else:
         lines.extend(["[未获得] 未识别到显式插件/注册点。", ""])
-    candidates = entrypoints + [as_str(row.get("path")) for row in modules]
+    code_modules = [
+        as_str(row.get("path"))
+        for row in modules
+        if _module_duty(as_str(row.get("path")))
+        not in ("测试与用例", "文档", "示例与基准", "业务实现（职责需人工确认）")
+    ]
+    candidates = entrypoints + code_modules
     lines.extend(
         [
             "[判断] 新增能力的静态路径（需按实际代码复核）：",

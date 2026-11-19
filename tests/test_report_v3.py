@@ -173,3 +173,40 @@ def test_insight_rule_boundary_survive_serialization() -> None:
 
 def test_default_config_profile_is_architecture_learning() -> None:
     assert DEFAULT_CONFIG["report"]["profile"] == "architecture_learning"
+
+
+def test_pattern_scan_ignores_docs_and_readme() -> None:
+    """README/文档里的 dispatch/backend 是叙述文字，不得当作代码契约。"""
+    files = [
+        (SimpleNamespace(path="README.md"), "backend dispatch protocol\n"),
+        (SimpleNamespace(path="docs/design.md"), "adapter plugin\n"),
+        (SimpleNamespace(path="pkg/core.py"), "def dispatch():\n    pass\n"),
+    ]
+    hits = _pattern_hits(files)
+    assert [(pattern, path) for pattern, path, _ in hits] == [("dispatch", "pkg/core.py")]
+
+
+def test_extension_section_excludes_test_directories() -> None:
+    from osslens.render import _extension_v3
+
+    card = {
+        "structure": {
+            "entrypoints": ["pkg/main.py"],
+            "top_modules": [
+                {"path": "pkg", "files": 10},
+                {"path": "tests", "files": 5},
+                {"path": ".", "files": 3},
+            ],
+        }
+    }
+    inputs = SimpleNamespace(
+        card=card,
+        pattern_hits=(
+            ("dispatch", "tests/test_core.py", 10),
+            ("hook", "pkg/hooks.py", 3),
+        ),
+        doc_excerpts=(),
+    )
+    text = "\n".join(_extension_v3(inputs))
+    assert "tests/test_core.py" not in text
+    assert "pkg/hooks.py" in text

@@ -1083,6 +1083,28 @@ def _sources_for(
 
 
 _DOC_HINTS = ("readme", "architecture", "design", "changelog", "contributing", "roadmap", "adr")
+# 只扫描源码文件：README/docs 里的 "dispatch"/"backend" 是叙述文字，不是契约
+_CODE_SUFFIXES = (
+    ".py",
+    ".pyi",
+    ".go",
+    ".rs",
+    ".c",
+    ".h",
+    ".cc",
+    ".cpp",
+    ".hpp",
+    ".cu",
+    ".cuh",
+    ".ts",
+    ".tsx",
+    ".js",
+    ".java",
+    ".kt",
+    ".scala",
+    ".rb",
+    ".sh",
+)
 _PATTERN_RE = re.compile(
     r"(entry_points|register\s*\(|plugin|adapter|backend|abstractmethod|protocol|"
     r"@hook|hook\(|dispatch\s*\(|factory|registry|subscribe\s*\()",
@@ -1114,6 +1136,8 @@ def _pattern_hits(
     seen: set[tuple[str, str]] = set()
     for item, text in texts:
         path = str(getattr(item, "path", ""))
+        if not path.lower().endswith(_CODE_SUFFIXES):
+            continue
         for number, line in enumerate(text.splitlines(), start=1):
             match = _PATTERN_RE.search(line)
             if not match:
