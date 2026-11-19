@@ -777,3 +777,86 @@ def _visible_text(raw: str) -> str:
     without_scripts = re.sub(r"(?is)<(script|style).*?</\1>", " ", raw)
     stripped = re.sub(r"(?s)<[^>]+>", " ", without_scripts)
     return re.sub(r"\s+", " ", html_module.unescape(stripped))
+
+
+# --------------------------------------------------------------------------- 自动发现（Search）
+
+
+@dataclass(frozen=True)
+class DiscoveryCandidate:
+    """搜索命中且通过本地过滤的候选仓库（尚未入池，未进入放行判定）。"""
+
+    slug: str
+    stars: int
+    pushed_at: str
+    description: str
+
+
+def search_repositories(
+    client: HttpClient, query: str, *, per_page: int = 20
+) -> tuple[dict[str, Any], ...]:
+    """调用 GitHub Search API（`/search/repositories`），返回原始 items（零 LLM）。
+
+    只做一次请求：分页留给后续版本；`per_page` 上限 100 由配置层校验。
+    """
+    payload = client.get_json(
+        "/search/repositories",
+        {"q": query, "sort": "stars", "order": "desc", "per_page": per_page},
+    )
+    return tuple(as_dict(item) for item in as_list(as_dict(payload).get("items")))
+
+
+def select_discoveries(
+    items: Sequence[dict[str, Any]],
+    *,
+    existing: frozenset[str],
+    min_stars: int,
+    max_pushed_age_days: int,
+    max_new: int,
+    now: datetime,
+    require_keywords: Sequence[str] = (),
+    exclude_keywords: Sequence[str] = (),
+) -> tuple[DiscoveryCandidate, ...]:
+    """把搜索命中过滤成候选：archived/fork/低星/久未更新/已入池 全部剔除。
+
+    搜索排序只用于“先看谁”，**不构成放行**；放行仍由 hot/classic 门槛决定。
+    """
+    cutoff = now - timedelta(days=max_pushed_age_days)
+    picked: dict[str, DiscoveryCandidate] = {}
+    for item in items:
+        slug = as_str(item.get("full_name")).strip()
+        owner, _, repo = slug.partition("/")
+        if not owner or not repo:
+            continue
+        key = slug.lower()
+        if key in existing:
+            continue
+        if as_bool(item.get("archived")) or as_bool(item.get("fork")):
+            continue
+        description = as_str(item.get("description")).strip()
+        haystack = f"{slug} {description}".lower()
+        if require_keywords and not any(word in haystack for word in require_keywords):
+            continue
+        if exclude_keywords and any(word in haystack for word in exclude_keywords):
+            continue
+        stars = as_int(item.get("stargazers_count"))
+        if stars < min_stars:
+            continue
+        pushed = as_str(item.get("pushed_at"))
+        try:
+            pushed_at = parse_iso(pushed)
+        except ValueError:
+            continue
+        if pushed_at < cutoff:
+            continue
+        picked.setdefault(
+            key,
+            DiscoveryCandidate(
+                slug=f"{owner}/{repo}",
+                stars=stars,
+                pushed_at=pushed,
+                description=description,
+            ),
+        )
+    ordered = sorted(picked.values(), key=lambda item: (-item.stars, item.slug.lower()))
+    return tuple(ordered[: max(0, max_new)])

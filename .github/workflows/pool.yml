@@ -53,6 +53,13 @@ jobs:
         shell: bash
         run: git pull --ff-only
 
+      - name: 发现新仓库（GitHub Search，零 LLM）
+        if: steps.guard.outputs.dirty == 'false'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: python -m osslens pool discover --apply
+
       - name: 追加观测（建池，零 LLM）
         if: steps.guard.outputs.dirty == 'false'
         env:

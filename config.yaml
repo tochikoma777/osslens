@@ -92,6 +92,21 @@ pool:
   # ★ 当前无消费者（审查 2026-11-16 F4）：load_series 恒定按 (repo, channel) 去重，
   #   本键只保留 schema 兼容，改 true/false 不改变行为。删键需同步 DEFAULT_CONFIG 与既有 config。
   dedupe: true
+  # 每日自动发现（GitHub Search API，零 LLM）；enabled=false 或 queries 为空即关闭。
+  # 搜索只负责"扩大候选"，放行仍由 hot/classic 门槛与 pool eligible 决定。
+  discovery:
+    enabled: true
+    queries:
+      - "topic:llm stars:>=5000"
+      - "topic:inference stars:>=5000"
+      - "topic:cuda stars:>=5000"
+    per_page: 20
+    max_new_per_run: 5
+    min_stars: 5000
+    max_pushed_age_days: 365
+    # 相关性 / 噪音过滤：匹配 slug + description（小写子串）；为空则不启用该侧过滤
+    require_keywords: [inference, serving, kernel, cuda, attention, quantization, llm]
+    exclude_keywords: [awesome, tutorial, course, book, agent, scratch]
 
 score:
   # 权重来自设计方案 §6.1；分数只用于排序，绝不用于升档

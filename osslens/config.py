@@ -81,6 +81,29 @@ DEFAULT_CONFIG: dict[str, Any] = {
         "classic_min_stars": 5000,
         "classic_min_age_days": 730,
         "dedupe": True,
+        # 每日自动发现（GitHub Search API，零 LLM）；queries 为空 = 关闭
+        "discovery": {
+            "enabled": True,
+            "queries": [
+                "topic:llm stars:>=5000",
+                "topic:inference stars:>=5000",
+                "topic:cuda stars:>=5000",
+            ],
+            "per_page": 20,
+            "max_new_per_run": 5,
+            "min_stars": 5000,
+            "max_pushed_age_days": 365,
+            "require_keywords": [
+                "inference",
+                "serving",
+                "kernel",
+                "cuda",
+                "attention",
+                "quantization",
+                "llm",
+            ],
+            "exclude_keywords": ["awesome", "tutorial", "course", "book", "agent"],
+        },
     },
     "score": {
         "hot": {"star_delta_7d": 1.0, "stars": 0.6, "fork_delta_7d": 0.4},
@@ -226,9 +249,22 @@ pool:
   hot_observe_days: 7
   classic_min_stars: 5000
   classic_min_age_days: 730
-  # ★ 当前无消费者（审查 2026-11-16 F4）：load_series 恒定按 (repo, channel) 去重，
-  #   本键只保留 schema 兼容，改 true/false 不改变行为。
   dedupe: true
+  # 每日自动发现（GitHub Search API，零 LLM）；enabled=false 或 queries 为空即关闭。
+  # 搜索只负责"扩大候选"，放行仍由 hot/classic 门槛与 pool eligible 决定。
+  discovery:
+    enabled: true
+    queries:
+      - "topic:llm stars:>=5000"
+      - "topic:inference stars:>=5000"
+      - "topic:cuda stars:>=5000"
+    per_page: 20
+    max_new_per_run: 5
+    min_stars: 5000
+    max_pushed_age_days: 365
+    # 相关性 / 噪音过滤：匹配 slug + description（小写子串）；为空则不启用该侧过滤
+    require_keywords: [inference, serving, kernel, cuda, attention, quantization, llm]
+    exclude_keywords: [awesome, tutorial, course, book, agent, scratch]
 
 score:
   # 权重来自设计方案 §6.1；分数只用于排序，绝不用于升档
@@ -284,12 +320,73 @@ watchlist: []
 
 
 @dataclass(frozen=True)
+class DiscoveryConfig:
+    """每日自动发现：GitHub Search API（零 LLM）。
+
+    queries 是 GitHub 搜索语法；本地再做 min_stars / pushed 新鲜度 / archived /
+    fork / 去重 / 单轮上限过滤，避免把搜索排序当成“放行”。
+    """
+
+    enabled: bool = False
+    queries: tuple[str, ...] = ()
+    per_page: int = 20
+    max_new_per_run: int = 5
+    min_stars: int = 5000
+    max_pushed_age_days: int = 365
+    # 相关性过滤（slug + description 子串，小写匹配）：命中任一即可入候选。
+    require_keywords: tuple[str, ...] = ()
+    # 噪音过滤：命中任一即剔除（如 awesome/tutorial/agent 类聚合仓库）。
+    exclude_keywords: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
 class PoolConfig:
     hot_min_star_delta_7d: int
     hot_observe_days: int
     classic_min_stars: int
     classic_min_age_days: int
     dedupe: bool
+    discovery: DiscoveryConfig = DiscoveryConfig()
+
+
+def _discovery_config(raw: dict[str, Any]) -> DiscoveryConfig:
+    """解析 pool.discovery；非法值 fail-fast，避免“看起来在发现、其实没搜”。"""
+    queries_raw = raw.get("queries")
+    queries: list[str] = []
+    if isinstance(queries_raw, list):
+        for item in queries_raw:
+            text = as_str(item).strip()
+            if text:
+                queries.append(text)
+    per_page = as_int(raw.get("per_page"), 20)
+    max_new = as_int(raw.get("max_new_per_run"), 5)
+    min_stars = as_int(raw.get("min_stars"), 5000)
+    max_age = as_int(raw.get("max_pushed_age_days"), 365)
+    if not 1 <= per_page <= 100:
+        raise ConfigError(f"pool.discovery.per_page 必须在 1–100，实际 {per_page}")
+    if not 0 <= max_new <= 50:
+        raise ConfigError(f"pool.discovery.max_new_per_run 必须在 0–50，实际 {max_new}")
+    if min_stars < 0 or max_age < 1:
+        raise ConfigError(
+            f"pool.discovery 阈值非法：min_stars={min_stars}、max_pushed_age_days={max_age}"
+        )
+
+    def keywords(name: str) -> tuple[str, ...]:
+        value = raw.get(name)
+        if not isinstance(value, list):
+            return ()
+        return tuple(text for text in (as_str(item).strip().lower() for item in value) if text)
+
+    return DiscoveryConfig(
+        enabled=as_bool(raw.get("enabled"), False),
+        queries=tuple(queries),
+        per_page=per_page,
+        max_new_per_run=max_new,
+        min_stars=min_stars,
+        max_pushed_age_days=max_age,
+        require_keywords=keywords("require_keywords"),
+        exclude_keywords=keywords("exclude_keywords"),
+    )
 
 
 @dataclass(frozen=True)
@@ -723,6 +820,7 @@ class Config:
                 classic_min_stars=as_int(pool_raw.get("classic_min_stars"), 5000),
                 classic_min_age_days=as_int(pool_raw.get("classic_min_age_days"), 730),
                 dedupe=as_bool(pool_raw.get("dedupe"), True),
+                discovery=_discovery_config(_section(pool_raw, "discovery")),
             ),
             score=ScoreConfig(
                 hot={str(k): as_float(v, 0.0) for k, v in _section(score_raw, "hot").items()},

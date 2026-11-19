@@ -34,6 +34,8 @@ from .collect import (
     parse_slug,
     probe_external,
     save_snapshot,
+    search_repositories,
+    select_discoveries,
 )
 from .config import CONFIG_TEMPLATE, Config, Layout
 from .depth import (
@@ -170,6 +172,16 @@ def _build_parser() -> argparse.ArgumentParser:
     eligible_parser.add_argument("--json", action="store_true")
     eligible_parser.set_defaults(handler=_cmd_pool_eligible)
 
+    discover_parser = pool_sub.add_parser(
+        "discover", parents=[common], help="GitHub Search 自动发现候选（零 LLM）"
+    )
+    discover_parser.add_argument("--as-of", dest="as_of", default=None)
+    discover_parser.add_argument(
+        "--apply", action="store_true", help="把候选真正入池（抓快照 + 追加观测）"
+    )
+    discover_parser.add_argument("--json", action="store_true")
+    discover_parser.set_defaults(handler=_cmd_pool_discover)
+
     analyze_parser = sub.add_parser("analyze", parents=[common], help="产出体检报告")
     analyze_parser.add_argument("slug", help="owner/repo")
     analyze_parser.add_argument("--depth", choices=REQUESTED_DEPTHS, default="auto")
@@ -299,40 +311,140 @@ def _cmd_init(args: argparse.Namespace) -> int:
     return 0
 
 
-def _cmd_pool_add(args: argparse.Namespace) -> int:
-    config = Config.load(Path(args.root))
+def _pool_add_one(
+    config: Config, slug: str, *, as_of: datetime, clock: Clock, channel: str | None = None
+) -> None:
+    """抓快照 + 追加观测（`pool add` 与 `pool discover --apply` 共用）。"""
     layout = config.layout
-    owner, repo = parse_slug(args.slug)
-    slug = f"{owner}/{repo}"
-    channel = args.channel or _infer_channel(config, slug)
-    clock: Clock = SystemClock()
-    as_of = _optional_instant(args.as_of) or clock.now()
-
+    owner, repo = parse_slug(slug)
+    chosen = channel or _infer_channel(config, slug)
     snapshot = _snapshot_for(config, owner, repo, as_of=as_of, clock=clock)
     save_snapshot(layout, snapshot)
-    observe_clock: Clock = FixedClock(as_of) if args.as_of else clock
     repo_meta = snapshot.data.get("repo", {})
     flags = threshold_flags(
         config,
         load_series(layout),
         repo=slug,
-        channel=channel,
+        channel=chosen,
         stars=int(repo_meta.get("stars") or 0),
         created_at=as_str(repo_meta.get("created_at")),
-        observed_at=observe_clock.now(),
+        observed_at=clock.now(),
     )
-    observation = observe(layout, snapshot, channel=channel, clock=observe_clock, flags=flags)
+    observation = observe(layout, snapshot, channel=chosen, clock=clock, flags=flags)
     series = load_series(layout)
     count = next(
-        (item.observed_days for item in series if item.repo == slug and item.channel == channel),
+        (item.observed_days for item in series if item.repo == slug and item.channel == chosen),
         1,
     )
-    print(f"已入池：{slug}  channel={channel}  观测数={count}")
+    print(f"已入池：{slug}  channel={chosen}  观测数={count}")
     print(f"  快照：{snapshot.sha256[:16]}…  stars={observation.stars} forks={observation.forks}")
     if flags:
         print(f"  ⚠ 未达通道门槛（仍入池，D6-6）：{'；'.join(flags)}")
     if snapshot.degraded_sources:
         print(f"  ⚠ 降级来源：{', '.join(snapshot.degraded_sources)}（不影响退出码）")
+
+
+def _cmd_pool_add(args: argparse.Namespace) -> int:
+    config = Config.load(Path(args.root))
+    clock: Clock = SystemClock()
+    as_of = _optional_instant(args.as_of) or clock.now()
+    observe_clock: Clock = FixedClock(as_of) if args.as_of else clock
+    _pool_add_one(config, args.slug, as_of=as_of, clock=observe_clock, channel=args.channel)
+    return 0
+
+
+def _cmd_pool_discover(args: argparse.Namespace) -> int:
+    """GitHub Search 自动发现候选；`--apply` 才真正入池（零 LLM）。
+
+    搜索只负责扩大候选集，放行仍由 hot/classic 门槛决定（不越权升档）。
+    单个查询/单个仓库失败只记警告，退出码 0（单源失败不影响建池）。
+    """
+    config = Config.load(Path(args.root))
+    discovery = config.pool.discovery
+    clock: Clock = SystemClock()
+    as_of = _optional_instant(args.as_of) or clock.now()
+    observe_clock: Clock = FixedClock(as_of) if args.as_of else clock
+    if not discovery.enabled or not discovery.queries:
+        print("自动发现未启用（pool.discovery.enabled=false 或 queries 为空）。")
+        return 0
+
+    existing = {item.repo.lower() for item in load_series(config.layout)}
+    existing |= {slug.lower() for slug in config.watchlist}
+    items: list[dict[str, Any]] = []
+    failures: list[str] = []
+    client = HttpClient(
+        config.github_base_url,
+        token=config.github_token(),
+        user_agent=f"osslens/{__version__}",
+    )
+    try:
+        for query in discovery.queries:
+            try:
+                items.extend(search_repositories(client, query, per_page=discovery.per_page))
+            except OsslensError as exc:
+                failures.append(f"{query}: {exc}")
+    finally:
+        client.close()
+
+    candidates = select_discoveries(
+        items,
+        existing=frozenset(existing),
+        min_stars=discovery.min_stars,
+        max_pushed_age_days=discovery.max_pushed_age_days,
+        max_new=discovery.max_new_per_run,
+        now=as_of,
+        require_keywords=discovery.require_keywords,
+        exclude_keywords=discovery.exclude_keywords,
+    )
+    for warning in failures:
+        print(f"⚠ 搜索失败（不阻断）：{warning}")
+
+    added: list[str] = []
+    if args.apply:
+        for candidate in candidates:
+            try:
+                _pool_add_one(config, candidate.slug, as_of=as_of, clock=observe_clock)
+                added.append(candidate.slug)
+            except OsslensError as exc:
+                print(f"⚠ 入池失败（跳过）：{candidate.slug} — {exc}")
+
+    if args.json:
+        print(
+            stable_json(
+                {
+                    "as_of": fmt_iso(as_of),
+                    "queries": list(discovery.queries),
+                    "matched": len(items),
+                    "candidates": [
+                        {
+                            "slug": item.slug,
+                            "stars": item.stars,
+                            "pushed_at": item.pushed_at,
+                            "description": item.description,
+                        }
+                        for item in candidates
+                    ],
+                    "applied": added,
+                    "failures": failures,
+                }
+            )
+        )
+        return 0
+
+    mode = "apply（已入池）" if args.apply else "dry-run（未写盘）"
+    print(
+        f"自动发现：{len(discovery.queries)} 个查询，命中 {len(items)} 条，"
+        f"候选 {len(candidates)} 个（{mode}）"
+    )
+    for item in candidates:
+        desc = item.description[:48]
+        print(f"  · {item.slug}  stars={item.stars:,}  pushed={item.pushed_at[:10]}  {desc}")
+    if not candidates:
+        print("  未发现新候选（已入池 / 低星 / 久未更新 / archived / fork 均已剔除）。")
+    elif not args.apply:
+        print("确认后执行：python -m osslens pool discover --apply")
+    if added:
+        print(f"已入池 {len(added)} 个：{', '.join(added)}")
     return 0
 
 
