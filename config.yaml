@@ -69,8 +69,9 @@ report:
 #   （--auto-chain / 周配额 / 预算 / 调用次数上限 / 安全系数照常）。
 auto_chain:
   min_interval_days: 7
-  # 分析与抽象各自的最小真实调用间隔（天）；缺省继承 min_interval_days
-  analysis_interval_days: 7
+  # 分析与抽象各自的最小真实调用间隔（天）；缺省继承 min_interval_days。
+  # 2026-11-19 起：为尽快积累规律抽象/跨域所需样本，分析改为每日；抽象仍每周。
+  analysis_interval_days: 1
   abstract_interval_days: 7
 
 # T5：缓存层保留策略（按可再生性分层，设计方案 v1.5 §8.2 为唯一权威）

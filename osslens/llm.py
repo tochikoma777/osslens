@@ -352,6 +352,10 @@ def parse_insight(content: str, *, max_tokens: int, usage: Usage) -> Insight | N
                 alternative=as_str(item.get("alternative")),
                 cost=as_str(item.get("cost")),
                 evidence=as_str(item.get("evidence")),
+                # v3：实时响应同样要解析 rule/boundary；此前只有 from_json（缓存路径）
+                # 解析这两列，导致实跑结果被静默丢弃。
+                rule=as_str(item.get("rule")),
+                boundary=as_str(item.get("boundary")),
             )
         )
     if not items:
@@ -392,8 +396,13 @@ def cache_path(layout: Layout, key: str) -> Path:
     return layout.data_dir / "llm_cache" / f"{key}.json"
 
 
+# 缓存 schema 版本：字段增删（如 v3 的 rule/boundary）必须递增，
+# 否则旧缓存会以“缺字段”形态继续命中，掩盖解析缺陷。
+CACHE_SCHEMA = "v3"
+
+
 def cache_key(model: str, thinking: bool, system: str, user: str) -> str:
-    return sha256_text(f"{model}|{thinking}|{system}|{user}")
+    return sha256_text(f"{CACHE_SCHEMA}|{model}|{thinking}|{system}|{user}")
 
 
 def load_cached(cache_file: Path) -> LlmOutcome | None:

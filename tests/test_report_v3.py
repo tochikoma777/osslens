@@ -210,3 +210,17 @@ def test_extension_section_excludes_test_directories() -> None:
     text = "\n".join(_extension_v3(inputs))
     assert "tests/test_core.py" not in text
     assert "pkg/hooks.py" in text
+
+
+def test_parse_insight_keeps_rule_and_boundary() -> None:
+    """实跑路径（HTTP 响应）必须解析 rule/boundary；此前只有缓存路径会解析。"""
+    from osslens.llm import Usage, parse_insight
+
+    content = (
+        '{"items":[{"id":"t1","chose":"A","alternative":"B","cost":"C",'
+        '"evidence":"src/a.py:12","rule":"R","boundary":"D"}],'
+        '"confidence":"high","paradigm_tags":[]}'
+    )
+    insight = parse_insight(content, max_tokens=100, usage=Usage(10, 20, 0, 10, 30))
+    assert insight is not None
+    assert (insight.items[0].rule, insight.items[0].boundary) == ("R", "D")
