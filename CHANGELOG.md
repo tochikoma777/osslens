@@ -2,6 +2,13 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-19 · 空证据守卫与 onnxruntime 归因
+
+- **修复（成本）**：`chat_json` 在“items 为空 / 输出顶格”判废分支丢弃了 usage，导致已计费调用不入账；现保留 usage 并记入台账。
+- **修复（无效调用）**：`_run_insight` 在**无源码切片**（allowed_paths 为空）时不再发起模型调用——没有 `file:line` 可引用，模型必然返回空 items；报告改为如实写“无源码切片…未发起模型调用”。闸门顺序保持“调用上限 → 证据条件 → 发请求”。
+- **onnxruntime 归因**：`microsoft/onnxruntime` 仓库本身返回 404（元数据/commits 均 404，疑似改名或下线），因此 codeload 也 404；不是模型问题。报告保留并标注证据缺失。
+- 测试 219 → **221**（usage 保留 + 空证据守卫）。
+
 ## [Unreleased] - 2026-11-19 · 自动发现建池 + v3 全量重建
 
 - **每日自动发现（原需求补齐）**：新增 `pool discover [--apply]`，调用 GitHub Search `/search/repositories`（`topic:llm|inference|cuda` + `stars:>=5000`，零 LLM）；本地再剔除 archived / fork / 低星 / 久未更新 / 已入池，按 stars 降序去重后取 `max_new_per_run` 个（**默认 1**，与每周 fast=5 的分析能力匹配，避免池子膨胀快于分析）；`pool.yml` 在「追加观测」前执行 `--apply`。
