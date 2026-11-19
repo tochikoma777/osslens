@@ -1,0 +1,6329 @@
+{
+  "as_of": "2026-11-19T15:08:42Z",
+  "data": {
+    "commits": [
+      {
+        "date": "2026-11-19T06:04:03Z",
+        "sha": "2fb371e31833c68dffacee2f4a172cd0b6ed2676"
+      },
+      {
+        "date": "2026-11-18T00:53:10Z",
+        "sha": "1ba3e719c15a294a29f294bde298817660ff14f8"
+      },
+      {
+        "date": "2026-11-16T00:08:01Z",
+        "sha": "548f97f51e434367f9fe4575d8aac45f68e92ca5"
+      },
+      {
+        "date": "2026-11-15T21:45:49Z",
+        "sha": "6036b9c3c8c57687bd2a4e31a414e2d0a035f603"
+      },
+      {
+        "date": "2026-11-15T05:53:47Z",
+        "sha": "f2e7f24a0e1551d5bb2f58b6acf86145373a6ad3"
+      },
+      {
+        "date": "2026-11-15T03:46:51Z",
+        "sha": "11729f7d7af2b53bb77b862249bb5ef0e043512b"
+      },
+      {
+        "date": "2026-11-14T07:12:14Z",
+        "sha": "4b71d4d928e968c7036024c089f81050134a680b"
+      },
+      {
+        "date": "2026-11-14T01:39:17Z",
+        "sha": "27c891fe99324336c3da6e70924bed858dac4af2"
+      },
+      {
+        "date": "2026-11-14T00:17:51Z",
+        "sha": "140faab6b576f608e9b34c155d24b6f178f92157"
+      },
+      {
+        "date": "2026-11-13T08:17:32Z",
+        "sha": "66190a937ffd0e681588edf46f1b0b812caa1da7"
+      },
+      {
+        "date": "2026-11-13T07:28:34Z",
+        "sha": "76d2094965259c4cba26a7c3674d722f010e8cff"
+      },
+      {
+        "date": "2026-11-13T04:34:28Z",
+        "sha": "58b3ad7ba7a7ba57c1bbd3c1b5603ccad4de55d7"
+      },
+      {
+        "date": "2026-11-11T23:47:50Z",
+        "sha": "27740fec662ec0f0ce9a74125162a905d35171e5"
+      },
+      {
+        "date": "2026-11-11T21:24:46Z",
+        "sha": "56e7f3ae3810c5810fbb89b0c3f0357566e070bd"
+      },
+      {
+        "date": "2026-11-11T20:15:09Z",
+        "sha": "96dbe1dd1437581910fe7cb9fb9dafcdc1e0e686"
+      },
+      {
+        "date": "2026-11-10T23:22:14Z",
+        "sha": "0ad521d1a61599c784fe9b2d92a526cca20dfedc"
+      },
+      {
+        "date": "2026-11-10T05:44:40Z",
+        "sha": "f69d50686d4f9bba578f7ac91135c609bb9f9e90"
+      },
+      {
+        "date": "2026-11-10T04:22:26Z",
+        "sha": "d9184eb9ce78cbff88bd6459e6e8e9d139c05e1c"
+      },
+      {
+        "date": "2026-11-09T19:25:16Z",
+        "sha": "fff1022a5c068826c0ab31ac063675392f2ec7a7"
+      },
+      {
+        "date": "2026-11-09T01:53:16Z",
+        "sha": "5a73685b1a836f523c692c77b70152c01698ed8e"
+      },
+      {
+        "date": "2026-11-08T07:30:06Z",
+        "sha": "ef6b3033041ca0ac53d0e425ef2986b5c3a4169d"
+      },
+      {
+        "date": "2026-11-08T00:55:58Z",
+        "sha": "340db81ec0cbfa9503455cfa128943fc68bd9423"
+      },
+      {
+        "date": "2026-11-07T21:36:26Z",
+        "sha": "8215a94f92449c1aff07627d95ef73377363315d"
+      },
+      {
+        "date": "2026-11-07T20:29:18Z",
+        "sha": "08cee44468a57a452cf71d3164d2e1fc36ea8df0"
+      },
+      {
+        "date": "2026-11-07T00:17:21Z",
+        "sha": "14119b8cbb8bd0a1e20410d5f1371f2412a6f338"
+      },
+      {
+        "date": "2026-11-06T19:36:59Z",
+        "sha": "5209c8c327e961b607cc9733842ca349f22df9fc"
+      },
+      {
+        "date": "2026-11-06T03:21:56Z",
+        "sha": "e5856ac471ec4747ada27f0ba506b816f1506593"
+      },
+      {
+        "date": "2026-11-05T23:13:56Z",
+        "sha": "60059b41fbf71e545593d9a66cec697c97d4525b"
+      },
+      {
+        "date": "2026-11-05T21:16:03Z",
+        "sha": "650dd6f6fe072501640b0c5ba587d88d0927d376"
+      },
+      {
+        "date": "2026-11-05T06:58:51Z",
+        "sha": "4503c424ee99926b490fb87f312be135cf9394e3"
+      },
+      {
+        "date": "2026-11-05T04:05:36Z",
+        "sha": "a3c04b065c0c391aef8bc9d6f11c1fa49936123c"
+      },
+      {
+        "date": "2026-11-04T22:17:02Z",
+        "sha": "dac018e90b8e62318dba2af65529345bf06befdd"
+      },
+      {
+        "date": "2026-11-04T08:09:40Z",
+        "sha": "628b88ff795b5ef2c7f9baff088f0e7720d8ebb4"
+      },
+      {
+        "date": "2026-11-04T04:27:21Z",
+        "sha": "9ee2e5c53f654233acac4fd20120ce271c054d34"
+      },
+      {
+        "date": "2026-11-04T02:44:50Z",
+        "sha": "d34b283f0aea01e8c6abedf8db46612605c55ecc"
+      },
+      {
+        "date": "2026-11-04T01:52:09Z",
+        "sha": "e6e079cd04e8c1736049a376883c8242fb70835a"
+      },
+      {
+        "date": "2026-11-04T00:34:36Z",
+        "sha": "600cc61ba8b4dc49cc87ef4db9a8c6a4bf22f7e0"
+      },
+      {
+        "date": "2026-11-03T23:31:08Z",
+        "sha": "33cbb3c54e9233998662b3eeb131653033030383"
+      },
+      {
+        "date": "2026-11-03T22:44:25Z",
+        "sha": "03e5ea0672a0ad3308cdcd2755c6bbb344356709"
+      },
+      {
+        "date": "2026-11-03T05:29:42Z",
+        "sha": "9cacd0896c9beb67d88c22a38be54236023b4605"
+      },
+      {
+        "date": "2026-11-03T03:49:03Z",
+        "sha": "d026ffd3b9f6e54568d621f0bd3e8f583ad682ec"
+      },
+      {
+        "date": "2026-11-02T23:05:17Z",
+        "sha": "3d23551c5b43b61ef26e24cb86a22ff550e502a3"
+      },
+      {
+        "date": "2026-11-02T19:37:09Z",
+        "sha": "dacac5f5fa543247bcda47599d15d9f7470fe135"
+      },
+      {
+        "date": "2026-11-02T16:58:07Z",
+        "sha": "ea2916d31cf17f13c3d74edcc3683a73fca9ce39"
+      },
+      {
+        "date": "2026-10-30T00:15:32Z",
+        "sha": "ee43b2a11345d056ba349d22ee073c6828b1364b"
+      },
+      {
+        "date": "2026-10-29T05:28:13Z",
+        "sha": "ecbbce457769a75810df83517250cd3ce3263ea5"
+      },
+      {
+        "date": "2026-10-29T04:18:02Z",
+        "sha": "c2c3e828e8859bb8ad677acb8fc9c7464e9e7e67"
+      },
+      {
+        "date": "2026-10-29T03:48:55Z",
+        "sha": "d2977fbc13c92d982860d271bbace9d409876048"
+      },
+      {
+        "date": "2026-10-29T03:05:27Z",
+        "sha": "c94535c9096fcd7d7657c1829888e1c45e08f049"
+      },
+      {
+        "date": "2026-10-29T00:22:50Z",
+        "sha": "d043fb61f8d97bd5a95bc9d3147a543b92bf0a90"
+      },
+      {
+        "date": "2026-10-28T06:56:59Z",
+        "sha": "a2ce636083a0137571ba505768ad36be5f7a393b"
+      },
+      {
+        "date": "2026-10-27T23:03:01Z",
+        "sha": "e328cf638181b9cdb809f2161367606255938bf0"
+      },
+      {
+        "date": "2026-10-27T05:38:53Z",
+        "sha": "9221fd7fc2b923813d7f9563c6c08f0a38497590"
+      },
+      {
+        "date": "2026-10-27T02:49:11Z",
+        "sha": "075cf57296917c41c10f56ef452cae54c61b5fcf"
+      },
+      {
+        "date": "2026-10-27T00:15:46Z",
+        "sha": "408e6ae8c7efe4dfabb77544ea98a311b3bfc139"
+      },
+      {
+        "date": "2026-10-27T00:15:34Z",
+        "sha": "edab62cdb308eb8b6598aef1a79d38a0cdc95672"
+      },
+      {
+        "date": "2026-10-26T22:21:04Z",
+        "sha": "380693af9c438c03f3a71a278c61ed2c902c0269"
+      },
+      {
+        "date": "2026-10-26T00:36:06Z",
+        "sha": "ba31db2ea708b61d7313bccb3ee4adf9d11ecb90"
+      },
+      {
+        "date": "2026-10-25T02:10:52Z",
+        "sha": "0bf7dbbf23156dc87b8e8bc43a4b2e718b27d5d5"
+      },
+      {
+        "date": "2026-10-24T20:31:24Z",
+        "sha": "271ff07b30cf0c3e02fd526feecc817abc77b71d"
+      },
+      {
+        "date": "2026-10-24T19:42:27Z",
+        "sha": "756108f0482e1cb4a445b66e4e59936ca5aa026f"
+      },
+      {
+        "date": "2026-10-24T19:37:57Z",
+        "sha": "2d930855450db0784bda5810058e023f79949982"
+      },
+      {
+        "date": "2026-10-23T22:35:47Z",
+        "sha": "32056cf4608b07c21afc45fa510c74fba67dcf17"
+      },
+      {
+        "date": "2026-10-23T21:41:37Z",
+        "sha": "fd863cce3e8768e32ee143e958de394c9ae87ab0"
+      },
+      {
+        "date": "2026-10-23T21:27:34Z",
+        "sha": "6505b6a005cfc209e1492fe5565c6f28ea8689bb"
+      },
+      {
+        "date": "2026-10-23T19:39:33Z",
+        "sha": "0c50eb9d829e0189264f22ae3f501c7c30c01659"
+      },
+      {
+        "date": "2026-10-23T19:28:53Z",
+        "sha": "0b98e9d900ee1c7e5f932d17ee03fab5a6e5d068"
+      },
+      {
+        "date": "2026-10-23T07:11:06Z",
+        "sha": "507a8bfa81d5c305e047661576165a74068e5ab0"
+      },
+      {
+        "date": "2026-10-23T06:43:14Z",
+        "sha": "e0a7e23c9d2b9d8c1b6b3630533f07e6eb404747"
+      },
+      {
+        "date": "2026-10-23T03:19:24Z",
+        "sha": "20d5d93132da3ae93202800cb02ab0448fb9e748"
+      },
+      {
+        "date": "2026-10-23T01:14:03Z",
+        "sha": "ed359eee0af1b15def5688232919fc2a94961f89"
+      },
+      {
+        "date": "2026-10-23T00:48:21Z",
+        "sha": "19a60a5b6571674b0986fba1f6af3fdff58e92e5"
+      },
+      {
+        "date": "2026-10-23T00:36:54Z",
+        "sha": "20d1bfbeb9019b6af623e3e977f533f0ff7ac8b7"
+      },
+      {
+        "date": "2026-10-22T22:43:34Z",
+        "sha": "7974c9cc8c545273d1744cd205800f3de2c2c360"
+      },
+      {
+        "date": "2026-10-22T22:06:25Z",
+        "sha": "00fe83b7290b59dc4bc1c340cefe975ec6dbe546"
+      },
+      {
+        "date": "2026-10-22T21:56:19Z",
+        "sha": "609191d81f21b4249d1575f18075ab9904cea208"
+      },
+      {
+        "date": "2026-10-22T20:17:44Z",
+        "sha": "c63fc133e2f9119961b329b86aa470bf3b5a663e"
+      },
+      {
+        "date": "2026-10-22T01:40:37Z",
+        "sha": "546c5fe2e4468e2f3f8a574c64021a47016c35f7"
+      },
+      {
+        "date": "2026-10-21T21:28:09Z",
+        "sha": "b10c0c479bae49dd87c41fd99b864c58abcaa225"
+      },
+      {
+        "date": "2026-10-21T18:38:13Z",
+        "sha": "161ffa5a61bc63f02b3af43d1a52476c7cc4215c"
+      },
+      {
+        "date": "2026-10-21T06:15:17Z",
+        "sha": "cc4aa085b6eaeda01c0441fb3ecb9cc843b3e465"
+      },
+      {
+        "date": "2026-10-21T03:48:55Z",
+        "sha": "fe5a5ec9c5644e266527de5afb9f1156b9bdcabb"
+      },
+      {
+        "date": "2026-10-21T00:02:26Z",
+        "sha": "127aa0a920ce2ba3c3fedf66e8c31072990df1f6"
+      },
+      {
+        "date": "2026-10-20T21:59:05Z",
+        "sha": "c5b5b7243a7427551d078f9fd9120e04e834d6d2"
+      },
+      {
+        "date": "2026-10-20T06:20:40Z",
+        "sha": "cc56b6bdcf9188eb632197d6ec719c61bff11798"
+      },
+      {
+        "date": "2026-10-20T04:40:55Z",
+        "sha": "bb15d1d387c8bb45441e2cef96115e9449bebc87"
+      },
+      {
+        "date": "2026-10-20T04:30:00Z",
+        "sha": "70550f8f9e368d62155a98c59a10b91519ac94eb"
+      },
+      {
+        "date": "2026-10-20T04:14:02Z",
+        "sha": "64b85c344c7a10862cc1d25ea50facd1d59d8f3b"
+      },
+      {
+        "date": "2026-10-20T03:24:04Z",
+        "sha": "05e7cb7177951ddacd79ea0ba5988c605abd77d3"
+      },
+      {
+        "date": "2026-10-20T03:18:34Z",
+        "sha": "163d1de5c57d3427898f4dea77ac1252e36397e1"
+      },
+      {
+        "date": "2026-10-19T21:35:22Z",
+        "sha": "5596e6b3904e6d8c64e2bc9e67ee347b2ab7eedc"
+      },
+      {
+        "date": "2026-10-19T19:33:43Z",
+        "sha": "0db5023b60ec8a72e7f9c87be5119956e298f7b9"
+      },
+      {
+        "date": "2026-10-19T06:55:07Z",
+        "sha": "4d2e2e2104ab104fa17aa41710cd11afbf604588"
+      },
+      {
+        "date": "2026-10-19T06:16:37Z",
+        "sha": "30dd715a9328147141480aa1bd7a4230b147ec0d"
+      },
+      {
+        "date": "2026-10-19T03:10:51Z",
+        "sha": "e4f69d9e232448fc168389c29f6f9364869cff35"
+      },
+      {
+        "date": "2026-10-18T21:39:56Z",
+        "sha": "fd410ee6165cdad0a29b00489c571e84c1e4c6c3"
+      },
+      {
+        "date": "2026-10-18T06:25:12Z",
+        "sha": "8f49e0af98ba444dd261af69e82d5a1841778c68"
+      },
+      {
+        "date": "2026-10-18T00:50:59Z",
+        "sha": "ac6a15de75ea0c80e0d5a206bbaea8218898e54f"
+      },
+      {
+        "date": "2026-10-17T20:46:50Z",
+        "sha": "31c6ef4f7709a802998260e8a19cf6ef6232946d"
+      },
+      {
+        "date": "2026-10-17T19:56:19Z",
+        "sha": "6b8f2004547d202bef16a10f5a20aec14f174f66"
+      },
+      {
+        "date": "2026-10-17T06:56:35Z",
+        "sha": "11c1adb88f58a1a9d0ae47b8cd70ca0c7a4793c4"
+      },
+      {
+        "date": "2026-10-17T05:28:34Z",
+        "sha": "c8559fdff68c517c5cab60d491a9870099b73d66"
+      },
+      {
+        "date": "2026-10-17T05:03:59Z",
+        "sha": "03c2c9c35eae76601fae48efd0eb352cdab1f170"
+      },
+      {
+        "date": "2026-10-17T02:01:30Z",
+        "sha": "4663b2b89e60bd0fd7eacc1f7596794ac7984e3c"
+      },
+      {
+        "date": "2026-10-17T01:38:43Z",
+        "sha": "5d39d6408a23b0c978fbff47789b1126c58c3bcd"
+      },
+      {
+        "date": "2026-10-17T00:41:06Z",
+        "sha": "e0dbb7dee18fac3f752e040f1f2f5476b110c1a3"
+      },
+      {
+        "date": "2026-10-17T00:40:36Z",
+        "sha": "312f324d65b3f49596bae424cfdf2cc5c0274f1b"
+      },
+      {
+        "date": "2026-10-16T23:48:24Z",
+        "sha": "bc0e2feb7cf01fdd7b082381eda142fc84c029d2"
+      },
+      {
+        "date": "2026-10-16T22:50:29Z",
+        "sha": "21d9578bde22840798b6063824416264fbdcdc25"
+      },
+      {
+        "date": "2026-10-16T22:13:59Z",
+        "sha": "e8c6bf11235d6f813b4aa4e15968e001f881aaec"
+      },
+      {
+        "date": "2026-10-16T20:49:17Z",
+        "sha": "d5eb18febdcfe3f83b43c912cccc82e16cc76e8f"
+      },
+      {
+        "date": "2026-10-16T20:05:08Z",
+        "sha": "3886ceeebf25a0075ea83c7629a19f950a03b3be"
+      },
+      {
+        "date": "2026-10-16T20:04:29Z",
+        "sha": "6c21dd56157f43172ce8e75f51353f71b719abd0"
+      },
+      {
+        "date": "2026-10-16T06:23:37Z",
+        "sha": "9b68e0076769650bb51b92f035ec05488b92a4f0"
+      },
+      {
+        "date": "2026-10-16T06:20:12Z",
+        "sha": "3381b6eb0a9e6bd4736e5c415953d6c881c734b5"
+      },
+      {
+        "date": "2026-10-16T05:15:28Z",
+        "sha": "18448d29a764d13360a4e7be3b66e9177007b426"
+      },
+      {
+        "date": "2026-10-16T04:25:32Z",
+        "sha": "df8d450c28affecf3023931b9f84f52faf38f1ea"
+      },
+      {
+        "date": "2026-10-16T03:35:02Z",
+        "sha": "b6193e86f7fdef2ed553f9d8f83e716387a57d45"
+      },
+      {
+        "date": "2026-10-16T03:34:20Z",
+        "sha": "7d6490c5d6bae3cbaee3d0f0394886d301d4d2fe"
+      },
+      {
+        "date": "2026-10-15T23:33:16Z",
+        "sha": "e5d3bd3fafb7c9b5a026bb59daa9ab324f18f246"
+      },
+      {
+        "date": "2026-10-15T09:21:32Z",
+        "sha": "0bca88f70c4909624f7f3c3e3a4fe6b32d183d56"
+      },
+      {
+        "date": "2026-10-15T02:44:55Z",
+        "sha": "b416f85c40970c033462b47773020872209978a3"
+      },
+      {
+        "date": "2026-10-14T03:30:34Z",
+        "sha": "f02fbb16a213f5c81094e4017c988d41f0164141"
+      },
+      {
+        "date": "2026-10-14T03:12:58Z",
+        "sha": "2010271266f1a0253403a20f897d39d85e70cfe2"
+      },
+      {
+        "date": "2026-10-13T08:24:13Z",
+        "sha": "9c635a157798da4aa43e6d051e92620521ed1858"
+      },
+      {
+        "date": "2026-10-12T05:12:41Z",
+        "sha": "95ac86f21567bc244c7a9d91972838fbf049b4ed"
+      },
+      {
+        "date": "2026-10-11T19:41:07Z",
+        "sha": "c8186396f5834994628f7750b11da7300e1d4714"
+      },
+      {
+        "date": "2026-10-10T20:30:22Z",
+        "sha": "74a387777708b9650a027494bcb37d2ab9cf2443"
+      },
+      {
+        "date": "2026-10-10T08:17:57Z",
+        "sha": "ee9789ff6cdcc2e9c5e9467aba630d38cd230fa6"
+      },
+      {
+        "date": "2026-10-10T07:36:04Z",
+        "sha": "95281904548d01b2913cf7045c167cda4d025efb"
+      },
+      {
+        "date": "2026-10-09T07:15:07Z",
+        "sha": "2d8b9cc1eac2e8f2ae63eb0ae90fe419252d9dc6"
+      },
+      {
+        "date": "2026-10-09T06:51:55Z",
+        "sha": "6c36af01108bfbe0c573394499a25ff2a7533f9f"
+      },
+      {
+        "date": "2026-10-09T02:55:57Z",
+        "sha": "9b585b72d0838e0e977e029c427a827029397a8d"
+      },
+      {
+        "date": "2026-10-08T21:42:39Z",
+        "sha": "23fc922bf8df728a630674b1322d55626d0261da"
+      },
+      {
+        "date": "2026-10-08T20:31:44Z",
+        "sha": "803a3b48023b5411c27c5656c35f859d988ca36b"
+      },
+      {
+        "date": "2026-10-08T07:36:55Z",
+        "sha": "078132480ea4a0424f677a27eb22085624d331e6"
+      },
+      {
+        "date": "2026-10-08T06:06:22Z",
+        "sha": "1c3aa0aa4cd89371604be23e1405e3228a151804"
+      },
+      {
+        "date": "2026-10-08T06:04:18Z",
+        "sha": "799bec39f687f612470de604ebb8c689e0046e1c"
+      },
+      {
+        "date": "2026-10-08T05:42:44Z",
+        "sha": "76449847b6e7e4288f5e2247c9dcb5a040fe75fa"
+      },
+      {
+        "date": "2026-10-07T20:24:45Z",
+        "sha": "377a3bc4284f032e9d30777ce099828a158e7e4c"
+      },
+      {
+        "date": "2026-10-07T07:15:11Z",
+        "sha": "127c85665b49e39d78a5d09b95a92169b5794eb0"
+      },
+      {
+        "date": "2026-10-07T04:38:10Z",
+        "sha": "1c183e74ae39b6f2708394056c00dda556f89bea"
+      },
+      {
+        "date": "2026-10-07T02:54:38Z",
+        "sha": "c1a504a50b6ced2c28c5628d29df9885f0f3ae74"
+      },
+      {
+        "date": "2026-10-05T22:29:44Z",
+        "sha": "555efd89447232a555e05d187256b76a51c1aaa0"
+      },
+      {
+        "date": "2026-10-05T21:59:59Z",
+        "sha": "93b0a59164bb6d68749298f868ca3738fd464143"
+      },
+      {
+        "date": "2026-10-05T07:24:33Z",
+        "sha": "581fdca310d429cca74ac9d94ed2b893b86d9320"
+      },
+      {
+        "date": "2026-10-04T20:51:55Z",
+        "sha": "189c8ad0c3350e30252209d40780274976cb7527"
+      },
+      {
+        "date": "2026-10-01T23:59:45Z",
+        "sha": "d3512b43affe981465e03ee28cbd88f49c39b9aa"
+      },
+      {
+        "date": "2026-10-01T07:40:27Z",
+        "sha": "235e2016ddb64c8eb1f0d877237062f087fb2ab2"
+      },
+      {
+        "date": "2026-09-30T02:32:36Z",
+        "sha": "eba7120eabde70c7414e0e14c551e1caa3b0f174"
+      },
+      {
+        "date": "2026-09-29T23:29:17Z",
+        "sha": "5031e3d578a3b49572776c3536b3ff4b69769c9b"
+      },
+      {
+        "date": "2026-09-26T00:49:45Z",
+        "sha": "0d652e73a452d014ac5441a15baa75348e9fcb0a"
+      },
+      {
+        "date": "2026-09-25T03:16:03Z",
+        "sha": "f5b9700cc10312d52169d9195af043c040f66d70"
+      },
+      {
+        "date": "2026-09-24T05:22:48Z",
+        "sha": "cee23bf44a86e48d70f8fda3ca3b6d4d9890072e"
+      },
+      {
+        "date": "2026-09-23T20:17:50Z",
+        "sha": "71eb1f01660f150d240e0cae46d72762829c6732"
+      },
+      {
+        "date": "2026-09-22T01:38:43Z",
+        "sha": "cab110ecb74ab2358f8950f9065d4d517877fc8b"
+      },
+      {
+        "date": "2026-09-19T04:00:44Z",
+        "sha": "cc1f5c2c91855f2cc7787ad6b909f7e46a5d5825"
+      },
+      {
+        "date": "2026-09-19T00:09:44Z",
+        "sha": "a8eb986758a2fb57bdebb6eaadf62411d02e5273"
+      },
+      {
+        "date": "2026-09-18T19:15:49Z",
+        "sha": "6410c97e15d789f38262083cd386404dccd9dd7a"
+      },
+      {
+        "date": "2026-09-18T19:15:36Z",
+        "sha": "1d8a5417ac6224e0dd25109ffdaae94a2a3c32c1"
+      },
+      {
+        "date": "2026-09-15T23:47:35Z",
+        "sha": "cac247a860e316e06580d05aeb05f2e647bde214"
+      },
+      {
+        "date": "2026-09-15T19:43:09Z",
+        "sha": "cade1a9e452c362469c191d1d808761e8cd0135c"
+      },
+      {
+        "date": "2026-09-15T06:00:58Z",
+        "sha": "afd99cb3b7c118dce4a9835359bcbc33b70c3cb8"
+      },
+      {
+        "date": "2026-09-15T04:15:17Z",
+        "sha": "68a81ffddaea57d09a5f8d91352efa42cb4521b3"
+      },
+      {
+        "date": "2026-09-15T03:26:39Z",
+        "sha": "63d6471d7cef98a821f1317ad5a6d6088d3b4d30"
+      },
+      {
+        "date": "2026-09-15T03:17:54Z",
+        "sha": "bea8d06f195b2bfb9af6c9fec062a6a7dee58b5a"
+      },
+      {
+        "date": "2026-09-15T01:25:25Z",
+        "sha": "3faef36b8149dc3a27b3e39b8ff216ccc5d5338a"
+      },
+      {
+        "date": "2026-09-14T20:04:33Z",
+        "sha": "84d236c4c7cb184cdb83c19b0a7604b5a03e7996"
+      },
+      {
+        "date": "2026-09-14T05:25:08Z",
+        "sha": "e0886ccfb698add04a60aefa5018594fb37e58be"
+      },
+      {
+        "date": "2026-09-14T03:15:39Z",
+        "sha": "db64879de40dce213adbc2f3ffb88d316774118a"
+      },
+      {
+        "date": "2026-09-14T03:15:39Z",
+        "sha": "8ff0cce671a18ce837a6c51981a711547b6a4cda"
+      },
+      {
+        "date": "2026-09-14T00:50:48Z",
+        "sha": "f7dbab7f151df353d70b325a8ac09ce0f7f1c456"
+      },
+      {
+        "date": "2026-09-13T22:39:33Z",
+        "sha": "08d728d5e3856c69f45892bf50806ddc2dae3d6a"
+      },
+      {
+        "date": "2026-09-12T03:02:23Z",
+        "sha": "953565667f3141c90d0f0eb469bb2655d2407140"
+      },
+      {
+        "date": "2026-09-11T06:18:53Z",
+        "sha": "0ffd5c8b2941974ed64dec09170b19259e2ba5aa"
+      },
+      {
+        "date": "2026-09-10T23:43:39Z",
+        "sha": "46d27439a4fccf457e1a9a858841168ec7a1c65d"
+      },
+      {
+        "date": "2026-09-10T23:20:57Z",
+        "sha": "ddd2e3abbece6f66d08e919a0100aec99d269828"
+      },
+      {
+        "date": "2026-09-10T08:46:44Z",
+        "sha": "fb7f732de08a3247c397f90d932f7e69b9f63600"
+      },
+      {
+        "date": "2026-09-10T05:24:13Z",
+        "sha": "505477ab4429579e552adedd165f3cd6dbd40200"
+      },
+      {
+        "date": "2026-09-10T03:00:18Z",
+        "sha": "fa814ab594fec86c7cd971e407bd71856864e0bd"
+      },
+      {
+        "date": "2026-09-09T10:12:09Z",
+        "sha": "3d919e9bd94fc5454bdb50e09659648443e30f5e"
+      },
+      {
+        "date": "2026-09-09T08:26:32Z",
+        "sha": "7dfc37addd54d6bf25da11824213989263815517"
+      },
+      {
+        "date": "2026-09-09T06:37:23Z",
+        "sha": "477c8601b248b962dbf45eb9d56e0f52556a2a2b"
+      },
+      {
+        "date": "2026-09-04T06:52:33Z",
+        "sha": "af71ba43206e124f5ff6419b47ee36c6e9981078"
+      },
+      {
+        "date": "2026-09-04T06:46:43Z",
+        "sha": "9d32fa8642ac2f8ba3500089fbca72ea267a12c7"
+      },
+      {
+        "date": "2026-09-04T03:24:02Z",
+        "sha": "86214a944e8760e6d99825cf31afa84409df6746"
+      },
+      {
+        "date": "2026-09-04T00:22:16Z",
+        "sha": "092ce4a0f535abd92b62639f1f24639314dd1ac4"
+      },
+      {
+        "date": "2026-09-04T00:12:55Z",
+        "sha": "033674e1704c9503fe7b44b83526d0d13a056157"
+      },
+      {
+        "date": "2026-09-03T02:01:57Z",
+        "sha": "03c28d2b154484f84397e42731a9b97f340322b5"
+      },
+      {
+        "date": "2026-09-02T07:11:14Z",
+        "sha": "6eca2d7d2b8576c7ad0ba62853df9f618cba929f"
+      },
+      {
+        "date": "2026-09-02T02:43:19Z",
+        "sha": "a80b4d308a81986fa086ec173d7faa70ba737b2d"
+      },
+      {
+        "date": "2026-09-01T22:18:15Z",
+        "sha": "a2538a428baa4c6d823c76efe96cb3bc0cbd1f86"
+      },
+      {
+        "date": "2026-09-01T20:35:14Z",
+        "sha": "4c0bad3f56e055c6e7df4b99e40fc69ad0c7c75b"
+      },
+      {
+        "date": "2026-09-01T03:21:11Z",
+        "sha": "e05cff83a04b322fc7823678aa2d05c826aad26c"
+      },
+      {
+        "date": "2026-08-31T05:43:50Z",
+        "sha": "3a20a79038338c33bd051c52152e6d1faa4d9791"
+      },
+      {
+        "date": "2026-08-30T08:00:07Z",
+        "sha": "4b94bdc38a46a4dfe534e8793126160d56904c44"
+      },
+      {
+        "date": "2026-08-29T04:20:16Z",
+        "sha": "58f4b9ec0e166205c4dfd0c6ec184ea83b5957e6"
+      },
+      {
+        "date": "2026-08-28T22:49:00Z",
+        "sha": "a05c26543f2d9a8cc2168fe789cdd4c92273378e"
+      },
+      {
+        "date": "2026-08-28T22:33:15Z",
+        "sha": "bd8f3d519a48777bf22ee5c7c8f58f4f3ff31b40"
+      },
+      {
+        "date": "2026-08-26T07:41:24Z",
+        "sha": "9ef3651309fe4058672f2cc92069238dea06be1b"
+      },
+      {
+        "date": "2026-08-25T05:36:19Z",
+        "sha": "f7c31e92dbf296de3a5bb1b9c5fcb58f988e3a07"
+      },
+      {
+        "date": "2026-08-24T23:44:01Z",
+        "sha": "2757bb5f91156fc8a44d88ec4b302a81f10c9e81"
+      },
+      {
+        "date": "2026-08-24T00:53:27Z",
+        "sha": "bd372b630a028e3faa51f4ab0ef6a98c2f2de501"
+      },
+      {
+        "date": "2026-08-24T00:39:31Z",
+        "sha": "e0a3bbc04652ec0622d932adcbf2772848e3c2e2"
+      },
+      {
+        "date": "2026-08-23T23:06:56Z",
+        "sha": "eebb3f53f357315eff8a92baba2e61ce1336c333"
+      },
+      {
+        "date": "2026-08-23T23:06:56Z",
+        "sha": "831d38a66bc45543411078c6805de8c42e7603fa"
+      },
+      {
+        "date": "2026-08-23T08:15:17Z",
+        "sha": "c41833b71740e84fc4a30aa4b4b28665e56cfa81"
+      },
+      {
+        "date": "2026-08-23T06:38:42Z",
+        "sha": "184a4f114d00b7805274841488f2906233b5a961"
+      },
+      {
+        "date": "2026-08-23T05:22:15Z",
+        "sha": "f0abe587a11cca53bb3c37a9596fad24973ace62"
+      },
+      {
+        "date": "2026-08-20T18:43:47Z",
+        "sha": "0ab982f10905fa775962a4eddcb44caa50065251"
+      },
+      {
+        "date": "2026-08-20T18:41:16Z",
+        "sha": "bc6b269cbcd8d47d4774e5a1c5a74d29ff65e17e"
+      },
+      {
+        "date": "2026-08-19T05:57:18Z",
+        "sha": "9db1a39455a3fb107f3db83e381d10ceadfe5d99"
+      },
+      {
+        "date": "2026-08-19T03:49:53Z",
+        "sha": "3f02e3c5a855cee9ca62ee9231cc9bc94b7bd8af"
+      },
+      {
+        "date": "2026-08-19T03:38:49Z",
+        "sha": "c0a4a60b2c0566287622266dff73789087782b42"
+      },
+      {
+        "date": "2026-08-19T03:36:08Z",
+        "sha": "9ecbc9f33f77e0598bd4c4e4f01970b14b35b40b"
+      },
+      {
+        "date": "2026-08-19T02:08:52Z",
+        "sha": "12ed6953867dae239b5ec05bd85e257691047f18"
+      },
+      {
+        "date": "2026-08-19T01:04:39Z",
+        "sha": "586a6c16ce471092bf0b1ca796b5acb81f316954"
+      },
+      {
+        "date": "2026-08-18T23:09:32Z",
+        "sha": "f4373f8a4569611d34ca51e0ff3dc0cc4aff8262"
+      },
+      {
+        "date": "2026-08-18T22:50:32Z",
+        "sha": "5528af06a499d5604e2578d54acbfea9feab2429"
+      },
+      {
+        "date": "2026-08-18T22:24:47Z",
+        "sha": "fca27580a14eda7e934dd8f33b9e30949375bcdf"
+      },
+      {
+        "date": "2026-08-18T20:25:02Z",
+        "sha": "5812fbd084606569e92b62f0c3f2b4428494e217"
+      },
+      {
+        "date": "2026-08-18T19:26:05Z",
+        "sha": "6223cda1b0f12a157f9501f4f75c560d7b939a85"
+      },
+      {
+        "date": "2026-08-18T06:03:44Z",
+        "sha": "b86a904f86db402d8ac3cd81ecf8b05b216b1094"
+      },
+      {
+        "date": "2026-08-16T21:34:17Z",
+        "sha": "711325d17edcdb75a803aef4e384dd3d76ab911d"
+      },
+      {
+        "date": "2026-08-16T18:56:22Z",
+        "sha": "2635246ba221d44470fca7e4f2a2e7e883cc2d53"
+      },
+      {
+        "date": "2026-08-16T06:40:52Z",
+        "sha": "d7cd6ed88b28f73142ffdafc995935b8adc4584e"
+      },
+      {
+        "date": "2026-08-15T06:50:44Z",
+        "sha": "a2572083e92f3054407bdd489a62a133711c92bd"
+      },
+      {
+        "date": "2026-08-14T07:25:47Z",
+        "sha": "76edc1628213062e3efc49fb02599e09555ad059"
+      },
+      {
+        "date": "2026-08-14T07:02:32Z",
+        "sha": "4f510f1ba6a7c89376b17dfeaab73bfeffff2c21"
+      },
+      {
+        "date": "2026-08-14T01:09:01Z",
+        "sha": "c28e93a8c05a8ff52e5e9f7878a5274e586bffb8"
+      },
+      {
+        "date": "2026-08-13T23:28:39Z",
+        "sha": "fdfcacd491848c171a45415f69eefce358e50c39"
+      },
+      {
+        "date": "2026-08-13T23:22:41Z",
+        "sha": "9dc3ff4ca5242fcc1dc542c364fb069d07eace38"
+      },
+      {
+        "date": "2026-08-13T23:10:28Z",
+        "sha": "17af154bb5cef409bc233e96297e8b32199a0b2b"
+      },
+      {
+        "date": "2026-08-13T21:51:26Z",
+        "sha": "3e5214d4a3688f1b48821a14b2a6301827136e53"
+      },
+      {
+        "date": "2026-08-13T20:27:51Z",
+        "sha": "97eb4e25b55f2967756e230d158ec88c48d65dd3"
+      },
+      {
+        "date": "2026-08-13T20:26:53Z",
+        "sha": "a8669e49503cded9a0a172428f2f8cfb273865af"
+      },
+      {
+        "date": "2026-08-13T18:32:02Z",
+        "sha": "ea5348b4e316b7a73f27e94af012039f7ec778f8"
+      },
+      {
+        "date": "2026-08-13T03:55:59Z",
+        "sha": "ee54f638fd36094f6f10ed428f398cbc438b2d33"
+      },
+      {
+        "date": "2026-08-11T22:43:57Z",
+        "sha": "3af9d90ee5e7af9bbff1e16f4f1c6201f41fff25"
+      }
+    ],
+    "contributors": [
+      {
+        "contributions": 160,
+        "login": "jason-fxz",
+        "type": "User"
+      },
+      {
+        "contributions": 16,
+        "login": "void-mckenzie",
+        "type": "User"
+      },
+      {
+        "contributions": 10,
+        "login": "ischencheng",
+        "type": "User"
+      },
+      {
+        "contributions": 10,
+        "login": "taking-lying-flat",
+        "type": "User"
+      },
+      {
+        "contributions": 7,
+        "login": "LZ-QWQ",
+        "type": "User"
+      },
+      {
+        "contributions": 7,
+        "login": "andy-yang-1",
+        "type": "User"
+      },
+      {
+        "contributions": 5,
+        "login": "zihaomu",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "iamanishx",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "YevheniiKotyrlo",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "coco-alen",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "jesusjodar",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "A5bhinav",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "RuixiangMa",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "SuperHotDogCat",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "bernimccoy",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "bettercallcaleb",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "chrisqianz",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "earlvanze",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "festeraeb",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "madbrain76",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "mkornreich",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "techsaurabh-394",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "wenlive",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "xinze-zheng",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "yunwei37",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "zhangnju",
+        "type": "User"
+      }
+    ],
+    "languages": {
+      "C": 760391,
+      "C++": 525091,
+      "Cuda": 963286,
+      "Python": 7298343,
+      "Shell": 51237
+    },
+    "releases": [
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2026-08-19T06:20:18Z",
+        "tag_name": "v0.1.2"
+      },
+      {
+        "draft": false,
+        "prerelease": true,
+        "published_at": "2026-09-09T08:55:28Z",
+        "tag_name": "nightly"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2026-09-16T01:02:33Z",
+        "tag_name": "v0.1.3"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2026-10-21T00:37:56Z",
+        "tag_name": "v0.2.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2026-10-26T03:24:21Z",
+        "tag_name": "v0.2.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2026-11-09T04:10:58Z",
+        "tag_name": "v0.2.2"
+      }
+    ],
+    "repo": {
+      "archived": false,
+      "created_at": "2026-07-20T20:44:11Z",
+      "default_branch": "main",
+      "description": "FreeToken brings datacenter-scale model serving to your desktop. Run massive models locally, fast and efficiently.",
+      "forks": 1719,
+      "has_issues": true,
+      "homepage": "flashml.ai",
+      "language": "Python",
+      "license": "Apache-2.0",
+      "open_issues": 469,
+      "owner_login": "FlashML-org",
+      "owner_type": "User",
+      "pushed_at": "2026-11-19T11:18:30Z",
+      "size_kb": 7587,
+      "stars": 17311,
+      "topics": [
+        "deepseek-v4",
+        "edge",
+        "glm",
+        "inference",
+        "minimax",
+        "moe",
+        "qwen",
+        "transformer"
+      ],
+      "watchers": 106
+    },
+    "tree": {
+      "entries": [
+        {
+          "path": ".github",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": ".github/ISSUE_TEMPLATE",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": ".github/ISSUE_TEMPLATE/bug_desktop.yml",
+          "size": 3525,
+          "type": "blob"
+        },
+        {
+          "path": ".github/ISSUE_TEMPLATE/bug_engine.yml",
+          "size": 3763,
+          "type": "blob"
+        },
+        {
+          "path": ".github/ISSUE_TEMPLATE/config.yml",
+          "size": 918,
+          "type": "blob"
+        },
+        {
+          "path": ".github/ISSUE_TEMPLATE/feature_request.yml",
+          "size": 1786,
+          "type": "blob"
+        },
+        {
+          "path": ".github/ISSUE_TEMPLATE/model_checkpoint.yml",
+          "size": 3120,
+          "type": "blob"
+        },
+        {
+          "path": ".github/issue-labeler.yml",
+          "size": 360,
+          "type": "blob"
+        },
+        {
+          "path": ".github/issue-title-labeler.yml",
+          "size": 927,
+          "type": "blob"
+        },
+        {
+          "path": ".github/workflows",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": ".github/workflows/issue-labels.yml",
+          "size": 806,
+          "type": "blob"
+        },
+        {
+          "path": ".github/workflows/nightly-wheels.yml",
+          "size": 6039,
+          "type": "blob"
+        },
+        {
+          "path": ".github/workflows/promote-beta.yml",
+          "size": 3694,
+          "type": "blob"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "size": 9250,
+          "type": "blob"
+        },
+        {
+          "path": ".gitignore",
+          "size": 4753,
+          "type": "blob"
+        },
+        {
+          "path": "AGENTS.md",
+          "size": 5719,
+          "type": "blob"
+        },
+        {
+          "path": "CLAUDE.md",
+          "size": 73,
+          "type": "blob"
+        },
+        {
+          "path": "CONTRIBUTING.md",
+          "size": 5560,
+          "type": "blob"
+        },
+        {
+          "path": "LICENSE",
+          "size": 11347,
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "size": 5037,
+          "type": "blob"
+        },
+        {
+          "path": "SECURITY.md",
+          "size": 627,
+          "type": "blob"
+        },
+        {
+          "path": "assets",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "assets/desktop-console.png",
+          "size": 336879,
+          "type": "blob"
+        },
+        {
+          "path": "assets/freetoken-icon.svg",
+          "size": 2588,
+          "type": "blob"
+        },
+        {
+          "path": "assets/freetoken-logo-dark.svg",
+          "size": 7944,
+          "type": "blob"
+        },
+        {
+          "path": "assets/freetoken-logo-light.svg",
+          "size": 7944,
+          "type": "blob"
+        },
+        {
+          "path": "assets/freetoken-logo.svg",
+          "size": 8006,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "benchmarks/README.md",
+          "size": 1248,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/bench_decode_moe.py",
+          "size": 19949,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/bench_load_weight_generic.py",
+          "size": 15601,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/bench_offload_cache_copy.py",
+          "size": 9980,
+          "type": "blob"
+        },
+        {
+          "path": "docs",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "docs/assets",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "docs/assets/performance",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "docs/assets/performance/decode",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "docs/assets/performance/decode/hybrid.png",
+          "size": 122590,
+          "type": "blob"
+        },
+        {
+          "path": "docs/assets/performance/decode/miss-by-batch.png",
+          "size": 123767,
+          "type": "blob"
+        },
+        {
+          "path": "docs/assets/performance/decode/miss-by-model.png",
+          "size": 120480,
+          "type": "blob"
+        },
+        {
+          "path": "docs/assets/performance/decode/mtp.png",
+          "size": 86536,
+          "type": "blob"
+        },
+        {
+          "path": "docs/assets/performance/decode/offload.png",
+          "size": 91417,
+          "type": "blob"
+        },
+        {
+          "path": "docs/cli.md",
+          "size": 24059,
+          "type": "blob"
+        },
+        {
+          "path": "docs/ftw-hotfix.md",
+          "size": 5279,
+          "type": "blob"
+        },
+        {
+          "path": "docs/ggml-kernels.md",
+          "size": 4103,
+          "type": "blob"
+        },
+        {
+          "path": "docs/install.md",
+          "size": 1939,
+          "type": "blob"
+        },
+        {
+          "path": "docs/install_amd.md",
+          "size": 3997,
+          "type": "blob"
+        },
+        {
+          "path": "docs/models.md",
+          "size": 17784,
+          "type": "blob"
+        },
+        {
+          "path": "docs/performance",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "docs/performance/decode.md",
+          "size": 14179,
+          "type": "blob"
+        },
+        {
+          "path": "docs/performance/prefill.md",
+          "size": 7504,
+          "type": "blob"
+        },
+        {
+          "path": "docs/quickstart.md",
+          "size": 1783,
+          "type": "blob"
+        },
+        {
+          "path": "freetoken-kernel-cache",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "freetoken-kernel-cache/README.md",
+          "size": 1924,
+          "type": "blob"
+        },
+        {
+          "path": "freetoken-kernel-cache/build_backend.py",
+          "size": 5357,
+          "type": "blob"
+        },
+        {
+          "path": "freetoken-kernel-cache/freetoken_kernel_cache",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "freetoken-kernel-cache/freetoken_kernel_cache/__init__.py",
+          "size": 349,
+          "type": "blob"
+        },
+        {
+          "path": "freetoken-kernel-cache/pyproject.toml",
+          "size": 1673,
+          "type": "blob"
+        },
+        {
+          "path": "freetoken-kernel-cache/setup.py",
+          "size": 452,
+          "type": "blob"
+        },
+        {
+          "path": "install.sh",
+          "size": 12868,
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "size": 5018,
+          "type": "blob"
+        },
+        {
+          "path": "python",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/__init__.py",
+          "size": 105,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/__main__.py",
+          "size": 108,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/attention/__init__.py",
+          "size": 7476,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/base.py",
+          "size": 4929,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/dsa.py",
+          "size": 20619,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/dsa_indexer.py",
+          "size": 2730,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/dsa_indexer_kpool.py",
+          "size": 15097,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/dsv41_sparse.py",
+          "size": 24160,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/dsv4_compress.py",
+          "size": 7740,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/dsv4_indexer.py",
+          "size": 4237,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/dsv4_sparse.py",
+          "size": 15174,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/fa.py",
+          "size": 7829,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/fi.py",
+          "size": 14482,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/linear.py",
+          "size": 10586,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/m3_sparse.py",
+          "size": 21352,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/qsa_sparse.py",
+          "size": 26758,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/triton.py",
+          "size": 16142,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/trtllm.py",
+          "size": 6896,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/attention/utils.py",
+          "size": 954,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/benchmark",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/benchmark/client.py",
+          "size": 15283,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/benchmark/perf.py",
+          "size": 2058,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/cache_report.py",
+          "size": 10088,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/checkpoint",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/checkpoint/__init__.py",
+          "size": 547,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/checkpoint/__main__.py",
+          "size": 3247,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/checkpoint/convert.py",
+          "size": 16616,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/checkpoint/ftw.py",
+          "size": 36578,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/cli.py",
+          "size": 3299,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/control_cli.py",
+          "size": 17466,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/core.py",
+          "size": 14289,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/daemon/README.md",
+          "size": 6322,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/__init__.py",
+          "size": 1124,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/__main__.py",
+          "size": 190,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/accounting.py",
+          "size": 6270,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/app.py",
+          "size": 20758,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/checkpoint.py",
+          "size": 7090,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/client.py",
+          "size": 8729,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/ft-daemon.service",
+          "size": 1972,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/logfmt.py",
+          "size": 3355,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/logring.py",
+          "size": 2829,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/metrics.py",
+          "size": 4750,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/osproc.py",
+          "size": 7227,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/pidfile.py",
+          "size": 3767,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/proxy.py",
+          "size": 5548,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/serve_manager.py",
+          "size": 38532,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/server.py",
+          "size": 9695,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/tailer.py",
+          "size": 4684,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/daemon/version.py",
+          "size": 306,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/distributed",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/distributed/__init__.py",
+          "size": 357,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/distributed/impl.py",
+          "size": 2659,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/distributed/info.py",
+          "size": 841,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/engine",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/engine/__init__.py",
+          "size": 189,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/engine/cache_budget.py",
+          "size": 6323,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/engine/config.py",
+          "size": 12473,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/engine/engine.py",
+          "size": 123959,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/engine/graph.py",
+          "size": 12377,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/engine/sample.py",
+          "size": 8891,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/engine/spec_protocol.py",
+          "size": 1841,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/env.py",
+          "size": 2751,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/gpu_select.py",
+          "size": 12594,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/__init__.py",
+          "size": 1144,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/__main__.py",
+          "size": 1812,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/_toolchain.py",
+          "size": 2280,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/aot.py",
+          "size": 10051,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/aot_models.py",
+          "size": 19734,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/backend.py",
+          "size": 2549,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/batch_memcpy.py",
+          "size": 2669,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/causal_conv1d.py",
+          "size": 3955,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/common.h",
+          "size": 7926,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/cpu_moe_ext.cpp",
+          "size": 26854,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/format.h",
+          "size": 5884,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/gpu_sync.h",
+          "size": 3262,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/gpu_sync_cuda.cpp",
+          "size": 7590,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/gpu_sync_hip.cpp",
+          "size": 12080,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/gpu_sync_io.cu",
+          "size": 8337,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/gpu_sync_io.h",
+          "size": 1713,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/kernels",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/kernels/bf16.cpp",
+          "size": 6725,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/kernels/ds_fp4.cpp",
+          "size": 11965,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/kernels/fp8_block.cpp",
+          "size": 9678,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/kernels/gguf.cpp",
+          "size": 5403,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/kernels/mxfp4.cpp",
+          "size": 11670,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/kernels/nvfp4.cpp",
+          "size": 27849,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/locked_fetch.cpp",
+          "size": 8410,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/locked_fetch_io.cu",
+          "size": 1833,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/locked_fetch_io.h",
+          "size": 741,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/cpu_moe/threads.h",
+          "size": 684,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/LICENSE",
+          "size": 1078,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/VERSION",
+          "size": 134,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/freetoken",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/freetoken/cpu_kernels.c",
+          "size": 7423,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/freetoken/cpu_kernels.h",
+          "size": 1602,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/freetoken/ggml_ops.cu",
+          "size": 24474,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/freetoken/ggml_shim.cu",
+          "size": 10051,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/freetoken/variant_module.cpp",
+          "size": 1431,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu/arch",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu/arch-fallback.h",
+          "size": 23135,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu/arch/x86",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu/arch/x86/cpu-feats.cpp",
+          "size": 10727,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu/arch/x86/quants.c",
+          "size": 200035,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu/ggml-cpu-impl.h",
+          "size": 13727,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu/quants.c",
+          "size": 45124,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu/quants.h",
+          "size": 10862,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu/simd-mappings.h",
+          "size": 57036,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu/vec.cpp",
+          "size": 25373,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cpu/vec.h",
+          "size": 68484,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/common.cuh",
+          "size": 65772,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/convert.cu",
+          "size": 27186,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/convert.cuh",
+          "size": 2440,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/dequantize.cuh",
+          "size": 18207,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/getrows.cu",
+          "size": 23319,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/getrows.cuh",
+          "size": 622,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mma.cuh",
+          "size": 69407,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmid.cu",
+          "size": 11993,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmid.cuh",
+          "size": 622,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-config-ampere.cuh",
+          "size": 36295,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-config-blackwell.cuh",
+          "size": 3550,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-config-cdna.cuh",
+          "size": 16177,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-config-gcn.cuh",
+          "size": 26167,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-config-pascal-dp4a.cuh",
+          "size": 25122,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-config-pascal-older.cuh",
+          "size": 25123,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-config-rdna2.cuh",
+          "size": 25358,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-config-rdna3-5.cuh",
+          "size": 27214,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-config-rdna3.cuh",
+          "size": 25439,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-config-rdna4.cuh",
+          "size": 27212,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-load-tiles.cuh",
+          "size": 85887,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq-vec-dot.cuh",
+          "size": 48816,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq.cu",
+          "size": 23211,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmq.cuh",
+          "size": 79477,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmvq.cu",
+          "size": 78517,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/mmvq.cuh",
+          "size": 1098,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/quantize.cu",
+          "size": 32730,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/quantize.cuh",
+          "size": 3594,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-iq1_m.cu",
+          "size": 113,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-iq1_s.cu",
+          "size": 139,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-iq2_s.cu",
+          "size": 139,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-iq2_xs.cu",
+          "size": 140,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-iq2_xxs.cu",
+          "size": 141,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-iq3_s.cu",
+          "size": 139,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-iq3_xxs.cu",
+          "size": 141,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-iq4_nl.cu",
+          "size": 140,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-iq4_xs.cu",
+          "size": 140,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-mxfp4.cu",
+          "size": 177,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-nvfp4.cu",
+          "size": 177,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q1_0.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q2_0.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q2_k.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q3_k.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q4_0.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q4_1.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q4_k.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q5_0.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q5_1.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q5_k.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q6_k.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/template-instances/mmq-instance-q8_0.cu",
+          "size": 138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/unary.cuh",
+          "size": 4586,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/vecdotq.cuh",
+          "size": 49721,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/vendors",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/vendors/cuda.h",
+          "size": 741,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/vendors/hip.h",
+          "size": 12960,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/ggml-cuda/vendors/musa.h",
+          "size": 7287,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/include",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/include/ggml-alloc.h",
+          "size": 3689,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/include/ggml-backend.h",
+          "size": 27570,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/include/ggml-cpu.h",
+          "size": 7753,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/include/ggml-cuda.h",
+          "size": 1565,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/include/ggml.h",
+          "size": 116499,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/include/gguf.h",
+          "size": 11355,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/src",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/src/ggml-backend-impl.h",
+          "size": 15095,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/src/ggml-common.h",
+          "size": 135161,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/src/ggml-impl.h",
+          "size": 25821,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/src/ggml-quants.c",
+          "size": 226847,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/ggml/src/ggml-quants.h",
+          "size": 9803,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/include",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/include/freetoken",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/include/freetoken/hip_compat.h",
+          "size": 4324,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/include/freetoken/nccl227.h",
+          "size": 24962,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/include/freetoken/pinned.h",
+          "size": 1463,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/include/freetoken/tensor.h",
+          "size": 15091,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/include/freetoken/utils.cuh",
+          "size": 4552,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/include/freetoken/utils.h",
+          "size": 3287,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/include/freetoken/warp.cuh",
+          "size": 2502,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/jit",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/jit/batch_memcpy.cuh",
+          "size": 2981,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/jit/fast_index_copy.cuh",
+          "size": 22449,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/jit/index.cu",
+          "size": 7032,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/jit/store.cu",
+          "size": 4558,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/pinned_tensor.cpp",
+          "size": 5732,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/row_store",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/row_store/row_store_ext.cpp",
+          "size": 30439,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/src",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/src/pynccl.cu",
+          "size": 6413,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/src/radix.cpp",
+          "size": 1640,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/csrc/src/tensor.cpp",
+          "size": 843,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fast_index_copy.py",
+          "size": 7732,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/__init__.py",
+          "size": 3328,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/chunk.py",
+          "size": 9213,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/chunk_delta_h.py",
+          "size": 12873,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/chunk_fwd.py",
+          "size": 15884,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/chunk_o.py",
+          "size": 4868,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/cumsum.py",
+          "size": 8567,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/fused_recurrent.py",
+          "size": 23469,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/fused_sigmoid_gating_recurrent.py",
+          "size": 17728,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/index.py",
+          "size": 978,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/kda.py",
+          "size": 40452,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/kda_chunk_delta_h.py",
+          "size": 14124,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/l2norm.py",
+          "size": 3708,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/layernorm_gated.py",
+          "size": 8384,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/op.py",
+          "size": 1684,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/solve_tril.py",
+          "size": 19864,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/utils.py",
+          "size": 11388,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/fla/wy_fast.py",
+          "size": 4296,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/ggml.py",
+          "size": 6789,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/ggml_cpu",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/ggml_cpu/__init__.py",
+          "size": 1457,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/gluon",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/gluon/__init__.py",
+          "size": 1331,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/gluon/nvfp4",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/gluon/nvfp4/linear",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/gluon/nvfp4/linear/sm120_gemv.py",
+          "size": 12059,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/gluon/nvfp4/moe",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/gluon/nvfp4/moe/sm120.py",
+          "size": 18907,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/gluon/nvfp4/moe/sm120_w4a4.py",
+          "size": 29900,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/gluon/nvfp4/utils.py",
+          "size": 3587,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/index.py",
+          "size": 1552,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/moe_impl.py",
+          "size": 15299,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/nvfp4_moe.py",
+          "size": 21460,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/pinned.py",
+          "size": 2659,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/pynccl.py",
+          "size": 2006,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/radix.py",
+          "size": 460,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/row_store.py",
+          "size": 2585,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/store.py",
+          "size": 1080,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/tensor.py",
+          "size": 413,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/activation.py",
+          "size": 6734,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/attention.py",
+          "size": 52369,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/autotune_cache.py",
+          "size": 1510,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/causal_conv1d_triton.py",
+          "size": 29429,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/decode_moe.py",
+          "size": 2199,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/df11.py",
+          "size": 13245,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/df11_decode.py",
+          "size": 7724,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dflash.py",
+          "size": 13300,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/bf16_linear.py",
+          "size": 2772,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/compress.py",
+          "size": 2834,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/fp8_linear.py",
+          "size": 25077,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/fused_moe.py",
+          "size": 14367,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/hadamard.py",
+          "size": 1789,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/hc.py",
+          "size": 3792,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/indexer.py",
+          "size": 8888,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/norm.py",
+          "size": 1910,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/pack.py",
+          "size": 9390,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/rope.py",
+          "size": 3508,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/router.py",
+          "size": 3933,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/row_format.py",
+          "size": 5930,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/sinkhorn.py",
+          "size": 2959,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/sparse_attn.py",
+          "size": 19001,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv4/swiglu.py",
+          "size": 1738,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv41",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv41/__init__.py",
+          "size": 408,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv41/indexer.py",
+          "size": 9991,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv41/sparse_attn.py",
+          "size": 14035,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/dsv41/topk.py",
+          "size": 14690,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/e4m3_compat.py",
+          "size": 7223,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/fp8_block_linear.py",
+          "size": 12677,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/fp8_blockscale_moe.py",
+          "size": 12903,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/fp8_pertensor_linear.py",
+          "size": 17049,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/fused_moe.py",
+          "size": 10903,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/gemma4_fused.py",
+          "size": 5775,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/glm_dsa_sparse.py",
+          "size": 20174,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/hc.py",
+          "size": 11177,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/kpool_compress.py",
+          "size": 5855,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/kv_rows.py",
+          "size": 10343,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/mhc.py",
+          "size": 14705,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/minimax_m3_sparse.py",
+          "size": 48066,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/moe_align.py",
+          "size": 12571,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/moe_router.py",
+          "size": 9385,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/moe_shared_gate.py",
+          "size": 4044,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/mxfp4_moe.py",
+          "size": 10863,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/mxfp8_linear.py",
+          "size": 11443,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/norm.py",
+          "size": 7612,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/nvfp4_act_quant.py",
+          "size": 3410,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/nvfp4_dequant.py",
+          "size": 4704,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/nvfp4_fused_moe.py",
+          "size": 24260,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/nvfp4_linear.py",
+          "size": 38992,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/ple.py",
+          "size": 3230,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/qsa",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/qsa/__init__.py",
+          "size": 570,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/qsa/attend.py",
+          "size": 14933,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/qsa/compress.py",
+          "size": 10935,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/qsa/expand.py",
+          "size": 4207,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/qsa/score.py",
+          "size": 6474,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/qsa/topk.py",
+          "size": 23183,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/rope.py",
+          "size": 10346,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/triton/sampling.py",
+          "size": 28191,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kernel/utils.py",
+          "size": 15337,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kvcache/__init__.py",
+          "size": 12654,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/base.py",
+          "size": 12089,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/bsa_pool.py",
+          "size": 5422,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/cache_status.py",
+          "size": 9721,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/dsa_pool.py",
+          "size": 11762,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/dsv4",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/kvcache/dsv4/__init__.py",
+          "size": 49,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/dsv4/row_format.py",
+          "size": 3942,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/dsv4/v41_cost_model.py",
+          "size": 9317,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/dsv4/v41_pool.py",
+          "size": 13558,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/dsv4/v4_cost_model.py",
+          "size": 16349,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/dsv4/v4_pool.py",
+          "size": 17665,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/dsv4/window_tier.py",
+          "size": 15195,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/format.py",
+          "size": 4299,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/hybrid_radix_cache.py",
+          "size": 13435,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/hybrid_swa_pool.py",
+          "size": 21041,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/linear_state_pool.py",
+          "size": 18041,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/mha_pool.py",
+          "size": 6793,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/naive_cache.py",
+          "size": 1397,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/qsa_pool.py",
+          "size": 10500,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/radix_cache.py",
+          "size": 10313,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/kvcache/swa_radix_cache.py",
+          "size": 24371,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/launch.py",
+          "size": 39074,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/layers/__init__.py",
+          "size": 1411,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/activation.py",
+          "size": 3339,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/base.py",
+          "size": 3870,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/embedding.py",
+          "size": 8752,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/linear.py",
+          "size": 5810,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/linear_attn",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/layers/linear_attn/__init__.py",
+          "size": 60,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/linear_attn/gdn.py",
+          "size": 12960,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/linear_attn/gdn_reference.py",
+          "size": 7498,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/mhc.py",
+          "size": 10475,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/moe.py",
+          "size": 19548,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/norm.py",
+          "size": 7604,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/__init__.py",
+          "size": 2222,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/configs",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/configs/__init__.py",
+          "size": 1796,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/configs/base.py",
+          "size": 7840,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/configs/compressed_tensors.py",
+          "size": 3581,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/configs/fp8.py",
+          "size": 4059,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/configs/gguf.py",
+          "size": 4228,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/configs/modelopt.py",
+          "size": 4233,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/configs/mxfp4.py",
+          "size": 1096,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/embedding",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/embedding/__init__.py",
+          "size": 425,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/embedding/base.py",
+          "size": 2040,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/embedding/df11.py",
+          "size": 1638,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/embedding/gguf.py",
+          "size": 2043,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/embedding/unquantized.py",
+          "size": 1196,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/ggml_types.py",
+          "size": 4656,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/linear",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/linear/__init__.py",
+          "size": 726,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/linear/base.py",
+          "size": 1998,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/linear/df11.py",
+          "size": 2931,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/linear/fp8_block.py",
+          "size": 2858,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/linear/fp8_tensor.py",
+          "size": 3273,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/linear/gguf.py",
+          "size": 2636,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/linear/mxfp8.py",
+          "size": 1723,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/linear/nvfp4.py",
+          "size": 14028,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/linear/unquantized.py",
+          "size": 997,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/method.py",
+          "size": 2825,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/moe",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/moe/__init__.py",
+          "size": 628,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/moe/base.py",
+          "size": 8725,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/moe/fp8_block.py",
+          "size": 3060,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/moe/gguf.py",
+          "size": 11479,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/moe/mxfp4.py",
+          "size": 5268,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/moe/mxfp8.py",
+          "size": 613,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/moe/nvfp4.py",
+          "size": 28514,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/moe/unquantized.py",
+          "size": 1810,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/names.py",
+          "size": 4151,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/quant_backend.py",
+          "size": 2859,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/registry.py",
+          "size": 1856,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/quantization/scheme.py",
+          "size": 4515,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/layers/rotary.py",
+          "size": 14450,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/llm",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/llm/__init__.py",
+          "size": 40,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/llm/llm.py",
+          "size": 4915,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/message",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/message/__init__.py",
+          "size": 1111,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/message/backend.py",
+          "size": 3315,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/message/frontend.py",
+          "size": 3185,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/message/tokenizer.py",
+          "size": 4787,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/message/utils.py",
+          "size": 3429,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/mm/__init__.py",
+          "size": 1160,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm/config.py",
+          "size": 1691,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm/encoder_cache.py",
+          "size": 3242,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm/media.py",
+          "size": 4736,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm/processor.py",
+          "size": 8820,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm/processors",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/mm/processors/deepseek_v4.py",
+          "size": 5836,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm/processors/deepseek_v41.py",
+          "size": 4469,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm/processors/gemma4.py",
+          "size": 4708,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm/processors/glm5_next.py",
+          "size": 3146,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm/processors/minimax_m3.py",
+          "size": 4145,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm/processors/muse_glimmer.py",
+          "size": 3261,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/mm/processors/qwen_vl.py",
+          "size": 4087,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/__init__.py",
+          "size": 825,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/blocks.py",
+          "size": 4412,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/config.py",
+          "size": 26018,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/__init__.py",
+          "size": 1696,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/args.py",
+          "size": 3828,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/attention.py",
+          "size": 22950,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/compress.py",
+          "size": 27652,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/config.py",
+          "size": 6973,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/gguf.py",
+          "size": 24674,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/image_processor.py",
+          "size": 2169,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/layers.py",
+          "size": 1176,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/model.py",
+          "size": 16369,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/moe.py",
+          "size": 8492,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/ops.py",
+          "size": 5345,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/vision.py",
+          "size": 14058,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v4/weight.py",
+          "size": 11183,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/__init__.py",
+          "size": 1052,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/args.py",
+          "size": 9796,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/attention.py",
+          "size": 17327,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/compressor.py",
+          "size": 6623,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/config.py",
+          "size": 3887,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/engram.py",
+          "size": 11937,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/engram_table.py",
+          "size": 16347,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/gguf.py",
+          "size": 16318,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/indexer.py",
+          "size": 7469,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/model.py",
+          "size": 16036,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/moe.py",
+          "size": 4177,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/rope.py",
+          "size": 2841,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/vision.py",
+          "size": 5757,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/deepseek_v41/weight.py",
+          "size": 12219,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/dflash",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/dflash/__init__.py",
+          "size": 362,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/dflash/config.py",
+          "size": 5704,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/dflash/gguf.py",
+          "size": 13259,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/dflash/model.py",
+          "size": 14611,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/dflash/weight.py",
+          "size": 1102,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/flint",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/flint/__init__.py",
+          "size": 334,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/flint/attention.py",
+          "size": 2971,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/flint/config.py",
+          "size": 3405,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/flint/gguf.py",
+          "size": 5712,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/flint/model.py",
+          "size": 2826,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/flint/moe.py",
+          "size": 1699,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/flint/weight.py",
+          "size": 3419,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gemma4",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/gemma4/__init__.py",
+          "size": 966,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gemma4/attention.py",
+          "size": 6392,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gemma4/config.py",
+          "size": 11470,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gemma4/gguf.py",
+          "size": 33083,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gemma4/model.py",
+          "size": 9329,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gemma4/moe.py",
+          "size": 4965,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gemma4/mtp.py",
+          "size": 7870,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gemma4/vision.py",
+          "size": 12387,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gemma4/weight.py",
+          "size": 14376,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gguf",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/gguf/__init__.py",
+          "size": 373,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gguf/config.py",
+          "size": 8464,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gguf/experts.py",
+          "size": 9768,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gguf/mmproj.py",
+          "size": 8407,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gguf/reader.py",
+          "size": 7756,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gguf/tensors.py",
+          "size": 6252,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gguf/tokenizer.py",
+          "size": 8239,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm4_moe",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/glm4_moe/__init__.py",
+          "size": 358,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm4_moe/attention.py",
+          "size": 3093,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm4_moe/config.py",
+          "size": 3855,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm4_moe/gguf.py",
+          "size": 8468,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm4_moe/mlp.py",
+          "size": 1418,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm4_moe/model.py",
+          "size": 3846,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm4_moe/moe.py",
+          "size": 3249,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm4_moe/weight.py",
+          "size": 7229,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next/__init__.py",
+          "size": 763,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next/args.py",
+          "size": 9521,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next/attention.py",
+          "size": 9470,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next/config.py",
+          "size": 10063,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next/gguf.py",
+          "size": 25171,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next/kda.py",
+          "size": 9454,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next/mlp.py",
+          "size": 1804,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next/model.py",
+          "size": 8417,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next/moe.py",
+          "size": 3349,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next/vision.py",
+          "size": 7690,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm5_next/weight.py",
+          "size": 13807,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm_moe_dsa",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/glm_moe_dsa/__init__.py",
+          "size": 246,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm_moe_dsa/args.py",
+          "size": 3012,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm_moe_dsa/attention.py",
+          "size": 12149,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm_moe_dsa/config.py",
+          "size": 5241,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm_moe_dsa/mlp.py",
+          "size": 1365,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm_moe_dsa/model.py",
+          "size": 3861,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm_moe_dsa/moe.py",
+          "size": 3150,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/glm_moe_dsa/weight.py",
+          "size": 5226,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gpt_oss",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/gpt_oss/__init__.py",
+          "size": 358,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gpt_oss/attention.py",
+          "size": 3447,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gpt_oss/config.py",
+          "size": 4050,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gpt_oss/gguf.py",
+          "size": 9497,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gpt_oss/model.py",
+          "size": 3445,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gpt_oss/moe.py",
+          "size": 3135,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/gpt_oss/weight.py",
+          "size": 12258,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/llama",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/llama/__init__.py",
+          "size": 283,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/llama/attention.py",
+          "size": 3062,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/llama/config.py",
+          "size": 1705,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/llama/gguf.py",
+          "size": 8734,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/llama/model.py",
+          "size": 3193,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/llama/weight.py",
+          "size": 1957,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/loader.py",
+          "size": 12666,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m2",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m2/__init__.py",
+          "size": 362,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m2/attention.py",
+          "size": 3779,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m2/config.py",
+          "size": 3032,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m2/gguf.py",
+          "size": 7260,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m2/model.py",
+          "size": 3147,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m2/moe.py",
+          "size": 2127,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m2/weight.py",
+          "size": 3309,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m3",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m3/__init__.py",
+          "size": 740,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m3/args.py",
+          "size": 12259,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m3/attention.py",
+          "size": 5641,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m3/config.py",
+          "size": 10874,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m3/gguf.py",
+          "size": 17411,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m3/mlp.py",
+          "size": 2038,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m3/model.py",
+          "size": 4729,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m3/moe.py",
+          "size": 4034,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m3/vision.py",
+          "size": 7732,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/minimax_m3/weight.py",
+          "size": 12081,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/mistral",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/mistral/__init__.py",
+          "size": 170,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/mistral/attention.py",
+          "size": 3066,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/mistral/config.py",
+          "size": 1709,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/mistral/model.py",
+          "size": 3149,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/mistral/weight.py",
+          "size": 1959,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/muse_glimmer",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/muse_glimmer/__init__.py",
+          "size": 763,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/muse_glimmer/attention.py",
+          "size": 4465,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/muse_glimmer/config.py",
+          "size": 7911,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/muse_glimmer/gguf.py",
+          "size": 16527,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/muse_glimmer/model.py",
+          "size": 7209,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/muse_glimmer/vision.py",
+          "size": 9804,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/muse_glimmer/weight.py",
+          "size": 7732,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/nvfp4_banks.py",
+          "size": 6893,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen2",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/qwen2/__init__.py",
+          "size": 283,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen2/attention.py",
+          "size": 3062,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen2/config.py",
+          "size": 1705,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen2/gguf.py",
+          "size": 6138,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen2/model.py",
+          "size": 3215,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen2/weight.py",
+          "size": 1957,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/qwen3/__init__.py",
+          "size": 283,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3/attention.py",
+          "size": 3326,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3/config.py",
+          "size": 1705,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3/gguf.py",
+          "size": 5773,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3/model.py",
+          "size": 3226,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3/weight.py",
+          "size": 1957,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_5_moe",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_5_moe/__init__.py",
+          "size": 765,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_5_moe/attention.py",
+          "size": 4241,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_5_moe/config.py",
+          "size": 5829,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_5_moe/gguf.py",
+          "size": 16127,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_5_moe/model.py",
+          "size": 6135,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_5_moe/moe.py",
+          "size": 3476,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_5_moe/mtp.py",
+          "size": 8015,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_5_moe/weight.py",
+          "size": 22972,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_moe",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_moe/__init__.py",
+          "size": 368,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_moe/attention.py",
+          "size": 3332,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_moe/config.py",
+          "size": 1937,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_moe/gguf.py",
+          "size": 6322,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_moe/model.py",
+          "size": 3237,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_moe/moe.py",
+          "size": 1159,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_moe/weight.py",
+          "size": 4038,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_vl",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_vl/__init__.py",
+          "size": 798,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_vl/config.py",
+          "size": 3664,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_vl/gguf.py",
+          "size": 15549,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_vl/model.py",
+          "size": 3168,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_vl/vision.py",
+          "size": 17287,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen3_vl/weight.py",
+          "size": 5139,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp/__init__.py",
+          "size": 2072,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp/attention.py",
+          "size": 10976,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp/config.py",
+          "size": 10561,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp/gguf.py",
+          "size": 15045,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp/hc.py",
+          "size": 7903,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp/model.py",
+          "size": 11711,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp/moe.py",
+          "size": 1176,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp/mtp.py",
+          "size": 11083,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp/ple.py",
+          "size": 36416,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp/ple_disk.py",
+          "size": 17779,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/qwen4_exp/weight.py",
+          "size": 26283,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/register.py",
+          "size": 29192,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/ricursive",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/models/ricursive/__init__.py",
+          "size": 291,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/ricursive/attention.py",
+          "size": 3444,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/ricursive/config.py",
+          "size": 2427,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/ricursive/gguf.py",
+          "size": 5044,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/ricursive/model.py",
+          "size": 4246,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/ricursive/weight.py",
+          "size": 7176,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/weight.py",
+          "size": 11359,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/models/weight_stream.py",
+          "size": 4808,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/moe/__init__.py",
+          "size": 880,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/bench_profile.py",
+          "size": 6022,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/benchbw.py",
+          "size": 52019,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/configs",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/moe/configs/triton_3_5_1",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/moe/configs/triton_3_5_1/E=128,N=704,device_name=NVIDIA_H100_80GB_HBM3.json",
+          "size": 2889,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/cpu_executor.py",
+          "size": 42614,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/expert_banks.py",
+          "size": 27240,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/expert_pieces.py",
+          "size": 10181,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/fused.py",
+          "size": 15035,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/fused_ds_fp4.py",
+          "size": 9869,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/fused_fp8_block.py",
+          "size": 2332,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/fused_mxfp4.py",
+          "size": 9537,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/fused_nvfp4.py",
+          "size": 8454,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/host_banks.py",
+          "size": 23964,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/legacy_format.py",
+          "size": 1672,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/locked_fetch.py",
+          "size": 12052,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/offload_cache.py",
+          "size": 75929,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/offload_kernels.py",
+          "size": 20035,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/moe/pool_policy.py",
+          "size": 6402,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/scheduler",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/scheduler/__init__.py",
+          "size": 113,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/scheduler/cache.py",
+          "size": 41262,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/scheduler/config.py",
+          "size": 1064,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/scheduler/decode.py",
+          "size": 1434,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/scheduler/io.py",
+          "size": 5206,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/scheduler/mm.py",
+          "size": 4239,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/scheduler/prefill.py",
+          "size": 18689,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/scheduler/scheduler.py",
+          "size": 56690,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/scheduler/status.py",
+          "size": 6543,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/scheduler/table.py",
+          "size": 1146,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/scheduler/utils.py",
+          "size": 1012,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/server/__init__.py",
+          "size": 63,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/access_log_filter.py",
+          "size": 3880,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/accounting.py",
+          "size": 6580,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/anthropic_api.py",
+          "size": 27348,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/anthropic_models.py",
+          "size": 5763,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/api_models.py",
+          "size": 5352,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/api_server.py",
+          "size": 55025,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/args.py",
+          "size": 46090,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/control_api.py",
+          "size": 2809,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/function_call_parser.py",
+          "size": 167997,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/generation.py",
+          "size": 39080,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/launch.py",
+          "size": 9076,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/model_meta.py",
+          "size": 6319,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/openai_api.py",
+          "size": 30450,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/reasoning_parser.py",
+          "size": 49262,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/request_logger.py",
+          "size": 6466,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/request_ring.py",
+          "size": 3114,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/responses_api.py",
+          "size": 34561,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/stats.py",
+          "size": 7551,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/server/supervisor.py",
+          "size": 7040,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/shell",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/shell/__init__.py",
+          "size": 2890,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/shell/__main__.py",
+          "size": 122,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/shell/client.py",
+          "size": 13194,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/shell/render.py",
+          "size": 11549,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/shell/tui.py",
+          "size": 31028,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/spec/__init__.py",
+          "size": 788,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/dflash",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/spec/dflash/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/dflash/proposer.py",
+          "size": 19981,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/dflash/window.py",
+          "size": 2115,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/mtp",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/spec/mtp/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/mtp/chain_graph.py",
+          "size": 13133,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/mtp/proposer.py",
+          "size": 20434,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/mtp/relay.py",
+          "size": 654,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/mtp/shared_kv.py",
+          "size": 5090,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/mtp/shared_proposer.py",
+          "size": 13021,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/proposer.py",
+          "size": 5161,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/rejection.py",
+          "size": 3584,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/spec/runner.py",
+          "size": 6184,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/third_party",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/third_party/__init__.py",
+          "size": 86,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/third_party/gguf",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/third_party/gguf/LICENSE",
+          "size": 1072,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/third_party/gguf/VERSION",
+          "size": 310,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/third_party/gguf/__init__.py",
+          "size": 201,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/third_party/gguf/constants.py",
+          "size": 248292,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/third_party/gguf/gguf_reader.py",
+          "size": 16397,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/third_party/gguf/lazy.py",
+          "size": 12015,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/third_party/gguf/quants.py",
+          "size": 64946,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/tokenizer",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/tokenizer/__init__.py",
+          "size": 67,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/tokenizer/detokenize.py",
+          "size": 6353,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/tokenizer/effort.py",
+          "size": 12541,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/tokenizer/inline_system.py",
+          "size": 7895,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/tokenizer/server.py",
+          "size": 10952,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/tokenizer/tokenize.py",
+          "size": 15188,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/utils",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "python/freetoken/utils/__init__.py",
+          "size": 1390,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/utils/arch.py",
+          "size": 2977,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/utils/hf.py",
+          "size": 12860,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/utils/logger.py",
+          "size": 4978,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/utils/misc.py",
+          "size": 1489,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/utils/mp.py",
+          "size": 3972,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/utils/progress.py",
+          "size": 3583,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/utils/registry.py",
+          "size": 1463,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/utils/torch_utils.py",
+          "size": 922,
+          "type": "blob"
+        },
+        {
+          "path": "python/freetoken/version.py",
+          "size": 22,
+          "type": "blob"
+        },
+        {
+          "path": "scripts",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "scripts/build-release-wheels.sh",
+          "size": 12348,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/checkpoint_diagnose",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "scripts/checkpoint_diagnose/README.md",
+          "size": 14137,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/checkpoint_diagnose/ckpt_edit.py",
+          "size": 23914,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/checkpoint_diagnose/diagnose.py",
+          "size": 49826,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/checkpoint_diagnose/fetch_headers.py",
+          "size": 5404,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/checkpoint_diagnose/fix_config.py",
+          "size": 5320,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/checkpoint_diagnose/rename_tensors.py",
+          "size": 6358,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/ci",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "scripts/ci/fetch-nightly-pair.sh",
+          "size": 5405,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/ci/manylinux-build.sh",
+          "size": 6150,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/ci/retag-manylinux.py",
+          "size": 4232,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/ftw_hotfix.py",
+          "size": 54162,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/gguf_check",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "scripts/gguf_check/README.md",
+          "size": 2441,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/gguf_check/check.py",
+          "size": 27070,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/gguf_check/fetch_headers.py",
+          "size": 7903,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/gguf_check/probe_kernels.py",
+          "size": 4290,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/gguf_check/tok_compare.py",
+          "size": 3673,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/make_token_map.py",
+          "size": 3446,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/publish-wheels.sh",
+          "size": 11814,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/sync-llama-cpp.sh",
+          "size": 2652,
+          "type": "blob"
+        },
+        {
+          "path": "setup.py",
+          "size": 14290,
+          "type": "blob"
+        },
+        {
+          "path": "tests",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/README.md",
+          "size": 14414,
+          "type": "blob"
+        },
+        {
+          "path": "tests/attention",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/attention/test_capture_rows_per_req.py",
+          "size": 4580,
+          "type": "blob"
+        },
+        {
+          "path": "tests/attention/test_dsa_kpool.py",
+          "size": 15503,
+          "type": "blob"
+        },
+        {
+          "path": "tests/attention/test_dsv41_backend.py",
+          "size": 10839,
+          "type": "blob"
+        },
+        {
+          "path": "tests/checkpoint",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/checkpoint/test_ftw_hotfix_vision.py",
+          "size": 3676,
+          "type": "blob"
+        },
+        {
+          "path": "tests/checkpoint/test_ftw_weights.py",
+          "size": 2365,
+          "type": "blob"
+        },
+        {
+          "path": "tests/conftest.py",
+          "size": 287,
+          "type": "blob"
+        },
+        {
+          "path": "tests/daemon",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/daemon/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/daemon/test_daemon_import_safety.py",
+          "size": 3862,
+          "type": "blob"
+        },
+        {
+          "path": "tests/daemon/test_daemon_serve_manager.py",
+          "size": 29441,
+          "type": "blob"
+        },
+        {
+          "path": "tests/dsv4",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/dsv4/test_dsv4_attn_backend.py",
+          "size": 9850,
+          "type": "blob"
+        },
+        {
+          "path": "tests/e2e",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/e2e/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/e2e/test_aime.py",
+          "size": 13746,
+          "type": "blob"
+        },
+        {
+          "path": "tests/e2e/test_cache_rebuild.py",
+          "size": 9763,
+          "type": "blob"
+        },
+        {
+          "path": "tests/engine",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/engine/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/engine/test_attention_backend_arch.py",
+          "size": 6146,
+          "type": "blob"
+        },
+        {
+          "path": "tests/engine/test_attention_backend_matrix.py",
+          "size": 17752,
+          "type": "blob"
+        },
+        {
+          "path": "tests/engine/test_cache_budget.py",
+          "size": 22904,
+          "type": "blob"
+        },
+        {
+          "path": "tests/engine/test_graph.py",
+          "size": 2247,
+          "type": "blob"
+        },
+        {
+          "path": "tests/engine/test_mm_encoder.py",
+          "size": 3393,
+          "type": "blob"
+        },
+        {
+          "path": "tests/engine/test_mm_repeated_image.py",
+          "size": 2205,
+          "type": "blob"
+        },
+        {
+          "path": "tests/engine/test_moe_cpu_layers.py",
+          "size": 3002,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/kernels/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_dflash.py",
+          "size": 4570,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_dsv41_indexer.py",
+          "size": 6773,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_dsv41_pack.py",
+          "size": 6200,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_dsv41_sparse_attn.py",
+          "size": 4809,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_dsv41_topk.py",
+          "size": 7354,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_dsv4_fp8_block_linear.py",
+          "size": 4888,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_dsv4_indexer_decode.py",
+          "size": 5656,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_dsv4_router_select.py",
+          "size": 2249,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_dsv4_sparse_attn.py",
+          "size": 9458,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_e4m3_compat.py",
+          "size": 15537,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_fp8_blockscale_moe.py",
+          "size": 3603,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_fp8_pertensor_linear.py",
+          "size": 8009,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_gemma4_fused_ops.py",
+          "size": 4458,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_ggml.py",
+          "size": 9376,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_kda.py",
+          "size": 4181,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_kernel_cache_version.py",
+          "size": 1804,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_minimax_m3_sparse.py",
+          "size": 21232,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_mrope.py",
+          "size": 5098,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_mxfp8_linear.py",
+          "size": 3749,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_nvfp4_w4a4_linear.py",
+          "size": 8405,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_pinned_tensor.py",
+          "size": 5471,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_rocm_launch_kwargs.py",
+          "size": 1516,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_rotary.py",
+          "size": 9289,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_row_store.py",
+          "size": 4052,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_swiglu_clamp.py",
+          "size": 1557,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_triton_attention.py",
+          "size": 54996,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kernels/test_triton_fallbacks.py",
+          "size": 3135,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/kvcache/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/radix",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/kvcache/radix/README.md",
+          "size": 4717,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/radix/__init__.py",
+          "size": 290,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/radix/adapters.py",
+          "size": 15182,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/radix/conftest.py",
+          "size": 1304,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/radix/driver.py",
+          "size": 9798,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/radix/model.py",
+          "size": 34796,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/radix/test_hybrid_radix.py",
+          "size": 15378,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/radix/test_plain_radix.py",
+          "size": 17482,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/radix/test_swa_radix.py",
+          "size": 28012,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/radix/test_tree_and_harness.py",
+          "size": 12200,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_bsa_pool.py",
+          "size": 3764,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_cache_unit_bytes.py",
+          "size": 11378,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_dsa_pool.py",
+          "size": 6729,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_dsv41_pool.py",
+          "size": 10532,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_dsv4_free_list.py",
+          "size": 1786,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_dsv4_pool.py",
+          "size": 24510,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_hybrid_linear_paged_pools.py",
+          "size": 4561,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_hybrid_swa_kv_cache.py",
+          "size": 5082,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_kv_cache_rebuild.py",
+          "size": 18346,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_linear_state_pool_alloc.py",
+          "size": 6983,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_pool_sizing_surface.py",
+          "size": 14323,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_qsa_pool.py",
+          "size": 8004,
+          "type": "blob"
+        },
+        {
+          "path": "tests/kvcache/test_swa_paged_pool.py",
+          "size": 5465,
+          "type": "blob"
+        },
+        {
+          "path": "tests/layers",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/layers/test_gdn.py",
+          "size": 7092,
+          "type": "blob"
+        },
+        {
+          "path": "tests/layers/test_mhc.py",
+          "size": 12142,
+          "type": "blob"
+        },
+        {
+          "path": "tests/mm",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/mm/test_encoder_cache.py",
+          "size": 1459,
+          "type": "blob"
+        },
+        {
+          "path": "tests/mm/test_processor.py",
+          "size": 23884,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/models/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/models/deepseek_v41/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/common.py",
+          "size": 20378,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/harness.py",
+          "size": 10374,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/reference",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/models/deepseek_v41/reference/LICENSE",
+          "size": 1064,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/reference/__init__.py",
+          "size": 206,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/reference/engram.py",
+          "size": 8291,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/reference/kernel.py",
+          "size": 5588,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/reference/model.py",
+          "size": 70190,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/reference/vision.py",
+          "size": 4592,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/test_config.py",
+          "size": 12139,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/test_engine_config.py",
+          "size": 4702,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/test_engram.py",
+          "size": 18770,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/test_forward_smoke.py",
+          "size": 9940,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/test_reference_parity.py",
+          "size": 10104,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/deepseek_v41/test_vision.py",
+          "size": 10200,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/dflash",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/models/dflash/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/dflash/test_draft.py",
+          "size": 25060,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/gemma4",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/models/gemma4/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/gemma4/test_e_series.py",
+          "size": 16827,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/models/qwen4_exp/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/common.py",
+          "size": 14454,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/conftest.py",
+          "size": 396,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/ple_hf_ref.py",
+          "size": 2803,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/test_config.py",
+          "size": 9995,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/test_ple.py",
+          "size": 31874,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/test_ple_disk.py",
+          "size": 20315,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/test_qsa_backend.py",
+          "size": 12056,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/test_qsa_hf.py",
+          "size": 11367,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/test_qsa_kernels.py",
+          "size": 24854,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/test_skeleton.py",
+          "size": 22231,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/test_weight.py",
+          "size": 30100,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/qwen4_exp/test_weight_ckpt.py",
+          "size": 16024,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/ricursive",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/models/ricursive/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/ricursive/test_ricursive.py",
+          "size": 19032,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_dsv4_vision.py",
+          "size": 14541,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_flint.py",
+          "size": 6610,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_gemma4_gguf_rope.py",
+          "size": 2396,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_gemma4_vision.py",
+          "size": 11701,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_glm5_next_config.py",
+          "size": 13196,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_glm5_next_kda_op.py",
+          "size": 9961,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_glm5_next_kda_snapshot.py",
+          "size": 3667,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_glm5_next_model.py",
+          "size": 8140,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_glm5_next_vision.py",
+          "size": 2313,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_glm_dsa.py",
+          "size": 25065,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_minimax_m3.py",
+          "size": 13792,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_minimax_m3_vision.py",
+          "size": 2623,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_models_loader.py",
+          "size": 10212,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_models_registry.py",
+          "size": 1000,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_muse_glimmer.py",
+          "size": 29046,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_muse_glimmer_vision.py",
+          "size": 10064,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_quant_config.py",
+          "size": 40368,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_qwen3_5_moe_weight.py",
+          "size": 57679,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_qwen3_vl.py",
+          "size": 7772,
+          "type": "blob"
+        },
+        {
+          "path": "tests/models/test_qwen3_vl_vision.py",
+          "size": 3052,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/moe/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/hip_probe_faults.cpp",
+          "size": 3150,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_cpu_moe.py",
+          "size": 42946,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_cpu_moe_fp8_block.py",
+          "size": 15379,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_dsfp4_grouped_prefill.py",
+          "size": 5382,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_dsfp4_prequant.py",
+          "size": 2715,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_dsfp4_reference_semantics.py",
+          "size": 8655,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_fused_copy.py",
+          "size": 4736,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_fused_moe.py",
+          "size": 18364,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_gpt_oss.py",
+          "size": 12058,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_hybrid_fetch.py",
+          "size": 3054,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_mixed_expert_formats.py",
+          "size": 13604,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_nvfp4_backends.py",
+          "size": 31007,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_offload.py",
+          "size": 53726,
+          "type": "blob"
+        },
+        {
+          "path": "tests/moe/test_prefill_hit_d2d.py",
+          "size": 6635,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/scheduler/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_abort_inflight_prefill.py",
+          "size": 10079,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_cache_rebuild.py",
+          "size": 12113,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_commit_repoints_page_table.py",
+          "size": 9541,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_cost_accounting_core.py",
+          "size": 11086,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_dsv4_generic_manager.py",
+          "size": 12820,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_hybrid_cache_manager.py",
+          "size": 8350,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_mm.py",
+          "size": 5258,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_radix_lookahead.py",
+          "size": 5121,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_req_append_host.py",
+          "size": 1456,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_rollback_tail.py",
+          "size": 4595,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_scheduler_chunked_prefill.py",
+          "size": 12928,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_scheduler_kv_usage.py",
+          "size": 4013,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_scheduler_status.py",
+          "size": 7007,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_spec_drain.py",
+          "size": 8957,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_swa_commit_lock_and_floor.py",
+          "size": 12692,
+          "type": "blob"
+        },
+        {
+          "path": "tests/scheduler/test_swa_pagesize.py",
+          "size": 8018,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/server/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_anthropic_api.py",
+          "size": 42238,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_api_key.py",
+          "size": 5386,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_effort_dialect.py",
+          "size": 9768,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_function_call_parser.py",
+          "size": 13499,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_generation_accounting.py",
+          "size": 11699,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_message_wire.py",
+          "size": 9787,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_minimax_m3_parsers.py",
+          "size": 25162,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_mm_input.py",
+          "size": 6514,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_muse_glimmer_parsers.py",
+          "size": 56761,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_openai_api.py",
+          "size": 41717,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_parser_auto_selection.py",
+          "size": 5220,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_prepare_stop_accounting.py",
+          "size": 5709,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_reasoning_parser_all_models.py",
+          "size": 7053,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_reasoning_parser_dsv4.py",
+          "size": 8574,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_rebuild_maintenance.py",
+          "size": 13881,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_responses_api.py",
+          "size": 45593,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_streaming_model_matrix.py",
+          "size": 31477,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_supervisor.py",
+          "size": 9280,
+          "type": "blob"
+        },
+        {
+          "path": "tests/server/test_think_gears.py",
+          "size": 4364,
+          "type": "blob"
+        },
+        {
+          "path": "tests/spec",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/spec/test_dflash_window.py",
+          "size": 2504,
+          "type": "blob"
+        },
+        {
+          "path": "tests/spec/test_gdn_verify.py",
+          "size": 3614,
+          "type": "blob"
+        },
+        {
+          "path": "tests/spec/test_rejection.py",
+          "size": 7718,
+          "type": "blob"
+        },
+        {
+          "path": "tests/spec/test_verify_contract.py",
+          "size": 43566,
+          "type": "blob"
+        },
+        {
+          "path": "tests/tokenizer",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/tokenizer/__init__.py",
+          "size": 0,
+          "type": "blob"
+        },
+        {
+          "path": "tests/tokenizer/test_effort.py",
+          "size": 6596,
+          "type": "blob"
+        },
+        {
+          "path": "tests/tokenizer/test_mm_tokenize.py",
+          "size": 13040,
+          "type": "blob"
+        },
+        {
+          "path": "tests/tokenizer/test_resolve_thinking_mode.py",
+          "size": 997,
+          "type": "blob"
+        },
+        {
+          "path": "tests/tokenizer/test_tokenize.py",
+          "size": 37265,
+          "type": "blob"
+        },
+        {
+          "path": "tests/utils",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/utils/test_hf.py",
+          "size": 1737,
+          "type": "blob"
+        },
+        {
+          "path": "tests/utils/test_rocm_arch.py",
+          "size": 4253,
+          "type": "blob"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  "fetched_at": "2026-11-19T15:09:54Z",
+  "notes": [
+    {
+      "reason": "GitHub 无公开 API；L0 标注为未获得，不估算",
+      "source": "used_by",
+      "status": "unavailable"
+    }
+  ],
+  "owner": "FlashML-org",
+  "repo": "FreeToken",
+  "sha256": "15654f89569eae9ef8059e08a8d6b229ce33dfe5536c39b2720b883ad9bd6731"
+}

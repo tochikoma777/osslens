@@ -1,0 +1,86 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "另建独立仿真栈或直接跑真实模型",
+        "boundary": "预测器数据未覆盖的模型/硬件组合下误差不可控",
+        "chose": "模拟器复用 SGLang 调度器与缓存，仅替换前向为延迟预测",
+        "cost": "仿真结果依赖预测器精度，需重新基线校准",
+        "evidence": "tools/sglang-simulator/README.md:3",
+        "id": "t1",
+        "rule": "复用生产调度与缓存代码做仿真，只替换最贵的前向执行"
+      },
+      {
+        "alternative": "按真实并行度启动物理 worker 做仿真",
+        "boundary": "需要验证通信/并行实现本身时不可用",
+        "chose": "仿真器强制单进程 tp=ep=dp=pp=1，拓扑仅在配置中建模",
+        "cost": "无法验证真实多卡通信与并行正确性",
+        "evidence": "tools/sglang-simulator/README.md:191",
+        "id": "t2",
+        "rule": "仿真只建模拓扑不启动物理并行，降低 CPU 侧开销"
+      },
+      {
+        "alternative": "用独立估算的 KV 容量做仿真",
+        "boundary": "容量动态调整或异构部署时日志值不具代表性",
+        "chose": "前缀缓存命中精度绑定 max_total_tokens 与真实日志一致",
+        "cost": "每次对比需手工同步真实服务启动参数",
+        "evidence": "tools/sglang-simulator/README.md:255",
+        "id": "t3",
+        "rule": "缓存仿真参数必须从生产启动日志复制，避免淘汰时机漂移"
+      },
+      {
+        "alternative": "保留 aiconfigurator 别名做静默回退",
+        "boundary": "面向大量存量外部用户且无法批量改配置时成本过高",
+        "chose": "预测器迁移到 AISimulate 且不保留旧名兼容层",
+        "cost": "旧配置直接报错，用户须手工迁移",
+        "evidence": "tools/sglang-simulator/README.md:99",
+        "id": "t4",
+        "rule": "依赖更名时显式报错而非静默回退，避免隐性数值漂移"
+      },
+      {
+        "alternative": "为每种注意力各写一套缓存实现",
+        "boundary": "单一注意力形态的轻量服务引入框架属过度设计",
+        "chose": "统一可插拔前缀缓存框架覆盖 Full/SWA 等多种注意力",
+        "cost": "抽象层增加组件组合与调试复杂度",
+        "evidence": "python/sglang/srt/mem_cache/unified_cache/components/README.md:3",
+        "id": "t5",
+        "rule": "用组件化框架统一多注意力变体的缓存，减少重复实现"
+      },
+      {
+        "alternative": "依赖页缓存加速缓存文件读取",
+        "boundary": "小随机读或低内存压力场景直接 IO 反而更慢",
+        "chose": "缓存文件用 O_DIRECT 绕过 OS page cache",
+        "cost": "失去页缓存命中，小 IO 读放大",
+        "evidence": "python/sglang/srt/mem_cache/storage/nixl/README.md:446",
+        "id": "t6",
+        "rule": "大块 KV 落盘用直接 IO 避免挤占主机内存"
+      },
+      {
+        "alternative": "保留前缀缓存共享以贴近真实负载",
+        "boundary": "评估端到端服务成本时必须重新开启缓存",
+        "chose": "基准默认关闭 radix 缓存以隔离纯计算性能",
+        "cost": "测得吞吐不含缓存复用收益",
+        "evidence": "benchmark/blog_v0_2/README.md:30",
+        "id": "t7",
+        "rule": "性能基准先关缓存测裸算力，再单独评估缓存收益"
+      }
+    ],
+    "paradigm_tags": [
+      "广适配",
+      "深优化",
+      "缓存复用"
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 256,
+    "cache_miss_tokens": 12921,
+    "completion_tokens": 730,
+    "prompt_tokens": 13177,
+    "reasoning_tokens": 0,
+    "total_tokens": 13907
+  }
+}

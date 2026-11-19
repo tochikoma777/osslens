@@ -1,0 +1,95 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "单一通用内核跨架构复用",
+        "boundary": "架构差异小或团队人力不足时，分叉维护成本会超过收益",
+        "chose": "按 SM80/90/100/120 分架构各写一套前向内核",
+        "cost": "代码重复，每代架构需单独维护与调优",
+        "evidence": "flash_attn/cute/interface.py:70",
+        "id": "t1",
+        "rule": "性能敏感内核按硬件代际分叉实现，而非抽象统一"
+      },
+      {
+        "alternative": "手写 CUDA C++ 模板内核",
+        "boundary": "需要极致手工调度或工具链不可控时，应回退手写 CUDA",
+        "chose": "用 CUTE DSL 在 Python 中生成内核",
+        "cost": "依赖 cutlass-dsl 版本，编译链更复杂",
+        "evidence": "flash_attn/cute/interface.py:2",
+        "id": "t2",
+        "rule": "用 DSL 生成内核换取开发效率，需锁定工具链版本"
+      },
+      {
+        "alternative": "一次性支持全部页大小与头维度",
+        "boundary": "若目标用户普遍使用非 128 页大小，延后会阻塞落地",
+        "chose": "SM100 前向暂不支持 page size != 128 与 hdim 192/256",
+        "cost": "部分推理场景无法直接使用新内核",
+        "evidence": "flash_attn/cute/flash_fwd_sm100.py:8",
+        "id": "t3",
+        "rule": "新内核先覆盖主流配置，边缘配置延后补齐"
+      },
+      {
+        "alternative": "支持任意特性组合",
+        "boundary": "面向终端用户的推理框架应改为自动回退路径",
+        "chose": "paged KV 与 pack_gqa/varlen/split 组合直接断言禁止",
+        "cost": "特性组合受限，用户需自行拆分调用",
+        "evidence": "flash_attn/cute/flash_fwd_sm100.py:205",
+        "id": "t4",
+        "rule": "未验证的特性组合用断言显式拒绝，而非静默降级"
+      },
+      {
+        "alternative": "单一包名独占安装",
+        "boundary": "依赖静态打包分析或严格隔离的环境不适用",
+        "chose": "用 extend_path 让 fa2 与 fa4 共存安装",
+        "cost": "命名空间路径解析更隐晦，调试成本上升",
+        "evidence": "flash_attn/__init__.py:4",
+        "id": "t5",
+        "rule": "多版本共存用命名空间包扩展，避免版本互斥"
+      },
+      {
+        "alternative": "每次调用重新查询设备能力",
+        "boundary": "需动态切换目标架构的测试场景应显式清缓存",
+        "chose": "设备架构探测结果用 lru_cache 缓存",
+        "cost": "运行中切换设备或覆盖环境变量后缓存不失效",
+        "evidence": "flash_attn/cute/interface.py:113",
+        "id": "t6",
+        "rule": "昂贵的设备/环境探测结果缓存，减少重复系统调用"
+      },
+      {
+        "alternative": "统一使用二分查找定位 batch",
+        "boundary": "小 batch 下额外映射的构建开销可能反超二分",
+        "chose": "大 batch 变长调度改用 O(1) 块到批查找替代二分",
+        "cost": "需额外生成 cu_seqlens 到块的映射张量",
+        "evidence": "flash_attn/cute/interface.py:104",
+        "id": "t7",
+        "rule": "热点路径按数据规模切换算法，阈值以上换 O(1) 结构"
+      },
+      {
+        "alternative": "严格按 dtype 最大值截断概率",
+        "boundary": "对数值精度极敏感的任务不应开启该重缩放阈值",
+        "chose": "低精度缩放允许行最大值滞后以利用 dtype 上界码点",
+        "cost": "超阈值时概率饱和导致输出偏小",
+        "evidence": "flash_attn/cute/flash_fwd_sm100.py:88",
+        "id": "t8",
+        "rule": "低精度量化可借用未用码点扩动态范围，但需记录饱和风险"
+      }
+    ],
+    "paradigm_tags": [
+      "专用优化",
+      "深优化",
+      "硬件耦合"
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 256,
+    "cache_miss_tokens": 14726,
+    "completion_tokens": 820,
+    "prompt_tokens": 14982,
+    "reasoning_tokens": 0,
+    "total_tokens": 15802
+  }
+}

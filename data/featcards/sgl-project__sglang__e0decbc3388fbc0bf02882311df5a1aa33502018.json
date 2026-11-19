@@ -1,0 +1,423 @@
+{
+  "cache": {
+    "evidence": {
+      "paged": [
+        {
+          "file": "python/sglang/srt/mem_cache/storage/nixl/README.md",
+          "line": 446,
+          "snippet": "| `use_direct_io`  | boolean | `true`   | Open cache files with `O_DIRECT` to bypass the OS page cache. Reduces memory p"
+        }
+      ],
+      "prefix_reuse": [
+        {
+          "file": "python/sglang/srt/mem_cache/unified_cache/components/README.md",
+          "line": 3,
+          "snippet": "A component-based, pluggable prefix cache framework for SGLang that unifies Full-attention, Sliding-Window-Attention (SW"
+        },
+        {
+          "file": "tools/sglang-simulator/README.md",
+          "line": 119,
+          "snippet": "real-SDK prefill/decode prediction and prefix reuse in SOL and SILICON modes."
+        },
+        {
+          "file": "tools/sglang-simulator/README.md",
+          "line": 131,
+          "snippet": "latency, throughput, and prefix-cache metrics."
+        }
+      ],
+      "radix": [
+        {
+          "file": "benchmark/blog_v0_2/README.md",
+          "line": 30,
+          "snippet": "python -m sglang.launch_server --model-path meta-llama/Llama-3.1-8B-Instruct --enable-torch-compile --disable-radix-cach"
+        },
+        {
+          "file": "benchmark/blog_v0_2/README.md",
+          "line": 33,
+          "snippet": "python -m sglang.launch_server --model-path meta-llama/Llama-3.1-70B-Instruct --disable-radix-cache --tp 8"
+        },
+        {
+          "file": "benchmark/blog_v0_2/README.md",
+          "line": 36,
+          "snippet": "python -m sglang.launch_server --model-path neuralmagic/Meta-Llama-3-70B-Instruct-FP8 --disable-radix-cache --tp 8"
+        }
+      ]
+    },
+    "hits": {
+      "kv_offload": false,
+      "paged": true,
+      "prefix_reuse": true,
+      "radix": true
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [
+      "blackwell",
+      "hopper"
+    ],
+    "kernel_langs": [
+      "cuda",
+      "hip",
+      "tilelang",
+      "triton"
+    ],
+    "lock_in_score": null,
+    "vendors": [
+      "amd",
+      "nvidia"
+    ]
+  },
+  "identity": {
+    "age_days": 1045,
+    "analyzed_at": "2026-11-18T00:00:00Z",
+    "channel": "classic",
+    "commit": "e0decbc3388fbc0bf02882311df5a1aa33502018",
+    "created_at": "2024-01-08T04:15:52Z",
+    "repo": "sgl-project/sglang"
+  },
+  "lang": {
+    "shares": {
+      "Assembly": 0.0003,
+      "C": 0.001,
+      "C++": 0.0142,
+      "CMake": 0.0002,
+      "CSS": 0.0001,
+      "Cuda": 0.0451,
+      "Dockerfile": 0.0013,
+      "Go Template": 0.0003,
+      "HIP": 0.0006,
+      "HTML": 0.0001,
+      "JavaScript": 0.0009,
+      "Jinja": 0.0003,
+      "Jupyter Notebook": 0.0001,
+      "Makefile": 0.0,
+      "Metal": 0.0002,
+      "Python": 0.8635,
+      "Rust": 0.0674,
+      "Shell": 0.0039,
+      "Vim Script": 0.0,
+      "mupad": 0.0007
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {
+      "CP": [
+        {
+          "file": "python/sglang/srt/mem_cache/storage/mooncake_store/README.md",
+          "line": 62,
+          "snippet": "### Decode context parallelism (DCP)"
+        },
+        {
+          "file": "tools/sglang-simulator/README.md",
+          "line": 191,
+          "snippet": "and both attention/decode context-parallel sizes set to `1`. Parallel CLI options"
+        },
+        {
+          "file": "tools/sglang-simulator/README.md",
+          "line": 255,
+          "snippet": "`cp_size` is passed as AISimulate context parallelism. `cp_style` uses the"
+        }
+      ],
+      "DP": [
+        {
+          "file": "benchmark/deepseek_v3/README.md",
+          "line": 3,
+          "snippet": "The SGLang and DeepSeek teams collaborated to get DeepSeek V3 FP8 running on NVIDIA and AMD GPUs **from day one**. SGLan"
+        },
+        {
+          "file": "benchmark/deepseek_v3/README.md",
+          "line": 50,
+          "snippet": "- [Data Parallelism Attention](https://lmsys.org/blog/2024-12-04-sglang-v0-4/#data-parallelism-attention-for-deepseek-mo"
+        },
+        {
+          "file": "benchmark/deepseek_v3/README.md",
+          "line": 169,
+          "snippet": "> **Note that the launch command here does not enable Data Parallelism Attention or `torch.compile` Optimization**. For "
+        }
+      ],
+      "SP": [
+        {
+          "file": "python/sglang/kernels/ops/diffusion/README.md",
+          "line": 4,
+          "snippet": "blocks, VAE encoders/decoders, and the sequence-parallel plumbing around them."
+        },
+        {
+          "file": "python/sglang/multimodal_gen/apps/ComfyUI_SGLDiffusion/README.md",
+          "line": 99,
+          "snippet": "| cache_dit, spectrum | MiniMax H3 family (spectrum: sequence-parallel degree 1); other models send each sampler step as"
+        },
+        {
+          "file": "python/sglang/multimodal_gen/apps/ComfyUI_SGLDiffusion/README.md",
+          "line": 147,
+          "snippet": "- **`flux_sgld_sp.json`**: Multi-GPU (Sequence Parallelism) workflow for FLUX models. High-performance inference across "
+        }
+      ],
+      "TP": [
+        {
+          "file": "benchmark/blog_v0_2/README.md",
+          "line": 44,
+          "snippet": "- 70B models: 8 x NVIDIA A100 80GB GPUs with Tensor Parallelism (TP) 8"
+        },
+        {
+          "file": "benchmark/blog_v0_2/README.md",
+          "line": 45,
+          "snippet": "- 70B FP8 models: 8 x NVIDIA H100 GPUs with Tensor Parallelism (TP) 8"
+        },
+        {
+          "file": "benchmark/deepseek_v3/README.md",
+          "line": 180,
+          "snippet": "python3 -m sglang.launch_server --model-path nvidia/DeepSeek-R1-0528-FP4-V2 --host 0.0.0.0 --port 8000 --tensor-parallel"
+        }
+      ]
+    },
+    "hits": {
+      "CP": true,
+      "DP": true,
+      "EP": false,
+      "PP": false,
+      "SP": true,
+      "TP": true
+    }
+  },
+  "scale": {
+    "commits_365d": 2000,
+    "commits_90d": 2000,
+    "contributors": 447,
+    "forks": 10590,
+    "last_commit": "2026-11-18T11:20:39Z",
+    "open_issues": 6854,
+    "release_count_365d": 25,
+    "stars": 39021,
+    "top10_share": 0.4055,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.0734,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "e0decbc3388fbc0bf02882311df5a1aa33502018",
+    "files": [
+      {
+        "path": "benchmark/blog_v0_2/README.md",
+        "sha256": "52aaf85f59f1e3f516484e12fdf18e34da6614230629f5d2f7ecc3830f0c77fc"
+      },
+      {
+        "path": "benchmark/deepseek_v3/README.md",
+        "sha256": "b3608801339f60d4dee63e81f57b68ec1411a45d8c6c19af01214e5f75efec3d"
+      },
+      {
+        "path": "python/sglang/kernels/README.md",
+        "sha256": "e4fc810d1bafe94ce417cde47eaca78398d5de98f2d70aeef5483a11124bab44"
+      },
+      {
+        "path": "python/sglang/kernels/ops/diffusion/README.md",
+        "sha256": "fd58bb3320af784479a49ccf837230aa374b42dbc6b175983ffc492ae1c70003"
+      },
+      {
+        "path": "python/sglang/multimodal_gen/apps/ComfyUI_SGLDiffusion/README.md",
+        "sha256": "a14ac2742e3bada722347e4c402f9753afdc1d39eb255cbd0e1482da51b1f163"
+      },
+      {
+        "path": "python/sglang/multimodal_gen/runtime/layers/attention/backends/subblock_sparse/README.md",
+        "sha256": "d9a013075ba90ccf080dded9b183532bef1c89a60890cd63f194fb224f02b619"
+      },
+      {
+        "path": "python/sglang/srt/mem_cache/storage/flexkv/README.md",
+        "sha256": "255589aac51c5af6f1a5c1e9aecb1e5fa2bf0aeff002f3bb3d4a2a3e5f1de885"
+      },
+      {
+        "path": "python/sglang/srt/mem_cache/storage/mooncake_store/README.md",
+        "sha256": "9b3a624e091e12c970363d92cf77a4c0f6036bb13ecfaf44ceb48205c31a0904"
+      },
+      {
+        "path": "python/sglang/srt/mem_cache/storage/nixl/README.md",
+        "sha256": "b9b74b10cd0246fc2c891defbbf1ad260ce0cf0a92be1ff1d7f27c2dfc23478c"
+      },
+      {
+        "path": "python/sglang/srt/mem_cache/storage/tensorcast_store/README.md",
+        "sha256": "0adec7c8dd777c2b615d9e520a7c7f0edf386858fb773ec4527bd1c109c70d5a"
+      },
+      {
+        "path": "python/sglang/srt/mem_cache/unified_cache/components/README.md",
+        "sha256": "fc21f48b1cc6ce6e80877e35dce670ef8ae657b68c44d31211e336e07ccf50a7"
+      },
+      {
+        "path": "python/sglang/srt/sampling/watermarking/README.md",
+        "sha256": "4d1362b5d780604752bd866490134136f042ccc7ca0cd8b24311dd1f5a731be3"
+      },
+      {
+        "path": "rust/sglang-mm/README.md",
+        "sha256": "1c7e4d5a139aac6eac14cfbbcbe79f0be2f108869e33c3484945483dd0b8f63d"
+      },
+      {
+        "path": "rust/sglang-processor/README.md",
+        "sha256": "244d58f00c1bc577d957acc9d72998f1acd39b1664e10b37b83e76f512158b55"
+      },
+      {
+        "path": "sgl-router/README.md",
+        "sha256": "ef007630d6b41cb854051fd3d5c728c9a5c20105bd167a2f9fa6c5754f91dcb9"
+      },
+      {
+        "path": "sgl-router/monitoring/README.md",
+        "sha256": "81b40667bd4350f2e987f5e7327341b736014651800d40e103095300b32769ec"
+      },
+      {
+        "path": "sgl-router/sgl-kv-indexer/README.md",
+        "sha256": "a3eb0423e0af3308bf0d4f674aa9be22ddc00d17020a0f1eba3f09246eececb0"
+      },
+      {
+        "path": "test/registered/attention/unittests/dsa/README.md",
+        "sha256": "ec72a776107f20fd1c0931279166ed0240f4bf7fbc9b4287d557ab8e5a42a8e6"
+      },
+      {
+        "path": "test/registered/attention/unittests/dsv4/README.md",
+        "sha256": "df3c9c101fa5de4ae7e2333d852f661de40273c8861045418acbfa70f4b54e22"
+      },
+      {
+        "path": "tools/sglang-simulator/README.md",
+        "sha256": "74b97d09a5de4819dc12de858a74651112f7384c8f343732f03bffb71c3999c1"
+      }
+    ],
+    "tarball_sha256": "c0a6b121e2f6eb95fbb3c05ca015192215919269aa726bedc028e6c4c1143b8f"
+  },
+  "structure": {
+    "bytes": 174082052,
+    "entrypoints": [
+      "python/sglang/cli/main.py",
+      "python/sglang/kernels/jit/__main__.py",
+      "python/sglang/multimodal_gen/apps/ComfyUI_SGLDiffusion/convert/__main__.py",
+      "python/sglang/multimodal_gen/apps/webui/main.py",
+      "python/sglang/multimodal_gen/runtime/entrypoints/cli/main.py",
+      "python/sglang/srt/debug_utils/comparator/__main__.py",
+      "python/sglang/srt/debug_utils/schedule_simulator/__main__.py",
+      "python/sglang/test/cuda_graph_lifetime/__main__.py",
+      "rust/sglang-api-codegen/src/main.rs",
+      "scripts/playground/disaggregation/cli.py",
+      "sgl-router/src/main.rs",
+      "sgl-router/tests/component/main.rs",
+      "sgl-router/tests/proxy/main.rs"
+    ],
+    "files": 12388,
+    "loc_total": null,
+    "max_depth": 15,
+    "monorepo": true,
+    "top_modules": [
+      {
+        "bytes": 90679028,
+        "files": 6734,
+        "path": "python"
+      },
+      {
+        "bytes": 36077114,
+        "files": 3445,
+        "path": "test"
+      },
+      {
+        "bytes": 21782819,
+        "files": 692,
+        "path": "docs"
+      },
+      {
+        "bytes": 9134699,
+        "files": 308,
+        "path": "rust"
+      },
+      {
+        "bytes": 5757368,
+        "files": 292,
+        "path": "sgl-router"
+      },
+      {
+        "bytes": 2293786,
+        "files": 25,
+        "path": "assets"
+      },
+      {
+        "bytes": 1926100,
+        "files": 207,
+        "path": "scripts"
+      },
+      {
+        "bytes": 1645494,
+        "files": 150,
+        "path": "benchmark"
+      },
+      {
+        "bytes": 1536969,
+        "files": 112,
+        "path": ".agents"
+      },
+      {
+        "bytes": 1386697,
+        "files": 153,
+        "path": ".github"
+      },
+      {
+        "bytes": 1180739,
+        "files": 103,
+        "path": "examples"
+      },
+      {
+        "bytes": 262967,
+        "files": 85,
+        "path": "tools"
+      },
+      {
+        "bytes": 229215,
+        "files": 32,
+        "path": "docker"
+      },
+      {
+        "bytes": 69596,
+        "files": 17,
+        "path": "3rdparty"
+      },
+      {
+        "bytes": 53187,
+        "files": 9,
+        "path": "proto"
+      },
+      {
+        "bytes": 39352,
+        "files": 10,
+        "path": "."
+      },
+      {
+        "bytes": 24830,
+        "files": 12,
+        "path": ".claude"
+      },
+      {
+        "bytes": 2092,
+        "files": 2,
+        "path": ".devcontainer"
+      }
+    ]
+  }
+}

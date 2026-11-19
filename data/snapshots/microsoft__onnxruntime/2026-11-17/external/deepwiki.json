@@ -1,0 +1,10 @@
+{
+  "fetched_at": "2026-11-19T15:04:43Z",
+  "paths_found": 2577,
+  "raw_relpath": "source.txt",
+  "reason": "正文含 2577 个仓库内真实路径（阈值 3）",
+  "sha256": "0110e47af243b382ea940959b93860616d5cfda4830bc7a0e8d5eb711ff1fb03",
+  "source": "deepwiki",
+  "status": "hit",
+  "url": "https://deepwiki.com/microsoft/onnxruntime"
+}

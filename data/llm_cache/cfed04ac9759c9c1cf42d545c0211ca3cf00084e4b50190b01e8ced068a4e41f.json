@@ -1,0 +1,86 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "统一单一 MoE kernel 实现",
+        "boundary": "后端数量增长会放大测试矩阵；小团队维护三套以上不划算",
+        "chose": "按 EP/量化方法分派 MoE 后端实现",
+        "cost": "需维护 Triton/Marlin/DeepGEMM 三套后端",
+        "evidence": "lightllm/common/basemodel/layer_weights/meta_weights/fused_moe/impl/__init__.py:20",
+        "id": "t1",
+        "rule": "按部署模式与量化格式分派 kernel 后端，而非一套通用实现"
+      },
+      {
+        "alternative": "返回无状态实现类由调用方管理状态",
+        "boundary": "需跨层共享或持久化状态时，内聚反而阻碍复用",
+        "chose": "实现对象自持路由运行态而非仅返回类",
+        "cost": "状态与 kernel 绑定，复用与序列化更难",
+        "evidence": "lightllm/common/basemodel/layer_weights/meta_weights/fused_moe/impl/__init__.py:17",
+        "id": "t2",
+        "rule": "后端专属状态与使用它的 kernel 放在同一对象内"
+      },
+      {
+        "alternative": "单一注意力状态类加分支判断",
+        "boundary": "模型种类少时分层过度，增加样板代码",
+        "chose": "注意力状态按 full/bounded 两类分族扩展",
+        "cost": "类型与配置类数量膨胀，入口分散",
+        "evidence": "lightllm/common/attention_state/full_att/__init__.py:1",
+        "id": "t3",
+        "rule": "按注意力语义分族建模状态，族内再按算法细分"
+      },
+      {
+        "alternative": "仅用 PyTorch 实现保证可移植",
+        "boundary": "回退路径若长期不被测试，会静默腐化",
+        "chose": "mHC 投影默认走 DeepGEMM 并留 PyTorch 回退",
+        "cost": "双后端需保证数值一致，增加验证成本",
+        "evidence": "lightllm/common/basemodel/triton_kernel/mhc/__init__.py:20",
+        "id": "t4",
+        "rule": "高性能后端默认开启，同时保留可切换的通用回退路径"
+      },
+      {
+        "alternative": "每次启动重新搜索 kernel 配置",
+        "boundary": "形状高度动态时缓存命中率低，收益有限",
+        "chose": "Triton autotune 按 GPU/版本/形状缓存配置",
+        "cost": "缓存键维度多，配置失效需手动清理",
+        "evidence": "lightllm/common/basemodel/triton_kernel/mhc/__init__.py:33",
+        "id": "t5",
+        "rule": "autotune 结果按硬件与形状键缓存，避免重复搜索"
+      },
+      {
+        "alternative": "单体 prefill+decode 同进程部署",
+        "boundary": "小规模单机部署下分离带来的调度开销大于收益",
+        "chose": "PD 分离部署并提供可插拔 KV 传输后端",
+        "cost": "多服务编排与拓扑配置复杂度上升",
+        "evidence": "test/start_scripts/README.md:104",
+        "id": "t6",
+        "rule": "PD 分离时把 KV 传输后端做成可配置项，两端保持一致"
+      },
+      {
+        "alternative": "只做张量并行",
+        "boundary": "非 MoE 稠密模型上 EP 无收益，徒增配置面",
+        "chose": "同时支持 TP 与 EP 两种并行切分",
+        "cost": "两套并行路径需各自验证正确性与性能",
+        "evidence": "test/start_scripts/README.md:9",
+        "id": "t7",
+        "rule": "MoE 模型提供 EP 与 TP 两条并行路径供按规模选择"
+      }
+    ],
+    "paradigm_tags": [
+      "专用优化",
+      "内核融合",
+      "并行切分"
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 256,
+    "cache_miss_tokens": 11047,
+    "completion_tokens": 762,
+    "prompt_tokens": 11303,
+    "reasoning_tokens": 0,
+    "total_tokens": 12065
+  }
+}

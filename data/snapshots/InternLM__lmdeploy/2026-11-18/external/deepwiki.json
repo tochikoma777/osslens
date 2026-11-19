@@ -1,0 +1,10 @@
+{
+  "fetched_at": "2026-11-19T15:03:59Z",
+  "paths_found": 12,
+  "raw_relpath": "source.txt",
+  "reason": "正文含 12 个仓库内真实路径（阈值 3）",
+  "sha256": "1c7dbbab2b0c9a41ce8687a991fbe2b60743f18d3d428d7f4a69cb3cb79fc423",
+  "source": "deepwiki",
+  "status": "hit",
+  "url": "https://deepwiki.com/InternLM/lmdeploy"
+}

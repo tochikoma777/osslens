@@ -1,0 +1,95 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "为 K 与 V 各分配独立 smem",
+        "boundary": "仅当两缓冲访问在时间上可被 barrier 严格分离时成立；并发读写会数据竞争",
+        "chose": "用 union 复用 K/V 共享内存",
+        "cost": "需额外 barrier 协调访问，布局受限",
+        "evidence": "csrc/cuda_kernels/sm100/prefill/dense/collective/sm100_fmha_fwd_mainloop_tma_warpspecialized.hpp:118",
+        "id": "t1",
+        "rule": "共享内存紧张时用 union 复用生命周期不重叠的缓冲，换取更大 tile"
+      },
+      {
+        "alternative": "多级 KV 流水以隐藏延迟",
+        "boundary": "仅适合 smem 极紧的 MLA 大 head dim；通用 GEMM 应保留多级流水",
+        "chose": "MLA 主循环固定 K/V 各 1 级流水",
+        "cost": "流水深度受限，延迟隐藏能力弱",
+        "evidence": "csrc/cuda_kernels/sm100/prefill/dense/collective/sm100_fmha_mla_fwd_mainloop_tma_warpspecialized.hpp:66",
+        "id": "t2",
+        "rule": "smem 不足时先砍流水级数保 tile 尺寸，用 static_assert 锁死假设"
+      },
+      {
+        "alternative": "所有 warp 均分寄存器",
+        "boundary": "适合角色负载差异大的融合内核；负载均衡内核收益低",
+        "chose": "warp 特化按角色静态分配寄存器",
+        "cost": "角色间寄存器不均，调优耦合",
+        "evidence": "csrc/cuda_kernels/sm100/prefill/dense/kernel/sm100_fmha_bwd_kernel_tma_warpspecialized.hpp:88",
+        "id": "t3",
+        "rule": "按 warp 角色差异化分配寄存器并用 static_assert 校验总量上限"
+      },
+      {
+        "alternative": "运行时分支或查表决定角色",
+        "boundary": "仅适合 warp 数固定的内核；动态线程配置不适用",
+        "chose": "用位掩码编码 warp 角色映射",
+        "cost": "可读性差，改动需重算掩码",
+        "evidence": "csrc/cuda_kernels/sm100/prefill/dense/kernel/sm100_fmha_bwd_kernel_tma_warpspecialized.hpp:84",
+        "id": "t4",
+        "rule": "编译期常量编码调度映射，避免运行时分支开销"
+      },
+      {
+        "alternative": "运行时动态分配 TMEM",
+        "boundary": "适合 tile 形状固定的专用内核；需动态 shape 的场景不适用",
+        "chose": "TMEM 列预算静态分配并断言上限",
+        "cost": "布局僵化，改 tile 需重算偏移",
+        "evidence": "csrc/cuda_kernels/sm100/prefill/dense/kernel/sm100_fmha_bwd_mla_kernel_tma_warpspecialized.hpp:60",
+        "id": "t5",
+        "rule": "片上稀缺资源用编译期常量分配并 static_assert 防溢出"
+      },
+      {
+        "alternative": "单一内核覆盖所有 topk 规模",
+        "boundary": "仅当规模分布双峰且差异显著时值得；长尾分布会膨胀维护成本",
+        "chose": "按 topk 规模拆分 small_topk 专用内核",
+        "cost": "代码重复，维护多份实例",
+        "evidence": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128/phase1.cuh:1",
+        "id": "t6",
+        "rule": "按输入规模分档特化内核，牺牲代码复用换分支消除"
+      },
+      {
+        "alternative": "各后端各写一套校验宏",
+        "boundary": "适合后端接口同构的场景；后端语义差异大时抽象会泄漏",
+        "chose": "用 kerutils 抽象层统一 CUDA/NPU 张量校验",
+        "cost": "多一层间接，宏可读性下降",
+        "evidence": "csrc/3rdparty/kerutils/include/kerutils/supplemental/torch_tensors.h:66",
+        "id": "t7",
+        "rule": "多硬件后端共用参数校验层，按编译宏切换设备断言"
+      },
+      {
+        "alternative": "直接依赖硬件 int64 向量指令",
+        "boundary": "仅适合索引计算等非热点路径；高频路径拼接开销会反噬",
+        "chose": "Ascend 侧用 SIMD 内建模拟 int64 乘加",
+        "cost": "多条指令拼接，代码复杂",
+        "evidence": "csrc/ascend_kernels/prefill/sparse/kernel_body.h:16",
+        "id": "t8",
+        "rule": "硬件缺宽整数向量指令时用 32 位乘加拼接模拟"
+      }
+    ],
+    "paradigm_tags": [
+      "专用优化",
+      "深优化",
+      "硬件耦合"
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 256,
+    "cache_miss_tokens": 15079,
+    "completion_tokens": 978,
+    "prompt_tokens": 15335,
+    "reasoning_tokens": 0,
+    "total_tokens": 16313
+  }
+}

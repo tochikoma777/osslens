@@ -1,0 +1,353 @@
+{
+  "cache": {
+    "evidence": {
+      "paged": [
+        {
+          "file": "lmdeploy/pytorch/backends/cuda/attention/__init__.py",
+          "line": 7,
+          "snippet": "from lmdeploy.pytorch.backends.attention import PagedAttentionBuildSpec"
+        },
+        {
+          "file": "lmdeploy/pytorch/backends/cuda/attention/__init__.py",
+          "line": 87,
+          "snippet": "def _build_paged_attention(spec: PagedAttentionBuildSpec) -> TritonAttentionImpl:"
+        },
+        {
+          "file": "lmdeploy/pytorch/backends/cuda/attention/__init__.py",
+          "line": 88,
+          "snippet": "\"\"\"Build the selected CUDA paged-attention implementation."
+        }
+      ],
+      "prefix_reuse": [
+        {
+          "file": "lmdeploy/cli/cli.py",
+          "line": 57,
+          "snippet": "ArgumentHelper.prefix_cache_state_budget(pt_group)"
+        },
+        {
+          "file": "lmdeploy/cli/cli.py",
+          "line": 58,
+          "snippet": "ArgumentHelper.prefix_cache_decode_state_interval(pt_group)"
+        },
+        {
+          "file": "lmdeploy/cli/cli.py",
+          "line": 59,
+          "snippet": "ArgumentHelper.prefix_cache_decode_save_first(pt_group)"
+        }
+      ]
+    },
+    "hits": {
+      "kv_offload": false,
+      "paged": true,
+      "prefix_reuse": true,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": false,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [
+      "ampere"
+    ],
+    "kernel_langs": [
+      "cuda",
+      "tilelang",
+      "triton"
+    ],
+    "lock_in_score": null,
+    "vendors": [
+      "ascend",
+      "nvidia"
+    ]
+  },
+  "identity": {
+    "age_days": 1252,
+    "analyzed_at": "2026-11-18T00:00:00Z",
+    "channel": "classic",
+    "commit": "6ddd906bfa916a6cfcd33c0a3ce4150d4e7fc3f5",
+    "created_at": "2023-06-15T12:38:06Z",
+    "repo": "InternLM/lmdeploy"
+  },
+  "lang": {
+    "shares": {
+      "C": 0.0001,
+      "C++": 0.1756,
+      "CMake": 0.0039,
+      "Cuda": 0.0839,
+      "Dockerfile": 0.0003,
+      "Jinja": 0.0025,
+      "PowerShell": 0.0003,
+      "Python": 0.7323,
+      "Shell": 0.0012
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {
+      "CP": [
+        {
+          "file": "autotest/configs/README.md",
+          "line": 236,
+          "snippet": "## Context parallel (`cp`)"
+        },
+        {
+          "file": "src/turbomind/engine/README.md",
+          "line": 56,
+          "snippet": "`cache_block_seq_len` is the physical number of rank-local tokens stored in one KV cache object. With context-parallel s"
+        }
+      ],
+      "TP": [
+        {
+          "file": "README.md",
+          "line": 87,
+          "snippet": "- \\[2023/07\\] TurboMind supports tensor-parallel inference of InternLM."
+        },
+        {
+          "file": "README.md",
+          "line": 97,
+          "snippet": "- **Efficient Inference**: LMDeploy delivers up to 1.8x higher request throughput than vLLM, by introducing key features"
+        },
+        {
+          "file": "README_zh-CN.md",
+          "line": 86,
+          "snippet": "- \\[2023/07\\] TurboMind 支持 InternLM 的 Tensor Parallel 推理"
+        }
+      ]
+    },
+    "hits": {
+      "CP": true,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": true
+    }
+  },
+  "scale": {
+    "commits_365d": 599,
+    "commits_90d": 149,
+    "contributors": 163,
+    "forks": 782,
+    "last_commit": "2026-11-18T09:13:50Z",
+    "open_issues": 658,
+    "release_count_365d": 14,
+    "stars": 8150,
+    "top10_share": 0.7795,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.1922,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "6ddd906bfa916a6cfcd33c0a3ce4150d4e7fc3f5",
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "673f94018f608e5adcadcd786862658b9a8d149c6c48defc0acebbd602470294"
+      },
+      {
+        "path": "README_ja.md",
+        "sha256": "9392929b53449e1053025c3c7bf149742661824cacbda498902497c5db7801f4"
+      },
+      {
+        "path": "README_zh-CN.md",
+        "sha256": "b281ca1d4563f5a6bf873f10d3220571d720aef2ae4b0be71b4288c159150f92"
+      },
+      {
+        "path": "autotest/configs/README.md",
+        "sha256": "a6daab3c938051e341062d4317ac2269d791143e84bf6a8d247572563c6acb32"
+      },
+      {
+        "path": "benchmark/README.md",
+        "sha256": "5535e2a22864703235ad95b8cec537a1bafcb1a811d37df521325d661aa165bd"
+      },
+      {
+        "path": "builder/manywheel/README.md",
+        "sha256": "abc0a42d857b52522e740d1e7a3af5fa223e389f86c94e2d517ce142143d787f"
+      },
+      {
+        "path": "builder/windows/README.md",
+        "sha256": "783d67a5269e65b451db4e04bb564f4b66b9c76a6bc3614ea5eeb1d96b7b392e"
+      },
+      {
+        "path": "lmdeploy/cli/cli.py",
+        "sha256": "b742e5bf9d70d7e0996a285ab46a1e2fe51b7324303595b777e43da62a787c6d"
+      },
+      {
+        "path": "lmdeploy/pytorch/backends/cuda/attention/__init__.py",
+        "sha256": "0e5f8ceff7dd8108436afdb630e9a63edc7822179d5146303afb9c1ff3be3ab5"
+      },
+      {
+        "path": "lmdeploy/pytorch/backends/cuda/graph_runner/README.md",
+        "sha256": "72f1b068704964de80d6f638d08d97386b65d25deffc7cd430f34f3ea8eadbd0"
+      },
+      {
+        "path": "lmdeploy/pytorch/disagg/README.md",
+        "sha256": "8dc98e398ca651f97de020558046448acf11aff32973c12d99592822255adb78"
+      },
+      {
+        "path": "lmdeploy/pytorch/engine/cache_engine/README.md",
+        "sha256": "808b4cd381f2a686b4b63f88cd2d03a18dcd162b05d1871c83856d7303d5902f"
+      },
+      {
+        "path": "lmdeploy/pytorch/engine/executor/__init__.py",
+        "sha256": "986093b86bb41107512f27a8539e5fee348a5c01a8dfa66c5bc9bd8bf7070c82"
+      },
+      {
+        "path": "lmdeploy/pytorch/nn/linear/__init__.py",
+        "sha256": "a0a62096a5c8b8274f5fdc09f5678b01504e071e06d55d68416668c0012e864d"
+      },
+      {
+        "path": "lmdeploy/pytorch/nn/moe/__init__.py",
+        "sha256": "1d5a3add0558b7445f5ae9673ec71eb0387682691c085b7ce441673c14db525a"
+      },
+      {
+        "path": "lmdeploy/pytorch/paging/block_trie/README.md",
+        "sha256": "056efa469d465413a9014f15fd5f3e6c8c04fd54405fdf9e4c691474e0276324"
+      },
+      {
+        "path": "lmdeploy/pytorch/strategies/dllm/__init__.py",
+        "sha256": "c0acb97b2221df2f186d04020c57ef6da315accee184c334d8165657f463cded"
+      },
+      {
+        "path": "lmdeploy/pytorch/third_party/deep_gemm/__init__.py",
+        "sha256": "4bf36c6ae245a8e2e6577f21e19636417710db89409a9a5ebc8c8b64737df467"
+      },
+      {
+        "path": "src/turbomind/engine/README.md",
+        "sha256": "6b1b804f73022199fc06da5b9f1f76a2e51a5539fa206de4b2263085be10d4c2"
+      },
+      {
+        "path": "tests/test_lmdeploy/test_vl/templates/README.md",
+        "sha256": "998cccf4b365190254890c9665b4ff933158015d3925d0383b994055ea8edbdd"
+      }
+    ],
+    "tarball_sha256": "ffcb64e25b47cb76565452c3ef0af4cf8475affd873c5514145b80fceca75557"
+  },
+  "structure": {
+    "bytes": 18100859,
+    "entrypoints": [
+      "lmdeploy/__main__.py",
+      "lmdeploy/cli/cli.py"
+    ],
+    "files": 2048,
+    "loc_total": null,
+    "max_depth": 7,
+    "monorepo": false,
+    "top_modules": [
+      {
+        "bytes": 7252213,
+        "files": 772,
+        "path": "lmdeploy"
+      },
+      {
+        "bytes": 4435036,
+        "files": 562,
+        "path": "src"
+      },
+      {
+        "bytes": 3883800,
+        "files": 306,
+        "path": "tests"
+      },
+      {
+        "bytes": 1020125,
+        "files": 155,
+        "path": "autotest"
+      },
+      {
+        "bytes": 828421,
+        "files": 141,
+        "path": "docs"
+      },
+      {
+        "bytes": 237882,
+        "files": 13,
+        "path": "benchmark"
+      },
+      {
+        "bytes": 162529,
+        "files": 26,
+        "path": ".github"
+      },
+      {
+        "bytes": 104439,
+        "files": 21,
+        "path": "."
+      },
+      {
+        "bytes": 41480,
+        "files": 1,
+        "path": "resources"
+      },
+      {
+        "bytes": 34791,
+        "files": 3,
+        "path": "scripts"
+      },
+      {
+        "bytes": 23223,
+        "files": 11,
+        "path": "docker"
+      },
+      {
+        "bytes": 19247,
+        "files": 12,
+        "path": "builder"
+      },
+      {
+        "bytes": 18361,
+        "files": 2,
+        "path": ".claude"
+      },
+      {
+        "bytes": 15312,
+        "files": 2,
+        "path": "eval"
+      },
+      {
+        "bytes": 11392,
+        "files": 4,
+        "path": "cmake"
+      },
+      {
+        "bytes": 8629,
+        "files": 3,
+        "path": "examples"
+      },
+      {
+        "bytes": 2027,
+        "files": 12,
+        "path": "requirements"
+      },
+      {
+        "bytes": 1952,
+        "files": 2,
+        "path": "k8s"
+      }
+    ]
+  }
+}

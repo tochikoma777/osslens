@@ -1,10 +1,40 @@
 {
   "cache": {
-    "evidence": {},
+    "evidence": {
+      "paged": [
+        {
+          "file": "launcher/src/main.rs",
+          "line": 192,
+          "snippet": "tracing::info!(\"Disabling prefix caching on paged attention\");"
+        },
+        {
+          "file": "README.md",
+          "line": 52,
+          "snippet": "- Optimized transformers code for inference using [Flash Attention](https://github.com/HazyResearch/flash-attention) and"
+        }
+      ],
+      "prefix_reuse": [
+        {
+          "file": "launcher/src/main.rs",
+          "line": 133,
+          "snippet": "let mut prefix_caching: Option<String> = std::env::var(\"PREFIX_CACHING\").ok();"
+        },
+        {
+          "file": "launcher/src/main.rs",
+          "line": 136,
+          "snippet": "if prefix_caching.is_none() {"
+        },
+        {
+          "file": "launcher/src/main.rs",
+          "line": 138,
+          "snippet": "tracing::info!(\"Disabling prefix caching because of VLM model\");"
+        }
+      ]
+    },
     "hits": {
       "kv_offload": false,
-      "paged": false,
-      "prefix_reuse": false,
+      "paged": true,
+      "prefix_reuse": true,
       "radix": false
     }
   },
@@ -27,13 +57,19 @@
   },
   "hardware": {
     "arch_gates": [],
-    "kernel_langs": [],
+    "kernel_langs": [
+      "cuda",
+      "triton"
+    ],
     "lock_in_score": null,
-    "vendors": []
+    "vendors": [
+      "amd",
+      "nvidia"
+    ]
   },
   "identity": {
-    "age_days": 1490,
-    "analyzed_at": "2026-11-06T00:00:00Z",
+    "age_days": 1502,
+    "analyzed_at": "2026-11-18T00:00:00Z",
     "channel": "classic",
     "commit": "b4adbf2f6e2e721280bd0ea5f91d70f7d033f5ed",
     "created_at": "2022-10-08T10:26:28Z",
@@ -55,44 +91,143 @@
     }
   },
   "limitations": [
-    "未取得源码切片：parallel/cache/hardware 全部 false、deps.graph 为空（红线 #5）",
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
     "issue_close_ratio_90d 需 search API，L0/L1 未调用",
     "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
   ],
   "parallel": {
-    "evidence": {},
+    "evidence": {
+      "TP": [
+        {
+          "file": "backends/gaudi/server/text_generation_server/layers/gptq/__init__.py",
+          "line": 376,
+          "snippet": "# Exllama implementation does not support row tensor parallelism with act-order, as"
+        },
+        {
+          "file": "launcher/src/main.rs",
+          "line": 420,
+          "snippet": "/// not support tensor parallelism (num_shard > 1)."
+        },
+        {
+          "file": "launcher/src/main.rs",
+          "line": 985,
+          "snippet": "// Activate tensor parallelism"
+        }
+      ]
+    },
     "hits": {
       "CP": false,
       "DP": false,
       "EP": false,
       "PP": false,
       "SP": false,
-      "TP": false
+      "TP": true
     }
   },
   "scale": {
-    "commits_365d": 8,
+    "commits_365d": 7,
     "commits_90d": 0,
     "contributors": 145,
-    "forks": 1287,
+    "forks": 1288,
     "last_commit": "2026-03-21T11:34:22Z",
     "open_issues": 324,
     "release_count_365d": 1,
-    "stars": 10882,
+    "stars": 10878,
     "top10_share": 0.8164,
     "used_by": null
   },
   "schema_version": "1.0",
   "signals": {
     "bus_factor_top1_share": 0.2529,
-    "days_since_commit": 230,
+    "days_since_commit": 242,
     "issue_close_ratio_90d": null,
     "maintenance_state": "archived"
   },
   "sources": {
-    "commit": "",
-    "files": [],
-    "tarball_sha256": ""
+    "commit": "b4adbf2f6e2e721280bd0ea5f91d70f7d033f5ed",
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "cc6b8a68200acc247cbd1d3cf5ca6c54b5b043040cc6193b58ff16afd80ee040"
+      },
+      {
+        "path": "backends/gaudi/README.md",
+        "sha256": "73905fdd5a5435b2dd0d476802534c165814496ca02e7b1bd0c2bca0ab93c863"
+      },
+      {
+        "path": "backends/gaudi/server/README.md",
+        "sha256": "d33828a48e6d516cd5642f3fa16a489f2968e40d42fd0dcc437d060851327f7f"
+      },
+      {
+        "path": "backends/gaudi/server/text_generation_server/cli.py",
+        "sha256": "b3d43bffd1504cd3c93cd12b2fe5a18cdc4cc00a4534f6fcf8ce354f236c7f9e"
+      },
+      {
+        "path": "backends/gaudi/server/text_generation_server/layers/gptq/__init__.py",
+        "sha256": "a47b08849dc55dcfeb03ee35b9fd4b75daae1d14b5e95e787de752f717995826"
+      },
+      {
+        "path": "backends/gaudi/server/text_generation_server/models/__init__.py",
+        "sha256": "2ffcfc35ec26620962f5417f1bfacf9b51efc5c7cf6f9fa623afcdd3786c8d31"
+      },
+      {
+        "path": "backends/llamacpp/README.md",
+        "sha256": "4d40246947ff217501455e3a376b71abba0bd9ee87e7edd9d7e7759ff18a2618"
+      },
+      {
+        "path": "backends/llamacpp/src/main.rs",
+        "sha256": "13d5a38236916a79ef1a9788dc5e24ff004a1c0cb6ce24d470b611045b3c05f1"
+      },
+      {
+        "path": "backends/neuron/README.md",
+        "sha256": "4abe9bf9ed645108ba82de2e021a77ff7c08655c3050ad3b1f97574fb72dc233"
+      },
+      {
+        "path": "backends/trtllm/README.md",
+        "sha256": "b1a2acaf18aa7ef09d0f5c3f9fdd49db6e2fd800cdf4c94ad2bfa098e954a5e0"
+      },
+      {
+        "path": "backends/trtllm/src/main.rs",
+        "sha256": "bbed36083d3ab5e2d74bbf89d03e748bea775e4c68ad45826c0407dcad8c8665"
+      },
+      {
+        "path": "benchmark/README.md",
+        "sha256": "5fdeff825dfba8b92843abf7b8e32109c7fb88c5fdda217495f9e79767dfeb75"
+      },
+      {
+        "path": "clients/python/README.md",
+        "sha256": "51a8da14d00716e22a97d9b9c677ea1427ae3efad9fb62ed5ae471d21d80dd93"
+      },
+      {
+        "path": "docs/README.md",
+        "sha256": "e2ba071b7829fd719c2e72285b196c7e1f3c3e508244a6823b05b12180f1ab96"
+      },
+      {
+        "path": "launcher/src/main.rs",
+        "sha256": "0b63cdfab9c41f3f6f6d03b8fef9e3af70bae86a14e406e1317aea3b9829741b"
+      },
+      {
+        "path": "router/README.md",
+        "sha256": "14f272ab69bc91be34e483180639213a30905c13853363d4697ea001326f26ae"
+      },
+      {
+        "path": "server/README.md",
+        "sha256": "d33828a48e6d516cd5642f3fa16a489f2968e40d42fd0dcc437d060851327f7f"
+      },
+      {
+        "path": "server/text_generation_server/cli.py",
+        "sha256": "56019ccbd4dff4b539e243eed69b668139705dcb236316600d08fe0cbd6a5d84"
+      },
+      {
+        "path": "server/text_generation_server/layers/gptq/__init__.py",
+        "sha256": "e433c719cbdbd7fb2a7fbdbd8610b3d7b79a577aa21cce43855b4eb68d8838c5"
+      },
+      {
+        "path": "server/text_generation_server/models/__init__.py",
+        "sha256": "5ad7d15b80820d563d4f98276a0cb86ec3fc8839d92f8fa82d56d85898168985"
+      }
+    ],
+    "tarball_sha256": "6f096f18b396779800bd47663edca20b39972420fc5161adce69b4ceab458833"
   },
   "structure": {
     "bytes": 9735966,

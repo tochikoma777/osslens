@@ -1,0 +1,10 @@
+{
+  "fetched_at": "2026-11-19T15:03:40Z",
+  "paths_found": 8,
+  "raw_relpath": "source.txt",
+  "reason": "正文含 8 个仓库内真实路径（阈值 3）",
+  "sha256": "4bd7b82f55619280bbc158475ef51e87fcb398ac820ae89f48c0624b86bfe737",
+  "source": "deepwiki",
+  "status": "hit",
+  "url": "https://deepwiki.com/Dao-AILab/flash-attention"
+}

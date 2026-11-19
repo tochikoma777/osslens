@@ -1,0 +1,86 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "统一使用 flashdecoding 或强制用户手动指定",
+        "boundary": "仅适合多代 GPU 混合部署；单一硬件集群直接固定实现更简单",
+        "chose": "按模型类型/硬件能力自动降级注意力后端",
+        "cost": "需维护多套注意力路径与回退逻辑",
+        "evidence": "launcher/src/main.rs:145",
+        "id": "t1",
+        "rule": "按硬件算力与模型结构自动选注意力实现，低算力回退 paged"
+      },
+      {
+        "alternative": "默认开启前缀缓存由用户自行规避冲突",
+        "boundary": "特性组合已兼容时可放开；追求极致命中率需手工调优",
+        "chose": "VLM/seq2seq/LoRA 场景自动关闭前缀缓存",
+        "cost": "这些场景失去前缀复用收益",
+        "evidence": "launcher/src/main.rs:138",
+        "id": "t2",
+        "rule": "与缓存不兼容的特性启用时自动禁用缓存，避免静默错误"
+      },
+      {
+        "alternative": "为 LoRA 实现 CUDA Graphs 兼容路径",
+        "boundary": "仅适合实验特性阶段；成熟后应实现兼容而非长期禁用",
+        "chose": "LoRA 与 CUDA Graphs 冲突时禁用 CUDA Graphs",
+        "cost": "LoRA 推理失去图捕获加速",
+        "evidence": "backends/gaudi/server/text_generation_server/cli.py:88",
+        "id": "t3",
+        "rule": "新特性与优化冲突时优先保证正确性并显式告警"
+      },
+      {
+        "alternative": "固定使用 exllama 内核",
+        "boundary": "仅适合 GPTQ/AWQ 系；其他量化格式需各自判定条件",
+        "chose": "GPTQ 加载器按 bits/desc_act 动态决定是否用 exllama",
+        "cost": "非 4bit 或 act-order 模型退回较慢内核",
+        "evidence": "backends/gaudi/server/text_generation_server/layers/gptq/__init__.py:110",
+        "id": "t4",
+        "rule": "量化内核按位宽与分组约束动态选择，不满足即回退"
+      },
+      {
+        "alternative": "要求用户预先离线转换权重",
+        "boundary": "大模型冷启动敏感场景应预转换；转换逻辑需与内核版本同步",
+        "chose": "AWQ 权重在加载时在线转换为 GPTQ/Exllama 打包格式",
+        "cost": "加载期多一次转换开销与代码复杂度",
+        "evidence": "backends/gaudi/server/text_generation_server/layers/gptq/__init__.py:150",
+        "id": "t5",
+        "rule": "格式不匹配时在加载期做一次性转换，换取运行时统一内核"
+      },
+      {
+        "alternative": "将 GGUF 推理并入主 Python server",
+        "boundary": "仅适合引擎语言/运行时差异大的场景；同构引擎合并更省维护",
+        "chose": "llamacpp 后端以独立进程+路由复用方式接入",
+        "cost": "多一层进程与参数映射维护成本",
+        "evidence": "backends/llamacpp/src/main.rs:1",
+        "id": "t6",
+        "rule": "异构推理引擎以独立后端进程接入，共享路由与协议层"
+      },
+      {
+        "alternative": "要求用户显式配置所有容量参数",
+        "boundary": "显存受限或多租户场景需显式覆盖默认推导",
+        "chose": "批处理与并发上限由线程数推导默认值",
+        "cost": "默认值可能与实际显存不匹配",
+        "evidence": "backends/llamacpp/src/main.rs:170",
+        "id": "t7",
+        "rule": "容量参数缺省时按线程数等可观测量推导，减少配置负担"
+      }
+    ],
+    "paradigm_tags": [
+      "广适配",
+      "硬件耦合",
+      "缓存复用"
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 256,
+    "cache_miss_tokens": 16105,
+    "completion_tokens": 745,
+    "prompt_tokens": 16361,
+    "reasoning_tokens": 0,
+    "total_tokens": 17106
+  }
+}

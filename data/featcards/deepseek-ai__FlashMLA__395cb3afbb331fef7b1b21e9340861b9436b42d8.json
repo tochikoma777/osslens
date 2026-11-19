@@ -13,9 +13,10 @@
     "external_top": [],
     "graph": {
       "edges": [],
-      "nodes": []
+      "nodes": [],
+      "truncated": false
     },
-    "internal_edge_count": null,
+    "internal_edge_count": 0,
     "transitive": null
   },
   "governance": {
@@ -25,14 +26,24 @@
     "org_type": null
   },
   "hardware": {
-    "arch_gates": [],
-    "kernel_langs": [],
+    "arch_gates": [
+      "blackwell",
+      "hopper"
+    ],
+    "kernel_langs": [
+      "cuda",
+      "tilelang"
+    ],
     "lock_in_score": null,
-    "vendors": []
+    "vendors": [
+      "amd",
+      "ascend",
+      "nvidia"
+    ]
   },
   "identity": {
-    "age_days": 619,
-    "analyzed_at": "2026-11-02T00:00:00Z",
+    "age_days": 635,
+    "analyzed_at": "2026-11-18T00:00:00Z",
     "channel": "hot",
     "commit": "395cb3afbb331fef7b1b21e9340861b9436b42d8",
     "created_at": "2025-02-21T06:31:27Z",
@@ -48,9 +59,9 @@
     }
   },
   "limitations": [
-    "L0 只跑元数据层：未读取源码内容，parallel/cache/hardware 全部 false，deps.* 与 loc_total 为 null（红线 #5：无证据不写入）",
-    "issue_close_ratio_90d 需 search API，L0 未调用",
-    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，L0 置 null"
+    "证据来自 14 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
   ],
   "parallel": {
     "evidence": {},
@@ -67,20 +78,82 @@
     "commits_365d": 13,
     "commits_90d": 6,
     "contributors": 19,
-    "forks": 1256,
+    "forks": 1278,
     "last_commit": "2026-10-27T02:50:39Z",
-    "open_issues": 138,
+    "open_issues": 149,
     "release_count_365d": 0,
-    "stars": 13234,
+    "stars": 13278,
     "top10_share": 0.8571,
     "used_by": null
   },
   "schema_version": "1.0",
   "signals": {
     "bus_factor_top1_share": 0.3651,
-    "days_since_commit": 6,
+    "days_since_commit": 22,
     "issue_close_ratio_90d": null,
     "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "395cb3afbb331fef7b1b21e9340861b9436b42d8",
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "0a3d443119284195fd8ef144bd0325fd7d58e08070764f824a1adb6ad3333eb8"
+      },
+      {
+        "path": "csrc/3rdparty/kerutils/include/kerutils/supplemental/torch_tensors.h",
+        "sha256": "7b9900950ad5e182464de14f6a434881b524e7c4662d5773aed483633570a1a4"
+      },
+      {
+        "path": "csrc/ascend_kernels/prefill/sparse/kernel_body.h",
+        "sha256": "19206e39b91f8420aa550c187ef3fd879bb08a312b8a9364b0e197ebb317545a"
+      },
+      {
+        "path": "csrc/cuda_kernels/sm100/decode/sparse/head128/README.md",
+        "sha256": "120bb315f150d28be3b4a3ef8e4db683b142cda365f797bb0abacc1907e2b0c2"
+      },
+      {
+        "path": "csrc/cuda_kernels/sm100/prefill/dense/collective/sm100_fmha_fwd_mainloop_tma_warpspecialized.hpp",
+        "sha256": "a588b2a542d43f0978cafd9050b5613cd17396b1cdc8616ad8fcbcc20e865548"
+      },
+      {
+        "path": "csrc/cuda_kernels/sm100/prefill/dense/collective/sm100_fmha_mla_fwd_mainloop_tma_warpspecialized.hpp",
+        "sha256": "0ab8c48523b08166f428de535b2b6022185a53a3589a87d56674dcc14f726503"
+      },
+      {
+        "path": "csrc/cuda_kernels/sm100/prefill/dense/kernel/sm100_fmha_bwd_kernel_tma_warpspecialized.hpp",
+        "sha256": "9d448a7125a4410357f102a1a184f89b53770f17dc048c52d27ab9c3165136be"
+      },
+      {
+        "path": "csrc/cuda_kernels/sm100/prefill/dense/kernel/sm100_fmha_bwd_mla_kernel_tma_warpspecialized.hpp",
+        "sha256": "54ba5037f3d753b1e2cf1e0084107762e37b2c40ff406ac6f68374ce03ec858e"
+      },
+      {
+        "path": "csrc/cuda_kernels/sm100/prefill/sparse/fused_norm_rope_attn_rope_cast_fwd/core_attn/kernel.cuh",
+        "sha256": "1b4507fe7d2edeb50e90145c368f2ea2c93da9522b1834d2691bdb7dc993f3c5"
+      },
+      {
+        "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd/head128/phase1.h",
+        "sha256": "6b6c206dfbfaa14b2097f2a4402967b17c66af6b99c0642389447d45a5e54d18"
+      },
+      {
+        "path": "csrc/cuda_kernels/sm100/prefill/sparse/fwd_for_small_topk/head128/phase1.cuh",
+        "sha256": "1a3005599cde2e3dbb8df6856934b12534793497f31594a26acadec8c3b66f7b"
+      },
+      {
+        "path": "flash_mla/__init__.py",
+        "sha256": "d7fb1e130887f0843722c5f29f3ff8e79d4f5eb098624f1b769e12ef27acb624"
+      },
+      {
+        "path": "tests/__init__.py",
+        "sha256": "6f40cde9a988a7ebb842ae6496a27788c2e37f42d945ec7cce70d28ed14ece9b"
+      },
+      {
+        "path": "tests/kernelkit/__init__.py",
+        "sha256": "a38e3515fd97a47af36fdb7964a7dd3a93c9781e1a246a71be22016d2702c8aa"
+      }
+    ],
+    "tarball_sha256": "a07b794ee1c4fff540509575b30d3e159bc549e01f8f9f85ed849cf89d77fe92"
   },
   "structure": {
     "bytes": 1439185,

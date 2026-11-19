@@ -1,0 +1,10 @@
+{
+  "fetched_at": "2026-11-19T15:05:00Z",
+  "paths_found": 3,
+  "raw_relpath": "source.txt",
+  "reason": "正文含 3 个仓库内真实路径（阈值 3）",
+  "sha256": "7b2d5e929f450eb55198bbfffd156aa9a0fd7fa8991a6a851996f933af26916e",
+  "source": "deepwiki",
+  "status": "hit",
+  "url": "https://deepwiki.com/sgl-project/sglang"
+}

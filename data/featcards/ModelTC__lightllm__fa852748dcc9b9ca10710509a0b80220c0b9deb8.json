@@ -1,0 +1,303 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [
+        [
+          "lightllm/common/basemodel/layer_weights/meta_weights/fused_moe/impl",
+          "lightllm/common/quantization"
+        ]
+      ],
+      "nodes": [
+        "lightllm/common/basemodel/layer_weights/meta_weights/fused_moe/impl",
+        "lightllm/common/quantization"
+      ],
+      "truncated": false
+    },
+    "internal_edge_count": 1,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [
+      "blackwell"
+    ],
+    "kernel_langs": [
+      "cuda",
+      "triton"
+    ],
+    "lock_in_score": null,
+    "vendors": [
+      "nvidia"
+    ]
+  },
+  "identity": {
+    "age_days": 1215,
+    "analyzed_at": "2026-11-18T00:00:00Z",
+    "channel": "classic",
+    "commit": "fa852748dcc9b9ca10710509a0b80220c0b9deb8",
+    "created_at": "2023-07-22T08:11:15Z",
+    "repo": "ModelTC/lightllm"
+  },
+  "lang": {
+    "shares": {
+      "Dockerfile": 0.0006,
+      "Jinja": 0.001,
+      "Python": 0.9912,
+      "Shell": 0.0072
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {
+      "DP": [
+        {
+          "file": "test/start_scripts/README.md",
+          "line": 107,
+          "snippet": "- `--dp`: Data parallelism degree"
+        }
+      ],
+      "EP": [
+        {
+          "file": "test/start_scripts/README.md",
+          "line": 10,
+          "snippet": "- `single_node_ep.sh` - Single node expert parallelism (EP) mode"
+        },
+        {
+          "file": "test/start_scripts/README.md",
+          "line": 16,
+          "snippet": "- `multi_node_ep_node0.sh` - Multi-node expert parallelism node 0"
+        },
+        {
+          "file": "test/start_scripts/README.md",
+          "line": 17,
+          "snippet": "- `multi_node_ep_node1.sh` - Multi-node expert parallelism node 1"
+        }
+      ],
+      "TP": [
+        {
+          "file": "test/start_scripts/README.md",
+          "line": 9,
+          "snippet": "- `single_node_tp.sh` - Single node tensor parallelism (TP) mode"
+        },
+        {
+          "file": "test/start_scripts/README.md",
+          "line": 14,
+          "snippet": "- `multi_node_tp_node0.sh` - Multi-node tensor parallelism node 0"
+        },
+        {
+          "file": "test/start_scripts/README.md",
+          "line": 15,
+          "snippet": "- `multi_node_tp_node1.sh` - Multi-node tensor parallelism node 1"
+        }
+      ]
+    },
+    "hits": {
+      "CP": false,
+      "DP": true,
+      "EP": true,
+      "PP": false,
+      "SP": false,
+      "TP": true
+    }
+  },
+  "scale": {
+    "commits_365d": 360,
+    "commits_90d": 144,
+    "contributors": 55,
+    "forks": 389,
+    "last_commit": "2026-11-18T10:54:14Z",
+    "open_issues": 177,
+    "release_count_365d": 1,
+    "stars": 4364,
+    "top10_share": 0.9023,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.3183,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "fa852748dcc9b9ca10710509a0b80220c0b9deb8",
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "ddf55d52d0b42186b24242203a4fdea4c255a387786f3a078f5f9ff689aaaf59"
+      },
+      {
+        "path": "demos/readme.txt",
+        "sha256": "fe86d62293d944eb748550470f3536d32a45b9c24983fc7fdf263dbd7e43bf51"
+      },
+      {
+        "path": "docs/CN/README.md",
+        "sha256": "fff7f3f5237d145bdc4240160311884985dd28b0c147652a53e98b4b1afa9f96"
+      },
+      {
+        "path": "docs/EN/README.md",
+        "sha256": "12a5b6642c23347bb46f7fc49974e462e68b2e6b0f4b8adf8d1175d3ccf21f94"
+      },
+      {
+        "path": "lightllm/common/attention_state/bounded_att/__init__.py",
+        "sha256": "8b01fe4f71a6ee89433365dcb2c9e253db8c4b91a10ca1d698efaff6cea96f0d"
+      },
+      {
+        "path": "lightllm/common/attention_state/full_att/__init__.py",
+        "sha256": "85c2c337bff0cb8c24d8e84be22f51d0ee4e11829f4b345d21aae458f49f28be"
+      },
+      {
+        "path": "lightllm/common/basemodel/__init__.py",
+        "sha256": "b36724640ead855a5653a0c1160d5091e72147b66e2f4784ab54e79fcaa0cfe0"
+      },
+      {
+        "path": "lightllm/common/basemodel/layer_weights/meta_weights/fused_moe/impl/__init__.py",
+        "sha256": "947b676f411eb0b186cedfdf422d055c9b1e901977ac117aea589795dfc6b2af"
+      },
+      {
+        "path": "lightllm/common/basemodel/triton_kernel/fused_moe/grouped_fused_moe_ep/__init__.py",
+        "sha256": "a2a6e25411c98d71b4dd41cf310e86d0a66e9c37aa6d0051b3ccb6bfca29832c"
+      },
+      {
+        "path": "lightllm/common/basemodel/triton_kernel/mhc/__init__.py",
+        "sha256": "9c3379126fb9b71ac5063f9a66cf41d3f76a1bb5c3b98051ce64f10d1204f988"
+      },
+      {
+        "path": "lightllm/common/quantization/__init__.py",
+        "sha256": "1c6fd0a47e2d6089c7204b2adda58e1e031c009f55b17f627172000e13256adc"
+      },
+      {
+        "path": "lightllm/models/deepseek3_2/__init__.py",
+        "sha256": "53114954628fd2d9cc59fd7e55531112d774e0a28f6864b35daaf62718cf3c05"
+      },
+      {
+        "path": "lightllm/models/vit/__init__.py",
+        "sha256": "3e767c58978d7f5ee76b42d2d2c3b380dd1daa338356247f3bc5e409ffd668c4"
+      },
+      {
+        "path": "lightllm/server/audioserver/model_infer/__init__.py",
+        "sha256": "183596da20d8d40c8aff37cce86616d663798bc457fe3bee9ee08352584a7815"
+      },
+      {
+        "path": "lightllm/server/router/model_infer/mode_backend/prefill_queue_strategy/__init__.py",
+        "sha256": "3e77c54c80609fc4903c1df23630c3eb82bc65668b0c6be6fb5bb6e5492bd918"
+      },
+      {
+        "path": "lightllm/server/router/model_infer/mtp_speculative/dp_overlap_proposers/__init__.py",
+        "sha256": "04ff2bd892a08c5e60e5e8a9306e06d78e78ed8932c8cf3e21502df3d913c48d"
+      },
+      {
+        "path": "lightllm/server/router/model_infer/mtp_speculative/proposers/__init__.py",
+        "sha256": "06316be01691a91c31572e38bfaf16af983f5a864adf78617cf0e6c171432a95"
+      },
+      {
+        "path": "lightllm/server/router/req_queue/__init__.py",
+        "sha256": "a9ddaafafccef0c35ba8a252b550b3771acfcd10c27e2fbecd374bc1d47da749"
+      },
+      {
+        "path": "lightllm/server/visualserver/model_infer/__init__.py",
+        "sha256": "8d1aee2beabcdcb339c42a751638cf40bd4027664c08036896721f5e1adcff09"
+      },
+      {
+        "path": "test/start_scripts/README.md",
+        "sha256": "102b40fe9d75f08e6f31366eb0ef00a7831e5b9b0d7d918b3e28ebbebd183737"
+      }
+    ],
+    "tarball_sha256": "46fcbb86f920826f0a377d5b1a9b2ccef0d6ceb98685d16ee31621dbe886d498"
+  },
+  "structure": {
+    "bytes": 13827800,
+    "entrypoints": [],
+    "files": 2275,
+    "loc_total": null,
+    "max_depth": 9,
+    "monorepo": false,
+    "top_modules": [
+      {
+        "bytes": 6388389,
+        "files": 1671,
+        "path": "lightllm"
+      },
+      {
+        "bytes": 2958877,
+        "files": 328,
+        "path": "unit_tests"
+      },
+      {
+        "bytes": 2501592,
+        "files": 89,
+        "path": "docs"
+      },
+      {
+        "bytes": 989301,
+        "files": 124,
+        "path": "test"
+      },
+      {
+        "bytes": 698255,
+        "files": 4,
+        "path": "assets"
+      },
+      {
+        "bytes": 122835,
+        "files": 16,
+        "path": "skills"
+      },
+      {
+        "bytes": 59454,
+        "files": 14,
+        "path": "format_out"
+      },
+      {
+        "bytes": 45094,
+        "files": 4,
+        "path": "tools"
+      },
+      {
+        "bytes": 33132,
+        "files": 12,
+        "path": "."
+      },
+      {
+        "bytes": 12976,
+        "files": 5,
+        "path": "demos"
+      },
+      {
+        "bytes": 9521,
+        "files": 2,
+        "path": "docker"
+      },
+      {
+        "bytes": 6493,
+        "files": 3,
+        "path": ".github"
+      },
+      {
+        "bytes": 1881,
+        "files": 3,
+        "path": ".cursor"
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "fetched_at": "2026-11-19T15:04:18Z",
+  "paths_found": 3,
+  "raw_relpath": "source.txt",
+  "reason": "正文含 3 个仓库内真实路径（阈值 3）",
+  "sha256": "47fddd9c21aafabb9a6a3ec6e8542445b1f4ae87d4ff29d8ccecff6785e660fa",
+  "source": "deepwiki",
+  "status": "hit",
+  "url": "https://deepwiki.com/deepseek-ai/FlashMLA"
+}

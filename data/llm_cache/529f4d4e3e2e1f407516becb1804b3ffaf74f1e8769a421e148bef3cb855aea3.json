@@ -1,0 +1,95 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "统一用 Triton 实现",
+        "boundary": "参数受限（alibi、sink、大 head_size）时高级后端不可用，勿假设恒生效",
+        "chose": "按能力探测选 FA3/FlashMLA/Triton 多级注意力后端",
+        "cost": "需维护多套内核与降级分支",
+        "evidence": "lmdeploy/pytorch/backends/cuda/attention/__init__.py:87",
+        "id": "t1",
+        "rule": "注意力后端按硬件与参数能力分级选择，缺依赖时降级到通用实现"
+      },
+      {
+        "alternative": "无 FA3 时回退通用注意力继续投机",
+        "boundary": "面向广泛硬件兼容的产品应提供降级路径，否则会缩小可用用户群",
+        "chose": "投机解码硬性要求 FA3，缺失即报错",
+        "cost": "SM80 以下或 CUDA<12.3 用户无法用投机解码",
+        "evidence": "lmdeploy/pytorch/backends/cuda/attention/__init__.py:31",
+        "id": "t2",
+        "rule": "高性能路径依赖不满足时显式报错而非静默降级"
+      },
+      {
+        "alternative": "运行时按通用 KV 量化策略处理",
+        "boundary": "仅适用于有专属物理 dtype 的模型；通用模型无需此翻译层",
+        "chose": "稀疏 MLA 的 FP8 缓存策略在构建执行器前统一改写",
+        "cost": "引入配置翻译层与额外约束校验",
+        "evidence": "lmdeploy/pytorch/engine/executor/__init__.py:20",
+        "id": "t3",
+        "rule": "特殊模型的缓存策略在配置分发前集中归一化，避免各 worker 分叉"
+      },
+      {
+        "alternative": "本地 mp 多进程执行器",
+        "boundary": "单机多卡且无 ray 环境时该约束会阻断部署，需评估依赖成本",
+        "chose": "dp>1 与 empty_init 强制走 ray 执行器",
+        "cost": "多卡部署引入 ray 依赖与调度开销",
+        "evidence": "lmdeploy/pytorch/engine/executor/__init__.py:130",
+        "id": "t4",
+        "rule": "跨节点或数据并行场景选 ray，单机单卡走轻量执行器"
+      },
+      {
+        "alternative": "单一通用线性层加运行时分支",
+        "boundary": "量化方法少或性能不敏感时可合并实现，避免类爆炸",
+        "chose": "线性层按量化方法分派到专用实现类",
+        "cost": "实现类数量膨胀、组合校验复杂",
+        "evidence": "lmdeploy/pytorch/nn/linear/__init__.py:44",
+        "id": "t5",
+        "rule": "量化算子按方法静态分派到专用类，换取内核特化性能"
+      },
+      {
+        "alternative": "静默忽略不兼容参数",
+        "boundary": "对参数组合多样的模型生态，过严校验会降低开箱可用性",
+        "chose": "MoE 量化实现显式拒绝不支持的 bias/act/fp32_acc 组合",
+        "cost": "部分模型配置无法直接加载",
+        "evidence": "lmdeploy/pytorch/nn/moe/__init__.py:60",
+        "id": "t6",
+        "rule": "量化内核不支持的参数组合应显式报错，避免静默错误结果"
+      },
+      {
+        "alternative": "固定内部默认策略",
+        "boundary": "默认值不合理时用户易误配，需配套文档与合理缺省",
+        "chose": "前缀缓存状态预算与解码间隔做成可调 CLI 参数",
+        "cost": "暴露更多调参面，用户需理解语义",
+        "evidence": "lmdeploy/cli/cli.py:57",
+        "id": "t7",
+        "rule": "缓存复用策略以显式参数暴露，便于按负载调优"
+      },
+      {
+        "alternative": "强制模型必须声明块长",
+        "boundary": "对正确性敏感的推理参数不宜用猜测默认值，应要求显式声明",
+        "chose": "DLLM 块长缺失时回退默认 4 并告警",
+        "cost": "默认值可能与模型真实最优不符",
+        "evidence": "lmdeploy/pytorch/strategies/dllm/__init__.py:33",
+        "id": "t8",
+        "rule": "模型元信息缺失时给可用默认值并告警，保证可运行"
+      }
+    ],
+    "paradigm_tags": [
+      "专用优化",
+      "硬件耦合",
+      "缓存复用"
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 256,
+    "cache_miss_tokens": 15913,
+    "completion_tokens": 890,
+    "prompt_tokens": 16169,
+    "reasoning_tokens": 0,
+    "total_tokens": 17059
+  }
+}

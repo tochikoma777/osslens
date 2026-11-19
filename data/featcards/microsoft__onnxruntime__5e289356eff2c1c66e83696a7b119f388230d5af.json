@@ -1,0 +1,256 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "MIT",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": []
+  },
+  "identity": {
+    "age_days": 2929,
+    "analyzed_at": "2026-11-17T00:00:00Z",
+    "channel": "classic",
+    "commit": "5e289356eff2c1c66e83696a7b119f388230d5af",
+    "created_at": "2018-11-10T02:22:53Z",
+    "repo": "microsoft/onnxruntime"
+  },
+  "lang": {
+    "shares": {
+      "Assembly": 0.0166,
+      "Batchfile": 0.0001,
+      "C": 0.0315,
+      "C#": 0.014,
+      "C++": 0.823,
+      "CMake": 0.0041,
+      "CSS": 0.0,
+      "Cuda": 0.0285,
+      "Dockerfile": 0.0001,
+      "Go": 0.0007,
+      "HIP": 0.0,
+      "HLSL": 0.0001,
+      "HTML": 0.0001,
+      "Java": 0.0029,
+      "JavaScript": 0.0037,
+      "Jupyter Notebook": 0.001,
+      "Just": 0.0,
+      "Kotlin": 0.0,
+      "Linker Script": 0.0,
+      "NASL": 0.0,
+      "Objective-C": 0.0011,
+      "Objective-C++": 0.0008,
+      "Pascal": 0.0,
+      "PowerShell": 0.0002,
+      "Puppet": 0.0,
+      "Python": 0.06,
+      "Ruby": 0.0,
+      "Rust": 0.0012,
+      "Shell": 0.0007,
+      "Swift": 0.0,
+      "TypeScript": 0.0093,
+      "Vue": 0.0
+    }
+  },
+  "limitations": [
+    "未取得源码切片：parallel/cache/hardware 全部 false、deps.graph 为空（红线 #5）",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 2000,
+    "commits_90d": 979,
+    "contributors": 403,
+    "forks": 4460,
+    "last_commit": "2026-11-17T04:59:41Z",
+    "open_issues": 2044,
+    "release_count_365d": 30,
+    "stars": 22334,
+    "top10_share": 0.329,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.0599,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "",
+    "files": [],
+    "tarball_sha256": ""
+  },
+  "structure": {
+    "bytes": 593896258,
+    "entrypoints": [
+      "csharp/test/Microsoft.AI.MachineLearning.Tests/main.cpp",
+      "js/common/lib/index.ts",
+      "js/node/lib/index.ts",
+      "js/node/src/main.cc",
+      "js/node/test/standalone/index.ts",
+      "js/node/test/unittests/lib/index.ts",
+      "js/react_native/lib/index.ts",
+      "js/web/lib/index.ts",
+      "js/web/test/e2e/type/testcases/module-resolution/index.ts",
+      "js/web/test/unittests/index.ts",
+      "onnxruntime/test/ep_weight_sharing_ctx_gen/main.cc",
+      "onnxruntime/test/onnx/main.cc",
+      "onnxruntime/test/onnx/microbenchmark/main.cc",
+      "onnxruntime/test/perftest/main.cc",
+      "onnxruntime/test/webgpu/delay_load/main.cc",
+      "onnxruntime/test/webgpu/external_dawn/main.cc",
+      "onnxruntime/tool/etw/main.cc",
+      "orttraining/orttraining/models/bert/main.cc",
+      "orttraining/orttraining/models/gpt2/main.cc",
+      "orttraining/orttraining/models/mnist/main.cc",
+      "orttraining/orttraining/models/pipeline_poc/main.cc",
+      "orttraining/orttraining/models/squeezenet/main.cc",
+      "samples/cxx/main.cc",
+      "samples/nodejs/01_basic-usage/index.js",
+      "samples/nodejs/02_create-tensor/index.js",
+      "samples/nodejs/04_create-inference-session/index.js",
+      "winml/test/common/googletest/main.cpp"
+    ],
+    "files": 11637,
+    "loc_total": null,
+    "max_depth": 13,
+    "monorepo": true,
+    "top_modules": [
+      {
+        "bytes": 428944218,
+        "files": 7815,
+        "path": "onnxruntime"
+      },
+      {
+        "bytes": 102082049,
+        "files": 341,
+        "path": "winml"
+      },
+      {
+        "bytes": 16330261,
+        "files": 730,
+        "path": "js"
+      },
+      {
+        "bytes": 16228645,
+        "files": 319,
+        "path": "csharp"
+      },
+      {
+        "bytes": 7324155,
+        "files": 154,
+        "path": "docs"
+      },
+      {
+        "bytes": 7258493,
+        "files": 815,
+        "path": "orttraining"
+      },
+      {
+        "bytes": 4992518,
+        "files": 201,
+        "path": "cmake"
+      },
+      {
+        "bytes": 2899916,
+        "files": 590,
+        "path": "tools"
+      },
+      {
+        "bytes": 2387728,
+        "files": 134,
+        "path": "java"
+      },
+      {
+        "bytes": 2110795,
+        "files": 148,
+        "path": "include"
+      },
+      {
+        "bytes": 762988,
+        "files": 35,
+        "path": "."
+      },
+      {
+        "bytes": 750652,
+        "files": 37,
+        "path": "go"
+      },
+      {
+        "bytes": 560661,
+        "files": 106,
+        "path": ".github"
+      },
+      {
+        "bytes": 390794,
+        "files": 39,
+        "path": "rust"
+      },
+      {
+        "bytes": 320697,
+        "files": 21,
+        "path": "model_package"
+      },
+      {
+        "bytes": 169178,
+        "files": 53,
+        "path": "objectivec"
+      },
+      {
+        "bytes": 159938,
+        "files": 29,
+        "path": "plugin-ep-webgpu"
+      },
+      {
+        "bytes": 80838,
+        "files": 8,
+        "path": "cgmanifests"
+      },
+      {
+        "bytes": 61375,
+        "files": 22,
+        "path": "plugin-ep-cuda"
+      },
+      {
+        "bytes": 31040,
+        "files": 13,
+        "path": "dockerfiles"
+      }
+    ]
+  }
+}

@@ -1,0 +1,408 @@
+{
+  "cache": {
+    "evidence": {
+      "kv_offload": [
+        {
+          "file": "docs/contributing/README.md",
+          "line": 254,
+          "snippet": "`[KV Offload]` for frequently changed subsystems."
+        },
+        {
+          "file": "docs/contributing/README.md",
+          "line": 260,
+          "snippet": "be stacked without spaces. For example, `[Bugfix][KV Offload] Fix block"
+        }
+      ],
+      "prefix_reuse": [
+        {
+          "file": "benchmarks/auto_tune/README.md",
+          "line": 3,
+          "snippet": "This script automates the process of finding the optimal server parameter combination (`max-num-seqs` and `max-num-batch"
+        },
+        {
+          "file": "benchmarks/auto_tune/README.md",
+          "line": 50,
+          "snippet": "| `MIN_CACHE_HIT_PCT` | Prefix cache hit rate in percentage (0-100). Set to `0` to disable. | `60` |"
+        },
+        {
+          "file": "benchmarks/auto_tune/README.md",
+          "line": 100,
+          "snippet": "### 3. Maximize Throughput with Prefix Caching and Latency Requirements"
+        }
+      ]
+    },
+    "hits": {
+      "kv_offload": true,
+      "paged": false,
+      "prefix_reuse": true,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": false,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [
+      "ampere",
+      "blackwell",
+      "hopper"
+    ],
+    "kernel_langs": [
+      "cuda",
+      "hip",
+      "triton"
+    ],
+    "lock_in_score": null,
+    "vendors": [
+      "amd",
+      "nvidia"
+    ]
+  },
+  "identity": {
+    "age_days": 1378,
+    "analyzed_at": "2026-11-18T00:00:00Z",
+    "channel": "classic",
+    "commit": "4dbd382be7e2f482fb117bbf59de006b4d2d8e11",
+    "created_at": "2023-02-09T11:23:20Z",
+    "repo": "vllm-project/vllm"
+  },
+  "lang": {
+    "shares": {
+      "C": 0.0001,
+      "C++": 0.0261,
+      "CMake": 0.0017,
+      "Cuda": 0.0384,
+      "Dockerfile": 0.0007,
+      "HCL": 0.0001,
+      "Jinja": 0.0003,
+      "Python": 0.8608,
+      "Rust": 0.0655,
+      "Shell": 0.0063
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {
+      "CP": [
+        {
+          "file": "docs/cli/README.md",
+          "line": 154,
+          "snippet": "PCP uses `--prefill-context-parallel-size` with the model runner's supported"
+        },
+        {
+          "file": "docs/cli/README.md",
+          "line": 162,
+          "snippet": "--model MODEL --tensor-parallel-size 2 --prefill-context-parallel-size 2 \\"
+        },
+        {
+          "file": "docs/features/speculative_decoding/README.md",
+          "line": 172,
+          "snippet": "| `draft_decode_context_parallel_size` | `integer >= 1` | `None` | Decode context parallel size for the draft model: `1`"
+        }
+      ],
+      "DP": [
+        {
+          "file": "examples/disaggregated/disaggregated_encoder/README.md",
+          "line": 113,
+          "snippet": "| `--ec-consumer-dp-size` | Data-parallel replicas per EC consumer (default 1). |"
+        },
+        {
+          "file": "rust/README.md",
+          "line": 58,
+          "snippet": "This also works with Python-supervised hybrid data parallelism. It requires a"
+        },
+        {
+          "file": "rust/README.md",
+          "line": 60,
+          "snippet": "`--data-parallel-multi-port-external-lb`."
+        }
+      ],
+      "EP": [
+        {
+          "file": "docs/features/speculative_decoding/README.md",
+          "line": 188,
+          "snippet": "[EPLB deployment guide](../../serving/expert_parallel_deployment.md#multimodel-eplb-with-speculative-decoding)."
+        },
+        {
+          "file": "docs/serving/online_serving/README.md",
+          "line": 172,
+          "snippet": "## Elastic Expert Parallelism (EEP)"
+        },
+        {
+          "file": "docs/training/weight_transfer/README.md",
+          "line": 42,
+          "snippet": "| [sharded_rdt](sharded_rdt.md) | NIXL / Ray Direct Transport (pull-based) | Very large models where each worker needs o"
+        }
+      ],
+      "PP": [
+        {
+          "file": "docs/cli/README.md",
+          "line": 166,
+          "snippet": "With `--pipeline-parallel-size`, the benchmark streams identical microbatches"
+        },
+        {
+          "file": "docs/cli/README.md",
+          "line": 176,
+          "snippet": "--model MODEL --pipeline-parallel-size 2 --tensor-parallel-size 2 \\"
+        },
+        {
+          "file": "docs/cli/README.md",
+          "line": 329,
+          "snippet": "parallelism are supported; pipeline parallelism is rejected at launch."
+        }
+      ],
+      "TP": [
+        {
+          "file": ".buildkite/performance-benchmarks/README.md",
+          "line": 50,
+          "snippet": "\"tensor_parallel_size\": 1,"
+        },
+        {
+          "file": ".buildkite/performance-benchmarks/README.md",
+          "line": 62,
+          "snippet": "- The `parameters` attribute control the command line arguments to be used for `vllm bench latency`. Note that please us"
+        },
+        {
+          "file": ".buildkite/performance-benchmarks/README.md",
+          "line": 85,
+          "snippet": "\"tensor_parallel_size\": 1,"
+        }
+      ]
+    },
+    "hits": {
+      "CP": true,
+      "DP": true,
+      "EP": true,
+      "PP": true,
+      "SP": false,
+      "TP": true
+    }
+  },
+  "scale": {
+    "commits_365d": 2000,
+    "commits_90d": 2000,
+    "contributors": 450,
+    "forks": 24966,
+    "last_commit": "2026-11-18T11:29:53Z",
+    "open_issues": 10581,
+    "release_count_365d": 35,
+    "stars": 97152,
+    "top10_share": 0.3097,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.0474,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "4dbd382be7e2f482fb117bbf59de006b4d2d8e11",
+    "files": [
+      {
+        "path": ".buildkite/performance-benchmarks/README.md",
+        "sha256": "6e72cf9a335dfed43e6db13ad467aaa75b50e2f229b58eaafbb3effcb5844be0"
+      },
+      {
+        "path": "benchmarks/attention_benchmarks/README.md",
+        "sha256": "10eca97a6f987cb82bc759830f7321c907bdb8534dc1efe02b55cb9148c8e5db"
+      },
+      {
+        "path": "benchmarks/auto_tune/README.md",
+        "sha256": "26161432d898d94e6dd0f3cfcf7913a060d9203ee7f6723880648a29385b2c37"
+      },
+      {
+        "path": "benchmarks/kernels/deepgemm/README.md",
+        "sha256": "51b97048f63df574a35e15c7b8beab82ddff05406885116eaa8a814297683c3a"
+      },
+      {
+        "path": "docs/cli/README.md",
+        "sha256": "960297abe810fd8b1aab95e824e4b3d75d84cc1e51a3e72e77179698f2ff0966"
+      },
+      {
+        "path": "docs/contributing/README.md",
+        "sha256": "da461f1fe59a0414e61edc610af319a862885231c2e66fa77305a4150b5c4eba"
+      },
+      {
+        "path": "docs/features/quantization/README.md",
+        "sha256": "637170d63c03056137d2ec7c92af9cc94f92b728c1365b5334e7bcbc42fdca0d"
+      },
+      {
+        "path": "docs/features/speculative_decoding/README.md",
+        "sha256": "f186a138fc6f7114044fc589da1f2c11099fc214e67ce86a578160d3e3448b0a"
+      },
+      {
+        "path": "docs/models/pooling_models/README.md",
+        "sha256": "e447a761bb630c4fd0edb982b6667ee097fb2116f5a5217b0da7a4582bb96756"
+      },
+      {
+        "path": "docs/serving/online_serving/README.md",
+        "sha256": "824fdfcb5beae68064930102b8a4676ba535bdbc5ed73b9d9410f5fd9ddc3429"
+      },
+      {
+        "path": "docs/training/weight_transfer/README.md",
+        "sha256": "704173e0509e2c2e7476639528489ac8904fd0caf19ed2b6590649e4c9c62aee"
+      },
+      {
+        "path": "examples/disaggregated/disaggregated_encoder/README.md",
+        "sha256": "1b723a01070ad80f44531633525fac6da946ea0ba9eb01482a349e34c99efac5"
+      },
+      {
+        "path": "examples/features/openai_batch/README.md",
+        "sha256": "a38163d9e9c4bde5a6ac4450186595b724bcd1ff855715bd343159efc49781da"
+      },
+      {
+        "path": "examples/pooling/embed/openai_embedding_long_text/README.md",
+        "sha256": "a9ea271328ed0e0e9a9aa634072bf62188315f9b0a6a82c5476715927a2dca9f"
+      },
+      {
+        "path": "rust/README.md",
+        "sha256": "49fbd9e689e2fdfe0f6d402fc299be88e3e086be3972ef4dbf38d78461921693"
+      },
+      {
+        "path": "rust/src/bench/README.md",
+        "sha256": "fe992fbae49583d67d1329754ce61af65d93570eebdd1d16448621954dda283c"
+      },
+      {
+        "path": "tests/v1/ec_connector/integration/README.md",
+        "sha256": "a017ab5af304e349e84851a09785213044112fff8eebc2352650751b2e69225b"
+      },
+      {
+        "path": "vllm/models/deepseek_v4/amd/mono/README.md",
+        "sha256": "920b6e1541a788a1e8104275811daa62231faa3976b0722207f72a94d7982754"
+      },
+      {
+        "path": "vllm/models/deepseek_v41/amd/mono/README.md",
+        "sha256": "2c2d8be9892fe28afd7f1111da0b3b069c166d84baebbd5aa27d5cb7a2bbcc71"
+      },
+      {
+        "path": "vllm/models/kimi_k3/amd/specialized_decode/README.md",
+        "sha256": "3fcb97d1fe96bd004df02fd042709c97e64c572ca4da49dcb5b01570a30e0477"
+      }
+    ],
+    "tarball_sha256": "619417c4d6c6569fc7101648f349b26ab0105c6c5732a3c323c58a9179908242"
+  },
+  "structure": {
+    "bytes": 156886818,
+    "entrypoints": [
+      "rust/src/bench/src/main.rs",
+      "rust/src/cmd/src/main.rs",
+      "rust/src/mock-engine/src/main.rs",
+      "vllm/benchmarks/forward/main.py",
+      "vllm/benchmarks/sweep/cli.py",
+      "vllm/entrypoints/cli/benchmark/main.py",
+      "vllm/entrypoints/cli/main.py",
+      "vllm/entrypoints/launchers/app.py"
+    ],
+    "files": 9510,
+    "loc_total": null,
+    "max_depth": 10,
+    "monorepo": true,
+    "top_modules": [
+      {
+        "bytes": 58396938,
+        "files": 4241,
+        "path": "vllm"
+      },
+      {
+        "bytes": 36627621,
+        "files": 366,
+        "path": "docs"
+      },
+      {
+        "bytes": 35962791,
+        "files": 2874,
+        "path": "tests"
+      },
+      {
+        "bytes": 8226640,
+        "files": 548,
+        "path": "rust"
+      },
+      {
+        "bytes": 6675301,
+        "files": 390,
+        "path": "csrc"
+      },
+      {
+        "bytes": 2612492,
+        "files": 34,
+        "path": "requirements"
+      },
+      {
+        "bytes": 2100581,
+        "files": 200,
+        "path": "recipes"
+      },
+      {
+        "bytes": 1511570,
+        "files": 224,
+        "path": ".buildkite"
+      },
+      {
+        "bytes": 1495977,
+        "files": 271,
+        "path": "examples"
+      },
+      {
+        "bytes": 1441321,
+        "files": 148,
+        "path": "benchmarks"
+      },
+      {
+        "bytes": 884708,
+        "files": 85,
+        "path": "tools"
+      },
+      {
+        "bytes": 273501,
+        "files": 19,
+        "path": "docker"
+      },
+      {
+        "bytes": 258821,
+        "files": 46,
+        "path": ".github"
+      },
+      {
+        "bytes": 216901,
+        "files": 17,
+        "path": "."
+      },
+      {
+        "bytes": 101115,
+        "files": 24,
+        "path": ".agents"
+      },
+      {
+        "bytes": 100169,
+        "files": 13,
+        "path": "cmake"
+      },
+      {
+        "bytes": 371,
+        "files": 10,
+        "path": ".claude"
+      }
+    ]
+  }
+}

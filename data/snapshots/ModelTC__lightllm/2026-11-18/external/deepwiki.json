@@ -1,0 +1,10 @@
+{
+  "fetched_at": "2026-11-19T15:04:11Z",
+  "paths_found": 1,
+  "raw_relpath": "source.txt",
+  "reason": "正文仅含 1 个仓库内真实路径（阈值 3）→ 视为未索引/模板页",
+  "sha256": "f9309e8988f4bda01a633ba179ea759e6c70cf245fbad5ea794dd9c216453ae4",
+  "source": "deepwiki",
+  "status": "miss",
+  "url": "https://deepwiki.com/ModelTC/lightllm"
+}

@@ -1,0 +1,304 @@
+{
+  "cache": {
+    "evidence": {
+      "paged": [
+        {
+          "file": "flash_attn/cute/flash_fwd_sm100.py",
+          "line": 37,
+          "snippet": "from flash_attn.cute.paged_kv import PagedKVManager, resolve_paged_token"
+        },
+        {
+          "file": "flash_attn/cute/flash_fwd_sm100.py",
+          "line": 188,
+          "snippet": "paged_kv_non_tma: bool = False,"
+        },
+        {
+          "file": "flash_attn/cute/flash_fwd_sm100.py",
+          "line": 205,
+          "snippet": "assert not (config.pack_gqa or is_varlen_q or paged_kv_non_tma or config.num_splits > 1)"
+        }
+      ]
+    },
+    "hits": {
+      "kv_offload": false,
+      "paged": true,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [
+        [
+          "flash_attn/cute",
+          "flash_attn/cute/interface"
+        ],
+        [
+          "flash_attn/cute/flash_fwd_sm100",
+          "flash_attn/cute"
+        ],
+        [
+          "flash_attn/cute/interface",
+          "flash_attn/cute"
+        ],
+        [
+          "flash_attn/cute/interface",
+          "flash_attn/cute/flash_fwd_sm100"
+        ]
+      ],
+      "nodes": [
+        "flash_attn/cute",
+        "flash_attn/cute/flash_fwd_sm100",
+        "flash_attn/cute/interface"
+      ],
+      "truncated": false
+    },
+    "internal_edge_count": 4,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": false,
+    "license": "BSD-3-Clause",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [
+      "ampere",
+      "blackwell",
+      "cdna",
+      "hopper"
+    ],
+    "kernel_langs": [
+      "cuda",
+      "triton"
+    ],
+    "lock_in_score": null,
+    "vendors": [
+      "amd",
+      "nvidia"
+    ]
+  },
+  "identity": {
+    "age_days": 1644,
+    "analyzed_at": "2026-11-18T00:00:00Z",
+    "channel": "classic",
+    "commit": "68bd095cdd338c5171bccb9c200529f3620b85c9",
+    "created_at": "2022-05-19T21:22:06Z",
+    "repo": "Dao-AILab/flash-attention"
+  },
+  "lang": {
+    "shares": {
+      "C": 0.0002,
+      "C++": 0.1848,
+      "Cuda": 0.0617,
+      "Dockerfile": 0.0007,
+      "Makefile": 0.0,
+      "Python": 0.7518,
+      "Shell": 0.0007
+    }
+  },
+  "limitations": [
+    "证据来自 17 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {
+      "PP": [
+        {
+          "file": "training/README.md",
+          "line": 24,
+          "snippet": "training techniques (e.g., pipeline parallelism, tensor parallelism),"
+        }
+      ],
+      "SP": [
+        {
+          "file": "flash_attn/cute/interface.py",
+          "line": 3258,
+          "snippet": "# return dk, dv in float32: all-reduce across sequence-parallel ranks must happen"
+        }
+      ],
+      "TP": [
+        {
+          "file": "training/README.md",
+          "line": 24,
+          "snippet": "training techniques (e.g., pipeline parallelism, tensor parallelism),"
+        }
+      ]
+    },
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": true,
+      "SP": true,
+      "TP": true
+    }
+  },
+  "scale": {
+    "commits_365d": 506,
+    "commits_90d": 108,
+    "contributors": 223,
+    "forks": 3243,
+    "last_commit": "2026-11-18T03:47:24Z",
+    "open_issues": 1410,
+    "release_count_365d": 42,
+    "stars": 25316,
+    "top10_share": 0.7708,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.5876,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "68bd095cdd338c5171bccb9c200529f3620b85c9",
+    "files": [
+      {
+        "path": ".github/workflows/README.md",
+        "sha256": "02e001b3af03f7612f5e0a71ea204bc46ee8cddfb49516e14f78df96a4d2faf2"
+      },
+      {
+        "path": "README.md",
+        "sha256": "0dbaba56da1c8372d460956e2609bfb89acf8f3aadd65d132b1697d221069619"
+      },
+      {
+        "path": "csrc/flash_attn/src/flash_fwd_kernel.h",
+        "sha256": "31d5aeb6cf52bd5173ca2c41059f2c536fa4928708ef84585e3d5de06f201d50"
+      },
+      {
+        "path": "csrc/fused_dense_lib/README.md",
+        "sha256": "743ab998caaac4d9a721d809937be18627fb24260484317525c95592433078c5"
+      },
+      {
+        "path": "csrc/layer_norm/README.md",
+        "sha256": "f385bbb3755078383e7e9656b124dcddcc2bed888bf7ae0fed0fdc5a8cea05e6"
+      },
+      {
+        "path": "examples/inference/README.md",
+        "sha256": "3123c51584c12a29eb834456d59e623b23e3a7cb1a8d2ee40f4f6c14d12970e7"
+      },
+      {
+        "path": "flash_attn/__init__.py",
+        "sha256": "b26af89142495543726c13defd4913c43476accd46eb13f99375c96c9eb5e28c"
+      },
+      {
+        "path": "flash_attn/cute/README.md",
+        "sha256": "69e70ec669e9a5e1b843e5b8e5e8ec1366c67e70098b84ee0d79b612cb9bad1d"
+      },
+      {
+        "path": "flash_attn/cute/__init__.py",
+        "sha256": "e29975f134f9eb43d18f3ff505f7aaf273a7076ae6d585f0b4d85fcf8cc574bf"
+      },
+      {
+        "path": "flash_attn/cute/flash_fwd_sm100.py",
+        "sha256": "164abb4102e6cb9d11a7c2b37aa3641b076f55c1f8033fa2c3dd8f5c7ec6753e"
+      },
+      {
+        "path": "flash_attn/cute/interface.py",
+        "sha256": "9041d70befb4baf235a2024db6de9f227a2d4708722d980d4755fc5e6b1cad86"
+      },
+      {
+        "path": "flash_attn/ops/triton/__init__.py",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      {
+        "path": "hopper/__init__.py",
+        "sha256": "1373fa01b9c2c1a5a4ea7751d7336a94e4d579b5fdcf9aeff6fa25b5cef5768b"
+      },
+      {
+        "path": "hopper/flash_attn_3/__init__.py",
+        "sha256": "362bca1d0502eca70a2d051eea4ad27b5ea8ec94132df156d61ff4326e6aaa23"
+      },
+      {
+        "path": "hopper/instantiations/flash_fwd_hdim64_256_fp16_paged_split_softcap_sm90.cu",
+        "sha256": "158a252e58235438dd39186bf41bc1b134135b47052d56d474fcd640689e64bf"
+      },
+      {
+        "path": "tools/ci/README.md",
+        "sha256": "b0fe900a1c87ff67531d070b58c4e4807edefea98c87c2f7f244401b93980b5f"
+      },
+      {
+        "path": "training/README.md",
+        "sha256": "b25e97cd5ed4fa667b7a27d333479a0fd7485a51a6dd3e1c236a924d16a049a3"
+      }
+    ],
+    "tarball_sha256": "b19b123a8a22fd1952b905d29751662ce0544a25e061ee6c5297923930eaba72"
+  },
+  "structure": {
+    "bytes": 23192349,
+    "entrypoints": [],
+    "files": 1118,
+    "loc_total": null,
+    "max_depth": 5,
+    "monorepo": true,
+    "top_modules": [
+      {
+        "bytes": 15129325,
+        "files": 17,
+        "path": "assets"
+      },
+      {
+        "bytes": 3309694,
+        "files": 114,
+        "path": "flash_attn"
+      },
+      {
+        "bytes": 1776588,
+        "files": 75,
+        "path": "tests"
+      },
+      {
+        "bytes": 1494065,
+        "files": 507,
+        "path": "hopper"
+      },
+      {
+        "bytes": 796047,
+        "files": 197,
+        "path": "csrc"
+      },
+      {
+        "bytes": 219180,
+        "files": 145,
+        "path": "training"
+      },
+      {
+        "bytes": 162789,
+        "files": 13,
+        "path": "benchmarks"
+      },
+      {
+        "bytes": 141168,
+        "files": 16,
+        "path": "AI"
+      },
+      {
+        "bytes": 84704,
+        "files": 12,
+        "path": "."
+      },
+      {
+        "bytes": 47176,
+        "files": 11,
+        "path": "tools"
+      },
+      {
+        "bytes": 31498,
+        "files": 10,
+        "path": ".github"
+      },
+      {
+        "bytes": 115,
+        "files": 1,
+        "path": "examples"
+      }
+    ]
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "统一走vLLM通用解码层",
+        "boundary": "批次宽度超过专用内核最优区间时，强行启用会拖慢吞吐",
+        "chose": "专用解码路径按行宽上限16行启用，超过则回退vLLM标准层",
+        "cost": "32/64行时专用内核反而更慢，需额外宽度判定",
+        "evidence": "vllm/models/kimi_k3/amd/specialized_decode/README.md:44",
+        "id": "t1",
+        "rule": "专用内核只在窄批次占优时启用，宽批次回退通用路径"
+      },
+      {
+        "alternative": "为专用路径单独复制并重排权重",
+        "boundary": "权重或缓存格式变更时需同步改内核，否则只能回退",
+        "chose": "内核原地读取已加载权重与KV缓存，不复制不重量化",
+        "cost": "强依赖权重布局与fp8 E4M3缓存格式，格式不符即回退",
+        "evidence": "vllm/models/kimi_k3/amd/specialized_decode/README.md:42",
+        "id": "t2",
+        "rule": "专用内核复用现有内存布局，避免复制开销但绑定格式"
+      },
+      {
+        "alternative": "运行中逐项报错或静默降级",
+        "boundary": "支持面频繁扩张时校验清单易滞后，需与内核同步更新",
+        "chose": "不支持的配置在启动时一次性ValueError列出全部项",
+        "cost": "配置校验逻辑集中且需随支持面扩展维护",
+        "evidence": "vllm/models/kimi_k3/amd/specialized_decode/README.md:78",
+        "id": "t3",
+        "rule": "专用路径启动即全量校验配置，失败快速且信息完整"
+      },
+      {
+        "alternative": "无限等待对端或单rank独立报错",
+        "boundary": "对零延迟故障检测有要求的场景不适用，需核心钩子",
+        "chose": "内核内等待10秒超时后fail-stop，各rank同步抛错停机",
+        "cost": "检测延迟约16步，失败步的token可能已返回客户端",
+        "evidence": "vllm/models/kimi_k3/amd/specialized_decode/README.md:118",
+        "id": "t4",
+        "rule": "集合通信故障用超时加全体一致停机，避免单rank挂死"
+      },
+      {
+        "alternative": "默认启用专用路径",
+        "boundary": "面向通用部署时默认关闭会增加调优门槛",
+        "chose": "专用解码以opt-in开关启用，默认auto走vLLM解码",
+        "cost": "用户需显式配置多项环境变量与参数",
+        "evidence": "vllm/models/kimi_k3/amd/specialized_decode/README.md:60",
+        "id": "t5",
+        "rule": "高风险专用优化默认关闭，由用户显式选择启用"
+      },
+      {
+        "alternative": "改动框架核心层循环与注意力后端",
+        "boundary": "需要跨模型共享的优化不适合此隔离方式",
+        "chose": "专用实现全部收敛在模型子目录，仅通过少量钩子接入",
+        "cost": "接入点分散在linear/model/mla三处，需保持钩子稳定",
+        "evidence": "vllm/models/kimi_k3/amd/specialized_decode/README.md:130",
+        "id": "t6",
+        "rule": "厂商专用优化隔离在模型目录，核心框架零改动"
+      },
+      {
+        "alternative": "泛化到多种并行度与GPU型号",
+        "boundary": "多型号多并行度需求场景下该锁定策略不可行",
+        "chose": "仅支持TP8单机MI355X全256CU的固定部署形态",
+        "cost": "其他并行度或GPU直接拒绝启动，适配面窄",
+        "evidence": "vllm/models/kimi_k3/amd/specialized_decode/README.md:64",
+        "id": "t7",
+        "rule": "深度硬件耦合优化先锁定单一部署形态再谈泛化"
+      },
+      {
+        "alternative": "仅按吞吐调参忽略缓存命中",
+        "boundary": "无前缀复用特征的负载下该约束无意义，应置0",
+        "chose": "前缀缓存命中率作为自动调参约束，默认阈值60%",
+        "cost": "低命中场景需手动关闭该约束",
+        "evidence": "benchmarks/auto_tune/README.md:50",
+        "id": "t8",
+        "rule": "调参把缓存命中率纳入约束，兼顾吞吐与复用"
+      }
+    ],
+    "paradigm_tags": [
+      "专用优化",
+      "深优化",
+      "硬件耦合"
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 256,
+    "cache_miss_tokens": 10958,
+    "completion_tokens": 887,
+    "prompt_tokens": 11214,
+    "reasoning_tokens": 0,
+    "total_tokens": 12101
+  }
+}
