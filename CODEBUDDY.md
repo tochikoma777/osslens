@@ -7,7 +7,7 @@ This file provides guidance to CodeBuddy Code when working with code in this rep
 > **生成方**：项目负责人（一次性，Chat 只生成一次）；**维护方**：**Code Agent**（**自维护**：内容有变即直接改，不需逐次授权）。
 > **维护约束**：唯一约束 = `docs/经验库-冲突与覆盖清单.md` §8.2 **六锚点不得漂移**；改后 `git diff -- CODEBUDDY.md` 逐项核对，锚点丢失按该 §8.2 从 SSOT 回填。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.18 · **对应 tag**：`l5` · **日期**：2026-11-18（v1.18：DeepEP v2a 实例报告（24 产物）· domain 自动归类修复；v1.17：报告 v2a（导读 + 6 阅读模块 + 附录）· 200 tests；v1.16：分析/抽象周期独立配置（`analysis_interval_days` / `abstract_interval_days`）· 站点时间线归档（23 产物 / 199 tests）；v1.15：抽象 add-op 修复 + 证据格式重试真跑产出 3 条 L1 · 站点视觉升级 · 测试 197；v1.14：B1 快照 90 天 gzip 归档 · B2 `site --check --strict` 接入 auto-site · B4 追加 E13；v1.13：§2.1 补充 `.venv` 运行口径；v1.12：全仓挥发性事实刷新 157→186 / v1.6→v1.7 / 20→22 产物 / schedule 已获得、三套版本号口径说明；v1.11：新增 §0-A 治理决策）
+> **当前版本**：v1.19 · **对应 tag**：`l5` · **日期**：2026-11-19（v1.19：报告模板 v3 落地（导读 + 6 章 + 附录 A/B）· `report.profile` 白名单 · 架构模式扫描 · 209 tests；v1.18：DeepEP v2a 实例报告（24 产物）· domain 自动归类修复；v1.17：报告 v2a（导读 + 6 阅读模块 + 附录）· 200 tests；v1.16：分析/抽象周期独立配置（`analysis_interval_days` / `abstract_interval_days`）· 站点时间线归档（23 产物 / 199 tests）；v1.15：抽象 add-op 修复 + 证据格式重试真跑产出 3 条 L1 · 站点视觉升级 · 测试 197；v1.14：B1 快照 90 天 gzip 归档 · B2 `site --check --strict` 接入 auto-site · B4 追加 E13；v1.13：§2.1 补充 `.venv` 运行口径；v1.12：全仓挥发性事实刷新 157→186 / v1.6→v1.7 / 20→22 产物 / schedule 已获得、三套版本号口径说明；v1.11：新增 §0-A 治理决策）
 
 ---
 
@@ -109,7 +109,7 @@ python -m osslens site [--out DIR] [--as-of ISO] [--check] [--strict]
 pip install -e ".[dev]"        # 装含 pytest / ruff / mypy / respx 的开发依赖；setuptools 后端，无独立 build 步骤（`build` 未装）
 osslens --help                 # 或 python -m osslens；pyproject.toml [project.scripts] 入口
 
-pytest                         # 全量 200 例（199 + 报告 v2a 1；含 test_core 22、test_l3 43、test_l4 25）
+pytest                         # 全量 209 例（200 + 报告 v3 守护 9；含 test_core 22、test_l3 43、test_report_v3 9）
 pytest tests/test_core.py::test_report_is_byte_identical   # 单测（node id）
 pytest tests/test_l4.py -k "check or empty"               # 按关键字筛
 pytest -m "not network"        # 离线；pyproject.toml 定义 network marker，当前无用例带此标记
@@ -134,7 +134,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 ★ `mypy` 的 `files = ["osslens"]`（`pyproject.toml:58`）不含 `scripts/`（也不含 `tests/`）；
 `ruff check .` / `ruff format --check .` 按路径发现文件（`extend-exclude` 仅排 `data/` `reports/` `site/`，`:47`），`scripts/` 在 lint 范围内，`src` 只影响 import 解析、不限制检查范围 → 改 `scripts/` 下脚本时门禁四连的 mypy 侧不覆盖。
 
-**测试分布（200 条）**：`test_core.py` 22（L0 幂等/契约/报告 v2a）· `test_l1.py` 23（探测/特征卡/Mermaid）·
+**测试分布（209 条）**：`test_core.py` 22（L0 幂等/契约）· `test_report_v3.py` 9（v3 结构/ADR/经验卡/档位）· `test_l1.py` 23（探测/特征卡/Mermaid）·
 `test_l2.py` 17（档位/预算/D10/保留/快照归档）· `test_collect.py` 7（快照/源码切片）· `test_pool.py` 7（打分/观察期）·
 `test_time.py` 4（跨周/跨月时序）· `test_l3.py` 43（召回/四层 schema/ops/编排/成本闸门/S4 add 准入）·
 `test_l4.py` 25（站点四块/空态/`--check`/`--strict`/幂等/零网络/成本红 badge/时间线）·
@@ -142,7 +142,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 `test_workflow_pathspec.py` 3 · `test_retention_cli.py` 2（T1）· `test_cross_domain.py` 9（T2）·
 `test_paradigm_site.py` 10（T3）。
 按领域改代码时优先跑对应文件，收尾仍须门禁四连。
-★ 锚文件 §8.2 已同步为 **v1.12 / 全仓 200**（2026-11-18，依 §0-A 由本 Agent 维护升版；② 恰 2 条 L3、③ 157 → 200、④ 快照 `.json.gz` 归档、⑥ 24 产物 / 哈希不硬编码 / schedule 已获得）。本文件与锚文件口径一致，**无待上报差异**。
+★ 锚文件 §8.2 已同步为 **v1.13 / 全仓 209**（2026-11-19，依 §0-A 由本 Agent 维护升版；② 恰 2 条 L3、③ 157 → 209、④ 快照 `.json.gz` 归档、⑥ 24 产物 / 哈希不硬编码 / schedule 已获得）。本文件与锚文件口径一致，**无待上报差异**。
 
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
@@ -189,7 +189,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 | `osslens/abstract.py` | L3 编排：`cluster_run` / reconcile / **`cross_domain_run`（Q5，独立 `--cross` 入口，消费 L2 条目数 + 簇内 run 数阈值）**、run 记录九字段、成本闸门、同输入缓存 | `pytest tests/test_l3.py` / `tests/test_cross_domain.py` |
 | `osslens/site.py` | L4 静态只读站点：MD→HTML、四块呈现、纯 MD `index.md`、空态诚实、`site --check`、Q2 静态三能力（检索 / 范式标签 / 并排对比） | `pytest tests/test_l4.py` / `tests/test_paradigm_site.py` |
 | `osslens/pool.py` | 入池、打分、观察期 | 打分与观察期测试 |
-| `osslens/render.py` | 报告渲染（MD）、`D10_WORDING` 常量 | `test_report_is_byte_identical` / `test_report_carries_d10_wording_and_five_sections` |
+| `osslens/render.py` | 报告渲染（MD）、`D10_WORDING` 常量 | `test_report_is_byte_identical` / `test_report_carries_d10_wording_and_modules` / `test_report_v3.py` |
 | `osslens/llm.py` | LLM 客户端、结构阶梯、判废、结果缓存、上下文裁剪、`Usage.reasoning_tokens`；`PARADIGM_TAGS` 受控词表 + `Insight.paradigm_tags`（Q7） | `test_llm_*` / `test_context_drops_sources_when_over_budget` / `tests/test_paradigm_site.py` |
 | `osslens/prompts.py` | 分档 prompt 常量（**代码资产，不放 docs**）：`FAST_INSIGHT_SYSTEM` / `STRONG_INSIGHT_SYSTEM`（含 paradigm_tags schema，进 cache_key） | `test_llm_success_parses_usage`（断言首级 `json_object`、thinking 关闭） / `tests/test_paradigm_site.py` |
 | `osslens/retention.py` | T5 缓存层保留策略（白名单分层 + 内容寻址去重 + 按期归档）；生产入口 `retention` CLI（dry_run 默认，`--apply` 才清理；`--snapshots-only` 供定时建池做快照 gzip；`protected_paths` 含 `site/`） | `test_l2.py::test_apply_dedupes_and_never_touches_sources` / `tests/test_retention_cli.py` |
@@ -210,7 +210,7 @@ cli.py:_cmd_analyze ── 唯一编排入口，串起全链路
   ├─ cli.py:_run_insight（按档位取 model/thinking/purpose/max_tokens）
   │      → llm.py:LlmClient.chat_json                            # 结构阶梯 → 判废 → data/llm_cache 缓存
   ├─ depth.py:estimate_cost + llm.Usage → render.py:CostLine
-  └─ render.py:render_report → 报告 MD                          # 6 模块 + 附录固定顺序；atomic_write_text 落盘
+  └─ render.py:render_report → 报告 MD                    # v3：导读 + 6 章 + 附录 A/B；atomic_write_text 落盘
        退出码恒 0（降级 / 配额 / 预算 / 未配 key 均 0）
 
 pool 链：cli._cmd_pool_* → pool.observe（pool.jsonl append-only）→ score_channel（hot/classic/watchlist 不混排）
@@ -260,10 +260,10 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 | `test_site_builds_full_static_site` · `test_empty_patterns_state_is_honest` · `test_site_check_reports_diff_without_writing` · `test_site_zero_network_transport_interception` | L4 | ✅ 已存在（`tests/test_l4.py`，含「故意让它失败」反向用例） |
 
 > ★ L3 两条目标清单已落地（`patterns.py` / `abstract.py` 建成）；L4 站点契约测试 20 条亦已落地。L1 的两条、L2 的 14 条亦已落地。
-> `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 17 条、`tests/test_l3.py` 共 43 条、`tests/test_l4.py` 共 25 条、`tests/test_auto_chain.py` 共 28 条，**全仓 200 条**（实现轮 157 + 路径 B 自动化 29 + 审查整改 6 + 抽象修复 5 + 独立周期/时间线 2 + 报告 v2a 1）。
+> `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 17 条、`tests/test_l3.py` 共 43 条、`tests/test_l4.py` 共 25 条、`tests/test_auto_chain.py` 共 28 条、`tests/test_report_v3.py` 共 9 条，**全仓 209 条**（实现轮 157 + 路径 B 自动化 29 + 审查整改 6 + 抽象修复 5 + 独立周期/时间线 2 + 报告 v2a 1 + 报告 v3 9）。
 > 核对命令：`pytest --collect-only -q | grep -E "three_class|not_applicable"`（**应输出 2 条 L3**）；
 > `pytest --collect-only -q | grep -E "template_page|real_content"`（**应仅输出 2 条 L1**，不得为 0）。
-> ★ 锚文件 `docs/经验库-冲突与覆盖清单.md` 已同步为 **v1.12**（2026-11-18，依 §0-A 由本 Agent 维护升版）：§8.2 ②「恰 2 条 L3」、③「全仓 200」、④ 快照 `.json.gz` 归档、⑥ 24 产物 / 哈希不硬编码 / `event=schedule` 已获得。锚点 ③ 是**状态型**事实，随阶段推进刷新、**不得把已 ✅ 存在的测试重置为「⬜ 待建」**（第 4 类锚点语义不变）。
+> ★ 锚文件 `docs/经验库-冲突与覆盖清单.md` 已同步为 **v1.13**（2026-11-19，依 §0-A 由本 Agent 维护升版）：§8.2 ②「恰 2 条 L3」、③「全仓 209」、④ 快照 `.json.gz` 归档、⑥ 24 产物 / 哈希不硬编码 / `event=schedule` 已获得。锚点 ③ 是**状态型**事实，随阶段推进刷新、**不得把已 ✅ 存在的测试重置为「⬜ 待建」**（第 4 类锚点语义不变）。
 > 若后续发现锚文件状态落后于仓库现实 → 依 §0-A 由本 Agent 直接同步升版，改后按 §8.2 核对六锚点（不再「停下上报等负责人」）。
 
 ---
@@ -347,7 +347,7 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 | 幂等 | 设计方案 §7 |
 | 数据布局 / 真源分层（D15） | 设计方案 §8（**§8.2 为唯一权威**） |
 | 成本观测 | 设计方案 §9 |
-| 报告结构 | 执行手册 §4（v2a：6 模块 + 附录；模板以 `render.py` 为准） |
+| 报告结构 | `docs/报告模板-v3.md`（导读 + 6 章 + 附录 A/B；`render.py` 与模板需同步） |
 | 验收模板 | 执行手册 §6 |
 | 总体架构 / 端到端流程 / 技术选型 | `docs/总体架构设计.md` §2 / §3 / §4（补充件，非 SSOT） |
 | 开发命令 / 门禁四连 | 本文件 §2.1 · `CONTRIBUTING.md` |
@@ -456,7 +456,7 @@ site/                                              # L4 静态站（★ 可重�
 | `docs/数据源手册.md` | L0 验收后（**归并已有实测文件，不新造**） | ✅ 已建成 |
 | `docs/成本预算.md` | **L1 首次真实调用后**（L0 期间无真实花费，不建） | ✅ 已建成 |
 | `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E13；E11 = D28 三态口径、E12 = HTML 转义断言、E13 = 分段验收 ≠ 端到端闭合） |
-| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护；旧归属表述依 §0-A 覆盖、原文保留） | ✅ 已建成（v1.12，2026-11-18 事实刷新：② 恰 2 条 L3 / ③ 全仓 200 / ④ 快照 gzip 归档 / ⑥ 24 产物 / 哈希不硬编码 / schedule 已获得；与仓库现实一致） |
+| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护；旧归属表述依 §0-A 覆盖、原文保留） | ✅ 已建成（v1.13，2026-11-19 事实刷新：② 恰 2 条 L3 / ③ 全仓 209 / ④ 快照 gzip 归档 / ⑥ 24 产物 / 哈希不硬编码 / schedule 已获得；与仓库现实一致） |
 | `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.5） |
 | `docs/功能总览.md` | 收尾 | ✅ 已建成（2026-11-07，七部分全景定稿） |
 
