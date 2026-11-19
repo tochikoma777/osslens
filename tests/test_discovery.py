@@ -91,7 +91,24 @@ def test_discovery_config_validation(tmp_path: Path) -> None:
         root,
         {"pool": {"discovery": {"enabled": True, "queries": [" topic:llm ", ""]}}},
     )
-    assert cfg.pool.discovery.queries == ("topic:llm",)
+    assert [query.q for query in cfg.pool.discovery.queries] == ["topic:llm"]
+    mixed = Config.from_mapping(
+        root,
+        {
+            "pool": {
+                "discovery": {
+                    "queries": [
+                        "topic:llm",
+                        {"q": "topic:ai-agent", "require": ["Sandbox"], "exclude": []},
+                    ]
+                }
+            }
+        },
+    )
+    assert mixed.pool.discovery.queries[1].require == ("sandbox",)
+    assert mixed.pool.discovery.queries[1].exclude == ()
+    with pytest.raises(ConfigError):
+        Config.from_mapping(root, {"pool": {"discovery": {"queries": [{"q": ""}]}}})
 
 
 class _StubClient:
@@ -237,3 +254,60 @@ def test_pool_add_refuses_skipped_repo(tmp_path: Path) -> None:
     root = seed_workspace(tmp_path / "ws", overrides={"pool": {"skip": ["microsoft/onnxruntime"]}})
     assert main(["pool", "add", "microsoft/onnxruntime", "--root", str(root)]) == 0
     assert not (root / "data" / "snapshots" / "microsoft__onnxruntime").exists()
+
+
+def test_round_robin_rotates_and_skips_empty_queues() -> None:
+    from osslens.collect import DiscoveryCandidate, select_round_robin
+
+    def make(slug: str, stars: int = 10_000) -> DiscoveryCandidate:
+        return DiscoveryCandidate(
+            slug=slug, stars=stars, pushed_at="2026-11-01T00:00:00Z", description=""
+        )
+
+    q1 = [make("a/one"), make("a/two")]
+    q2: list[DiscoveryCandidate] = []
+    q3 = [make("c/one")]
+    picked = select_round_robin([q1, q2, q3], max_new=2, start=0)
+    assert [item.slug for item in picked] == ["a/one", "c/one"], "空主题应被跳过，而不是卡住轮转"
+
+    # start 决定"今天从谁开始"，同一 start 可复算
+    assert [item.slug for item in select_round_robin([q1, q2, q3], max_new=1, start=2)] == ["c/one"]
+    # 去重：同一 slug 出现在多个主题时只取一次
+    dup = [make("a/one")]
+    assert [item.slug for item in select_round_robin([dup, dup], max_new=2, start=0)] == ["a/one"]
+
+
+def test_per_query_filters_override_global(tmp_path: Path) -> None:
+    """agent 主题的 require/exclude 必须独立于 llm 主题（否则会被全局 agent 词剔除）。"""
+    root = seed_workspace(
+        tmp_path / "ws",
+        overrides={
+            "pool": {
+                "discovery": {
+                    "require_keywords": ["inference"],
+                    "exclude_keywords": ["agent"],
+                    "queries": [
+                        {"q": "topic:llm"},
+                        {"q": "topic:ai-agent", "require": ["sandbox"], "exclude": ["tutorial"]},
+                    ],
+                }
+            }
+        },
+    )
+    cfg = Config.load(root)
+    agent_query = cfg.pool.discovery.queries[1]
+    items = (
+        _item("x/agent-sandbox", description="Agent sandbox runtime"),
+        _item("y/agent-tutorial", description="Agent tutorial"),
+    )
+    out = select_discoveries(
+        items,
+        existing=frozenset(),
+        min_stars=5000,
+        max_pushed_age_days=365,
+        max_new=5,
+        now=NOW,
+        require_keywords=agent_query.require or (),
+        exclude_keywords=agent_query.exclude or (),
+    )
+    assert [item.slug for item in out] == ["x/agent-sandbox"]

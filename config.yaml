@@ -100,9 +100,20 @@ pool:
   discovery:
     enabled: true
     queries:
-      - "topic:llm stars:>=5000"
-      - "topic:inference stars:>=5000"
-      - "topic:cuda stars:>=5000"
+      - q: "topic:llm stars:>=5000"
+        require: [inference, serving, kernel, cuda, attention, quantization, llm]
+        exclude: [awesome, tutorial, course, book, agent, scratch]
+      - q: "topic:inference stars:>=5000"
+        require: [inference, serving, engine, runtime, vllm, sglang]
+        exclude: [awesome, tutorial, course, book, agent]
+      - q: "topic:cuda stars:>=5000"
+        require: [cuda, kernel, gpu, tensor, attention]
+        exclude: [awesome, tutorial, course, book, agent]
+      # agent 只取"基础设施型"：sandbox / 协议 / 编排 / 记忆 / 运行时，排除 prompt 与教程
+      - q: "topic:ai-agent stars:>=5000"
+        # 只收"agent 基础设施"：沙箱 / 协议 / 编排 / 运行时；排除个人助理、聊天壳与教程
+        require: [sandbox, protocol, orchestration, runtime, tool-use, multi-agent framework]
+        exclude: [assistant, chatbot, copilot, personal, desktop, browser, awesome, tutorial, course, book, list, prompt]
     per_page: 20
     # 与每周分析配额（fast=5）匹配：每日最多新增 1 个，避免池子膨胀快于分析能力
     max_new_per_run: 1

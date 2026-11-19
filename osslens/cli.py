@@ -26,6 +26,7 @@ from .abstract import (
     load_samples,
 )
 from .collect import (
+    DiscoveryCandidate,
     ExternalProbe,
     RepoSnapshot,
     fetch_snapshot,
@@ -36,6 +37,7 @@ from .collect import (
     save_snapshot,
     search_repositories,
     select_discoveries,
+    select_round_robin,
 )
 from .config import CONFIG_TEMPLATE, Config, Layout
 from .depth import (
@@ -377,7 +379,8 @@ def _cmd_pool_discover(args: argparse.Namespace) -> int:
     existing = {item.repo.lower() for item in load_series(config.layout)}
     existing |= {slug.lower() for slug in config.watchlist}
     existing |= {slug.lower() for slug in config.pool.skip}
-    items: list[dict[str, Any]] = []
+    per_query: list[list[DiscoveryCandidate]] = []
+    matched = 0
     failures: list[str] = []
     client = HttpClient(
         config.github_base_url,
@@ -387,22 +390,34 @@ def _cmd_pool_discover(args: argparse.Namespace) -> int:
     try:
         for query in discovery.queries:
             try:
-                items.extend(search_repositories(client, query, per_page=discovery.per_page))
+                batch = search_repositories(client, query.q, per_page=discovery.per_page)
             except OsslensError as exc:
-                failures.append(f"{query}: {exc}")
+                failures.append(f"{query.q}: {exc}")
+                per_query.append([])
+                continue
+            matched += len(batch)
+            candidates = select_discoveries(
+                batch,
+                existing=frozenset(existing),
+                min_stars=discovery.min_stars,
+                max_pushed_age_days=discovery.max_pushed_age_days,
+                max_new=discovery.per_page,
+                now=as_of,
+                require_keywords=(
+                    discovery.require_keywords if query.require is None else query.require
+                ),
+                exclude_keywords=(
+                    discovery.exclude_keywords if query.exclude is None else query.exclude
+                ),
+            )
+            per_query.append(list(candidates))
     finally:
         client.close()
 
-    candidates = select_discoveries(
-        items,
-        existing=frozenset(existing),
-        min_stars=discovery.min_stars,
-        max_pushed_age_days=discovery.max_pushed_age_days,
-        max_new=discovery.max_new_per_run,
-        now=as_of,
-        require_keywords=discovery.require_keywords,
-        exclude_keywords=discovery.exclude_keywords,
-    )
+    # 按 as_of 的主题轮转起点：同一 as_of 重跑结果一致（可复算、无状态）
+    start = as_of.date().toordinal() % max(1, len(discovery.queries))
+    picked = select_round_robin(per_query, max_new=discovery.max_new_per_run, start=start)
+    candidates = picked
     for warning in failures:
         print(f"⚠ 搜索失败（不阻断）：{warning}")
 
@@ -420,8 +435,10 @@ def _cmd_pool_discover(args: argparse.Namespace) -> int:
             stable_json(
                 {
                     "as_of": fmt_iso(as_of),
-                    "queries": list(discovery.queries),
-                    "matched": len(items),
+                    "queries": [query.q for query in discovery.queries],
+                    "matched": matched,
+                    "per_query": [len(queue) for queue in per_query],
+                    "rotation_start": start,
                     "candidates": [
                         {
                             "slug": item.slug,
@@ -439,9 +456,11 @@ def _cmd_pool_discover(args: argparse.Namespace) -> int:
         return 0
 
     mode = "apply（已入池）" if args.apply else "dry-run（未写盘）"
+    counts = "、".join(str(len(queue)) for queue in per_query)
     print(
-        f"自动发现：{len(discovery.queries)} 个查询，命中 {len(items)} 条，"
-        f"候选 {len(candidates)} 个（{mode}）"
+        f"自动发现：{len(discovery.queries)} 个主题，命中 {matched} 条，"
+        f"各主题候选 [{counts}]；今日轮转起点 #{start + 1}"
+        f"（{discovery.queries[start].q}），入选 {len(candidates)} 个（{mode}）"
     )
     for item in candidates:
         desc = item.description[:48]

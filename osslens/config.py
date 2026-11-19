@@ -87,9 +87,54 @@ DEFAULT_CONFIG: dict[str, Any] = {
         "discovery": {
             "enabled": True,
             "queries": [
-                "topic:llm stars:>=5000",
-                "topic:inference stars:>=5000",
-                "topic:cuda stars:>=5000",
+                {
+                    "q": "topic:llm stars:>=5000",
+                    "require": [
+                        "inference",
+                        "serving",
+                        "kernel",
+                        "cuda",
+                        "attention",
+                        "quantization",
+                        "llm",
+                    ],
+                    "exclude": ["awesome", "tutorial", "course", "book", "agent", "scratch"],
+                },
+                {
+                    "q": "topic:inference stars:>=5000",
+                    "require": ["inference", "serving", "engine", "runtime", "vllm", "sglang"],
+                    "exclude": ["awesome", "tutorial", "course", "book", "agent"],
+                },
+                {
+                    "q": "topic:cuda stars:>=5000",
+                    "require": ["cuda", "kernel", "gpu", "tensor", "attention"],
+                    "exclude": ["awesome", "tutorial", "course", "book", "agent"],
+                },
+                {
+                    "q": "topic:ai-agent stars:>=5000",
+                    "require": [
+                        "sandbox",
+                        "protocol",
+                        "orchestration",
+                        "runtime",
+                        "tool-use",
+                        "multi-agent framework",
+                    ],
+                    "exclude": [
+                        "assistant",
+                        "chatbot",
+                        "copilot",
+                        "personal",
+                        "desktop",
+                        "browser",
+                        "awesome",
+                        "tutorial",
+                        "course",
+                        "book",
+                        "list",
+                        "prompt",
+                    ],
+                },
             ],
             "per_page": 20,
             "max_new_per_run": 5,
@@ -260,9 +305,21 @@ pool:
   discovery:
     enabled: true
     queries:
-      - "topic:llm stars:>=5000"
-      - "topic:inference stars:>=5000"
-      - "topic:cuda stars:>=5000"
+      - q: "topic:llm stars:>=5000"
+        require: [inference, serving, kernel, cuda, attention, quantization, llm]
+        exclude: [awesome, tutorial, course, book, agent, scratch]
+      - q: "topic:inference stars:>=5000"
+        require: [inference, serving, engine, runtime, vllm, sglang]
+        exclude: [awesome, tutorial, course, book, agent]
+      - q: "topic:cuda stars:>=5000"
+        require: [cuda, kernel, gpu, tensor, attention]
+        exclude: [awesome, tutorial, course, book, agent]
+      # agent 只取"基础设施型"：sandbox / 协议 / 编排 / 记忆 / 运行时，排除 prompt 与教程
+      - q: "topic:ai-agent stars:>=5000"
+        # 只收"agent 基础设施"：沙箱 / 协议 / 编排 / 运行时；排除个人助理、聊天壳与教程
+        require: [sandbox, protocol, orchestration, runtime, tool-use, multi-agent framework]
+        exclude: [assistant, chatbot, copilot, personal, desktop, browser, awesome,
+                  tutorial, course, book, list, prompt]
     per_page: 20
     # 与每周分析配额（fast=5）匹配：每日最多新增 1 个，避免池子膨胀快于分析能力
     max_new_per_run: 1
@@ -326,6 +383,18 @@ watchlist: []
 
 
 @dataclass(frozen=True)
+class DiscoveryQuery:
+    """单条搜索：GitHub 查询语法 + 可选的本题相关性/噪音词。
+
+    require/exclude 为 None 表示继承全局默认；显式 [] 表示该题不做这一侧过滤。
+    """
+
+    q: str
+    require: tuple[str, ...] | None = None
+    exclude: tuple[str, ...] | None = None
+
+
+@dataclass(frozen=True)
 class DiscoveryConfig:
     """每日自动发现：GitHub Search API（零 LLM）。
 
@@ -334,7 +403,7 @@ class DiscoveryConfig:
     """
 
     enabled: bool = False
-    queries: tuple[str, ...] = ()
+    queries: tuple[DiscoveryQuery, ...] = ()
     per_page: int = 20
     max_new_per_run: int = 5
     min_stars: int = 5000
@@ -378,15 +447,45 @@ def _slug_list(value: Any) -> tuple[str, ...]:
     return tuple(seen)
 
 
+def _keyword_list(value: Any, field: str) -> tuple[str, ...] | None:
+    if value is None:
+        return None
+    if not isinstance(value, list):
+        raise ConfigError(f"pool.discovery.{field} 必须是字符串列表")
+    return tuple(text for text in (as_str(item).strip().lower() for item in value) if text)
+
+
+def _discovery_queries(value: Any) -> tuple[DiscoveryQuery, ...]:
+    """支持两种写法：字符串（继承全局关键词）或 {q, require, exclude} 对象。"""
+    if value is None:
+        return ()
+    if not isinstance(value, list):
+        raise ConfigError("pool.discovery.queries 必须是列表")
+    out: list[DiscoveryQuery] = []
+    for item in value:
+        if isinstance(item, str):
+            text = item.strip()
+            if text:
+                out.append(DiscoveryQuery(q=text))
+            continue
+        if not isinstance(item, dict):
+            raise ConfigError("pool.discovery.queries 的元素必须是字符串或映射")
+        q = as_str(item.get("q")).strip()
+        if not q:
+            raise ConfigError("pool.discovery.queries[].q 不能为空")
+        out.append(
+            DiscoveryQuery(
+                q=q,
+                require=_keyword_list(item.get("require"), "queries[].require"),
+                exclude=_keyword_list(item.get("exclude"), "queries[].exclude"),
+            )
+        )
+    return tuple(out)
+
+
 def _discovery_config(raw: dict[str, Any]) -> DiscoveryConfig:
     """解析 pool.discovery；非法值 fail-fast，避免“看起来在发现、其实没搜”。"""
-    queries_raw = raw.get("queries")
-    queries: list[str] = []
-    if isinstance(queries_raw, list):
-        for item in queries_raw:
-            text = as_str(item).strip()
-            if text:
-                queries.append(text)
+    queries = _discovery_queries(raw.get("queries"))
     per_page = as_int(raw.get("per_page"), 20)
     max_new = as_int(raw.get("max_new_per_run"), 5)
     min_stars = as_int(raw.get("min_stars"), 5000)
@@ -408,7 +507,7 @@ def _discovery_config(raw: dict[str, Any]) -> DiscoveryConfig:
 
     return DiscoveryConfig(
         enabled=as_bool(raw.get("enabled"), False),
-        queries=tuple(queries),
+        queries=queries,
         per_page=per_page,
         max_new_per_run=max_new,
         min_stars=min_stars,

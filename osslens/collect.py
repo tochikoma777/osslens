@@ -860,3 +860,37 @@ def select_discoveries(
         )
     ordered = sorted(picked.values(), key=lambda item: (-item.stars, item.slug.lower()))
     return tuple(ordered[: max(0, max_new)])
+
+
+def select_round_robin(
+    queues: Sequence[Sequence[DiscoveryCandidate]], *, max_new: int, start: int
+) -> tuple[DiscoveryCandidate, ...]:
+    """按主题轮转取候选：每个主题轮流出一个，`start` 决定今天从哪个主题起。
+
+    用 `as_of` 的 day ordinal 作为起点 → 无需持久化状态、可复算；
+    某个主题没有候选时自动跳过，不会卡住整轮。
+    """
+    pools = [list(queue) for queue in queues]
+    if not pools or max_new <= 0:
+        return ()
+    picked: list[DiscoveryCandidate] = []
+    seen: set[str] = set()
+    index = start % len(pools)
+    while len(picked) < max_new:
+        advanced = False
+        for offset in range(len(pools)):
+            current = (index + offset) % len(pools)
+            pool = pools[current]
+            while pool and pool[0].slug.lower() in seen:
+                pool.pop(0)
+            if not pool:
+                continue
+            candidate = pool.pop(0)
+            picked.append(candidate)
+            seen.add(candidate.slug.lower())
+            index = (current + 1) % len(pools)
+            advanced = True
+            break
+        if not advanced:
+            break
+    return tuple(picked)
