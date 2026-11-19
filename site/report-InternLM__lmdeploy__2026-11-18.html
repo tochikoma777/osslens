@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>报告 · InternLM/lmdeploy</title>
+<style>:root{--bg:#f4f7fb;--surface:#fff;--ink:#14213d;--muted:#64748b;--line:#e2e8f0;--brand:#2563eb;--brand2:#06b6d4;--radius:16px;--shadow:0 10px 30px rgba(15,23,42,.07)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+.site-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#0e7490 100%);color:#fff;padding:30px 24px 24px}
+.wrap{max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.brand-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,#38bdf8,#2563eb);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.brand small{display:block;color:#bfdbfe;letter-spacing:.16em;font-size:.72em;text-transform:uppercase}
+header h1{font-size:1.9rem;margin:0 0 16px;letter-spacing:.01em}
+header nav{display:flex;flex-wrap:wrap;gap:8px}
+header nav a{color:#e0f2fe;text-decoration:none;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:.88em}
+header nav a:hover,header nav a.active{background:#fff;color:#1e3a8a;border-color:transparent}
+main{max-width:1120px;margin:26px auto 0;padding:0 24px}
+main>section,main>.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:20px}
+h1,h2,h3{line-height:1.25;color:#0f172a}
+.site-header h1,.site-header h2{color:#fff}
+h2{font-size:1.3rem;margin:0 0 12px}h3{font-size:1.06rem;margin:22px 0 8px}
+p{margin:8px 0}a{color:#1d4ed8}
+code{background:#eef2ff;color:#3730a3;padding:2px 6px;border-radius:6px;font-size:.9em}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px;overflow:auto}
+pre code{background:none;color:inherit;padding:0}
+.hero{background:linear-gradient(135deg,#eff6ff,#f0fdfa);border-color:#bfdbfe}
+.hero h2{font-size:1.55rem;margin:4px 0 8px}
+.kicker{color:var(--brand);font-weight:700;letter-spacing:.14em;font-size:.72em;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0}
+.stat{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;transition:transform .18s,border-color .18s;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+.stat:hover{transform:translateY(-2px);border-color:#93c5fd;box-shadow:0 12px 24px rgba(37,99,235,.12)}
+.stat-label{display:block;color:var(--muted);font-size:.82em}
+.stat strong{display:block;font-size:2rem;line-height:1.2;margin:6px 0;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-desc{color:var(--muted);font-size:.78em}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;margin:0;background:#fff;font-size:.92em}
+th,td{padding:10px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#f8fafc;color:#334155;font-weight:600;white-space:nowrap;position:sticky;top:0}
+tbody tr:hover{background:#f8fbff}tbody tr:last-child td{border-bottom:0}
+.empty,.note{background:#fffbeb;border-left:4px solid #f59e0b;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#78350f}
+.alert{background:#ffeef0;border-left:4px solid #d1242f;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#7f1d1d}
+.badge-alert{display:inline-block;background:#d1242f;color:#fff;border-radius:999px;padding:2px 10px;font-size:.8em;font-weight:700}
+.pill{display:inline-block;background:#eff6ff;color:#1e40af;border:1px solid #dbeafe;border-radius:999px;padding:2px 10px;font-size:.78em;margin:2px}
+footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);font-size:.82em;text-align:center}
+@media(max-width:700px){header h1{font-size:1.45rem}main{padding:0 14px}main>section,main>.panel{padding:16px}.grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap"><div class="brand"><span class="brand-mark">O</span><div><small>osslens / static insights</small></div></div><h1>报告 · InternLM/lmdeploy</h1><nav><a href="index.html">首页</a> · <a class="active" href="reports.html">报告</a> · <a href="timeline.html">时间线</a> · <a href="featcards.html">特征卡</a> · <a href="patterns.html">规律库</a> · <a href="costs.html">成本</a> · <a href="runs.html">抽象 run</a> · <a href="search.html">检索</a> · <a href="tags.html">范式标签</a> · <a href="compare.html">并排对比</a></nav></div></header>
+<main class="wrap">
+<p class="note">源 MD：<code>../reports/InternLM__lmdeploy__2026-11-18.md</code>；下方六个阅读模块 + 附录顺序固定不变。</p>
+<h1>InternLM/lmdeploy 深度分析</h1>
+<p>&gt; 阅读档位：架构学习（profile=architecture_learning） &gt; 注意力预算：定位 20 / 架构 30 / 抽象 15 / ADR 20 / 扩展 5 / 经验卡 10 / 工程维护 0 &gt; 证据约定：[事实] 确定性提取 · [判断] 有 file:line 或文档锚点 · [未获得] 当前未采集</p>
+<h2>导读</h2>
+<p>&gt; <strong>是什么</strong>：LMDeploy is a toolkit for compressing, deploying, and serving LLMs. &gt; <strong>架构一句话</strong>：[判断] 顶层以 <code>lmdeploy</code>、<code>src</code>、<code>tests</code> 为主，入口为 <code>lmdeploy/__main__.py</code>（静态结构判断，未做动态跟踪）。 &gt; <strong>最大风险</strong>：Top1 贡献者占比 19.22%，决策集中度需关注 &gt; <strong>不适合</strong>：需要稳定 API/长期支持承诺的场景，请先核对发布节奏与维护状态；依赖链许可证与权重许可能力当前未采集，不能据此做出商用结论。</p>
+<h2>1. 项目定位与目标</h2>
+<p>[事实] InternLM/lmdeploy 属于 <code>inference</code> 领域、<code>classic</code> 通道，主语言 Python（73%），8,150 stars / 782 forks。</p>
+<p>[事实] 项目自述：LMDeploy is a toolkit for compressing, deploying, and serving LLMs.。</p>
+<p>[事实] README 摘要：These chat templates are pinned regression fixtures, with trailing newlines normalized. Tests require no network access or model weights. - <code>glm5_3_flash.jinja</code>: zai-org/GLM-5.3-Flash, revision <code>3f1971b7b5f7a528c9c4ef6212c8785298a8c24a</code>. - <code>gpt_oss.jinja</code>: openai/gpt-oss-20b/chat_template.jinja, revision <code>d666cf3b67006cf8227666739edf25164aaffdeb</code>. Byte-identical to openai/gpt-oss-120b at revision <code>b5c939de8f754692c1647ca79fbf85e8c1e70f8a</code>.。</p>
+<ul><li><strong>目标用户</strong>：[判断] 模型工程师 / 推理基础设施开发者；终端用户与性能调优人员</li><li><strong>替代方案与差异</strong>：[未获得] 本次未采集竞品对比与 roadmap，不得据此推断「没有替代品」。</li><li><strong>不解决什么</strong>：[未获得] 没有路线图与 issue 语料，无法可靠界定能力边界。</li></ul>
+<p>[判断] 阶段信号：仓库已存在 1,252 天，近一年发布 14 个版本，最近提交距今 0 天，维护状态「active」。这只说明是否仍在维护，不等于成熟度结论。</p>
+<h2>2. 架构全景</h2>
+<h3>2.1 上下文边界</h3>
+<p>[判断] 架构说明文档：<code>README.md</code>, <code>README_ja.md</code>, <code>README_zh-CN.md</code>, <code>autotest/configs/README.md</code>, <code>benchmark/README.md</code>；边界结论来自文档与目录结构，未经运行验证。 [事实] 硬件/内核线索：vendors=[ascend, nvidia]、kernel_langs=[cuda, tilelang, triton]。</p>
+<h3>2.2 模块职责</h3>
+<table><thead><tr><th>模块</th><th>文件数</th><th>职责（启发式）</th></tr></thead><tbody><tr><td><code>lmdeploy</code></td><td>772</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>src</code></td><td>562</td><td>核心实现</td></tr><tr><td><code>tests</code></td><td>306</td><td>测试与用例</td></tr><tr><td><code>autotest</code></td><td>155</td><td>测试与用例</td></tr><tr><td><code>docs</code></td><td>141</td><td>文档</td></tr></tbody></table>
+<h3>2.3 一次调用的路径（运行时视图）</h3>
+<p>[判断] 静态推断：<code>lmdeploy/__main__.py</code>, <code>lmdeploy/cli/cli.py</code> → 输出。内部 import 边约 0 条，只用于判断调用方向；<strong>未做运行时跟踪</strong>，参数与分支需读源码确认。</p>
+<h3>2.4 数据与控制流</h3>
+<p>[事实] 并行轴命中 CP, TP；缓存轴命中 paged, prefix_reuse（证据见附录 A）。</p>
+<pre><code class="language-mermaid">graph TD
+  A[无可提取的内部模块依赖边]</code></pre>
+<h2>3. 核心抽象与契约</h2>
+<p>[事实] 源码切片中命中以下模式（正则扫描，仅代表本次切片）：</p>
+<table><thead><tr><th>模式</th><th>位置</th><th>说明</th></tr></thead><tbody><tr><td><code>backend</code></td><td><code>lmdeploy/cli/cli.py:42</code></td><td>候选扩展/契约点</td></tr><tr><td><code>adapter</code></td><td><code>lmdeploy/cli/cli.py:52</code></td><td>候选扩展/契约点</td></tr><tr><td><code>backend</code></td><td><code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:7</code></td><td>候选扩展/契约点</td></tr><tr><td><code>backend</code></td><td><code>lmdeploy/pytorch/engine/executor/__init__.py:8</code></td><td>候选扩展/契约点</td></tr><tr><td><code>adapter</code></td><td><code>lmdeploy/pytorch/engine/executor/__init__.py:91</code></td><td>候选扩展/契约点</td></tr><tr><td><code>factory</code></td><td><code>lmdeploy/pytorch/strategies/dllm/__init__.py:17</code></td><td>候选扩展/契约点</td></tr></tbody></table>
+<p>[判断] 这些命中说明项目存在注册/适配/分派结构，但<strong>未做 AST 分析</strong>，无法确认继承关系与调用契约的完整性。</p>
+<p>入口候选（可作为契约阅读起点）：<code>lmdeploy/__main__.py</code>、<code>lmdeploy/cli/cli.py</code></p>
+<h2>4. 关键设计决策（ADR）</h2>
+<p>每条固定六字段：决策 / 替代 / 代价 / 证据 / 可复用规则 / 边界·反模式。</p>
+<h3>ADR-1 · t1: 按能力探测选 FA3/FlashMLA/Triton 多级注意力后端</h3>
+<ul><li><strong>决策</strong>：按能力探测选 FA3/FlashMLA/Triton 多级注意力后端</li><li><strong>替代</strong>：统一用 Triton 实现</li><li><strong>代价</strong>：需维护多套内核与降级分支</li><li><strong>证据</strong>：<code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:87</code></li><li><strong>可复用规则</strong>：注意力后端按硬件与参数能力分级选择，缺依赖时降级到通用实现</li><li><strong>边界/反模式</strong>：参数受限（alibi、sink、大 head_size）时高级后端不可用，勿假设恒生效</li></ul>
+<h3>ADR-2 · t2: 投机解码硬性要求 FA3，缺失即报错</h3>
+<ul><li><strong>决策</strong>：投机解码硬性要求 FA3，缺失即报错</li><li><strong>替代</strong>：无 FA3 时回退通用注意力继续投机</li><li><strong>代价</strong>：SM80 以下或 CUDA&lt;12.3 用户无法用投机解码</li><li><strong>证据</strong>：<code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:31</code></li><li><strong>可复用规则</strong>：高性能路径依赖不满足时显式报错而非静默降级</li><li><strong>边界/反模式</strong>：面向广泛硬件兼容的产品应提供降级路径，否则会缩小可用用户群</li></ul>
+<h3>ADR-3 · t3: 稀疏 MLA 的 FP8 缓存策略在构建执行器前统一改写</h3>
+<ul><li><strong>决策</strong>：稀疏 MLA 的 FP8 缓存策略在构建执行器前统一改写</li><li><strong>替代</strong>：运行时按通用 KV 量化策略处理</li><li><strong>代价</strong>：引入配置翻译层与额外约束校验</li><li><strong>证据</strong>：<code>lmdeploy/pytorch/engine/executor/__init__.py:20</code></li><li><strong>可复用规则</strong>：特殊模型的缓存策略在配置分发前集中归一化，避免各 worker 分叉</li><li><strong>边界/反模式</strong>：仅适用于有专属物理 dtype 的模型；通用模型无需此翻译层</li></ul>
+<h3>ADR-4 · t4: dp&gt;1 与 empty_init 强制走 ray 执行器</h3>
+<ul><li><strong>决策</strong>：dp&gt;1 与 empty_init 强制走 ray 执行器</li><li><strong>替代</strong>：本地 mp 多进程执行器</li><li><strong>代价</strong>：多卡部署引入 ray 依赖与调度开销</li><li><strong>证据</strong>：<code>lmdeploy/pytorch/engine/executor/__init__.py:130</code></li><li><strong>可复用规则</strong>：跨节点或数据并行场景选 ray，单机单卡走轻量执行器</li><li><strong>边界/反模式</strong>：单机多卡且无 ray 环境时该约束会阻断部署，需评估依赖成本</li></ul>
+<h3>ADR-5 · t5: 线性层按量化方法分派到专用实现类</h3>
+<ul><li><strong>决策</strong>：线性层按量化方法分派到专用实现类</li><li><strong>替代</strong>：单一通用线性层加运行时分支</li><li><strong>代价</strong>：实现类数量膨胀、组合校验复杂</li><li><strong>证据</strong>：<code>lmdeploy/pytorch/nn/linear/__init__.py:44</code></li><li><strong>可复用规则</strong>：量化算子按方法静态分派到专用类，换取内核特化性能</li><li><strong>边界/反模式</strong>：量化方法少或性能不敏感时可合并实现，避免类爆炸</li></ul>
+<h3>ADR-6 · t6: MoE 量化实现显式拒绝不支持的 bias/act/fp32_acc 组合</h3>
+<ul><li><strong>决策</strong>：MoE 量化实现显式拒绝不支持的 bias/act/fp32_acc 组合</li><li><strong>替代</strong>：静默忽略不兼容参数</li><li><strong>代价</strong>：部分模型配置无法直接加载</li><li><strong>证据</strong>：<code>lmdeploy/pytorch/nn/moe/__init__.py:60</code></li><li><strong>可复用规则</strong>：量化内核不支持的参数组合应显式报错，避免静默错误结果</li><li><strong>边界/反模式</strong>：对参数组合多样的模型生态，过严校验会降低开箱可用性</li></ul>
+<h2>5. 扩展与改造路径</h2>
+<p>[事实] 可扩展点候选（与第 3 章同源，已排除测试目录）：</p>
+<ul><li><code>lmdeploy/cli/cli.py:42</code> → backend</li><li><code>lmdeploy/cli/cli.py:52</code> → adapter</li><li><code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:7</code> → backend</li><li><code>lmdeploy/pytorch/engine/executor/__init__.py:8</code> → backend</li><li><code>lmdeploy/pytorch/engine/executor/__init__.py:91</code> → adapter</li><li><code>lmdeploy/pytorch/strategies/dllm/__init__.py:17</code> → factory</li></ul>
+<p>[判断] 新增能力的静态路径（需按实际代码复核）：</p>
+<ol><li>在入口处接入参数/配置（入口候选：<code>lmdeploy/__main__.py</code>, <code>lmdeploy/cli/cli.py</code>, <code>src</code>）；</li><li>复用上表中的注册/分派结构，实现新的后端或适配器；</li><li>补对应测试与文档，再走发布流程。</li></ol>
+<ul><li>扩展文档：[未获得]</li><li>改造成本：[未获得] 需要先确认契约稳定性与测试覆盖，本报告不估算人日。</li></ul>
+<h2>6. 经验卡</h2>
+<h3>经验 1 · 注意力后端按硬件与参数能力分级选择，缺依赖时降级到通用实现</h3>
+<ul><li><strong>证据</strong>：<code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:87</code>（来自 InternLM/lmdeploy）</li><li><strong>适用边界</strong>：参数受限（alibi、sink、大 head_size）时高级后端不可用，勿假设恒生效</li><li><strong>反模式</strong>：在边界之外照搬「按能力探测选 FA3/FlashMLA/Triton 多级注意力后端」，代价会变成「需维护多套内核与降级分支」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「按能力探测选 FA3/FlashMLA/Triton 多级注意力后端」而非「统一用 Triton 实现」</li></ul>
+<h3>经验 2 · 高性能路径依赖不满足时显式报错而非静默降级</h3>
+<ul><li><strong>证据</strong>：<code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:31</code>（来自 InternLM/lmdeploy）</li><li><strong>适用边界</strong>：面向广泛硬件兼容的产品应提供降级路径，否则会缩小可用用户群</li><li><strong>反模式</strong>：在边界之外照搬「投机解码硬性要求 FA3，缺失即报错」，代价会变成「SM80 以下或 CUDA&lt;12.3 用户无法用投机解码」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「投机解码硬性要求 FA3，缺失即报错」而非「无 FA3 时回退通用注意力继续投机」</li></ul>
+<h3>经验 3 · 特殊模型的缓存策略在配置分发前集中归一化，避免各 worker 分叉</h3>
+<ul><li><strong>证据</strong>：<code>lmdeploy/pytorch/engine/executor/__init__.py:20</code>（来自 InternLM/lmdeploy）</li><li><strong>适用边界</strong>：仅适用于有专属物理 dtype 的模型；通用模型无需此翻译层</li><li><strong>反模式</strong>：在边界之外照搬「稀疏 MLA 的 FP8 缓存策略在构建执行器前统一改写」，代价会变成「引入配置翻译层与额外约束校验」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「稀疏 MLA 的 FP8 缓存策略在构建执行器前统一改写」而非「运行时按通用 KV 量化策略处理」</li></ul>
+<h3>经验 4 · 跨节点或数据并行场景选 ray，单机单卡走轻量执行器</h3>
+<ul><li><strong>证据</strong>：<code>lmdeploy/pytorch/engine/executor/__init__.py:130</code>（来自 InternLM/lmdeploy）</li><li><strong>适用边界</strong>：单机多卡且无 ray 环境时该约束会阻断部署，需评估依赖成本</li><li><strong>反模式</strong>：在边界之外照搬「dp&gt;1 与 empty_init 强制走 ray 执行器」，代价会变成「多卡部署引入 ray 依赖与调度开销」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「dp&gt;1 与 empty_init 强制走 ray 执行器」而非「本地 mp 多进程执行器」</li></ul>
+<h3>经验 5 · 量化算子按方法静态分派到专用类，换取内核特化性能</h3>
+<ul><li><strong>证据</strong>：<code>lmdeploy/pytorch/nn/linear/__init__.py:44</code>（来自 InternLM/lmdeploy）</li><li><strong>适用边界</strong>：量化方法少或性能不敏感时可合并实现，避免类爆炸</li><li><strong>反模式</strong>：在边界之外照搬「线性层按量化方法分派到专用实现类」，代价会变成「实现类数量膨胀、组合校验复杂」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「线性层按量化方法分派到专用实现类」而非「单一通用线性层加运行时分支」</li></ul>
+<h2>附录 A 证据索引与未知项</h2>
+<h3>A1. 代码证据索引</h3>
+<table><thead><tr><th>id</th><th>决策</th><th>证据</th></tr></thead><tbody><tr><td>t1</td><td>按能力探测选 FA3/FlashMLA/Triton 多级注意力后端</td><td><code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:87</code></td></tr><tr><td>t2</td><td>投机解码硬性要求 FA3，缺失即报错</td><td><code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:31</code></td></tr><tr><td>t3</td><td>稀疏 MLA 的 FP8 缓存策略在构建执行器前统一改写</td><td><code>lmdeploy/pytorch/engine/executor/__init__.py:20</code></td></tr><tr><td>t4</td><td>dp&gt;1 与 empty_init 强制走 ray 执行器</td><td><code>lmdeploy/pytorch/engine/executor/__init__.py:130</code></td></tr><tr><td>t5</td><td>线性层按量化方法分派到专用实现类</td><td><code>lmdeploy/pytorch/nn/linear/__init__.py:44</code></td></tr><tr><td>t6</td><td>MoE 量化实现显式拒绝不支持的 bias/act/fp32_acc 组合</td><td><code>lmdeploy/pytorch/nn/moe/__init__.py:60</code></td></tr><tr><td>t7</td><td>前缀缓存状态预算与解码间隔做成可调 CLI 参数</td><td><code>lmdeploy/cli/cli.py:57</code></td></tr><tr><td>t8</td><td>DLLM 块长缺失时回退默认 4 并告警</td><td><code>lmdeploy/pytorch/strategies/dllm/__init__.py:33</code></td></tr></tbody></table>
+<ul><li>置信度：med</li><li>架构范式标签：专用优化、硬件耦合、缓存复用</li><li>模式 <code>backend</code>：<code>lmdeploy/cli/cli.py:42</code></li><li>模式 <code>adapter</code>：<code>lmdeploy/cli/cli.py:52</code></li><li>模式 <code>backend</code>：<code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:7</code></li><li>模式 <code>backend</code>：<code>lmdeploy/pytorch/engine/executor/__init__.py:8</code></li><li>模式 <code>adapter</code>：<code>lmdeploy/pytorch/engine/executor/__init__.py:91</code></li><li>模式 <code>factory</code>：<code>lmdeploy/pytorch/strategies/dllm/__init__.py:17</code></li></ul>
+<h3>A2. 外部资料</h3>
+<ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/InternLM/lmdeploy</li><li>fetched_at：2026-11-19T15:03:59Z</li><li>sha256：<code>1c7dbbab2b0c9a41ce8687a991fbe2b60743f18d3d428d7f4a69cb3cb79fc423</code></li><li>判定：hit — 正文含 12 个仓库内真实路径（阈值 3）</li><li>原文快照：<code>source.txt</code>（与判定元数据分文件存放）</li></ul>
+<h3>A3. 未获得项</h3>
+<ul><li>依赖链许可证、模型权重/数据许可、CLA —— 未采集；</li><li>issue/PR 响应质量、CI 运行结果 —— 未采集；</li><li>roadmap、竞品对比、用户画像 —— 未采集；</li></ul>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+<h2>附录 B 许可证 / 维护 / 工程 / 成本</h2>
+<h3>B1. 许可证与合规风险</h3>
+<p>[事实] 主许可证 <strong>Apache-2.0</strong>；组织类型 —；治理文档：未检出。</p>
+<p>[未获得] 依赖链是否存在 GPL/AGPL、模型权重与数据集许可、CLA 要求；这些必须人工或由后续数据源补齐，本报告不给出「可商用」结论。</p>
+<h3>B2. 维护状态与风险</h3>
+<p>[事实] 贡献者 163 人，Top1 占比 19.22%；近 90 天 / 365 天提交 149 / 599 次；最近提交距今 0 天，维护状态「active」。</p>
+<ul><li>Top1 贡献者占比 19.22%，决策集中度需关注</li><li>未检出治理文档，贡献与决策流程可能不透明</li></ul>
+<h3>B3. 运行与工程体系</h3>
+<p>[事实] 仓库约 2,048 个文件、17.3 MiB；本次采集 20 个源码切片（tarball <code>ffcb64e25b47cb76</code>）。 [事实] 语言构成：C 0.01%、C++ 17.56%、CMake 0.39%、Cuda 8.39%、Dockerfile 0.03%、Jinja 0.25%、PowerShell 0.03%、Python 73.23%、Shell 0.12%；硬件 vendors=[ascend, nvidia]、kernel_langs=[cuda, tilelang, triton]。</p>
+<p>[未获得] 构建脚本、依赖安装、测试体系、CI/CD、配置与 secret 管理未采集；本报告不能回答「能否在目标环境跑起来」。</p>
+<p><strong>特征卡已知限制</strong>：</p>
+<ul><li>证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h3>B4. 运行元数据与成本</h3>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>InternLM/lmdeploy</td></tr><tr><td>commit</td><td><code>6ddd906bfa916a6cfcd33c0a3ce4150d4e7fc3f5</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-18T00:00:00Z</td></tr><tr><td>通道 / 领域</td><td>classic / inference</td></tr><tr><td>请求档位 (requested_depth)</td><td>fast</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>fast</td></tr><tr><td>降级原因 (reason)</td><td>manual_override — 人工 override</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 0/1、fast 9/5（周起点 2026-11-16）；tokens 周 131748/2000000、月 241898/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>75494579beecc43231ca365bc6a720ac2d52b66a73b7b46fef4ba066f0d90f63</code></td></tr><tr><td>成本说明</td><td>本次 ¥0.0390（模型调用 1 次）；输入 16,169 tok / 命中 256 tok / 输出 890 tok</td></tr><tr><td>累计</td><td>本周 ¥0.2490 / 148,807 tok；本月 ¥0.8363 / 258,957 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
+<p><strong>档位决策链路</strong>：</p>
+<ol><li>L4 人工 override：--depth fast（绕过 L1 基线 / L2 配额）</li><li>凭据：齐全</li><li>L2 周配额：人工 override 绕过（本周 strong 0/1、fast 9/5）</li><li>L3 预算：估算 10869 × 安全系数 1.3 = 14129 tok（单选上限 120000），周 131748/2000000</li><li>结论：实际档位 fast（人工 override）</li></ol>
+<p><strong>上下文组装</strong>（裁剪发生在调用之前）：</p>
+<table><thead><tr><th>块</th><th>优先级</th><th>估算 token</th></tr></thead><tbody><tr><td>featcard</td><td>1</td><td>2,322</td></tr><tr><td>readme</td><td>2</td><td>466</td></tr><tr><td>source_files:lmdeploy/cli/cli.py</td><td>4</td><td>1,508</td></tr><tr><td>source_files:lmdeploy/pytorch/backends/cuda/attention/__init__.py</td><td>4</td><td>1,241</td></tr><tr><td>source_files:lmdeploy/pytorch/engine/executor/__init__.py</td><td>4</td><td>1,514</td></tr><tr><td>source_files:lmdeploy/pytorch/nn/linear/__init__.py</td><td>4</td><td>1,512</td></tr><tr><td>source_files:lmdeploy/pytorch/nn/moe/__init__.py</td><td>4</td><td>1,234</td></tr><tr><td>source_files:lmdeploy/pytorch/strategies/dllm/__init__.py</td><td>4</td><td>1,072</td></tr></tbody></table>
+<ul><li>丢弃：—</li><li>合计 10,869 / 上限 120,000</li></ul>
+<h3>B5. 特征卡摘要</h3>
+<ul><li>卡文件：<code>data/featcards/InternLM__lmdeploy__6ddd906bfa916a6cfcd33c0a3ce4150d4e7fc3f5.json</code>（schema 1.0）</li><li>入口文件：lmdeploy/__main__.py, lmdeploy/cli/cli.py</li><li>最大目录深度：7；monorepo：否</li><li>源码切片：20 个文件（tarball <code>ffcb64e25b47cb76</code>）</li><li>依赖：直接 / 传递 = — / —（L1 未解析清单文件）</li></ul>
+<p><strong>并行轴</strong></p>
+<ul><li>并行 <code>CP</code> = true（证据 2 条）</li><li><code>autotest/configs/README.md:236</code> — <code>## Context parallel (</code>cp<code>)</code></li><li><code>src/turbomind/engine/README.md:56</code> — `<code>cache_block_seq_len</code> is the physical number of rank-local tokens stored in one KV cache object. With context-parallel s`</li><li>并行 <code>DP</code> = false（无证据）</li><li>并行 <code>EP</code> = false（无证据）</li><li>并行 <code>PP</code> = false（无证据）</li><li>并行 <code>SP</code> = false（无证据）</li><li>并行 <code>TP</code> = true（证据 3 条）</li><li><code>README.md:87</code> — <code>- \[2023/07\] TurboMind supports tensor-parallel inference of InternLM.</code></li><li><code>README.md:97</code> — <code>- <strong>Efficient Inference</strong>: LMDeploy delivers up to 1.8x higher request throughput than vLLM, by introducing key features</code></li><li><code>README_zh-CN.md:86</code> — <code>- \[2023/07\] TurboMind 支持 InternLM 的 Tensor Parallel 推理</code></li></ul>
+<p><strong>缓存</strong></p>
+<ul><li>缓存 <code>kv_offload</code> = false（无证据）</li><li>缓存 <code>paged</code> = true（证据 3 条）</li><li><code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:7</code> — <code>from lmdeploy.pytorch.backends.attention import PagedAttentionBuildSpec</code></li><li><code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:87</code> — <code>def _build_paged_attention(spec: PagedAttentionBuildSpec) -&gt; TritonAttentionImpl:</code></li><li><code>lmdeploy/pytorch/backends/cuda/attention/__init__.py:88</code> — <code>"""Build the selected CUDA paged-attention implementation.</code></li><li>缓存 <code>prefix_reuse</code> = true（证据 3 条）</li><li><code>lmdeploy/cli/cli.py:57</code> — <code>ArgumentHelper.prefix_cache_state_budget(pt_group)</code></li><li><code>lmdeploy/cli/cli.py:58</code> — <code>ArgumentHelper.prefix_cache_decode_state_interval(pt_group)</code></li><li><code>lmdeploy/cli/cli.py:59</code> — <code>ArgumentHelper.prefix_cache_decode_save_first(pt_group)</code></li><li>缓存 <code>radix</code> = false（无证据）</li></ul>
+<ul><li>硬件：vendors=[ascend, nvidia]、arch_gates=[ampere]、kernel_langs=[cuda, tilelang, triton]</li><li>治理文档：否</li></ul>
+<p><strong>依赖图</strong>（内部模块 import 边，节点/边排序后输出）</p>
+<pre><code class="language-mermaid">graph TD
+  A[无可提取的内部模块依赖边]</code></pre>
+<p><strong>已知限制</strong>：</p>
+<ul><li>证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h3>B6. 体检事实（确定性，零 LLM）</h3>
+<table><thead><tr><th>指标</th><th>值</th></tr></thead><tbody><tr><td>Star / Fork</td><td>8,150 / 782</td></tr><tr><td>被依赖 (Used by)</td><td>—</td></tr><tr><td>贡献者 / Top1 占比</td><td>163 / 19.22%</td></tr><tr><td>Top10 贡献集中度</td><td>77.95%</td></tr><tr><td>90 天 / 365 天提交</td><td>149 / 599</td></tr><tr><td>最近提交 / 距今天数</td><td>2026-11-18T09:13:50Z / 0</td></tr><tr><td>维护状态</td><td>active</td></tr><tr><td>项目年龄 / 发布数(365d)</td><td>1,252 天 / 14</td></tr><tr><td>组织类型 / 许可证</td><td>— / Apache-2.0</td></tr><tr><td>文件数 / 体积</td><td>2,048 / 17.3 MiB</td></tr><tr><td>内部模块依赖边</td><td>0</td></tr></tbody></table>
+<p><strong>语言构成</strong>：C 0.01%、C++ 17.56%、CMake 0.39%、Cuda 8.39%、Dockerfile 0.03%、Jinja 0.25%、PowerShell 0.03%、Python 73.23%、Shell 0.12%</p>
+<p><strong>模块体量 Top10</strong></p>
+<table><thead><tr><th>模块</th><th>文件数</th><th>字节</th></tr></thead><tbody><tr><td>lmdeploy</td><td>772</td><td>7,252,213</td></tr><tr><td>src</td><td>562</td><td>4,435,036</td></tr><tr><td>tests</td><td>306</td><td>3,883,800</td></tr><tr><td>autotest</td><td>155</td><td>1,020,125</td></tr><tr><td>docs</td><td>141</td><td>828,421</td></tr><tr><td>benchmark</td><td>13</td><td>237,882</td></tr><tr><td>.github</td><td>26</td><td>162,529</td></tr><tr><td>.</td><td>21</td><td>104,439</td></tr><tr><td>resources</td><td>1</td><td>41,480</td></tr><tr><td>scripts</td><td>3</td><td>34,791</td></tr></tbody></table>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+</main>
+<footer>osslens 静态只读站点 · 无后端 / 无外部 JS 与 CDN / 零 LLM / 零网络</footer>
+</body></html>

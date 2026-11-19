@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>报告 · Dao-AILab/flash-attention</title>
+<style>:root{--bg:#f4f7fb;--surface:#fff;--ink:#14213d;--muted:#64748b;--line:#e2e8f0;--brand:#2563eb;--brand2:#06b6d4;--radius:16px;--shadow:0 10px 30px rgba(15,23,42,.07)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+.site-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#0e7490 100%);color:#fff;padding:30px 24px 24px}
+.wrap{max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.brand-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,#38bdf8,#2563eb);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.brand small{display:block;color:#bfdbfe;letter-spacing:.16em;font-size:.72em;text-transform:uppercase}
+header h1{font-size:1.9rem;margin:0 0 16px;letter-spacing:.01em}
+header nav{display:flex;flex-wrap:wrap;gap:8px}
+header nav a{color:#e0f2fe;text-decoration:none;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:.88em}
+header nav a:hover,header nav a.active{background:#fff;color:#1e3a8a;border-color:transparent}
+main{max-width:1120px;margin:26px auto 0;padding:0 24px}
+main>section,main>.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:20px}
+h1,h2,h3{line-height:1.25;color:#0f172a}
+.site-header h1,.site-header h2{color:#fff}
+h2{font-size:1.3rem;margin:0 0 12px}h3{font-size:1.06rem;margin:22px 0 8px}
+p{margin:8px 0}a{color:#1d4ed8}
+code{background:#eef2ff;color:#3730a3;padding:2px 6px;border-radius:6px;font-size:.9em}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px;overflow:auto}
+pre code{background:none;color:inherit;padding:0}
+.hero{background:linear-gradient(135deg,#eff6ff,#f0fdfa);border-color:#bfdbfe}
+.hero h2{font-size:1.55rem;margin:4px 0 8px}
+.kicker{color:var(--brand);font-weight:700;letter-spacing:.14em;font-size:.72em;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0}
+.stat{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;transition:transform .18s,border-color .18s;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+.stat:hover{transform:translateY(-2px);border-color:#93c5fd;box-shadow:0 12px 24px rgba(37,99,235,.12)}
+.stat-label{display:block;color:var(--muted);font-size:.82em}
+.stat strong{display:block;font-size:2rem;line-height:1.2;margin:6px 0;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-desc{color:var(--muted);font-size:.78em}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;margin:0;background:#fff;font-size:.92em}
+th,td{padding:10px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#f8fafc;color:#334155;font-weight:600;white-space:nowrap;position:sticky;top:0}
+tbody tr:hover{background:#f8fbff}tbody tr:last-child td{border-bottom:0}
+.empty,.note{background:#fffbeb;border-left:4px solid #f59e0b;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#78350f}
+.alert{background:#ffeef0;border-left:4px solid #d1242f;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#7f1d1d}
+.badge-alert{display:inline-block;background:#d1242f;color:#fff;border-radius:999px;padding:2px 10px;font-size:.8em;font-weight:700}
+.pill{display:inline-block;background:#eff6ff;color:#1e40af;border:1px solid #dbeafe;border-radius:999px;padding:2px 10px;font-size:.78em;margin:2px}
+footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);font-size:.82em;text-align:center}
+@media(max-width:700px){header h1{font-size:1.45rem}main{padding:0 14px}main>section,main>.panel{padding:16px}.grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap"><div class="brand"><span class="brand-mark">O</span><div><small>osslens / static insights</small></div></div><h1>报告 · Dao-AILab/flash-attention</h1><nav><a href="index.html">首页</a> · <a class="active" href="reports.html">报告</a> · <a href="timeline.html">时间线</a> · <a href="featcards.html">特征卡</a> · <a href="patterns.html">规律库</a> · <a href="costs.html">成本</a> · <a href="runs.html">抽象 run</a> · <a href="search.html">检索</a> · <a href="tags.html">范式标签</a> · <a href="compare.html">并排对比</a></nav></div></header>
+<main class="wrap">
+<p class="note">源 MD：<code>../reports/Dao-AILab__flash-attention__2026-11-18.md</code>；下方六个阅读模块 + 附录顺序固定不变。</p>
+<h1>Dao-AILab/flash-attention 深度分析</h1>
+<p>&gt; 阅读档位：架构学习（profile=architecture_learning） &gt; 注意力预算：定位 20 / 架构 30 / 抽象 15 / ADR 20 / 扩展 5 / 经验卡 10 / 工程维护 0 &gt; 证据约定：[事实] 确定性提取 · [判断] 有 file:line 或文档锚点 · [未获得] 当前未采集</p>
+<h2>导读</h2>
+<p>&gt; <strong>是什么</strong>：Fast and memory-efficient exact attention &gt; <strong>架构一句话</strong>：[判断] 顶层以 <code>assets</code>、<code>flash_attn</code>、<code>tests</code> 为主（静态结构判断，未做动态跟踪）。 &gt; <strong>最大风险</strong>：Top1 贡献者占比 58.76%，决策集中度需关注 &gt; <strong>不适合</strong>：需要稳定 API/长期支持承诺的场景，请先核对发布节奏与维护状态；依赖链许可证与权重许可能力当前未采集，不能据此做出商用结论。</p>
+<h2>1. 项目定位与目标</h2>
+<p>[事实] Dao-AILab/flash-attention 属于 <code>ai_infra</code> 领域、<code>classic</code> 通道，主语言 Python（75%），25,316 stars / 3,243 forks。</p>
+<p>[事实] 项目自述：Fast and memory-efficient exact attention。</p>
+<p>[事实] README 摘要：This repo contains examples of how FlashAttention can be integrated into a model (e.g., GPT, ViT) and trained end-to-end. We also provide optimized implementations of other layers (e.g., MLP, LayerNorm, cross-entropy loss, rotary embedding). Overall this speeds up training by 3-5x compared to the baseline implementation from Huggingface, reaching up to 189 TFLOPs/sec per A100, equivalent to 60.6\% model FLOPs utilization (we don't need any activation。</p>
+<ul><li><strong>目标用户</strong>：[判断] 终端用户与性能调优人员</li><li><strong>替代方案与差异</strong>：[未获得] 本次未采集竞品对比与 roadmap，不得据此推断「没有替代品」。</li><li><strong>不解决什么</strong>：[未获得] 没有路线图与 issue 语料，无法可靠界定能力边界。</li></ul>
+<p>[判断] 阶段信号：仓库已存在 1,644 天，近一年发布 42 个版本，最近提交距今 0 天，维护状态「active」。这只说明是否仍在维护，不等于成熟度结论。</p>
+<h2>2. 架构全景</h2>
+<h3>2.1 上下文边界</h3>
+<p>[判断] 架构说明文档：<code>.github/workflows/README.md</code>, <code>README.md</code>, <code>csrc/fused_dense_lib/README.md</code>, <code>csrc/layer_norm/README.md</code>, <code>examples/inference/README.md</code>；边界结论来自文档与目录结构，未经运行验证。 [事实] 硬件/内核线索：vendors=[amd, nvidia]、kernel_langs=[cuda, triton]。</p>
+<h3>2.2 模块职责</h3>
+<table><thead><tr><th>模块</th><th>文件数</th><th>职责（启发式）</th></tr></thead><tbody><tr><td><code>assets</code></td><td>17</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>flash_attn</code></td><td>114</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>tests</code></td><td>75</td><td>测试与用例</td></tr><tr><td><code>hopper</code></td><td>507</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>csrc</code></td><td>197</td><td>原生内核与算子实现</td></tr></tbody></table>
+<h3>2.3 一次调用的路径（运行时视图）</h3>
+<p>[判断] 静态推断：入口未识别 → <code>flash_attn/cute</code>（依赖最集中） → <code>flash_attn/cute/interface</code>（依赖最集中） → 输出。内部 import 边约 4 条，只用于判断调用方向；<strong>未做运行时跟踪</strong>，参数与分支需读源码确认。</p>
+<h3>2.4 数据与控制流</h3>
+<p>[事实] 并行轴命中 PP, SP, TP；缓存轴命中 paged（证据见附录 A）。</p>
+<pre><code class="language-mermaid">graph TD
+  flash_attn_cute --&gt; flash_attn_cute_interface
+  flash_attn_cute_flash_fwd_sm100 --&gt; flash_attn_cute
+  flash_attn_cute_interface --&gt; flash_attn_cute
+  flash_attn_cute_interface --&gt; flash_attn_cute_flash_fwd_sm100</code></pre>
+<h2>3. 核心抽象与契约</h2>
+<p>[事实] 源码切片中命中以下模式（正则扫描，仅代表本次切片）：</p>
+<table><thead><tr><th>模式</th><th>位置</th><th>说明</th></tr></thead><tbody><tr><td><code>register</code></td><td><code>csrc/flash_attn/src/flash_fwd_kernel.h:142</code></td><td>候选扩展/契约点</td></tr><tr><td><code>protocol</code></td><td><code>flash_attn/cute/flash_fwd_sm100.py:69</code></td><td>候选扩展/契约点</td></tr><tr><td><code>backend</code></td><td><code>flash_attn/cute/interface.py:178</code></td><td>候选扩展/契约点</td></tr></tbody></table>
+<p>[判断] 这些命中说明项目存在注册/适配/分派结构，但<strong>未做 AST 分析</strong>，无法确认继承关系与调用契约的完整性。</p>
+<h2>4. 关键设计决策（ADR）</h2>
+<p>每条固定六字段：决策 / 替代 / 代价 / 证据 / 可复用规则 / 边界·反模式。</p>
+<h3>ADR-1 · t1: 按 SM80/90/100/120 分架构各写一套前向内核</h3>
+<ul><li><strong>决策</strong>：按 SM80/90/100/120 分架构各写一套前向内核</li><li><strong>替代</strong>：单一通用内核跨架构复用</li><li><strong>代价</strong>：代码重复，每代架构需单独维护与调优</li><li><strong>证据</strong>：<code>flash_attn/cute/interface.py:70</code></li><li><strong>可复用规则</strong>：性能敏感内核按硬件代际分叉实现，而非抽象统一</li><li><strong>边界/反模式</strong>：架构差异小或团队人力不足时，分叉维护成本会超过收益</li></ul>
+<h3>ADR-2 · t2: 用 CUTE DSL 在 Python 中生成内核</h3>
+<ul><li><strong>决策</strong>：用 CUTE DSL 在 Python 中生成内核</li><li><strong>替代</strong>：手写 CUDA C++ 模板内核</li><li><strong>代价</strong>：依赖 cutlass-dsl 版本，编译链更复杂</li><li><strong>证据</strong>：<code>flash_attn/cute/interface.py:2</code></li><li><strong>可复用规则</strong>：用 DSL 生成内核换取开发效率，需锁定工具链版本</li><li><strong>边界/反模式</strong>：需要极致手工调度或工具链不可控时，应回退手写 CUDA</li></ul>
+<h3>ADR-3 · t3: SM100 前向暂不支持 page size != 128 与 hdim 192/256</h3>
+<ul><li><strong>决策</strong>：SM100 前向暂不支持 page size != 128 与 hdim 192/256</li><li><strong>替代</strong>：一次性支持全部页大小与头维度</li><li><strong>代价</strong>：部分推理场景无法直接使用新内核</li><li><strong>证据</strong>：<code>flash_attn/cute/flash_fwd_sm100.py:8</code></li><li><strong>可复用规则</strong>：新内核先覆盖主流配置，边缘配置延后补齐</li><li><strong>边界/反模式</strong>：若目标用户普遍使用非 128 页大小，延后会阻塞落地</li></ul>
+<h3>ADR-4 · t4: paged KV 与 pack_gqa/varlen/split 组合直接断言禁止</h3>
+<ul><li><strong>决策</strong>：paged KV 与 pack_gqa/varlen/split 组合直接断言禁止</li><li><strong>替代</strong>：支持任意特性组合</li><li><strong>代价</strong>：特性组合受限，用户需自行拆分调用</li><li><strong>证据</strong>：<code>flash_attn/cute/flash_fwd_sm100.py:205</code></li><li><strong>可复用规则</strong>：未验证的特性组合用断言显式拒绝，而非静默降级</li><li><strong>边界/反模式</strong>：面向终端用户的推理框架应改为自动回退路径</li></ul>
+<h3>ADR-5 · t5: 用 extend_path 让 fa2 与 fa4 共存安装</h3>
+<ul><li><strong>决策</strong>：用 extend_path 让 fa2 与 fa4 共存安装</li><li><strong>替代</strong>：单一包名独占安装</li><li><strong>代价</strong>：命名空间路径解析更隐晦，调试成本上升</li><li><strong>证据</strong>：<code>flash_attn/__init__.py:4</code></li><li><strong>可复用规则</strong>：多版本共存用命名空间包扩展，避免版本互斥</li><li><strong>边界/反模式</strong>：依赖静态打包分析或严格隔离的环境不适用</li></ul>
+<h3>ADR-6 · t6: 设备架构探测结果用 lru_cache 缓存</h3>
+<ul><li><strong>决策</strong>：设备架构探测结果用 lru_cache 缓存</li><li><strong>替代</strong>：每次调用重新查询设备能力</li><li><strong>代价</strong>：运行中切换设备或覆盖环境变量后缓存不失效</li><li><strong>证据</strong>：<code>flash_attn/cute/interface.py:113</code></li><li><strong>可复用规则</strong>：昂贵的设备/环境探测结果缓存，减少重复系统调用</li><li><strong>边界/反模式</strong>：需动态切换目标架构的测试场景应显式清缓存</li></ul>
+<h2>5. 扩展与改造路径</h2>
+<p>[事实] 可扩展点候选（与第 3 章同源，已排除测试目录）：</p>
+<ul><li><code>csrc/flash_attn/src/flash_fwd_kernel.h:142</code> → register</li><li><code>flash_attn/cute/flash_fwd_sm100.py:69</code> → protocol</li><li><code>flash_attn/cute/interface.py:178</code> → backend</li></ul>
+<p>[判断] 新增能力的静态路径（需按实际代码复核）：</p>
+<ol><li>在入口处接入参数/配置（入口候选：<code>csrc</code>）；</li><li>复用上表中的注册/分派结构，实现新的后端或适配器；</li><li>补对应测试与文档，再走发布流程。</li></ol>
+<ul><li>扩展文档：[未获得]</li><li>改造成本：[未获得] 需要先确认契约稳定性与测试覆盖，本报告不估算人日。</li></ul>
+<h2>6. 经验卡</h2>
+<h3>经验 1 · 性能敏感内核按硬件代际分叉实现，而非抽象统一</h3>
+<ul><li><strong>证据</strong>：<code>flash_attn/cute/interface.py:70</code>（来自 Dao-AILab/flash-attention）</li><li><strong>适用边界</strong>：架构差异小或团队人力不足时，分叉维护成本会超过收益</li><li><strong>反模式</strong>：在边界之外照搬「按 SM80/90/100/120 分架构各写一套前向内核」，代价会变成「代码重复，每代架构需单独维护与调优」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「按 SM80/90/100/120 分架构各写一套前向内核」而非「单一通用内核跨架构复用」</li></ul>
+<h3>经验 2 · 用 DSL 生成内核换取开发效率，需锁定工具链版本</h3>
+<ul><li><strong>证据</strong>：<code>flash_attn/cute/interface.py:2</code>（来自 Dao-AILab/flash-attention）</li><li><strong>适用边界</strong>：需要极致手工调度或工具链不可控时，应回退手写 CUDA</li><li><strong>反模式</strong>：在边界之外照搬「用 CUTE DSL 在 Python 中生成内核」，代价会变成「依赖 cutlass-dsl 版本，编译链更复杂」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「用 CUTE DSL 在 Python 中生成内核」而非「手写 CUDA C++ 模板内核」</li></ul>
+<h3>经验 3 · 新内核先覆盖主流配置，边缘配置延后补齐</h3>
+<ul><li><strong>证据</strong>：<code>flash_attn/cute/flash_fwd_sm100.py:8</code>（来自 Dao-AILab/flash-attention）</li><li><strong>适用边界</strong>：若目标用户普遍使用非 128 页大小，延后会阻塞落地</li><li><strong>反模式</strong>：在边界之外照搬「SM100 前向暂不支持 page size != 128 与 hdim 192/256」，代价会变成「部分推理场景无法直接使用新内核」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「SM100 前向暂不支持 page size != 128 与 hdim 192/256」而非「一次性支持全部页大小与头维度」</li></ul>
+<h3>经验 4 · 未验证的特性组合用断言显式拒绝，而非静默降级</h3>
+<ul><li><strong>证据</strong>：<code>flash_attn/cute/flash_fwd_sm100.py:205</code>（来自 Dao-AILab/flash-attention）</li><li><strong>适用边界</strong>：面向终端用户的推理框架应改为自动回退路径</li><li><strong>反模式</strong>：在边界之外照搬「paged KV 与 pack_gqa/varlen/split 组合直接断言禁止」，代价会变成「特性组合受限，用户需自行拆分调用」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「paged KV 与 pack_gqa/varlen/split 组合直接断言禁止」而非「支持任意特性组合」</li></ul>
+<h3>经验 5 · 多版本共存用命名空间包扩展，避免版本互斥</h3>
+<ul><li><strong>证据</strong>：<code>flash_attn/__init__.py:4</code>（来自 Dao-AILab/flash-attention）</li><li><strong>适用边界</strong>：依赖静态打包分析或严格隔离的环境不适用</li><li><strong>反模式</strong>：在边界之外照搬「用 extend_path 让 fa2 与 fa4 共存安装」，代价会变成「命名空间路径解析更隐晦，调试成本上升」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「用 extend_path 让 fa2 与 fa4 共存安装」而非「单一包名独占安装」</li></ul>
+<h2>附录 A 证据索引与未知项</h2>
+<h3>A1. 代码证据索引</h3>
+<table><thead><tr><th>id</th><th>决策</th><th>证据</th></tr></thead><tbody><tr><td>t1</td><td>按 SM80/90/100/120 分架构各写一套前向内核</td><td><code>flash_attn/cute/interface.py:70</code></td></tr><tr><td>t2</td><td>用 CUTE DSL 在 Python 中生成内核</td><td><code>flash_attn/cute/interface.py:2</code></td></tr><tr><td>t3</td><td>SM100 前向暂不支持 page size != 128 与 hdim 192/256</td><td><code>flash_attn/cute/flash_fwd_sm100.py:8</code></td></tr><tr><td>t4</td><td>paged KV 与 pack_gqa/varlen/split 组合直接断言禁止</td><td><code>flash_attn/cute/flash_fwd_sm100.py:205</code></td></tr><tr><td>t5</td><td>用 extend_path 让 fa2 与 fa4 共存安装</td><td><code>flash_attn/__init__.py:4</code></td></tr><tr><td>t6</td><td>设备架构探测结果用 lru_cache 缓存</td><td><code>flash_attn/cute/interface.py:113</code></td></tr><tr><td>t7</td><td>大 batch 变长调度改用 O(1) 块到批查找替代二分</td><td><code>flash_attn/cute/interface.py:104</code></td></tr><tr><td>t8</td><td>低精度缩放允许行最大值滞后以利用 dtype 上界码点</td><td><code>flash_attn/cute/flash_fwd_sm100.py:88</code></td></tr></tbody></table>
+<ul><li>置信度：med</li><li>架构范式标签：专用优化、深优化、硬件耦合</li><li>模式 <code>register</code>：<code>csrc/flash_attn/src/flash_fwd_kernel.h:142</code></li><li>模式 <code>protocol</code>：<code>flash_attn/cute/flash_fwd_sm100.py:69</code></li><li>模式 <code>backend</code>：<code>flash_attn/cute/interface.py:178</code></li></ul>
+<h3>A2. 外部资料</h3>
+<ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/Dao-AILab/flash-attention</li><li>fetched_at：2026-11-19T15:03:40Z</li><li>sha256：<code>4bd7b82f55619280bbc158475ef51e87fcb398ac820ae89f48c0624b86bfe737</code></li><li>判定：hit — 正文含 8 个仓库内真实路径（阈值 3）</li><li>原文快照：<code>source.txt</code>（与判定元数据分文件存放）</li></ul>
+<h3>A3. 未获得项</h3>
+<ul><li>依赖链许可证、模型权重/数据许可、CLA —— 未采集；</li><li>issue/PR 响应质量、CI 运行结果 —— 未采集；</li><li>roadmap、竞品对比、用户画像 —— 未采集；</li></ul>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+<h2>附录 B 许可证 / 维护 / 工程 / 成本</h2>
+<h3>B1. 许可证与合规风险</h3>
+<p>[事实] 主许可证 <strong>BSD-3-Clause</strong>；组织类型 —；治理文档：未检出。</p>
+<p>[未获得] 依赖链是否存在 GPL/AGPL、模型权重与数据集许可、CLA 要求；这些必须人工或由后续数据源补齐，本报告不给出「可商用」结论。</p>
+<h3>B2. 维护状态与风险</h3>
+<p>[事实] 贡献者 223 人，Top1 占比 58.76%；近 90 天 / 365 天提交 108 / 506 次；最近提交距今 0 天，维护状态「active」。</p>
+<ul><li>Top1 贡献者占比 58.76%，决策集中度需关注</li><li>未检出治理文档，贡献与决策流程可能不透明</li></ul>
+<h3>B3. 运行与工程体系</h3>
+<p>[事实] 仓库约 1,118 个文件、22.1 MiB；本次采集 17 个源码切片（tarball <code>b19b123a8a22fd19</code>）。 [事实] 语言构成：C 0.02%、C++ 18.48%、Cuda 6.17%、Dockerfile 0.07%、Makefile 0.00%、Python 75.18%、Shell 0.07%；硬件 vendors=[amd, nvidia]、kernel_langs=[cuda, triton]。</p>
+<p>[未获得] 构建脚本、依赖安装、测试体系、CI/CD、配置与 secret 管理未采集；本报告不能回答「能否在目标环境跑起来」。</p>
+<p><strong>特征卡已知限制</strong>：</p>
+<ul><li>证据来自 17 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h3>B4. 运行元数据与成本</h3>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>Dao-AILab/flash-attention</td></tr><tr><td>commit</td><td><code>68bd095cdd338c5171bccb9c200529f3620b85c9</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-18T00:00:00Z</td></tr><tr><td>通道 / 领域</td><td>classic / ai_infra</td></tr><tr><td>请求档位 (requested_depth)</td><td>fast</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>fast</td></tr><tr><td>降级原因 (reason)</td><td>manual_override — 人工 override</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 0/1、fast 8/5（周起点 2026-11-16）；tokens 周 115946/2000000、月 226096/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>3231dadd360410a9f3303a2a111d916e7a32710e0c433dfa8cdb55ab23556896</code></td></tr><tr><td>成本说明</td><td>本次 ¥0.0360（模型调用 1 次）；输入 14,982 tok / 命中 256 tok / 输出 820 tok</td></tr><tr><td>累计</td><td>本周 ¥0.2100 / 131,748 tok；本月 ¥0.7973 / 241,898 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
+<p><strong>档位决策链路</strong>：</p>
+<ol><li>L4 人工 override：--depth fast（绕过 L1 基线 / L2 配额）</li><li>凭据：齐全</li><li>L2 周配额：人工 override 绕过（本周 strong 0/1、fast 8/5）</li><li>L3 预算：估算 9200 × 安全系数 1.3 = 11960 tok（单选上限 120000），周 115946/2000000</li><li>结论：实际档位 fast（人工 override）</li></ol>
+<p><strong>上下文组装</strong>（裁剪发生在调用之前）：</p>
+<table><thead><tr><th>块</th><th>优先级</th><th>估算 token</th></tr></thead><tbody><tr><td>featcard</td><td>1</td><td>1,922</td></tr><tr><td>readme</td><td>2</td><td>2,490</td></tr><tr><td>source_files:csrc/flash_attn/src/flash_fwd_kernel.h</td><td>4</td><td>1,512</td></tr><tr><td>source_files:flash_attn/__init__.py</td><td>4</td><td>122</td></tr><tr><td>source_files:flash_attn/cute/__init__.py</td><td>4</td><td>122</td></tr><tr><td>source_files:flash_attn/cute/flash_fwd_sm100.py</td><td>4</td><td>1,511</td></tr><tr><td>source_files:flash_attn/cute/interface.py</td><td>4</td><td>1,510</td></tr><tr><td>source_files:flash_attn/ops/triton/__init__.py</td><td>4</td><td>11</td></tr></tbody></table>
+<ul><li>丢弃：—</li><li>合计 9,200 / 上限 120,000</li></ul>
+<h3>B5. 特征卡摘要</h3>
+<ul><li>卡文件：<code>data/featcards/Dao-AILab__flash-attention__68bd095cdd338c5171bccb9c200529f3620b85c9.json</code>（schema 1.0）</li><li>入口文件：—</li><li>最大目录深度：5；monorepo：是</li><li>源码切片：17 个文件（tarball <code>b19b123a8a22fd19</code>）</li><li>依赖：直接 / 传递 = — / —（L1 未解析清单文件）</li></ul>
+<p><strong>并行轴</strong></p>
+<ul><li>并行 <code>CP</code> = false（无证据）</li><li>并行 <code>DP</code> = false（无证据）</li><li>并行 <code>EP</code> = false（无证据）</li><li>并行 <code>PP</code> = true（证据 1 条）</li><li><code>training/README.md:24</code> — <code>training techniques (e.g., pipeline parallelism, tensor parallelism),</code></li><li>并行 <code>SP</code> = true（证据 1 条）</li><li><code>flash_attn/cute/interface.py:3258</code> — <code># return dk, dv in float32: all-reduce across sequence-parallel ranks must happen</code></li><li>并行 <code>TP</code> = true（证据 1 条）</li><li><code>training/README.md:24</code> — <code>training techniques (e.g., pipeline parallelism, tensor parallelism),</code></li></ul>
+<p><strong>缓存</strong></p>
+<ul><li>缓存 <code>kv_offload</code> = false（无证据）</li><li>缓存 <code>paged</code> = true（证据 3 条）</li><li><code>flash_attn/cute/flash_fwd_sm100.py:37</code> — <code>from flash_attn.cute.paged_kv import PagedKVManager, resolve_paged_token</code></li><li><code>flash_attn/cute/flash_fwd_sm100.py:188</code> — <code>paged_kv_non_tma: bool = False,</code></li><li><code>flash_attn/cute/flash_fwd_sm100.py:205</code> — <code>assert not (config.pack_gqa or is_varlen_q or paged_kv_non_tma or config.num_splits &gt; 1)</code></li><li>缓存 <code>prefix_reuse</code> = false（无证据）</li><li>缓存 <code>radix</code> = false（无证据）</li></ul>
+<ul><li>硬件：vendors=[amd, nvidia]、arch_gates=[ampere, blackwell, cdna, hopper]、kernel_langs=[cuda, triton]</li><li>治理文档：否</li></ul>
+<p><strong>依赖图</strong>（内部模块 import 边，节点/边排序后输出）</p>
+<pre><code class="language-mermaid">graph TD
+  flash_attn_cute --&gt; flash_attn_cute_interface
+  flash_attn_cute_flash_fwd_sm100 --&gt; flash_attn_cute
+  flash_attn_cute_interface --&gt; flash_attn_cute
+  flash_attn_cute_interface --&gt; flash_attn_cute_flash_fwd_sm100</code></pre>
+<p><strong>已知限制</strong>：</p>
+<ul><li>证据来自 17 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h3>B6. 体检事实（确定性，零 LLM）</h3>
+<table><thead><tr><th>指标</th><th>值</th></tr></thead><tbody><tr><td>Star / Fork</td><td>25,316 / 3,243</td></tr><tr><td>被依赖 (Used by)</td><td>—</td></tr><tr><td>贡献者 / Top1 占比</td><td>223 / 58.76%</td></tr><tr><td>Top10 贡献集中度</td><td>77.08%</td></tr><tr><td>90 天 / 365 天提交</td><td>108 / 506</td></tr><tr><td>最近提交 / 距今天数</td><td>2026-11-18T03:47:24Z / 0</td></tr><tr><td>维护状态</td><td>active</td></tr><tr><td>项目年龄 / 发布数(365d)</td><td>1,644 天 / 42</td></tr><tr><td>组织类型 / 许可证</td><td>— / BSD-3-Clause</td></tr><tr><td>文件数 / 体积</td><td>1,118 / 22.1 MiB</td></tr><tr><td>内部模块依赖边</td><td>4</td></tr></tbody></table>
+<p><strong>语言构成</strong>：C 0.02%、C++ 18.48%、Cuda 6.17%、Dockerfile 0.07%、Makefile 0.00%、Python 75.18%、Shell 0.07%</p>
+<p><strong>模块体量 Top10</strong></p>
+<table><thead><tr><th>模块</th><th>文件数</th><th>字节</th></tr></thead><tbody><tr><td>assets</td><td>17</td><td>15,129,325</td></tr><tr><td>flash_attn</td><td>114</td><td>3,309,694</td></tr><tr><td>tests</td><td>75</td><td>1,776,588</td></tr><tr><td>hopper</td><td>507</td><td>1,494,065</td></tr><tr><td>csrc</td><td>197</td><td>796,047</td></tr><tr><td>training</td><td>145</td><td>219,180</td></tr><tr><td>benchmarks</td><td>13</td><td>162,789</td></tr><tr><td>AI</td><td>16</td><td>141,168</td></tr><tr><td>.</td><td>12</td><td>84,704</td></tr><tr><td>tools</td><td>11</td><td>47,176</td></tr></tbody></table>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+</main>
+<footer>osslens 静态只读站点 · 无后端 / 无外部 JS 与 CDN / 零 LLM / 零网络</footer>
+</body></html>

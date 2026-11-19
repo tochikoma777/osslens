@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>报告 · microsoft/onnxruntime</title>
+<style>:root{--bg:#f4f7fb;--surface:#fff;--ink:#14213d;--muted:#64748b;--line:#e2e8f0;--brand:#2563eb;--brand2:#06b6d4;--radius:16px;--shadow:0 10px 30px rgba(15,23,42,.07)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+.site-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#0e7490 100%);color:#fff;padding:30px 24px 24px}
+.wrap{max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.brand-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,#38bdf8,#2563eb);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.brand small{display:block;color:#bfdbfe;letter-spacing:.16em;font-size:.72em;text-transform:uppercase}
+header h1{font-size:1.9rem;margin:0 0 16px;letter-spacing:.01em}
+header nav{display:flex;flex-wrap:wrap;gap:8px}
+header nav a{color:#e0f2fe;text-decoration:none;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:.88em}
+header nav a:hover,header nav a.active{background:#fff;color:#1e3a8a;border-color:transparent}
+main{max-width:1120px;margin:26px auto 0;padding:0 24px}
+main>section,main>.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:20px}
+h1,h2,h3{line-height:1.25;color:#0f172a}
+.site-header h1,.site-header h2{color:#fff}
+h2{font-size:1.3rem;margin:0 0 12px}h3{font-size:1.06rem;margin:22px 0 8px}
+p{margin:8px 0}a{color:#1d4ed8}
+code{background:#eef2ff;color:#3730a3;padding:2px 6px;border-radius:6px;font-size:.9em}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px;overflow:auto}
+pre code{background:none;color:inherit;padding:0}
+.hero{background:linear-gradient(135deg,#eff6ff,#f0fdfa);border-color:#bfdbfe}
+.hero h2{font-size:1.55rem;margin:4px 0 8px}
+.kicker{color:var(--brand);font-weight:700;letter-spacing:.14em;font-size:.72em;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0}
+.stat{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;transition:transform .18s,border-color .18s;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+.stat:hover{transform:translateY(-2px);border-color:#93c5fd;box-shadow:0 12px 24px rgba(37,99,235,.12)}
+.stat-label{display:block;color:var(--muted);font-size:.82em}
+.stat strong{display:block;font-size:2rem;line-height:1.2;margin:6px 0;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-desc{color:var(--muted);font-size:.78em}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;margin:0;background:#fff;font-size:.92em}
+th,td{padding:10px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#f8fafc;color:#334155;font-weight:600;white-space:nowrap;position:sticky;top:0}
+tbody tr:hover{background:#f8fbff}tbody tr:last-child td{border-bottom:0}
+.empty,.note{background:#fffbeb;border-left:4px solid #f59e0b;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#78350f}
+.alert{background:#ffeef0;border-left:4px solid #d1242f;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#7f1d1d}
+.badge-alert{display:inline-block;background:#d1242f;color:#fff;border-radius:999px;padding:2px 10px;font-size:.8em;font-weight:700}
+.pill{display:inline-block;background:#eff6ff;color:#1e40af;border:1px solid #dbeafe;border-radius:999px;padding:2px 10px;font-size:.78em;margin:2px}
+footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);font-size:.82em;text-align:center}
+@media(max-width:700px){header h1{font-size:1.45rem}main{padding:0 14px}main>section,main>.panel{padding:16px}.grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap"><div class="brand"><span class="brand-mark">O</span><div><small>osslens / static insights</small></div></div><h1>报告 · microsoft/onnxruntime</h1><nav><a href="index.html">首页</a> · <a class="active" href="reports.html">报告</a> · <a href="timeline.html">时间线</a> · <a href="featcards.html">特征卡</a> · <a href="patterns.html">规律库</a> · <a href="costs.html">成本</a> · <a href="runs.html">抽象 run</a> · <a href="search.html">检索</a> · <a href="tags.html">范式标签</a> · <a href="compare.html">并排对比</a></nav></div></header>
+<main class="wrap">
+<p class="note">源 MD：<code>../reports/microsoft__onnxruntime__2026-11-17.md</code>；下方六个阅读模块 + 附录顺序固定不变。</p>
+<h1>microsoft/onnxruntime 深度分析</h1>
+<p>&gt; 阅读档位：架构学习（profile=architecture_learning） &gt; 注意力预算：定位 20 / 架构 30 / 抽象 15 / ADR 20 / 扩展 5 / 经验卡 10 / 工程维护 0 &gt; 证据约定：[事实] 确定性提取 · [判断] 有 file:line 或文档锚点 · [未获得] 当前未采集</p>
+<h2>导读</h2>
+<p>&gt; <strong>是什么</strong>：ONNX Runtime: cross-platform, high performance ML inferencing and training accelerator &gt; <strong>架构一句话</strong>：[判断] 顶层以 <code>onnxruntime</code>、<code>winml</code>、<code>js</code> 为主，入口为 <code>csharp/test/Microsoft.AI.MachineLearning.Tests/main.cpp</code>（静态结构判断，未做动态跟踪）。 &gt; <strong>最大风险</strong>：Top1 贡献者占比 5.99%，决策集中度需关注 &gt; <strong>不适合</strong>：需要稳定 API/长期支持承诺的场景，请先核对发布节奏与维护状态；依赖链许可证与权重许可能力当前未采集，不能据此做出商用结论。</p>
+<h2>1. 项目定位与目标</h2>
+<p>[事实] microsoft/onnxruntime 属于 <code>未指定</code> 领域、<code>classic</code> 通道，主语言 C++（82%），22,334 stars / 4,460 forks。</p>
+<p>[事实] 项目自述：ONNX Runtime: cross-platform, high performance ML inferencing and training accelerator。</p>
+<p>[事实] README 摘要：[未获得] 本次未获得可用 README 文本。</p>
+<ul><li><strong>目标用户</strong>：[判断] 应用与平台开发者</li><li><strong>替代方案与差异</strong>：[未获得] 本次未采集竞品对比与 roadmap，不得据此推断「没有替代品」。</li><li><strong>不解决什么</strong>：[未获得] 没有路线图与 issue 语料，无法可靠界定能力边界。</li></ul>
+<p>[判断] 阶段信号：仓库已存在 2,929 天，近一年发布 30 个版本，最近提交距今 0 天，维护状态「active」。这只说明是否仍在维护，不等于成熟度结论。</p>
+<h2>2. 架构全景</h2>
+<h3>2.1 上下文边界</h3>
+<p>[判断] 架构说明文档：[未获得]；边界结论来自文档与目录结构，未经运行验证。 [事实] 硬件/内核线索：vendors=[]、kernel_langs=[]。</p>
+<h3>2.2 模块职责</h3>
+<table><thead><tr><th>模块</th><th>文件数</th><th>职责（启发式）</th></tr></thead><tbody><tr><td><code>onnxruntime</code></td><td>7,815</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>winml</code></td><td>341</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>js</code></td><td>730</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>csharp</code></td><td>319</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>docs</code></td><td>154</td><td>文档</td></tr></tbody></table>
+<h3>2.3 一次调用的路径（运行时视图）</h3>
+<p>[判断] 静态推断：<code>csharp/test/Microsoft.AI.MachineLearning.Tests/main.cpp</code>, <code>js/common/lib/index.ts</code>, <code>js/node/lib/index.ts</code>, <code>js/node/src/main.cc</code>, <code>js/node/test/standalone/index.ts</code>, <code>js/node/test/unittests/lib/index.ts</code>, <code>js/react_native/lib/index.ts</code>, <code>js/web/lib/index.ts</code>, <code>js/web/test/e2e/type/testcases/module-resolution/index.ts</code>, <code>js/web/test/unittests/index.ts</code>, <code>onnxruntime/test/ep_weight_sharing_ctx_gen/main.cc</code>, <code>onnxruntime/test/onnx/main.cc</code>, <code>onnxruntime/test/onnx/microbenchmark/main.cc</code>, <code>onnxruntime/test/perftest/main.cc</code>, <code>onnxruntime/test/webgpu/delay_load/main.cc</code>, <code>onnxruntime/test/webgpu/external_dawn/main.cc</code>, <code>onnxruntime/tool/etw/main.cc</code>, <code>orttraining/orttraining/models/bert/main.cc</code>, <code>orttraining/orttraining/models/gpt2/main.cc</code>, <code>orttraining/orttraining/models/mnist/main.cc</code>, <code>orttraining/orttraining/models/pipeline_poc/main.cc</code>, <code>orttraining/orttraining/models/squeezenet/main.cc</code>, <code>samples/cxx/main.cc</code>, <code>samples/nodejs/01_basic-usage/index.js</code>, <code>samples/nodejs/02_create-tensor/index.js</code>, <code>samples/nodejs/04_create-inference-session/index.js</code>, <code>winml/test/common/googletest/main.cpp</code> → 输出。内部 import 边约 0 条，只用于判断调用方向；<strong>未做运行时跟踪</strong>，参数与分支需读源码确认。</p>
+<h3>2.4 数据与控制流</h3>
+<p>[未获得] 未检测到并行/缓存轴证据；不代表项目中不存在。</p>
+<pre><code class="language-mermaid">graph TD
+  A[无可提取的内部模块依赖边]</code></pre>
+<h2>3. 核心抽象与契约</h2>
+<p>[未获得] 本次源码切片未识别到显式接口/注册模式；这不等于项目没有抽象层，只说明当前采集粒度不足。</p>
+<p>入口候选（可作为契约阅读起点）：<code>csharp/test/Microsoft.AI.MachineLearning.Tests/main.cpp</code>、<code>js/common/lib/index.ts</code>、<code>js/node/lib/index.ts</code>、<code>js/node/src/main.cc</code>、<code>js/node/test/standalone/index.ts</code>、<code>js/node/test/unittests/lib/index.ts</code>、<code>js/react_native/lib/index.ts</code>、<code>js/web/lib/index.ts</code>、<code>js/web/test/e2e/type/testcases/module-resolution/index.ts</code>、<code>js/web/test/unittests/index.ts</code>、<code>onnxruntime/test/ep_weight_sharing_ctx_gen/main.cc</code>、<code>onnxruntime/test/onnx/main.cc</code>、<code>onnxruntime/test/onnx/microbenchmark/main.cc</code>、<code>onnxruntime/test/perftest/main.cc</code>、<code>onnxruntime/test/webgpu/delay_load/main.cc</code>、<code>onnxruntime/test/webgpu/external_dawn/main.cc</code>、<code>onnxruntime/tool/etw/main.cc</code>、<code>orttraining/orttraining/models/bert/main.cc</code>、<code>orttraining/orttraining/models/gpt2/main.cc</code>、<code>orttraining/orttraining/models/mnist/main.cc</code>、<code>orttraining/orttraining/models/pipeline_poc/main.cc</code>、<code>orttraining/orttraining/models/squeezenet/main.cc</code>、<code>samples/cxx/main.cc</code>、<code>samples/nodejs/01_basic-usage/index.js</code>、<code>samples/nodejs/02_create-tensor/index.js</code>、<code>samples/nodejs/04_create-inference-session/index.js</code>、<code>winml/test/common/googletest/main.cpp</code></p>
+<h2>4. 关键设计决策（ADR）</h2>
+<p>[未获得] 判废：空输出或输出顶格；ADR 至少 3 条的要求未满足，不用通用判断填充。</p>
+<h2>5. 扩展与改造路径</h2>
+<p>[未获得] 未识别到显式插件/注册点。</p>
+<p>[判断] 新增能力的静态路径（需按实际代码复核）：</p>
+<ol><li>在入口处接入参数/配置（入口候选：<code>csharp/test/Microsoft.AI.MachineLearning.Tests/main.cpp</code>, <code>js/common/lib/index.ts</code>, <code>js/node/lib/index.ts</code>, <code>js/node/src/main.cc</code>, <code>js/node/test/standalone/index.ts</code>, <code>js/node/test/unittests/lib/index.ts</code>, <code>js/react_native/lib/index.ts</code>, <code>js/web/lib/index.ts</code>, <code>js/web/test/e2e/type/testcases/module-resolution/index.ts</code>, <code>js/web/test/unittests/index.ts</code>, <code>onnxruntime/test/ep_weight_sharing_ctx_gen/main.cc</code>, <code>onnxruntime/test/onnx/main.cc</code>, <code>onnxruntime/test/onnx/microbenchmark/main.cc</code>, <code>onnxruntime/test/perftest/main.cc</code>, <code>onnxruntime/test/webgpu/delay_load/main.cc</code>, <code>onnxruntime/test/webgpu/external_dawn/main.cc</code>, <code>onnxruntime/tool/etw/main.cc</code>, <code>orttraining/orttraining/models/bert/main.cc</code>, <code>orttraining/orttraining/models/gpt2/main.cc</code>, <code>orttraining/orttraining/models/mnist/main.cc</code>, <code>orttraining/orttraining/models/pipeline_poc/main.cc</code>, <code>orttraining/orttraining/models/squeezenet/main.cc</code>, <code>samples/cxx/main.cc</code>, <code>samples/nodejs/01_basic-usage/index.js</code>, <code>samples/nodejs/02_create-tensor/index.js</code>, <code>samples/nodejs/04_create-inference-session/index.js</code>, <code>winml/test/common/googletest/main.cpp</code>）；</li><li>复用上表中的注册/分派结构，实现新的后端或适配器；</li><li>补对应测试与文档，再走发布流程。</li></ol>
+<ul><li>扩展文档：[未获得]</li><li>改造成本：[未获得] 需要先确认契约稳定性与测试覆盖，本报告不估算人日。</li></ul>
+<h2>6. 经验卡</h2>
+<p>[未获得] 本次没有带「可迁移规则」的条目（模型未输出 rule，或命中旧缓存）；经验卡留空，不用「要注重解耦」这类通用建议充数。</p>
+<h2>附录 A 证据索引与未知项</h2>
+<h3>A1. 代码证据索引</h3>
+<p>—</p>
+<p>&gt; 未产出洞见：判废：空输出或输出顶格</p>
+<h3>A2. 外部资料</h3>
+<ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/microsoft/onnxruntime</li><li>fetched_at：2026-11-19T15:04:43Z</li><li>sha256：<code>0110e47af243b382ea940959b93860616d5cfda4830bc7a0e8d5eb711ff1fb03</code></li><li>判定：hit — 正文含 2577 个仓库内真实路径（阈值 3）</li><li>原文快照：<code>source.txt</code>（与判定元数据分文件存放）</li></ul>
+<h3>A3. 未获得项</h3>
+<ul><li>依赖链许可证、模型权重/数据许可、CLA —— 未采集；</li><li>issue/PR 响应质量、CI 运行结果 —— 未采集；</li><li>roadmap、竞品对比、用户画像 —— 未采集；</li></ul>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+<h2>附录 B 许可证 / 维护 / 工程 / 成本</h2>
+<h3>B1. 许可证与合规风险</h3>
+<p>[事实] 主许可证 <strong>MIT</strong>；组织类型 —；治理文档：有。</p>
+<p>[未获得] 依赖链是否存在 GPL/AGPL、模型权重与数据集许可、CLA 要求；这些必须人工或由后续数据源补齐，本报告不给出「可商用」结论。</p>
+<h3>B2. 维护状态与风险</h3>
+<p>[事实] 贡献者 403 人，Top1 占比 5.99%；近 90 天 / 365 天提交 979 / 2,000 次；最近提交距今 0 天，维护状态「active」。</p>
+<ul><li>Top1 贡献者占比 5.99%，决策集中度需关注</li></ul>
+<h3>B3. 运行与工程体系</h3>
+<p>[事实] 仓库约 11,637 个文件、566.4 MiB；本次采集 0 个源码切片（tarball <code>—</code>）。 [事实] 语言构成：Assembly 1.66%、Batchfile 0.01%、C 3.15%、C# 1.40%、C++ 82.30%、CMake 0.41%、CSS 0.00%、Cuda 2.85%、Dockerfile 0.01%、Go 0.07%、HIP 0.00%、HLSL 0.01%、HTML 0.01%、Java 0.29%、JavaScript 0.37%、Jupyter Notebook 0.10%、Just 0.00%、Kotlin 0.00%、Linker Script 0.00%、NASL 0.00%、Objective-C 0.11%、Objective-C++ 0.08%、Pascal 0.00%、PowerShell 0.02%、Puppet 0.00%、Python 6.00%、Ruby 0.00%、Rust 0.12%、Shell 0.07%、Swift 0.00%、TypeScript 0.93%、Vue 0.00%；硬件 vendors=[]、kernel_langs=[]。</p>
+<p>[未获得] 构建脚本、依赖安装、测试体系、CI/CD、配置与 secret 管理未采集；本报告不能回答「能否在目标环境跑起来」。</p>
+<p><strong>特征卡已知限制</strong>：</p>
+<ul><li>未取得源码切片：parallel/cache/hardware 全部 false、deps.graph 为空（红线 #5）</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h3>B4. 运行元数据与成本</h3>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>microsoft/onnxruntime</td></tr><tr><td>commit</td><td><code>5e289356eff2c1c66e83696a7b119f388230d5af</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-17T00:00:00Z</td></tr><tr><td>通道 / 领域</td><td>classic / 未指定</td></tr><tr><td>请求档位 (requested_depth)</td><td>fast</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>fast</td></tr><tr><td>降级原因 (reason)</td><td>manual_override — 人工 override</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 0/1、fast 15/5（周起点 2026-11-16）；tokens 周 220299/2000000、月 330449/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>870a024404e74590a438994a1d7687f5007d83cc19e7cd70e6f801447d4de1f2</code></td></tr><tr><td>成本说明</td><td>本次 ¥0.0000（模型调用 0 次）；输入 0 tok / 命中 0 tok / 输出 0 tok</td></tr><tr><td>累计</td><td>本周 ¥0.4141 / 220,299 tok；本月 ¥1.0014 / 330,449 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
+<p><strong>档位决策链路</strong>：</p>
+<ol><li>L4 人工 override：--depth fast（绕过 L1 基线 / L2 配额）</li><li>凭据：齐全</li><li>L2 周配额：人工 override 绕过（本周 strong 0/1、fast 15/5）</li><li>L3 预算：估算 1454 × 安全系数 1.3 = 1890 tok（单选上限 120000），周 220299/2000000</li><li>结论：实际档位 fast（人工 override）</li></ol>
+<p><strong>上下文组装</strong>（裁剪发生在调用之前）：</p>
+<table><thead><tr><th>块</th><th>优先级</th><th>估算 token</th></tr></thead><tbody><tr><td>featcard</td><td>1</td><td>1,454</td></tr></tbody></table>
+<ul><li>丢弃：—</li><li>合计 1,454 / 上限 120,000</li></ul>
+<h3>B5. 特征卡摘要</h3>
+<ul><li>卡文件：<code>data/featcards/microsoft__onnxruntime__5e289356eff2c1c66e83696a7b119f388230d5af.json</code>（schema 1.0）</li><li>入口文件：csharp/test/Microsoft.AI.MachineLearning.Tests/main.cpp, js/common/lib/index.ts, js/node/lib/index.ts, js/node/src/main.cc, js/node/test/standalone/index.ts, js/node/test/unittests/lib/index.ts, js/react_native/lib/index.ts, js/web/lib/index.ts, js/web/test/e2e/type/testcases/module-resolution/index.ts, js/web/test/unittests/index.ts, onnxruntime/test/ep_weight_sharing_ctx_gen/main.cc, onnxruntime/test/onnx/main.cc, onnxruntime/test/onnx/microbenchmark/main.cc, onnxruntime/test/perftest/main.cc, onnxruntime/test/webgpu/delay_load/main.cc, onnxruntime/test/webgpu/external_dawn/main.cc, onnxruntime/tool/etw/main.cc, orttraining/orttraining/models/bert/main.cc, orttraining/orttraining/models/gpt2/main.cc, orttraining/orttraining/models/mnist/main.cc, orttraining/orttraining/models/pipeline_poc/main.cc, orttraining/orttraining/models/squeezenet/main.cc, samples/cxx/main.cc, samples/nodejs/01_basic-usage/index.js, samples/nodejs/02_create-tensor/index.js, samples/nodejs/04_create-inference-session/index.js, winml/test/common/googletest/main.cpp</li><li>最大目录深度：13；monorepo：是</li><li>源码切片：0 个文件（tarball ``）</li><li>依赖：直接 / 传递 = — / —（L1 未解析清单文件）</li></ul>
+<p><strong>并行轴</strong></p>
+<ul><li>并行 <code>CP</code> = false（无证据）</li><li>并行 <code>DP</code> = false（无证据）</li><li>并行 <code>EP</code> = false（无证据）</li><li>并行 <code>PP</code> = false（无证据）</li><li>并行 <code>SP</code> = false（无证据）</li><li>并行 <code>TP</code> = false（无证据）</li></ul>
+<p><strong>缓存</strong></p>
+<ul><li>缓存 <code>kv_offload</code> = false（无证据）</li><li>缓存 <code>paged</code> = false（无证据）</li><li>缓存 <code>prefix_reuse</code> = false（无证据）</li><li>缓存 <code>radix</code> = false（无证据）</li></ul>
+<ul><li>硬件：vendors=[]、arch_gates=[]、kernel_langs=[]</li><li>治理文档：是</li></ul>
+<p><strong>依赖图</strong>（内部模块 import 边，节点/边排序后输出）</p>
+<pre><code class="language-mermaid">graph TD
+  A[无可提取的内部模块依赖边]</code></pre>
+<p><strong>已知限制</strong>：</p>
+<ul><li>未取得源码切片：parallel/cache/hardware 全部 false、deps.graph 为空（红线 #5）</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h3>B6. 体检事实（确定性，零 LLM）</h3>
+<table><thead><tr><th>指标</th><th>值</th></tr></thead><tbody><tr><td>Star / Fork</td><td>22,334 / 4,460</td></tr><tr><td>被依赖 (Used by)</td><td>—</td></tr><tr><td>贡献者 / Top1 占比</td><td>403 / 5.99%</td></tr><tr><td>Top10 贡献集中度</td><td>32.90%</td></tr><tr><td>90 天 / 365 天提交</td><td>979 / 2,000</td></tr><tr><td>最近提交 / 距今天数</td><td>2026-11-17T04:59:41Z / 0</td></tr><tr><td>维护状态</td><td>active</td></tr><tr><td>项目年龄 / 发布数(365d)</td><td>2,929 天 / 30</td></tr><tr><td>组织类型 / 许可证</td><td>— / MIT</td></tr><tr><td>文件数 / 体积</td><td>11,637 / 566.4 MiB</td></tr><tr><td>内部模块依赖边</td><td>0</td></tr></tbody></table>
+<p><strong>语言构成</strong>：Assembly 1.66%、Batchfile 0.01%、C 3.15%、C# 1.40%、C++ 82.30%、CMake 0.41%、CSS 0.00%、Cuda 2.85%、Dockerfile 0.01%、Go 0.07%、HIP 0.00%、HLSL 0.01%、HTML 0.01%、Java 0.29%、JavaScript 0.37%、Jupyter Notebook 0.10%、Just 0.00%、Kotlin 0.00%、Linker Script 0.00%、NASL 0.00%、Objective-C 0.11%、Objective-C++ 0.08%、Pascal 0.00%、PowerShell 0.02%、Puppet 0.00%、Python 6.00%、Ruby 0.00%、Rust 0.12%、Shell 0.07%、Swift 0.00%、TypeScript 0.93%、Vue 0.00%</p>
+<p><strong>模块体量 Top10</strong></p>
+<table><thead><tr><th>模块</th><th>文件数</th><th>字节</th></tr></thead><tbody><tr><td>onnxruntime</td><td>7,815</td><td>428,944,218</td></tr><tr><td>winml</td><td>341</td><td>102,082,049</td></tr><tr><td>js</td><td>730</td><td>16,330,261</td></tr><tr><td>csharp</td><td>319</td><td>16,228,645</td></tr><tr><td>docs</td><td>154</td><td>7,324,155</td></tr><tr><td>orttraining</td><td>815</td><td>7,258,493</td></tr><tr><td>cmake</td><td>201</td><td>4,992,518</td></tr><tr><td>tools</td><td>590</td><td>2,899,916</td></tr><tr><td>java</td><td>134</td><td>2,387,728</td></tr><tr><td>include</td><td>148</td><td>2,110,795</td></tr></tbody></table>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+</main>
+<footer>osslens 静态只读站点 · 无后端 / 无外部 JS 与 CDN / 零 LLM / 零网络</footer>
+</body></html>
