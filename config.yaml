@@ -38,7 +38,8 @@ depth:
   # 周配额（设计方案 §11）
   weekly_quota:
     strong: 1
-    fast: 3
+    # 2026-11-19：3 → 5，配合 analysis_interval_days=1 观察闸门配合
+    fast: 5
   budget:
     weekly_tokens: 2000000
     monthly_tokens: 6000000
