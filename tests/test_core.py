@@ -322,23 +322,22 @@ def test_report_has_six_modules_and_appendices_in_order(tmp_path: Path) -> None:
     headings = [
         "## 导读",
         "## 1. 项目定位与目标",
-        "## 2. 许可证与合规风险",
-        "## 3. 架构与模块",
-        "## 4. 运行与工程体系",
-        "## 5. 维护状态与风险",
-        "## 6. 扩展与二次开发",
-        "## 洞见（附录 A）",
-        "## 外部资料（附录 B）",
-        "## 运行元数据（附录 C）",
-        "## 特征卡摘要（附录 D）",
-        "## 体检事实（确定性，零 LLM）（附录 E）",
+        "## 2. 架构全景",
+        "## 3. 核心抽象与契约",
+        "## 4. 关键设计决策（ADR）",
+        "## 5. 扩展与改造路径",
+        "## 6. 经验卡",
+        "## 附录 A 证据索引与未知项",
+        "## 附录 B 许可证 / 维护 / 工程 / 成本",
     ]
     positions = [text.index(heading) for heading in headings]
     assert positions == sorted(positions)
+    assert sum(1 for line in text.splitlines() if line.startswith("## ")) == len(headings)
 
-    insight = text.split("## 洞见（附录 A）", 1)[1].split("## 外部资料", 1)[0]
-    assert insight.strip() == "—", "off 档洞见位必须且只能是 —"
-    assert "## 外部资料（附录 B）" in text
+    adr = text.split("## 4. 关键设计决策（ADR）", 1)[1].split("## 5.", 1)[0]
+    assert "[未获得]" in adr, "off 档必须显式写未获得，不得留空或编造"
+    assert "### A2. 外部资料" in text
+    assert "### B4. 运行元数据与成本" in text
 
 
 # --------------------------------------------------------------------------- 其他
@@ -529,18 +528,21 @@ def test_report_v2_has_reader_modules_and_appendix(tmp_path: Path) -> None:
     )
     text = (root / "reports" / REPORT_NAME).read_text(encoding="utf-8")
     assert "## 导读" in text
-    assert "**它大概在做什么**" in text
+    assert "> 阅读档位：架构学习（profile=architecture_learning）" in text
+    assert "证据约定：[事实]" in text
     for heading in (
         "## 1. 项目定位与目标",
-        "## 2. 许可证与合规风险",
-        "## 3. 架构与模块",
-        "## 4. 运行与工程体系",
-        "## 5. 维护状态与风险",
-        "## 6. 扩展与二次开发",
+        "## 2. 架构全景",
+        "## 3. 核心抽象与契约",
+        "## 4. 关键设计决策（ADR）",
+        "## 5. 扩展与改造路径",
+        "## 6. 经验卡",
     ):
         assert heading in text
-    body = text.split("## 洞见（附录 A）", 1)[0]
+    body = text.split("## 附录 A", 1)[0]
     assert "| 项 | 值 |" not in body, "运行元数据表必须下沉到附录"
     assert "| 指标 | 值 |" not in body, "体检事实表必须下沉到附录"
-    assert "本次**未采集**" in text
-    assert "不能替代法务审查" in text
+    assert "[未获得]" in text, "缺数据必须显式标注，不能用通用描述补空"
+    assert "通常" not in text and "一般来说" not in text
+    assert "不能替代法务审查" not in text  # v3 不再给「可商用」类结论
+    assert "不给出「可商用」结论" in text

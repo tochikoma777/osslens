@@ -323,13 +323,13 @@ def test_report_carries_d10_wording_and_modules(tmp_path: Path) -> None:
     )
     text = (root / "reports" / "deepseek-ai__DeepEP__2026-11-02.md").read_text(encoding="utf-8")
     assert D10_WORDING in text
-    assert sum(1 for line in text.splitlines() if line.startswith("## ")) == 12
+    assert sum(1 for line in text.splitlines() if line.startswith("## ")) == 9
     for heading in (
         "## 导读",
         "## 1. 项目定位与目标",
-        "## 6. 扩展与二次开发",
-        "## 洞见（附录 A）",
-        "## 运行元数据（附录 C）",
+        "## 6. 经验卡",
+        "## 附录 A 证据索引与未知项",
+        "## 附录 B 许可证 / 维护 / 工程 / 成本",
     ):
         assert heading in text
     # 故意让它失败：把字样稀释掉后，同一断言必须不成立（证明不是恒真）

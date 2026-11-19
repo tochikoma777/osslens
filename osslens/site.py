@@ -35,7 +35,6 @@ from .util import (
 )
 
 SITE_DIRNAME = "site"
-REPORT_SECTIONS = ("运行元数据", "体检事实", "特征卡摘要", "洞见", "外部资料")
 PRICE_SOURCE_NOTE = "单价只来自 config.yaml → llm.price_table（代码不内置任何价格字面量）"
 
 

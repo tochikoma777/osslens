@@ -57,6 +57,10 @@ depth:
   #   手动 --depth {auto,off,fast,strong} 四档与默认 auto 全保留，勿混用（A-1）。
   auto_default: fast
 
+# 报告阅读档位（v3）：architecture_learning | adoption_due_diligence | contributor_onboarding
+report:
+  profile: architecture_learning
+
 # 路径 B / 自动链：两次「自动真实分析」之间的最小间隔（天）。
 # ★ 这是「真实分析 / 真实花钱」的间隔，不是任务唤醒频率：定时器可以每天到点检查，
 #   未满间隔即 [skip] interval not reached，且先于选 slug / analyze / 真源回写 / 站点重建。

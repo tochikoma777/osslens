@@ -120,6 +120,9 @@ class InsightItem:
     alternative: str
     cost: str
     evidence: str
+    # v3：经验卡原文（可选；旧缓存/旧响应缺失时为空，由渲染层标注未获得）
+    rule: str = ""
+    boundary: str = ""
 
     def to_json(self) -> dict[str, str]:
         return {
@@ -128,6 +131,8 @@ class InsightItem:
             "alternative": self.alternative,
             "cost": self.cost,
             "evidence": self.evidence,
+            "rule": self.rule,
+            "boundary": self.boundary,
         }
 
 
@@ -159,6 +164,8 @@ class Insight:
                     alternative=as_str(item.get("alternative")),
                     cost=as_str(item.get("cost")),
                     evidence=as_str(item.get("evidence")),
+                    rule=as_str(item.get("rule")),
+                    boundary=as_str(item.get("boundary")),
                 )
                 for item in as_list(payload.get("items"))
                 if isinstance(item, dict)

@@ -59,6 +59,7 @@ DEFAULT_CONFIG: dict[str, Any] = {
     },
     # 路径 B / 自动链：两次「自动真实分析」的最小间隔（天）。
     # 不是任务唤醒频率：schedule 可每日检查，但真实分析 / 真实花钱至少间隔该天数。
+    "report": {"profile": "architecture_learning"},
     "auto_chain": {
         "min_interval_days": 7,
         # None = 继承 min_interval_days（兼容只配置旧键的工作区）；显式数字优先
@@ -201,6 +202,10 @@ depth:
 # 路径 B / 自动链：两次「自动真实分析」之间的最小间隔（天）。
 # 真实分析 / 真实花钱的间隔，不是任务唤醒频率；最小允许值 1，默认 7 = 每周一次。
 # workflow_dispatch 只绕过本间隔，不绕过成本闸门。
+report:
+  # 报告阅读档位：architecture_learning | adoption_due_diligence | contributor_onboarding
+  profile: architecture_learning
+
 auto_chain:
   min_interval_days: 7
   # 分析与抽象各自的最小真实调用间隔（天）；缺省继承 min_interval_days
@@ -314,6 +319,19 @@ class DepthConfig:
     baseline: dict[str, str]
     # 自动链默认档位（S1'）：只影响自动 analyze 触发；baseline 供 --depth auto 推导，勿混用。
     auto_default: str = "fast"
+
+
+# v3 报告档位白名单（render.REPORT_PROFILES 必须与此一致，由测试守护）。
+REPORT_PROFILE_NAMES = (
+    "architecture_learning",
+    "adoption_due_diligence",
+    "contributor_onboarding",
+)
+
+
+@dataclass(frozen=True)
+class ReportConfig:
+    profile: str = "architecture_learning"
 
 
 @dataclass(frozen=True)
@@ -516,6 +534,7 @@ class Config:
     external: ExternalConfig
     sources: SourcesConfig
     retention: RetentionConfig
+    report: ReportConfig = field(default_factory=lambda: ReportConfig("architecture_learning"))
     auto_chain: AutoChainConfig = field(default_factory=lambda: AutoChainConfig(7))
     domains: tuple[DomainRule, ...] = field(default_factory=tuple)
     abstract: AbstractConfig = field(default_factory=lambda: AbstractConfig(6, 8, 4, 5))
@@ -560,6 +579,15 @@ class Config:
         src_raw = _section(raw, "sources")
         ret_raw = _section(raw, "retention")
         auto_chain_raw = _section(raw, "auto_chain")
+        report_raw = _section(raw, "report")
+        report_profile = (
+            as_str(report_raw.get("profile"), "architecture_learning") or "architecture_learning"
+        )
+        if report_profile not in REPORT_PROFILE_NAMES:
+            raise ConfigError(
+                f"report.profile 必须是 {'/'.join(REPORT_PROFILE_NAMES)} 之一，"
+                f"实际 {report_profile!r}"
+            )
 
         price_table: dict[str, PriceEntry] = {}
         for model, entry in _section(llm_raw, "price_table").items():
@@ -729,6 +757,7 @@ class Config:
                 archive_dir=as_str(ret_raw.get("archive_dir"), "data/cache_archive"),
                 snapshot_keep_days=as_int(ret_raw.get("snapshot_keep_days"), 90),
             ),
+            report=ReportConfig(profile=report_profile),
             auto_chain=auto_chain,
             domains=tuple(domains),
             abstract=abstract,

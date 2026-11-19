@@ -13,7 +13,6 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
-from osslens import site as site_module
 from osslens.config import Config, Layout
 from osslens.llm import (
     PARADIGM_TAGS,
@@ -83,10 +82,10 @@ def test_prompts_and_cache_key_reflect_new_schema() -> None:
     assert k_old != k_new, "prompt/schema 变更必须使缓存键同步失效"
 
 
-def test_render_insight_section_has_paradigm_tag_line() -> None:
+def test_evidence_appendix_carries_paradigm_tag_line() -> None:
     from types import SimpleNamespace
 
-    from osslens.render import _insight_section
+    from osslens.render import _evidence_appendix
 
     ins = Insight(
         items=(InsightItem("t1", "a", "b", "c", "x.py:1"),),
@@ -94,12 +93,22 @@ def test_render_insight_section_has_paradigm_tag_line() -> None:
         dropped=(),
         paradigm_tags=("缓存复用", "深优化"),
     )
-    # _insight_section 只依赖 insight / insight_reason，无需构造完整 DepthDecision
-    lines = _insight_section(SimpleNamespace(insight=ins, insight_reason=""))
+    # 附录 A 只依赖 insight / insight_reason / pattern_hits / 外部探测，无需完整 DepthDecision
+    lines = _evidence_appendix(
+        SimpleNamespace(
+            insight=ins,
+            insight_reason="",
+            pattern_hits=(),
+            owner="o",
+            repo="r",
+            external=None,
+            snapshot_notes=(),
+        )
+    )
     text = "\n".join(lines)
     assert "- 架构范式标签：缓存复用、深优化" in text
-    assert lines[0] == "## 洞见（附录 A）"  # 区块名带附录标记
-    assert "## 外部资料" not in text  # 未新增第六区块
+    assert lines[0] == "## 附录 A 证据索引与未知项"
+    assert "### A3. 未获得项" in text
 
 
 # --------------------------------------------------------------------------- 站点三能力
@@ -222,11 +231,9 @@ def test_site_idempotent_and_check_consistent(tmp_path: Path) -> None:
     out = tmp_path / "out-site"
     write_site(out, first.files)
     assert site_check(out, first.files) == ()
-    # 五区块报告结构不变
-    assert site_module.REPORT_SECTIONS == (
-        "运行元数据",
-        "体检事实",
-        "特征卡摘要",
-        "洞见",
-        "外部资料",
-    )
+    # v3 权重是注意力预算，必须完整覆盖 6 章 + 工程维护，且总和为 100
+    from osslens.render import REPORT_PROFILES
+
+    for profile, weights in REPORT_PROFILES.items():
+        assert sum(weights.values()) == 100, profile
+        assert set(weights) == {"定位", "架构", "抽象", "ADR", "扩展", "经验卡", "工程维护"}

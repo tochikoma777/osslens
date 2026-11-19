@@ -219,13 +219,15 @@ def test_index_md_is_standalone_readable(tmp_path: Path) -> None:
     assert "site/" not in index and str(tmp_path) not in index  # 无绝对路径
 
 
-def test_report_five_sections_preserved_in_order(tmp_path: Path) -> None:
+def test_report_sections_preserved_in_order(tmp_path: Path) -> None:
+    """站点必须按 Markdown 原顺序渲染章节（同时兼容历史 v1/v2 报告与 v3 报告）。"""
+    legacy_sections = ("运行元数据", "体检事实", "特征卡摘要", "洞见", "外部资料")
     root = _workspace(tmp_path)
     files = _build(root, tmp_path / "site")
     page = next(value for key, value in files.items() if key == "report-org__one__2026-11-06.html")
-    positions = [page.index(name) for name in site_module.REPORT_SECTIONS]
-    assert positions == sorted(positions)  # 故意让它失败：五区块顺序被打乱
-    assert len(set(positions)) == len(site_module.REPORT_SECTIONS)
+    positions = [page.index(name) for name in legacy_sections]
+    assert positions == sorted(positions)  # 故意让它失败：章节顺序被打乱
+    assert len(set(positions)) == len(legacy_sections)
     assert "<table>" in page and "<pre><code" in page  # 表格 / Mermaid 代码块都在
     assert "graph TD" in page
 

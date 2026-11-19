@@ -225,7 +225,7 @@ def test_max_calls_per_run_blocks_without_losing_candidate(
     assert code == 0
     text = (root / "reports" / "deepseek-ai__DeepEP__2026-11-02.md").read_text(encoding="utf-8")
     assert "max_calls_per_run" in text
-    assert "## 洞见" in text
+    assert "## 4. 关键设计决策（ADR）" in text
     records = read_jsonl_file(root / "data" / "costs" / "costs.jsonl")
     assert any(row["event"] == "blocked" for row in records)
     assert read_jsonl_file(root / "data" / "pool" / "pool.jsonl"), "候选不得因拦截被丢弃"

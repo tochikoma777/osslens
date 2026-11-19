@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import sys
 from collections.abc import Sequence
 from datetime import datetime
@@ -510,6 +511,12 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
     )
     _emit_actions_cost_warning(cost_line.anomalies)
 
+    # v3：源码切片只读一次，供 README / 文档 / 架构模式扫描复用（不重复解压/读盘）
+    source_texts = sources.texts() if sources is not None else []
+    readme = next(
+        (text for item, text in source_texts if Path(item.path).name.lower().startswith("readme")),
+        "",
+    )
     report = render_report(
         ReportInputs(
             owner=owner,
@@ -528,6 +535,11 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
             insight_reason=insight_reason,
             context=context if decision.actual in AVAILABLE_DEPTHS else None,
             cost=cost_line,
+            repo_meta=dict(snapshot.data.get("repo", {})),
+            readme=readme,
+            doc_excerpts=_doc_excerpts(source_texts),
+            pattern_hits=_pattern_hits(source_texts),
+            profile=config.report.profile,
         )
     )
     atomic_write_text(report_path, report)
@@ -1068,6 +1080,54 @@ def _sources_for(
         )
     except OsslensError as exc:
         return None, f"源码采集失败（{exc}）"
+
+
+_DOC_HINTS = ("readme", "architecture", "design", "changelog", "contributing", "roadmap", "adr")
+_PATTERN_RE = re.compile(
+    r"(entry_points|register\s*\(|plugin|adapter|backend|abstractmethod|protocol|"
+    r"@hook|hook\(|dispatch\s*\(|factory|registry|subscribe\s*\()",
+    re.IGNORECASE,
+)
+
+
+def _doc_excerpts(
+    texts: Sequence[tuple[Any, str]], *, limit: int = 5, chars: int = 1200
+) -> tuple[tuple[str, str], ...]:
+    """抽取 README/架构/变更/贡献类文档的前缀，供定位与架构章引用。"""
+    picked: list[tuple[str, str]] = []
+    for item, text in texts:
+        path = str(getattr(item, "path", ""))
+        lowered = path.lower()
+        if not any(hint in lowered for hint in _DOC_HINTS):
+            continue
+        picked.append((path, text[:chars]))
+        if len(picked) >= limit:
+            break
+    return tuple(picked)
+
+
+def _pattern_hits(
+    texts: Sequence[tuple[Any, str]], *, limit: int = 12
+) -> tuple[tuple[str, str, int], ...]:
+    """确定性扫描插件/适配器/注册点等架构模式，返回 (pattern, path, line)。"""
+    hits: list[tuple[str, str, int]] = []
+    seen: set[tuple[str, str]] = set()
+    for item, text in texts:
+        path = str(getattr(item, "path", ""))
+        for number, line in enumerate(text.splitlines(), start=1):
+            match = _PATTERN_RE.search(line)
+            if not match:
+                continue
+            # 归一化：去尾部括号/空白并小写，避免 Registry / register( 被当成不同模式
+            pattern = match.group(1).strip().rstrip("(").strip().lower()
+            key = (pattern, path)
+            if key in seen:
+                continue
+            seen.add(key)
+            hits.append((pattern, path, number))
+            if len(hits) >= limit:
+                return tuple(hits)
+    return tuple(hits)
 
 
 def _build_context(config: Config, card: dict[str, Any], sources: Any) -> Any:

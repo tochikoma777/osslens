@@ -16,7 +16,9 @@ _TAG_HINT = "paradigm_tags 受控词表（只能选 0–3 个，表外值由代�
     sorted(PARADIGM_TAGS)
 )
 _SCHEMA_LINE = (
-    '{"items":[{"id":"t1","chose":"...","alternative":"...","cost":"...","evidence":"path/to/file.py:123"}],\n'
+    '{"items":[{"id":"t1","chose":"...","alternative":"...","cost":"...",'
+    '"evidence":"path/to/file.py:123","rule":"可复用规则（<=60字）",'
+    '"boundary":"适用边界/反模式（<=60字）"}],\n'
     ' "confidence":"high|med|low",\n'
     ' "paradigm_tags":["缓存复用","深优化"]}'
 )
@@ -29,6 +31,10 @@ FAST_INSIGHT_SYSTEM = (
     "2. 每个结论必须给出 `file:line` 证据，且文件必须来自我提供的文件列表。\n"
     '3. 证据不足就不要写这一条，宁少勿猜。不要写"无法判断/无法验证"。\n'
     "4. `chose` / `alternative` / `cost` 都是短句（<=40 字），`cost` 指该取舍付出的代价。\n"
+    "   `rule` 与 `boundary` 为**必填**：rule 是可迁移的判断规则（<=60 字），\n"
+    "   boundary 是该规则何时不成立/反模式（<=60 字），两条都不得留空。\n"
+    '   例：rule="运行时编译换灵活性，代价是部署需保留工具链"，\n'
+    '       boundary="只适合需要 JIT 特化的内核；纯 Python 服务不适用"。\n'
     "5. `paradigm_tags` 是**报告级**架构范式标签，从受控词表选 0–3 个；\n"
     "   不确定就留空数组，绝不编造。\n\n"
     "输出 schema：\n" + _SCHEMA_LINE + "\n" + _TAG_HINT + "\n"
@@ -43,6 +49,10 @@ STRONG_INSIGHT_SYSTEM = (
     "3. 只写跨模块、跨层级的取舍；局部实现细节不要写。\n"
     '   证据不足就宁少勿猜，不要写"无法判断/无法验证"。\n'
     "4. `chose` / `alternative` / `cost` 都是短句（<=40 字），`cost` 指该取舍付出的代价。\n"
+    "   `rule` 与 `boundary` 为**必填**：rule 是可迁移的判断规则（<=60 字），\n"
+    "   boundary 是该规则何时不成立/反模式（<=60 字），两条都不得留空。\n"
+    '   例：rule="运行时编译换灵活性，代价是部署需保留工具链"，\n'
+    '       boundary="只适合需要 JIT 特化的内核；纯 Python 服务不适用"。\n'
     "5. `paradigm_tags` 是**报告级**架构范式标签，从受控词表选 0–3 个；\n"
     "   不确定就留空数组，绝不编造。\n\n"
     "输出 schema：\n" + _SCHEMA_LINE + "\n" + _TAG_HINT + "\n"
@@ -63,4 +73,9 @@ commit：{commit}
 
 ## 源码片段
 {files_block}
+
+## 输出要求（必须满足，否则该条会被代码判废）
+- 只返回 JSON 对象，不要 markdown / 解释；
+- 每条 item 都必须带非空 `rule`（可迁移规则）与 `boundary`（适用边界/反模式）；
+- `evidence` 只能引用上面「可用文件」中的 `path:line`。
 """
