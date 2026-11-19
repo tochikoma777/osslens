@@ -3,7 +3,7 @@
 > 低成本、可长期运行的开源项目深度分析系统。
 > 建候选池 → 人选定 → 分档分析 → 可核验的单项目报告 → 周期横向抽象成规律库。
 
-**当前阶段**：L0–L4 已交付；D31 私有远端发布接线完成，实现轮 v1.0 已启用 cron 定时建池、跨域抽象与静态站点三能力（检索 / 范式标签 / 并排对比）。每日自动建池已含 **GitHub Search 发现新仓库**（`pool discover --apply`，零 LLM）：搜索只扩大候选，放行仍由 hot/classic 门槛决定。路径 B 自动链已落地：真实调用间隔由 `auto_chain.analysis_interval_days` / `abstract_interval_days` 分别配置（代码默认 7 天、缺省继承旧键 `min_interval_days`；当前仓库配置为分析 **1 天**、抽象 7 天，用于加速积累样本），两段各自独立闸门；锚点随真源跨运行持久化；成本异常有报告头部区块 / Actions `::warning` / 站点红色 badge 三通道（只标注、不阻断）。当前 **221 tests**。详见 `docs/功能总览.md` 与 `docs/开发日志.md`。
+**当前阶段**：L0–L4 已交付；D31 私有远端发布接线完成，实现轮 v1.0 已启用 cron 定时建池、跨域抽象与静态站点三能力（检索 / 范式标签 / 并排对比）。每日自动建池已含 **GitHub Search 发现新仓库**（`pool discover --apply`，零 LLM）：搜索只扩大候选，放行仍由 hot/classic 门槛决定。路径 B 自动链已落地：真实调用间隔由 `auto_chain.analysis_interval_days` / `abstract_interval_days` 分别配置（代码默认 7 天、缺省继承旧键 `min_interval_days`；当前仓库配置为分析 **1 天**、抽象 7 天，用于加速积累样本），两段各自独立闸门；锚点随真源跨运行持久化；成本异常有报告头部区块 / Actions `::warning` / 站点红色 badge 三通道（只标注、不阻断）。当前 **225 tests**。详见 `docs/功能总览.md` 与 `docs/开发日志.md`。
 
 - `off` 档：全链路**零 LLM**，不配置凭据也能跑出完整报告，成本 0。
 - `fast` 档：真实调用 `deepseek-flash`；L1 实测单次 ≈ 22k tok / **¥0.046**，自动链最近一次真实调用 12,591 tok / **¥0.0278**（2026-11-13，见 `docs/成本预算.md` 与 `data/costs/costs.jsonl`）。

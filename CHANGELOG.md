@@ -2,6 +2,12 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-19 · pool.skip 跳过已消失仓库
+
+- **配置**：`pool.skip`（owner/repo 列表，大小写不敏感、非法项 fail-fast）；`pool discover` 不会重新加入，`pool eligible` 不再列为候选，`pool add` 显式拒绝，每日观测经 `observe_targets()` 过滤。
+- **用途**：`microsoft/onnxruntime` 已 404，加入 `skip` 后每日建池不再反复请求失败。
+- **测试**：新增 4 条（解析/非法项、discover 排除、observe_targets、pool add 拒绝）；全仓 221 → **225**。
+
 ## [Unreleased] - 2026-11-19 · 空证据守卫与 onnxruntime 归因
 
 - **修复（成本）**：`chat_json` 在“items 为空 / 输出顶格”判废分支丢弃了 usage，导致已计费调用不入账；现保留 usage 并记入台账。
