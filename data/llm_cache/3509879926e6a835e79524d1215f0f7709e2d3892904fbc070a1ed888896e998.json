@@ -1,0 +1,95 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "安装期预编译全部内核",
+        "boundary": "",
+        "chose": "运行时 DeepJIT 编译通信内核",
+        "cost": "部署需保留 CUDA 工具链与主机编译器",
+        "evidence": "README.md:5",
+        "id": "t1",
+        "rule": ""
+      },
+      {
+        "alternative": "按场景拆分两套 API",
+        "boundary": "",
+        "chose": "统一 EPBuffer 接口承载高吞吐与低延迟",
+        "cost": "单接口参数与模式分支增多",
+        "evidence": "README.md:20",
+        "id": "t2",
+        "rule": ""
+      },
+      {
+        "alternative": "运行时自动调优搜索",
+        "boundary": "",
+        "chose": "按拓扑解析式估算 SM/QP 数",
+        "cost": "极端拓扑下可能非最优",
+        "evidence": "README.md:20",
+        "id": "t3",
+        "rule": ""
+      },
+      {
+        "alternative": "自建独立通信子",
+        "boundary": "",
+        "chose": "复用 PyTorch 进程组 NCCL 通信子",
+        "cost": "受 PyTorch 后端能力约束",
+        "evidence": "README.md:5",
+        "id": "t4",
+        "rule": ""
+      },
+      {
+        "alternative": "通信完成后同步返回结果",
+        "boundary": "",
+        "chose": "延迟 epilogue 与计算流异步重叠",
+        "cost": "调用方须管理事件与结果生命周期",
+        "evidence": "README.md:5",
+        "id": "t5",
+        "rule": ""
+      },
+      {
+        "alternative": "每次 dispatch 重算接收布局",
+        "boundary": "",
+        "chose": "缓存展开布局句柄跳过重算",
+        "cost": "句柄与 topk_idx 生命周期需严格保持",
+        "evidence": "deep_ep/buffers/ep.py:1",
+        "id": "t6",
+        "rule": ""
+      },
+      {
+        "alternative": "要求所有输入预先注册进缓冲区",
+        "boundary": "",
+        "chose": "Bucket 会话内临时暂存外部张量",
+        "cost": "会话内需额外拷贝与存储配额管理",
+        "evidence": "deep_ep/buffers/bucket.py:1",
+        "id": "t7",
+        "rule": ""
+      },
+      {
+        "alternative": "信任运行时动态链接结果",
+        "boundary": "",
+        "chose": "导入期校验 NCCL 库唯一性与二进制一致",
+        "cost": "启动多做文件比对，环境不符即中止",
+        "evidence": "deep_ep/__init__.py:1",
+        "id": "t8",
+        "rule": ""
+      }
+    ],
+    "paradigm_tags": [
+      "专用优化",
+      "深优化",
+      "硬件耦合"
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 0,
+    "cache_miss_tokens": 22048,
+    "completion_tokens": 720,
+    "prompt_tokens": 22048,
+    "reasoning_tokens": 0,
+    "total_tokens": 22768
+  }
+}

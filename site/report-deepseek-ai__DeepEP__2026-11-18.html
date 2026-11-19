@@ -51,23 +51,24 @@ footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);
 <main class="wrap">
 <p class="note">源 MD：<code>../reports/deepseek-ai__DeepEP__2026-11-18.md</code>；下方六个阅读模块 + 附录顺序固定不变。</p>
 <h1>deepseek-ai/DeepEP 深度分析</h1>
+<p>&gt; 阅读档位：架构学习（profile=architecture_learning） &gt; 注意力预算：定位 20 / 架构 30 / 抽象 15 / ADR 20 / 扩展 5 / 经验卡 10 / 工程维护 0 &gt; 证据约定：[事实] 确定性提取 · [判断] 有 file:line 或文档锚点 · [未获得] 当前未采集</p>
 <h2>导读</h2>
-<p>&gt; <strong>一句话</strong>：deepseek-ai/DeepEP 是一个以 Cuda（42%）为主的项目，约 10,454 stars，仓库年龄 639 天，近 90 天 5 次提交，维护状态「active」。 &gt; &gt; <strong>先注意</strong>：许可证 MIT；依赖链许可证、模型权重/数据许可、CLA 当前未采集；以下判断凡未注明证据的，均为仓库信号推断，需人工复核。</p>
-<p><strong>它大概在做什么</strong>：DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It provides high-throughput and low-latency expert-parallel (EP) all-to-all GPU kernels for MoE dispatch and combine, including FP8 dispatch, and NVLink weight and gradient exchange for redundant experts. It also offers experimental primitives for pipeline parallelism (PP), context parallelism (CP), data parallelism (DP), and remote memory access (Engram). Communication kernels are compiled at runtime via DeepJIT, with the supporting extension built during installation.</p>
+<p>&gt; <strong>是什么</strong>：DeepEP: an efficient expert-parallel communication library &gt; <strong>架构一句话</strong>：[判断] 顶层以 <code>figures</code>、<code>deep_ep</code>、<code>csrc</code> 为主，入口为 <code>csrc/indexing/main.cu</code>（静态结构判断，未做动态跟踪）。 &gt; <strong>最大风险</strong>：Top1 贡献者占比 36.33%，决策集中度需关注 &gt; <strong>不适合</strong>：需要稳定 API/长期支持承诺的场景，请先核对发布节奏与维护状态；依赖链许可证与权重许可能力当前未采集，不能据此做出商用结论。</p>
 <h2>1. 项目定位与目标</h2>
-<p>从仓库元数据看，deepseek-ai/DeepEP 属于 <code>ai_infra</code> 领域、<code>classic</code> 通道，主语言为 Cuda（42%），当前约 10,454 stars / 1,563 forks。</p>
-<p>项目阶段只能做<strong>信号级判断</strong>：仓库已存在 639 天，近一年发布 0 个版本，最近提交距今 28 天。这只能说明它是否还在维护，不能替代对 roadmap、竞品与真实用户群的判断。</p>
-<p>入口文件：csrc/indexing/main.cu。本次<strong>未采集</strong> roadmap、竞品对比、用户画像与商业模式；这些空白不应被读成“没有”。</p>
-<h2>2. 许可证与合规风险</h2>
-<p>主许可证为 <strong>MIT</strong>，组织类型为 —，治理文档：未检出。</p>
-<p><strong>当前无法回答但必须人工确认</strong>：</p>
-<ul><li>依赖链中是否存在 GPL/AGPL 等强传染许可证；</li><li>模型权重、数据集、第三方素材的许可与商用限制；</li><li>是否要求签署 CLA，以及贡献代码的版权归属。</li></ul>
-<p>&gt; 结论：许可证字段可用于初筛，但不能替代法务审查；本报告不给出“可商用”结论。</p>
-<h2>3. 架构与模块</h2>
-<p>代码主体集中在：<code>figures</code>（2 文件）、<code>deep_ep</code>（62 文件）、<code>csrc</code>（36 文件）、<code>tests</code>（14 文件）、<code>.</code>（10 文件）；最大目录深度 7，monorepo：否。</p>
-<p>内部模块 import 边约 8 条（依赖图见下）。检测到并行轴 CP, DP, EP, PP，具体证据见附录 B。</p>
-<p>从代码证据看，最关键的几个取舍是：</p>
-<ul><li>选择「运行时 DeepJIT 编译通信内核」，放弃「安装期预编译全部内核」，代价是「运行时需保留 CUDA 工具链与主机编译器」（证据 <code>README.md:5</code>）。</li><li>选择「基于 NCCL Gin 轻量设备端通信后端」，放弃「保留 NVSHMEM 后端」，代价是「强依赖 NCCL 版本与 Gin 能力」（证据 <code>README.md:20</code>）。</li><li>选择「按拓扑解析式估算 SM 与 QP 数」，放弃「自动调优搜索最优配置」，代价是「极端拓扑下可能非最优」（证据 <code>README.md:20</code>）。</li></ul>
+<p>[事实] deepseek-ai/DeepEP 属于 <code>ai_infra</code> 领域、<code>classic</code> 通道，主语言 Cuda（42%），10,454 stars / 1,563 forks。</p>
+<p>[事实] 项目自述：DeepEP: an efficient expert-parallel communication library。</p>
+<p>[事实] README 摘要：DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It provides high-throughput and low-latency expert-parallel (EP) all-to-all GPU kernels for MoE dispatch and combine, including FP8 dispatch, and NVLink weight and gradient exchange for redundant experts. It also offers experimental primitives for pipeline parallelism (PP), context parallelism (CP), data parallelism (DP), and remote memory access (Engram). Communication kernels are compiled at runtime via DeepJIT, with the supporting extension built during installation.。</p>
+<ul><li><strong>目标用户</strong>：[判断] 模型工程师 / 推理基础设施开发者；应用与平台开发者</li><li><strong>替代方案与差异</strong>：[未获得] 本次未采集竞品对比与 roadmap，不得据此推断「没有替代品」。</li><li><strong>不解决什么</strong>：[未获得] 没有路线图与 issue 语料，无法可靠界定能力边界。</li></ul>
+<p>[判断] 阶段信号：仓库已存在 639 天，近一年发布 0 个版本，最近提交距今 28 天，维护状态「active」。这只说明是否仍在维护，不等于成熟度结论。</p>
+<h2>2. 架构全景</h2>
+<h3>2.1 上下文边界</h3>
+<p>[判断] 架构说明文档：<code>README.md</code>；边界结论来自文档与目录结构，未经运行验证。 [事实] 硬件/内核线索：vendors=[amd, ascend, nvidia]、kernel_langs=[cuda]。</p>
+<h3>2.2 模块职责</h3>
+<table><thead><tr><th>模块</th><th>文件数</th><th>职责（启发式）</th></tr></thead><tbody><tr><td><code>figures</code></td><td>2</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>deep_ep</code></td><td>62</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>csrc</code></td><td>36</td><td>原生内核与算子实现</td></tr><tr><td><code>tests</code></td><td>14</td><td>测试与用例</td></tr><tr><td><code>.</code></td><td>10</td><td>业务实现（职责需人工确认）</td></tr></tbody></table>
+<h3>2.3 一次调用的路径（运行时视图）</h3>
+<p>[判断] 静态推断：<code>csrc/indexing/main.cu</code> → 调度/核心模块（见上表） → 输出。内部 import 边约 8 条，可作为调用方向的粗线索；<strong>未做运行时跟踪</strong>，具体分支需读源码确认。</p>
+<h3>2.4 数据与控制流</h3>
+<p>[事实] 并行轴命中 CP, DP, EP, PP（证据见附录 A）。</p>
 <pre><code class="language-mermaid">graph TD
   deep_ep --&gt; deep_ep_buffers_bucket
   deep_ep --&gt; deep_ep_buffers_ep
@@ -77,33 +78,63 @@ footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);
   deep_ep_buffers_bucket --&gt; deep_ep_utils
   deep_ep_buffers_ep --&gt; deep_ep
   deep_ep_buffers_ep --&gt; deep_ep_utils</code></pre>
-<h2>4. 运行与工程体系</h2>
-<p>仓库约 126 个文件、2.0 MiB；本次采集到 20 个源码切片（tarball <code>a561c7a463ba056d</code>）。</p>
-<p>语言构成：C++ 24.11%、CMake 0.28%、Cuda 41.56%、Python 33.92%、Shell 0.13%。硬件相关：vendors=[amd, ascend, nvidia]、kernel_langs=[cuda]。</p>
-<p><strong>本次未采集</strong>：构建脚本、依赖安装、测试体系、CI/CD、配置与 secret 管理。因此本报告不能回答“能否在目标环境跑起来”，只能给结构线索。</p>
+<h2>3. 核心抽象与契约</h2>
+<p>[事实] 源码切片中命中以下模式（正则扫描，仅代表本次切片）：</p>
+<table><thead><tr><th>模式</th><th>位置</th><th>说明</th></tr></thead><tbody><tr><td><code>backend</code></td><td><code>README.md:18</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>README.md:185</code></td><td>候选扩展/契约点</td></tr><tr><td><code>protocol</code></td><td><code>README.md:490</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>csrc/buffers/ep.hpp:286</code></td><td>候选扩展/契约点</td></tr><tr><td><code>hook</code></td><td><code>deep_ep/buffers/bucket.py:80</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>deep_ep/buffers/ep.py:38</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>deep_ep/include/deep_ep/impls/ep/hybrid_dispatch.cuh:506</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>tests/ep/test_ep.py:113</code></td><td>候选扩展/契约点</td></tr></tbody></table>
+<p>[判断] 这些命中说明项目存在注册/适配/分派结构，但<strong>未做 AST 分析</strong>，无法确认继承关系与调用契约的完整性。</p>
+<p>入口候选（可作为契约阅读起点）：<code>csrc/indexing/main.cu</code></p>
+<h2>4. 关键设计决策（ADR）</h2>
+<p>每条固定六字段：决策 / 替代 / 代价 / 证据 / 可复用规则 / 边界·反模式。</p>
+<h3>ADR-1 · t1: 运行时 JIT 编译通信内核</h3>
+<ul><li><strong>决策</strong>：运行时 JIT 编译通信内核</li><li><strong>替代</strong>：安装期预编译全部内核</li><li><strong>代价</strong>：部署需保留 CUDA 工具链与主机编译器</li><li><strong>证据</strong>：<code>README.md:5</code></li><li><strong>可复用规则</strong>：[未获得] 模型未给出可迁移规则，需人工补</li><li><strong>边界/反模式</strong>：[未获得] 未给出适用边界</li></ul>
+<h3>ADR-2 · t2: 复用 PyTorch 进程组 NCCL 通信器</h3>
+<ul><li><strong>决策</strong>：复用 PyTorch 进程组 NCCL 通信器</li><li><strong>替代</strong>：自建独立 NCCL 通信器</li><li><strong>代价</strong>：需校验 NCCL 库版本与二进制一致</li><li><strong>证据</strong>：<code>README.md:404</code></li><li><strong>可复用规则</strong>：[未获得] 模型未给出可迁移规则，需人工补</li><li><strong>边界/反模式</strong>：[未获得] 未给出适用边界</li></ul>
+<h3>ADR-3 · t3: 解析式估算 SM 与 QP 数量</h3>
+<ul><li><strong>决策</strong>：解析式估算 SM 与 QP 数量</li><li><strong>替代</strong>：运行时自动调优搜索</li><li><strong>代价</strong>：拓扑或负载偏离假设时性能次优</li><li><strong>证据</strong>：<code>README.md:22</code></li><li><strong>可复用规则</strong>：[未获得] 模型未给出可迁移规则，需人工补</li><li><strong>边界/反模式</strong>：[未获得] 未给出适用边界</li></ul>
+<h3>ADR-4 · t4: 延迟 epilogue 与计算流重叠</h3>
+<ul><li><strong>决策</strong>：延迟 epilogue 与计算流重叠</li><li><strong>替代</strong>：通信完成后立即同步收尾</li><li><strong>代价</strong>：结果须由首次 wait 产出并保留</li><li><strong>证据</strong>：<code>README.md:290</code></li><li><strong>可复用规则</strong>：[未获得] 模型未给出可迁移规则，需人工补</li><li><strong>边界/反模式</strong>：[未获得] 未给出适用边界</li></ul>
+<h3>ADR-5 · t5: 缓存展开布局复用路由句柄</h3>
+<ul><li><strong>决策</strong>：缓存展开布局复用路由句柄</li><li><strong>替代</strong>：每次 dispatch 重算接收计数</li><li><strong>代价</strong>：topk_idx 在使用期内不可修改</li><li><strong>证据</strong>：<code>README.md:283</code></li><li><strong>可复用规则</strong>：[未获得] 模型未给出可迁移规则，需人工补</li><li><strong>边界/反模式</strong>：[未获得] 未给出适用边界</li></ul>
+<h3>ADR-6 · t6: 按 NVLink/RDMA 域拆分混合与直连模式</h3>
+<ul><li><strong>决策</strong>：按 NVLink/RDMA 域拆分混合与直连模式</li><li><strong>替代</strong>：单一传输路径统一实现</li><li><strong>代价</strong>：需维护多套内核与拓扑判定</li><li><strong>证据</strong>：<code>README.md:22</code></li><li><strong>可复用规则</strong>：[未获得] 模型未给出可迁移规则，需人工补</li><li><strong>边界/反模式</strong>：[未获得] 未给出适用边界</li></ul>
+<h2>5. 扩展与改造路径</h2>
+<p>[事实] 可扩展点候选（与第 3 章同源）：</p>
+<ul><li><code>README.md:18</code> → backend</li><li><code>README.md:185</code> → dispatch</li><li><code>README.md:490</code> → protocol</li><li><code>csrc/buffers/ep.hpp:286</code> → dispatch</li><li><code>deep_ep/buffers/bucket.py:80</code> → hook</li><li><code>deep_ep/buffers/ep.py:38</code> → dispatch</li></ul>
+<p>[判断] 新增能力的静态路径（需按实际代码复核）：</p>
+<ol><li>在入口处接入参数/配置（入口候选：<code>csrc/indexing/main.cu</code>, <code>figures</code>, <code>deep_ep</code>, <code>csrc</code>, <code>tests</code>, <code>.</code>）；</li><li>复用上表中的注册/分派结构，实现新的后端或适配器；</li><li>补对应测试与文档，再走发布流程。</li></ol>
+<ul><li>扩展文档：[未获得]</li><li>改造成本：[未获得] 需要先确认契约稳定性与测试覆盖，本报告不估算人日。</li></ul>
+<h2>6. 经验卡</h2>
+<p>[未获得] 本次没有带「可迁移规则」的条目（模型未输出 rule，或命中旧缓存）；经验卡留空，不用「要注重解耦」这类通用建议充数。</p>
+<h2>附录 A 证据索引与未知项</h2>
+<h3>A1. 代码证据索引</h3>
+<table><thead><tr><th>id</th><th>决策</th><th>证据</th></tr></thead><tbody><tr><td>t1</td><td>运行时 JIT 编译通信内核</td><td><code>README.md:5</code></td></tr><tr><td>t2</td><td>复用 PyTorch 进程组 NCCL 通信器</td><td><code>README.md:404</code></td></tr><tr><td>t3</td><td>解析式估算 SM 与 QP 数量</td><td><code>README.md:22</code></td></tr><tr><td>t4</td><td>延迟 epilogue 与计算流重叠</td><td><code>README.md:290</code></td></tr><tr><td>t5</td><td>缓存展开布局复用路由句柄</td><td><code>README.md:283</code></td></tr><tr><td>t6</td><td>按 NVLink/RDMA 域拆分混合与直连模式</td><td><code>README.md:22</code></td></tr><tr><td>t7</td><td>Bucket 会话内临时暂存外部张量</td><td><code>deep_ep/buffers/bucket.py:24</code></td></tr><tr><td>t8</td><td>导入期校验 NCCL 库二进制一致</td><td><code>deep_ep/__init__.py:20</code></td></tr><tr><td>t9</td><td>冗余专家权重预取与梯度归约原语</td><td><code>README.md:340</code></td></tr><tr><td>t10</td><td>实验特性与主路径同仓分缓冲类</td><td><code>README.md:12</code></td></tr></tbody></table>
+<ul><li>置信度：med</li><li>架构范式标签：专用优化、深优化、硬件耦合</li><li>模式 <code>backend</code>：<code>README.md:18</code></li><li>模式 <code>dispatch</code>：<code>README.md:185</code></li><li>模式 <code>protocol</code>：<code>README.md:490</code></li><li>模式 <code>dispatch</code>：<code>csrc/buffers/ep.hpp:286</code></li><li>模式 <code>hook</code>：<code>deep_ep/buffers/bucket.py:80</code></li><li>模式 <code>dispatch</code>：<code>deep_ep/buffers/ep.py:38</code></li><li>模式 <code>dispatch</code>：<code>deep_ep/include/deep_ep/impls/ep/hybrid_dispatch.cuh:506</code></li><li>模式 <code>dispatch</code>：<code>tests/ep/test_ep.py:113</code></li></ul>
+<h3>A2. 外部资料</h3>
+<ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/deepseek-ai/DeepEP</li><li>fetched_at：2026-11-18T15:42:11Z</li><li>sha256：<code>962b36db33b3c7bc0252eb81f0ceb4888678cb3d7bfa6ff66ad09a7fc54a69da</code></li><li>判定：hit — 正文含 10 个仓库内真实路径（阈值 3）</li><li>原文快照：<code>source.txt</code>（与判定元数据分文件存放）</li></ul>
+<h3>A3. 未获得项</h3>
+<ul><li>依赖链许可证、模型权重/数据许可、CLA —— 未采集；</li><li>issue/PR 响应质量、CI 运行结果 —— 未采集；</li><li>roadmap、竞品对比、用户画像 —— 未采集；</li></ul>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+<h2>附录 B 许可证 / 维护 / 工程 / 成本</h2>
+<h3>B1. 许可证与合规风险</h3>
+<p>[事实] 主许可证 <strong>MIT</strong>；组织类型 —；治理文档：未检出。</p>
+<p>[未获得] 依赖链是否存在 GPL/AGPL、模型权重与数据集许可、CLA 要求；这些必须人工或由后续数据源补齐，本报告不给出「可商用」结论。</p>
+<h3>B2. 维护状态与风险</h3>
+<p>[事实] 贡献者 50 人，Top1 占比 36.33%；近 90 天 / 365 天提交 5 / 25 次；最近提交距今 28 天，维护状态「active」。</p>
+<ul><li>Top1 贡献者占比 36.33%，决策集中度需关注</li><li>未检出治理文档，贡献与决策流程可能不透明</li></ul>
+<h3>B3. 运行与工程体系</h3>
+<p>[事实] 仓库约 126 个文件、2.0 MiB；本次采集 20 个源码切片（tarball <code>a561c7a463ba056d</code>）。 [事实] 语言构成：C++ 24.11%、CMake 0.28%、Cuda 41.56%、Python 33.92%、Shell 0.13%；硬件 vendors=[amd, ascend, nvidia]、kernel_langs=[cuda]。</p>
+<p>[未获得] 构建脚本、依赖安装、测试体系、CI/CD、配置与 secret 管理未采集；本报告不能回答「能否在目标环境跑起来」。</p>
 <p><strong>特征卡已知限制</strong>：</p>
 <ul><li>证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
-<h2>5. 维护状态与风险</h2>
-<p>贡献者 50 人，Top1 占比 36.33%；近 90 天 / 365 天提交 5 / 25 次；最近提交距今 28 天，维护状态「active」。</p>
-<p><strong>主要风险（基于现有信号）</strong>：</p>
-<ul><li>Top1 贡献者占比 36.33%，集中度需关注</li><li>未检出治理文档，贡献流程可能不透明</li></ul>
-<h2>6. 扩展与二次开发</h2>
-<p>本次<strong>未识别到显式的插件/适配器注册机制</strong>；这不等于没有，只说明当前采集粒度看不到。可优先人工检查以下位置：</p>
-<ul><li><code>csrc/indexing/main.cu</code></li><li><code>figures</code></li><li><code>deep_ep</code></li><li><code>csrc</code></li><li><code>tests</code></li><li><code>.</code></li></ul>
-<p>&gt; 二次开发前建议先确认：扩展点、配置注入方式、测试与发布流程；本报告不替代实际试跑。</p>
-<h2>洞见（附录 A）</h2>
-<table><thead><tr><th>id</th><th>选择</th><th>放弃的替代</th><th>代价</th><th>证据</th></tr></thead><tbody><tr><td>t1</td><td>运行时 DeepJIT 编译通信内核</td><td>安装期预编译全部内核</td><td>运行时需保留 CUDA 工具链与主机编译器</td><td><code>README.md:5</code></td></tr><tr><td>t2</td><td>基于 NCCL Gin 轻量设备端通信后端</td><td>保留 NVSHMEM 后端</td><td>强依赖 NCCL 版本与 Gin 能力</td><td><code>README.md:20</code></td></tr><tr><td>t3</td><td>按拓扑解析式估算 SM 与 QP 数</td><td>自动调优搜索最优配置</td><td>极端拓扑下可能非最优</td><td><code>README.md:20</code></td></tr><tr><td>t4</td><td>拆分 EP/Engram/PP/Bucket 多缓冲类</td><td>单一 ElasticBuffer 承载全部</td><td>接口与生命周期管理更复杂</td><td><code>README.md:9</code></td></tr><tr><td>t5</td><td>延迟 epilogue 与缓存展开布局</td><td>每次 dispatch 立即同步完成</td><td>需保存 handle 并保证 topk_idx 不变</td><td><code>README.md:9</code></td></tr><tr><td>t6</td><td>NVLink 域内预取权重并归约冗余梯度</td><td>冗余专家各自独立计算</td><td>需调用方提供复制映射与预留存储</td><td><code>README.md:9</code></td></tr><tr><td>t7</td><td>Bucket 集合通信支持 NVLink/RDMA/混合域</td><td>仅支持单一传输域</td><td>需同时探测两种带宽</td><td><code>README.md:20</code></td></tr><tr><td>t8</td><td>复用 PyTorch 进程组 NCCL 通信器</td><td>始终自建 DeepEP 通信器</td><td>依赖后端暴露 _comm_ptr</td><td><code>README.md:404</code></td></tr></tbody></table>
-<ul><li>置信度：med</li><li>架构范式标签：并行切分、深优化、硬件耦合</li></ul>
-<h2>外部资料（附录 B）</h2>
-<ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/deepseek-ai/DeepEP</li><li>fetched_at：2026-11-18T15:42:11Z</li><li>sha256：<code>962b36db33b3c7bc0252eb81f0ceb4888678cb3d7bfa6ff66ad09a7fc54a69da</code></li><li>判定：hit — 正文含 10 个仓库内真实路径（阈值 3）</li><li>原文快照：<code>source.txt</code>（与判定元数据分文件存放）</li></ul>
-<h2>运行元数据（附录 C）</h2>
-<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>deepseek-ai/DeepEP</td></tr><tr><td>commit</td><td><code>f6aa38fe06cd4a0489e7730365d4e0114970a2f3</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-18T00:00:00Z</td></tr><tr><td>通道 / 领域</td><td>classic / ai_infra</td></tr><tr><td>请求档位 (requested_depth)</td><td>fast</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>fast</td></tr><tr><td>降级原因 (reason)</td><td>manual_override — 人工 override</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 0/1、fast 3/3（周起点 2026-11-16）；tokens 周 1856/2000000、月 112006/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>2d8fbfd546cd0dc4a1c4611612d835d01f50ef1bb1fe011eb959bda66250ebaa</code></td></tr><tr><td>成本说明</td><td>本次 ¥0.0469（模型调用 1 次）；输入 21,930 tok / 命中 128 tok / 输出 410 tok</td></tr><tr><td>累计</td><td>本周 ¥0.0554 / 24,196 tok；本月 ¥0.6427 / 134,346 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
+<h3>B4. 运行元数据与成本</h3>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>deepseek-ai/DeepEP</td></tr><tr><td>commit</td><td><code>f6aa38fe06cd4a0489e7730365d4e0114970a2f3</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-18T00:00:00Z</td></tr><tr><td>通道 / 领域</td><td>classic / ai_infra</td></tr><tr><td>请求档位 (requested_depth)</td><td>fast</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>fast</td></tr><tr><td>降级原因 (reason)</td><td>manual_override — 人工 override</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 0/1、fast 3/3（周起点 2026-11-16）；tokens 周 1856/2000000、月 112006/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>2d8fbfd546cd0dc4a1c4611612d835d01f50ef1bb1fe011eb959bda66250ebaa</code></td></tr><tr><td>成本说明</td><td>本次 ¥0.0083（模型调用 1 次）；输入 22,127 tok / 命中 21,888 tok / 输出 865 tok</td></tr><tr><td>累计</td><td>本周 ¥0.0168 / 24,848 tok；本月 ¥0.6041 / 134,998 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
 <p><strong>档位决策链路</strong>：</p>
 <ol><li>L4 人工 override：--depth fast（绕过 L1 基线 / L2 配额）</li><li>凭据：齐全</li><li>L2 周配额：人工 override 绕过（本周 strong 0/1、fast 3/3）</li><li>L3 预算：估算 17280 × 安全系数 1.3 = 22464 tok（单选上限 120000），周 1856/2000000</li><li>结论：实际档位 fast（人工 override）</li></ol>
 <p><strong>上下文组装</strong>（裁剪发生在调用之前）：</p>
 <table><thead><tr><th>块</th><th>优先级</th><th>估算 token</th></tr></thead><tbody><tr><td>featcard</td><td>1</td><td>2,054</td></tr><tr><td>readme</td><td>2</td><td>8,228</td></tr><tr><td>source_files:csrc/buffers/bucket.hpp</td><td>4</td><td>1,509</td></tr><tr><td>source_files:csrc/buffers/ep.hpp</td><td>4</td><td>1,508</td></tr><tr><td>source_files:csrc/indexing/main.cu</td><td>4</td><td>291</td></tr><tr><td>source_files:deep_ep/__init__.py</td><td>4</td><td>673</td></tr><tr><td>source_files:deep_ep/buffers/bucket.py</td><td>4</td><td>1,509</td></tr><tr><td>source_files:deep_ep/buffers/ep.py</td><td>4</td><td>1,508</td></tr></tbody></table>
 <ul><li>丢弃：—</li><li>合计 17,280 / 上限 120,000</li></ul>
-<h2>特征卡摘要（附录 D）</h2>
+<h3>B5. 特征卡摘要</h3>
 <ul><li>卡文件：<code>data/featcards/deepseek-ai__DeepEP__f6aa38fe06cd4a0489e7730365d4e0114970a2f3.json</code>（schema 1.0）</li><li>入口文件：csrc/indexing/main.cu</li><li>最大目录深度：7；monorepo：否</li><li>源码切片：20 个文件（tarball <code>a561c7a463ba056d</code>）</li><li>依赖：直接 / 传递 = — / —（L1 未解析清单文件）</li></ul>
 <p><strong>并行轴</strong></p>
 <ul><li>并行 <code>CP</code> = true（证据 1 条）</li><li><code>README.md:3</code> — <code>DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p</code></li><li>并行 <code>DP</code> = true（证据 1 条）</li><li><code>README.md:3</code> — <code>DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p</code></li><li>并行 <code>EP</code> = true（证据 3 条）</li><li><code>deep_ep/buffers/ep.py:211</code> — <code>- high-throughput expert-parallel all-to-all (dispatch and combine, using NVLink and/or RDMA)</code></li><li><code>README.md:3</code> — <code>DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p</code></li><li><code>README.md:20</code> — <code>- <strong>V2 release</strong>: A complete refactoring of expert parallelism, with support for larger scale-up and scale-out domains a</code></li><li>并行 <code>PP</code> = true（证据 2 条）</li><li><code>README.md:3</code> — <code>DeepEP (DeepEveryParallel) is a high-performance communication library for machine learning training and inference. It p</code></li><li><code>README.md:388</code> — <code>### Pipeline parallelism (experimental)</code></li><li>并行 <code>SP</code> = false（无证据）</li><li>并行 <code>TP</code> = false（无证据）</li></ul>
@@ -122,7 +153,7 @@ footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);
   deep_ep_buffers_ep --&gt; deep_ep_utils</code></pre>
 <p><strong>已知限制</strong>：</p>
 <ul><li>证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
-<h2>体检事实（确定性，零 LLM）（附录 E）</h2>
+<h3>B6. 体检事实（确定性，零 LLM）</h3>
 <table><thead><tr><th>指标</th><th>值</th></tr></thead><tbody><tr><td>Star / Fork</td><td>10,454 / 1,563</td></tr><tr><td>被依赖 (Used by)</td><td>—</td></tr><tr><td>贡献者 / Top1 占比</td><td>50 / 36.33%</td></tr><tr><td>Top10 贡献集中度</td><td>82.03%</td></tr><tr><td>90 天 / 365 天提交</td><td>5 / 25</td></tr><tr><td>最近提交 / 距今天数</td><td>2026-10-21T03:50:43Z / 28</td></tr><tr><td>维护状态</td><td>active</td></tr><tr><td>项目年龄 / 发布数(365d)</td><td>639 天 / 0</td></tr><tr><td>组织类型 / 许可证</td><td>— / MIT</td></tr><tr><td>文件数 / 体积</td><td>126 / 2.0 MiB</td></tr><tr><td>内部模块依赖边</td><td>8</td></tr></tbody></table>
 <p><strong>语言构成</strong>：C++ 24.11%、CMake 0.28%、Cuda 41.56%、Python 33.92%、Shell 0.13%</p>
 <p><strong>模块体量 Top10</strong></p>

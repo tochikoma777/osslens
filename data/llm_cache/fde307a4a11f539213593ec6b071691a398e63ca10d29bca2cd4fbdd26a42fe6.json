@@ -1,0 +1,113 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "安装期预编译全部内核",
+        "boundary": "",
+        "chose": "运行时 JIT 编译通信内核",
+        "cost": "部署需保留 CUDA 工具链与主机编译器",
+        "evidence": "README.md:5",
+        "id": "t1",
+        "rule": ""
+      },
+      {
+        "alternative": "自建独立 NCCL 通信器",
+        "boundary": "",
+        "chose": "复用 PyTorch 进程组 NCCL 通信器",
+        "cost": "需校验 NCCL 库版本与二进制一致",
+        "evidence": "README.md:404",
+        "id": "t2",
+        "rule": ""
+      },
+      {
+        "alternative": "运行时自动调优搜索",
+        "boundary": "",
+        "chose": "解析式估算 SM 与 QP 数量",
+        "cost": "拓扑或负载偏离假设时性能次优",
+        "evidence": "README.md:22",
+        "id": "t3",
+        "rule": ""
+      },
+      {
+        "alternative": "通信完成后立即同步收尾",
+        "boundary": "",
+        "chose": "延迟 epilogue 与计算流重叠",
+        "cost": "结果须由首次 wait 产出并保留",
+        "evidence": "README.md:290",
+        "id": "t4",
+        "rule": ""
+      },
+      {
+        "alternative": "每次 dispatch 重算接收计数",
+        "boundary": "",
+        "chose": "缓存展开布局复用路由句柄",
+        "cost": "topk_idx 在使用期内不可修改",
+        "evidence": "README.md:283",
+        "id": "t5",
+        "rule": ""
+      },
+      {
+        "alternative": "单一传输路径统一实现",
+        "boundary": "",
+        "chose": "按 NVLink/RDMA 域拆分混合与直连模式",
+        "cost": "需维护多套内核与拓扑判定",
+        "evidence": "README.md:22",
+        "id": "t6",
+        "rule": ""
+      },
+      {
+        "alternative": "要求所有输入预先注册进缓冲区",
+        "boundary": "",
+        "chose": "Bucket 会话内临时暂存外部张量",
+        "cost": "会话内结果须在复用前消费或拷贝",
+        "evidence": "deep_ep/buffers/bucket.py:24",
+        "id": "t7",
+        "rule": ""
+      },
+      {
+        "alternative": "信任运行时动态链接结果",
+        "boundary": "",
+        "chose": "导入期校验 NCCL 库二进制一致",
+        "cost": "启动多一次文件比较与路径探测",
+        "evidence": "deep_ep/__init__.py:20",
+        "id": "t8",
+        "rule": ""
+      },
+      {
+        "alternative": "由框架自行搬运权重梯度",
+        "boundary": "",
+        "chose": "冗余专家权重预取与梯度归约原语",
+        "cost": "映射与存储须在交换完成前保持有效",
+        "evidence": "README.md:340",
+        "id": "t9",
+        "rule": ""
+      },
+      {
+        "alternative": "实验特性独立仓库维护",
+        "boundary": "",
+        "chose": "实验特性与主路径同仓分缓冲类",
+        "cost": "主仓需承担实验 API 的兼容负担",
+        "evidence": "README.md:12",
+        "id": "t10",
+        "rule": ""
+      }
+    ],
+    "paradigm_tags": [
+      "专用优化",
+      "深优化",
+      "硬件耦合"
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 21888,
+    "cache_miss_tokens": 239,
+    "completion_tokens": 865,
+    "prompt_tokens": 22127,
+    "reasoning_tokens": 0,
+    "total_tokens": 22992
+  }
+}
