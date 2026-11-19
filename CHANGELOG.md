@@ -8,7 +8,7 @@
 - **渲染器 v3**：`render_report` 改为「导读 + 1 定位 / 2 架构全景 / 3 核心抽象 / 4 ADR / 5 扩展 / 6 经验卡 + 附录 A（证据索引与未知项）/ 附录 B（许可证·维护·工程·成本）」；正文区分 `[事实] / [判断] / [未获得]`，参数表全部下沉附录。
 - **确定性新增**：`report.profile` 白名单（`architecture_learning` / `adoption_due_diligence` / `contributor_onboarding`，非法值 fail-fast）；注意力预算写入报告头；从源码切片扫描 `register/entry_points/plugin/adapter/backend/hook` 等模式，归一化去重后用于第 3/5 章；README/架构/贡献类文档分块注入第 1/2 章。
 - **ADR 六字段**：决策 / 替代 / 代价 / 证据 / 可复用规则 / 边界·反模式；`InsightItem` 增加 `rule` / `boundary`（旧缓存缺字段自动为空并标注未获得）。
-- **测试 200 → 209**：新增 `tests/test_report_v3.py`（档位白名单 / 头部声明 / ADR 六字段 / 经验卡边界 / 模式扫描确定性 / 序列化兼容）。
+- **测试 200 → 211**：新增 `tests/test_report_v3.py`（档位白名单 / 头部声明 / ADR 六字段 / 经验卡边界 / 模式扫描确定性与过滤 / 序列化兼容）。
 - **实测**：DeepEP `2026-11-18` 重跑为 v3 实例（fast，22,127 in / 865 out，含 21,888 缓存命中，约 ¥0.013）；6 条 ADR 均带真实 `README.md:N` 证据。
 - **已知局限**：fast 模型三次尝试仍未输出非空 `rule`/`boundary`，经验卡按设计留空并写明原因（不用通用建议充数）；后续需 strong 档或独立提取轮次。
 
