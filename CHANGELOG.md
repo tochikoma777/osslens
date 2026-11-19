@@ -2,6 +2,13 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-19 · 解析修复与每日分析
+
+- **修复**：`parse_insight()`（实时 HTTP 响应路径）漏解析 `rule` / `boundary`，导致模型即使输出也被静默丢弃；`Insight.from_json`（缓存路径）此前已解析，两条路径行为不一致。现两条路径统一，并新增回归测试。
+- **缓存 schema 版本**：`cache_key()` 加入 `CACHE_SCHEMA`（当前 `v3`）；今后字段增删必须递增，避免旧缓存以缺字段形态继续命中、掩盖解析缺陷。
+- **验证**：修复后首次实跑（DeepEP 2026-11-18，fast，22,127 in / 1,005 out，缓存命中 21,888）即产出 **5 张经验卡**，均含适用边界与反模式；无需新增第二次 LLM 调用（原计划的 rule 提取小调用取消）。
+- **周期**：`config.yaml` 的 `auto_chain.analysis_interval_days` 由 7 改为 **1**（每日分析），`abstract_interval_days` 保持 7；代码默认值不变（仍为 7，旧配置行为不变）。
+
 ## [Unreleased] - 2026-11-19 · 报告模板 v3（架构学习版）
 
 - **模板落盘**：`docs/报告模板-v3.md`（结构/合同/权重/数据源映射/验收标准）与 `docs/报告模板-版本记录.md`（v1→v2a→v3 历史，旧版不删）。

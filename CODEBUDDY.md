@@ -7,7 +7,7 @@ This file provides guidance to CodeBuddy Code when working with code in this rep
 > **生成方**：项目负责人（一次性，Chat 只生成一次）；**维护方**：**Code Agent**（**自维护**：内容有变即直接改，不需逐次授权）。
 > **维护约束**：唯一约束 = `docs/经验库-冲突与覆盖清单.md` §8.2 **六锚点不得漂移**；改后 `git diff -- CODEBUDDY.md` 逐项核对，锚点丢失按该 §8.2 从 SSOT 回填。
 > **上游 SSOT**：`docs/设计方案.md`（what/why）· `docs/执行手册.md`（how）· `docs/文档维护日志.md`
-> **当前版本**：v1.19 · **对应 tag**：`l5` · **日期**：2026-11-19（v1.19：报告模板 v3 落地（导读 + 6 章 + 附录 A/B）· `report.profile` 白名单 · 架构模式扫描 · 211 tests；v1.18：DeepEP v2a 实例报告（24 产物）· domain 自动归类修复；v1.17：报告 v2a（导读 + 6 阅读模块 + 附录）· 200 tests；v1.16：分析/抽象周期独立配置（`analysis_interval_days` / `abstract_interval_days`）· 站点时间线归档（23 产物 / 199 tests）；v1.15：抽象 add-op 修复 + 证据格式重试真跑产出 3 条 L1 · 站点视觉升级 · 测试 197；v1.14：B1 快照 90 天 gzip 归档 · B2 `site --check --strict` 接入 auto-site · B4 追加 E13；v1.13：§2.1 补充 `.venv` 运行口径；v1.12：全仓挥发性事实刷新 157→186 / v1.6→v1.7 / 20→22 产物 / schedule 已获得、三套版本号口径说明；v1.11：新增 §0-A 治理决策）
+> **当前版本**：v1.19 · **对应 tag**：`l5` · **日期**：2026-11-19（v1.19：报告模板 v3 落地（导读 + 6 章 + 附录 A/B）· `report.profile` 白名单 · 架构模式扫描 · 212 tests；v1.18：DeepEP v2a 实例报告（24 产物）· domain 自动归类修复；v1.17：报告 v2a（导读 + 6 阅读模块 + 附录）· 200 tests；v1.16：分析/抽象周期独立配置（`analysis_interval_days` / `abstract_interval_days`）· 站点时间线归档（23 产物 / 199 tests）；v1.15：抽象 add-op 修复 + 证据格式重试真跑产出 3 条 L1 · 站点视觉升级 · 测试 197；v1.14：B1 快照 90 天 gzip 归档 · B2 `site --check --strict` 接入 auto-site · B4 追加 E13；v1.13：§2.1 补充 `.venv` 运行口径；v1.12：全仓挥发性事实刷新 157→186 / v1.6→v1.7 / 20→22 产物 / schedule 已获得、三套版本号口径说明；v1.11：新增 §0-A 治理决策）
 
 ---
 
@@ -109,7 +109,7 @@ python -m osslens site [--out DIR] [--as-of ISO] [--check] [--strict]
 pip install -e ".[dev]"        # 装含 pytest / ruff / mypy / respx 的开发依赖；setuptools 后端，无独立 build 步骤（`build` 未装）
 osslens --help                 # 或 python -m osslens；pyproject.toml [project.scripts] 入口
 
-pytest                         # 全量 211 例（200 + 报告 v3 守护 11；含 test_core 22、test_l3 43、test_report_v3 11）
+pytest                         # 全量 212 例（200 + 报告 v3 守护 12；含 test_core 22、test_l3 43、test_report_v3 12）
 pytest tests/test_core.py::test_report_is_byte_identical   # 单测（node id）
 pytest tests/test_l4.py -k "check or empty"               # 按关键字筛
 pytest -m "not network"        # 离线；pyproject.toml 定义 network marker，当前无用例带此标记
@@ -134,7 +134,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 ★ `mypy` 的 `files = ["osslens"]`（`pyproject.toml:58`）不含 `scripts/`（也不含 `tests/`）；
 `ruff check .` / `ruff format --check .` 按路径发现文件（`extend-exclude` 仅排 `data/` `reports/` `site/`，`:47`），`scripts/` 在 lint 范围内，`src` 只影响 import 解析、不限制检查范围 → 改 `scripts/` 下脚本时门禁四连的 mypy 侧不覆盖。
 
-**测试分布（211 条）**：`test_core.py` 22（L0 幂等/契约）· `test_report_v3.py` 11（v3 结构/ADR/经验卡/档位/扫描过滤）· `test_l1.py` 23（探测/特征卡/Mermaid）·
+**测试分布（212 条）**：`test_core.py` 22（L0 幂等/契约）· `test_report_v3.py` 12（v3 结构/ADR/经验卡/档位/扫描过滤/响应解析）· `test_l1.py` 23（探测/特征卡/Mermaid）·
 `test_l2.py` 17（档位/预算/D10/保留/快照归档）· `test_collect.py` 7（快照/源码切片）· `test_pool.py` 7（打分/观察期）·
 `test_time.py` 4（跨周/跨月时序）· `test_l3.py` 43（召回/四层 schema/ops/编排/成本闸门/S4 add 准入）·
 `test_l4.py` 25（站点四块/空态/`--check`/`--strict`/幂等/零网络/成本红 badge/时间线）·
@@ -142,7 +142,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 `test_workflow_pathspec.py` 3 · `test_retention_cli.py` 2（T1）· `test_cross_domain.py` 9（T2）·
 `test_paradigm_site.py` 10（T3）。
 按领域改代码时优先跑对应文件，收尾仍须门禁四连。
-★ 锚文件 §8.2 已同步为 **v1.13 / 全仓 211**（2026-11-19，依 §0-A 由本 Agent 维护升版；② 恰 2 条 L3、③ 157 → 211、④ 快照 `.json.gz` 归档、⑥ 24 产物 / 哈希不硬编码 / schedule 已获得）。本文件与锚文件口径一致，**无待上报差异**。
+★ 锚文件 §8.2 已同步为 **v1.13 / 全仓 212**（2026-11-19，依 §0-A 由本 Agent 维护升版；② 恰 2 条 L3、③ 157 → 212、④ 快照 `.json.gz` 归档、⑥ 24 产物 / 哈希不硬编码 / schedule 已获得）。本文件与锚文件口径一致，**无待上报差异**。
 
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
@@ -153,7 +153,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 `retention` · `abstract --cross` · `paradigm_tags` · 静态三能力 · 路径 B 三段自动链。
 各阶段完成判据见 §9（收尾 / D31 / 实现轮 v1.0 / 路径 B 均已 ✅），本节只列当前能力，不复述历史状态。
 ★ **路径 B 自动化（2026-11-12→14，已 push `main`）**：`schedule` 仅作低成本检查，真实调用间隔由
-`auto_chain.analysis_interval_days` / `abstract_interval_days` 分别控制（缺省继承 `min_interval_days`=7）；两段各自闸门、各查各的 `purpose` 锚点；
+`auto_chain.analysis_interval_days` / `abstract_interval_days` 分别控制（缺省继承 `min_interval_days`=7）；**当前仓库配置：分析 1 天、抽象 7 天**（为积累样本）；两段各自闸门、各查各的 `purpose` 锚点；
 锚点随 `data/costs` 回写并跨运行保留（`.gitattributes` → `merge=union`，`scripts/auto_persist.sh`
 负责「提交→rebase→合并后重建站点→push 重试」的并行安全回写）；成本异常三通道
 （报告头部区块 / Actions `::warning` / 站点红色 badge）均只标注、不阻断。
@@ -260,10 +260,10 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 | `test_site_builds_full_static_site` · `test_empty_patterns_state_is_honest` · `test_site_check_reports_diff_without_writing` · `test_site_zero_network_transport_interception` | L4 | ✅ 已存在（`tests/test_l4.py`，含「故意让它失败」反向用例） |
 
 > ★ L3 两条目标清单已落地（`patterns.py` / `abstract.py` 建成）；L4 站点契约测试 20 条亦已落地。L1 的两条、L2 的 14 条亦已落地。
-> `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 17 条、`tests/test_l3.py` 共 43 条、`tests/test_l4.py` 共 25 条、`tests/test_auto_chain.py` 共 28 条、`tests/test_report_v3.py` 共 11 条，**全仓 211 条**（实现轮 157 + 路径 B 自动化 29 + 审查整改 6 + 抽象修复 5 + 独立周期/时间线 2 + 报告 v2a 1 + 报告 v3 11）。
+> `tests/test_l1.py` 共 23 条、`tests/test_l2.py` 共 17 条、`tests/test_l3.py` 共 43 条、`tests/test_l4.py` 共 25 条、`tests/test_auto_chain.py` 共 28 条、`tests/test_report_v3.py` 共 12 条，**全仓 212 条**（实现轮 157 + 路径 B 自动化 29 + 审查整改 6 + 抽象修复 5 + 独立周期/时间线 2 + 报告 v2a 1 + 报告 v3 12）。
 > 核对命令：`pytest --collect-only -q | grep -E "three_class|not_applicable"`（**应输出 2 条 L3**）；
 > `pytest --collect-only -q | grep -E "template_page|real_content"`（**应仅输出 2 条 L1**，不得为 0）。
-> ★ 锚文件 `docs/经验库-冲突与覆盖清单.md` 已同步为 **v1.13**（2026-11-19，依 §0-A 由本 Agent 维护升版）：§8.2 ②「恰 2 条 L3」、③「全仓 211」、④ 快照 `.json.gz` 归档、⑥ 24 产物 / 哈希不硬编码 / `event=schedule` 已获得。锚点 ③ 是**状态型**事实，随阶段推进刷新、**不得把已 ✅ 存在的测试重置为「⬜ 待建」**（第 4 类锚点语义不变）。
+> ★ 锚文件 `docs/经验库-冲突与覆盖清单.md` 已同步为 **v1.13**（2026-11-19，依 §0-A 由本 Agent 维护升版）：§8.2 ②「恰 2 条 L3」、③「全仓 212」、④ 快照 `.json.gz` 归档、⑥ 24 产物 / 哈希不硬编码 / `event=schedule` 已获得。锚点 ③ 是**状态型**事实，随阶段推进刷新、**不得把已 ✅ 存在的测试重置为「⬜ 待建」**（第 4 类锚点语义不变）。
 > 若后续发现锚文件状态落后于仓库现实 → 依 §0-A 由本 Agent 直接同步升版，改后按 §8.2 核对六锚点（不再「停下上报等负责人」）。
 
 ---
@@ -456,7 +456,7 @@ site/                                              # L4 静态站（★ 可重�
 | `docs/数据源手册.md` | L0 验收后（**归并已有实测文件，不新造**） | ✅ 已建成 |
 | `docs/成本预算.md` | **L1 首次真实调用后**（L0 期间无真实花费，不建） | ✅ 已建成 |
 | `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E13；E11 = D28 三态口径、E12 = HTML 转义断言、E13 = 分段验收 ≠ 端到端闭合） |
-| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护；旧归属表述依 §0-A 覆盖、原文保留） | ✅ 已建成（v1.13，2026-11-19 事实刷新：② 恰 2 条 L3 / ③ 全仓 211 / ④ 快照 gzip 归档 / ⑥ 24 产物 / 哈希不硬编码 / schedule 已获得；与仓库现实一致） |
+| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护；旧归属表述依 §0-A 覆盖、原文保留） | ✅ 已建成（v1.13，2026-11-19 事实刷新：② 恰 2 条 L3 / ③ 全仓 212 / ④ 快照 gzip 归档 / ⑥ 24 产物 / 哈希不硬编码 / schedule 已获得；与仓库现实一致） |
 | `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.5） |
 | `docs/功能总览.md` | 收尾 | ✅ 已建成（2026-11-07，七部分全景定稿） |
 
