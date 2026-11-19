@@ -75,7 +75,7 @@ footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);
 <p>[未获得] 本次源码切片未识别到显式接口/注册模式；这不等于项目没有抽象层，只说明当前采集粒度不足。</p>
 <p>入口候选（可作为契约阅读起点）：<code>csharp/test/Microsoft.AI.MachineLearning.Tests/main.cpp</code>、<code>js/common/lib/index.ts</code>、<code>js/node/lib/index.ts</code>、<code>js/node/src/main.cc</code>、<code>js/node/test/standalone/index.ts</code>、<code>js/node/test/unittests/lib/index.ts</code>、<code>js/react_native/lib/index.ts</code>、<code>js/web/lib/index.ts</code>、<code>js/web/test/e2e/type/testcases/module-resolution/index.ts</code>、<code>js/web/test/unittests/index.ts</code>、<code>onnxruntime/test/ep_weight_sharing_ctx_gen/main.cc</code>、<code>onnxruntime/test/onnx/main.cc</code>、<code>onnxruntime/test/onnx/microbenchmark/main.cc</code>、<code>onnxruntime/test/perftest/main.cc</code>、<code>onnxruntime/test/webgpu/delay_load/main.cc</code>、<code>onnxruntime/test/webgpu/external_dawn/main.cc</code>、<code>onnxruntime/tool/etw/main.cc</code>、<code>orttraining/orttraining/models/bert/main.cc</code>、<code>orttraining/orttraining/models/gpt2/main.cc</code>、<code>orttraining/orttraining/models/mnist/main.cc</code>、<code>orttraining/orttraining/models/pipeline_poc/main.cc</code>、<code>orttraining/orttraining/models/squeezenet/main.cc</code>、<code>samples/cxx/main.cc</code>、<code>samples/nodejs/01_basic-usage/index.js</code>、<code>samples/nodejs/02_create-tensor/index.js</code>、<code>samples/nodejs/04_create-inference-session/index.js</code>、<code>winml/test/common/googletest/main.cpp</code></p>
 <h2>4. 关键设计决策（ADR）</h2>
-<p>[未获得] 判废：空输出或输出顶格；ADR 至少 3 条的要求未满足，不用通用判断填充。</p>
+<p>[未获得] 无源码切片（0 个文件）：无法提供 file:line 证据，未发起模型调用；ADR 至少 3 条的要求未满足，不用通用判断填充。</p>
 <h2>5. 扩展与改造路径</h2>
 <p>[未获得] 未识别到显式插件/注册点。</p>
 <p>[判断] 新增能力的静态路径（需按实际代码复核）：</p>
@@ -86,7 +86,7 @@ footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);
 <h2>附录 A 证据索引与未知项</h2>
 <h3>A1. 代码证据索引</h3>
 <p>—</p>
-<p>&gt; 未产出洞见：判废：空输出或输出顶格</p>
+<p>&gt; 未产出洞见：无源码切片（0 个文件）：无法提供 file:line 证据，未发起模型调用</p>
 <h3>A2. 外部资料</h3>
 <ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/microsoft/onnxruntime</li><li>fetched_at：2026-11-19T15:04:43Z</li><li>sha256：<code>0110e47af243b382ea940959b93860616d5cfda4830bc7a0e8d5eb711ff1fb03</code></li><li>判定：hit — 正文含 2577 个仓库内真实路径（阈值 3）</li><li>原文快照：<code>source.txt</code>（与判定元数据分文件存放）</li></ul>
 <h3>A3. 未获得项</h3>
@@ -106,7 +106,7 @@ footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);
 <p><strong>特征卡已知限制</strong>：</p>
 <ul><li>未取得源码切片：parallel/cache/hardware 全部 false、deps.graph 为空（红线 #5）</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
 <h3>B4. 运行元数据与成本</h3>
-<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>microsoft/onnxruntime</td></tr><tr><td>commit</td><td><code>5e289356eff2c1c66e83696a7b119f388230d5af</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-17T00:00:00Z</td></tr><tr><td>通道 / 领域</td><td>classic / 未指定</td></tr><tr><td>请求档位 (requested_depth)</td><td>fast</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>fast</td></tr><tr><td>降级原因 (reason)</td><td>manual_override — 人工 override</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 0/1、fast 15/5（周起点 2026-11-16）；tokens 周 220299/2000000、月 330449/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>870a024404e74590a438994a1d7687f5007d83cc19e7cd70e6f801447d4de1f2</code></td></tr><tr><td>成本说明</td><td>本次 ¥0.0000（模型调用 0 次）；输入 0 tok / 命中 0 tok / 输出 0 tok</td></tr><tr><td>累计</td><td>本周 ¥0.4141 / 220,299 tok；本月 ¥1.0014 / 330,449 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>microsoft/onnxruntime</td></tr><tr><td>commit</td><td><code>5e289356eff2c1c66e83696a7b119f388230d5af</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-17T00:00:00Z</td></tr><tr><td>通道 / 领域</td><td>classic / 未指定</td></tr><tr><td>请求档位 (requested_depth)</td><td>fast</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>fast</td></tr><tr><td>降级原因 (reason)</td><td>manual_override — 人工 override</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 0/1、fast 15/5（周起点 2026-11-16）；tokens 周 220299/2000000、月 330449/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>870a024404e74590a438994a1d7687f5007d83cc19e7cd70e6f801447d4de1f2</code></td></tr><tr><td>成本说明</td><td>本次 —（未调用）；输入 0 tok / 命中 0 tok / 输出 0 tok</td></tr><tr><td>累计</td><td>本周 ¥0.4141 / 220,299 tok；本月 ¥1.0014 / 330,449 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
 <p><strong>档位决策链路</strong>：</p>
 <ol><li>L4 人工 override：--depth fast（绕过 L1 基线 / L2 配额）</li><li>凭据：齐全</li><li>L2 周配额：人工 override 绕过（本周 strong 0/1、fast 15/5）</li><li>L3 预算：估算 1454 × 安全系数 1.3 = 1890 tok（单选上限 120000），周 220299/2000000</li><li>结论：实际档位 fast（人工 override）</li></ol>
 <p><strong>上下文组装</strong>（裁剪发生在调用之前）：</p>
