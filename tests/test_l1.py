@@ -628,3 +628,41 @@ def test_probe_blocked_page_is_fail_closed(tmp_path: Path, monkeypatch: pytest.M
         / "deepwiki.json"
     )
     assert meta.exists(), "判定元数据必须落盘（四元组）"
+
+
+def test_chat_json_keeps_usage_when_items_empty() -> None:
+    """判废（空 items）的调用也已被计费，usage 必须保留给台账。"""
+    payload = {
+        "choices": [{"message": {"content": '{"items":[],"confidence":"low","paradigm_tags":[]}'}}],
+        "usage": {"prompt_tokens": 4523, "completion_tokens": 15, "total_tokens": 4538},
+    }
+    outcome = _client(lambda request: httpx.Response(200, json=payload)).chat_json("s", "u")
+    assert outcome.status == "error"
+    assert outcome.usage.prompt_tokens == 4523
+    assert outcome.usage.completion_tokens == 15
+
+
+def test_run_insight_skips_without_allowed_paths(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """无源码切片时不应发起模型调用（只能得到空 items，纯浪费）。"""
+    from osslens.cli import _run_insight
+
+    monkeypatch.setenv("OSSLENS_LLM_API_KEY", "sk-test")
+    monkeypatch.setenv("OSSLENS_LLM_BASE_URL", "https://llm.invalid")
+    root = seed_workspace(tmp_path / "ws")
+    config = Config.load(root)
+    outcome, reason = _run_insight(
+        config,
+        config.layout,
+        repo="o/r",
+        card={"identity": {}},
+        sources=None,
+        context_text="",
+        allowed_paths=set(),
+        as_of=AS_OF,
+        events=(),
+        depth="fast",
+    )
+    assert outcome is None
+    assert "未发起模型调用" in reason

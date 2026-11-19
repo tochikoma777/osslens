@@ -1003,6 +1003,11 @@ def _run_insight(
         _record_blocked(config, layout, repo, as_of, model, "max_calls_per_run", depth, purpose)
         return None, f"超出单次调用上限 max_calls_per_run={config.depth.budget.max_calls_per_run}"
 
+    # 没有源码切片就没有任何 file:line 可引用；调用模型只会得到空 items（已计费），
+    # 因此先判证据条件，再发请求。放在调用上限闸门之后，保持“闸门先于任何支出”的顺序。
+    if not allowed_paths:
+        return None, "无源码切片（0 个文件）：无法提供 file:line 证据，未发起模型调用"
+
     client = LlmClient(
         credentials,
         model=model,

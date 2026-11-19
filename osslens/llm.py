@@ -223,11 +223,14 @@ class LlmClient:
         self, system: str, user: str, *, max_tokens: int = MAX_OUTPUT_TOKENS
     ) -> LlmOutcome:
         last_error = "未发起请求"
+        last_usage = Usage(0, 0, 0, 0, 0)
         calls = 0
         for fmt in self.formats():
             body = self._body(system, user, fmt=fmt, max_tokens=max_tokens)
             outcome = self._post(body, fmt=fmt, max_tokens=max_tokens)
             calls += outcome[0]
+            # 判废（空 items / 顶格）同样是**已计费**的调用：保留 usage 供台账记录
+            last_usage = outcome[2]
             if outcome[1] is not None:
                 return LlmOutcome(
                     status="ok",
@@ -247,7 +250,7 @@ class LlmClient:
             status="error",
             reason=last_error,
             insight=None,
-            usage=Usage(0, 0, 0, 0, 0),
+            usage=last_usage,
             model=self._model,
             format_used="",
             calls=calls,
