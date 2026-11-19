@@ -66,7 +66,7 @@ footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);
 <h3>2.2 模块职责</h3>
 <table><thead><tr><th>模块</th><th>文件数</th><th>职责（启发式）</th></tr></thead><tbody><tr><td><code>figures</code></td><td>2</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>deep_ep</code></td><td>62</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>csrc</code></td><td>36</td><td>原生内核与算子实现</td></tr><tr><td><code>tests</code></td><td>14</td><td>测试与用例</td></tr><tr><td><code>.</code></td><td>10</td><td>业务实现（职责需人工确认）</td></tr></tbody></table>
 <h3>2.3 一次调用的路径（运行时视图）</h3>
-<p>[判断] 静态推断：<code>csrc/indexing/main.cu</code> → 调度/核心模块（见上表） → 输出。内部 import 边约 8 条，可作为调用方向的粗线索；<strong>未做运行时跟踪</strong>，具体分支需读源码确认。</p>
+<p>[判断] 静态推断：<code>csrc/indexing/main.cu</code> → <code>deep_ep</code>（依赖最集中） → <code>deep_ep/buffers/bucket</code>（依赖最集中） → 输出。内部 import 边约 8 条，只用于判断调用方向；<strong>未做运行时跟踪</strong>，参数与分支需读源码确认。</p>
 <h3>2.4 数据与控制流</h3>
 <p>[事实] 并行轴命中 CP, DP, EP, PP（证据见附录 A）。</p>
 <pre><code class="language-mermaid">graph TD
@@ -80,7 +80,7 @@ footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);
   deep_ep_buffers_ep --&gt; deep_ep_utils</code></pre>
 <h2>3. 核心抽象与契约</h2>
 <p>[事实] 源码切片中命中以下模式（正则扫描，仅代表本次切片）：</p>
-<table><thead><tr><th>模式</th><th>位置</th><th>说明</th></tr></thead><tbody><tr><td><code>backend</code></td><td><code>README.md:18</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>README.md:185</code></td><td>候选扩展/契约点</td></tr><tr><td><code>protocol</code></td><td><code>README.md:490</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>csrc/buffers/ep.hpp:286</code></td><td>候选扩展/契约点</td></tr><tr><td><code>hook</code></td><td><code>deep_ep/buffers/bucket.py:80</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>deep_ep/buffers/ep.py:38</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>deep_ep/include/deep_ep/impls/ep/hybrid_dispatch.cuh:506</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>tests/ep/test_ep.py:113</code></td><td>候选扩展/契约点</td></tr></tbody></table>
+<table><thead><tr><th>模式</th><th>位置</th><th>说明</th></tr></thead><tbody><tr><td><code>dispatch</code></td><td><code>csrc/buffers/ep.hpp:286</code></td><td>候选扩展/契约点</td></tr><tr><td><code>hook</code></td><td><code>deep_ep/buffers/bucket.py:80</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>deep_ep/buffers/ep.py:38</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>deep_ep/include/deep_ep/impls/ep/hybrid_dispatch.cuh:506</code></td><td>候选扩展/契约点</td></tr><tr><td><code>dispatch</code></td><td><code>tests/ep/test_ep.py:113</code></td><td>候选扩展/契约点</td></tr></tbody></table>
 <p>[判断] 这些命中说明项目存在注册/适配/分派结构，但<strong>未做 AST 分析</strong>，无法确认继承关系与调用契约的完整性。</p>
 <p>入口候选（可作为契约阅读起点）：<code>csrc/indexing/main.cu</code></p>
 <h2>4. 关键设计决策（ADR）</h2>
@@ -98,17 +98,17 @@ footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);
 <h3>ADR-6 · t6: 按 NVLink/RDMA 域拆分混合与直连模式</h3>
 <ul><li><strong>决策</strong>：按 NVLink/RDMA 域拆分混合与直连模式</li><li><strong>替代</strong>：单一传输路径统一实现</li><li><strong>代价</strong>：需维护多套内核与拓扑判定</li><li><strong>证据</strong>：<code>README.md:22</code></li><li><strong>可复用规则</strong>：[未获得] 模型未给出可迁移规则，需人工补</li><li><strong>边界/反模式</strong>：[未获得] 未给出适用边界</li></ul>
 <h2>5. 扩展与改造路径</h2>
-<p>[事实] 可扩展点候选（与第 3 章同源）：</p>
-<ul><li><code>README.md:18</code> → backend</li><li><code>README.md:185</code> → dispatch</li><li><code>README.md:490</code> → protocol</li><li><code>csrc/buffers/ep.hpp:286</code> → dispatch</li><li><code>deep_ep/buffers/bucket.py:80</code> → hook</li><li><code>deep_ep/buffers/ep.py:38</code> → dispatch</li></ul>
+<p>[事实] 可扩展点候选（与第 3 章同源，已排除测试目录）：</p>
+<ul><li><code>csrc/buffers/ep.hpp:286</code> → dispatch</li><li><code>deep_ep/buffers/bucket.py:80</code> → hook</li><li><code>deep_ep/buffers/ep.py:38</code> → dispatch</li><li><code>deep_ep/include/deep_ep/impls/ep/hybrid_dispatch.cuh:506</code> → dispatch</li></ul>
 <p>[判断] 新增能力的静态路径（需按实际代码复核）：</p>
-<ol><li>在入口处接入参数/配置（入口候选：<code>csrc/indexing/main.cu</code>, <code>figures</code>, <code>deep_ep</code>, <code>csrc</code>, <code>tests</code>, <code>.</code>）；</li><li>复用上表中的注册/分派结构，实现新的后端或适配器；</li><li>补对应测试与文档，再走发布流程。</li></ol>
+<ol><li>在入口处接入参数/配置（入口候选：<code>csrc/indexing/main.cu</code>, <code>csrc</code>）；</li><li>复用上表中的注册/分派结构，实现新的后端或适配器；</li><li>补对应测试与文档，再走发布流程。</li></ol>
 <ul><li>扩展文档：[未获得]</li><li>改造成本：[未获得] 需要先确认契约稳定性与测试覆盖，本报告不估算人日。</li></ul>
 <h2>6. 经验卡</h2>
 <p>[未获得] 本次没有带「可迁移规则」的条目（模型未输出 rule，或命中旧缓存）；经验卡留空，不用「要注重解耦」这类通用建议充数。</p>
 <h2>附录 A 证据索引与未知项</h2>
 <h3>A1. 代码证据索引</h3>
 <table><thead><tr><th>id</th><th>决策</th><th>证据</th></tr></thead><tbody><tr><td>t1</td><td>运行时 JIT 编译通信内核</td><td><code>README.md:5</code></td></tr><tr><td>t2</td><td>复用 PyTorch 进程组 NCCL 通信器</td><td><code>README.md:404</code></td></tr><tr><td>t3</td><td>解析式估算 SM 与 QP 数量</td><td><code>README.md:22</code></td></tr><tr><td>t4</td><td>延迟 epilogue 与计算流重叠</td><td><code>README.md:290</code></td></tr><tr><td>t5</td><td>缓存展开布局复用路由句柄</td><td><code>README.md:283</code></td></tr><tr><td>t6</td><td>按 NVLink/RDMA 域拆分混合与直连模式</td><td><code>README.md:22</code></td></tr><tr><td>t7</td><td>Bucket 会话内临时暂存外部张量</td><td><code>deep_ep/buffers/bucket.py:24</code></td></tr><tr><td>t8</td><td>导入期校验 NCCL 库二进制一致</td><td><code>deep_ep/__init__.py:20</code></td></tr><tr><td>t9</td><td>冗余专家权重预取与梯度归约原语</td><td><code>README.md:340</code></td></tr><tr><td>t10</td><td>实验特性与主路径同仓分缓冲类</td><td><code>README.md:12</code></td></tr></tbody></table>
-<ul><li>置信度：med</li><li>架构范式标签：专用优化、深优化、硬件耦合</li><li>模式 <code>backend</code>：<code>README.md:18</code></li><li>模式 <code>dispatch</code>：<code>README.md:185</code></li><li>模式 <code>protocol</code>：<code>README.md:490</code></li><li>模式 <code>dispatch</code>：<code>csrc/buffers/ep.hpp:286</code></li><li>模式 <code>hook</code>：<code>deep_ep/buffers/bucket.py:80</code></li><li>模式 <code>dispatch</code>：<code>deep_ep/buffers/ep.py:38</code></li><li>模式 <code>dispatch</code>：<code>deep_ep/include/deep_ep/impls/ep/hybrid_dispatch.cuh:506</code></li><li>模式 <code>dispatch</code>：<code>tests/ep/test_ep.py:113</code></li></ul>
+<ul><li>置信度：med</li><li>架构范式标签：专用优化、深优化、硬件耦合</li><li>模式 <code>dispatch</code>：<code>csrc/buffers/ep.hpp:286</code></li><li>模式 <code>hook</code>：<code>deep_ep/buffers/bucket.py:80</code></li><li>模式 <code>dispatch</code>：<code>deep_ep/buffers/ep.py:38</code></li><li>模式 <code>dispatch</code>：<code>deep_ep/include/deep_ep/impls/ep/hybrid_dispatch.cuh:506</code></li><li>模式 <code>dispatch</code>：<code>tests/ep/test_ep.py:113</code></li></ul>
 <h3>A2. 外部资料</h3>
 <ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/deepseek-ai/DeepEP</li><li>fetched_at：2026-11-18T15:42:11Z</li><li>sha256：<code>962b36db33b3c7bc0252eb81f0ceb4888678cb3d7bfa6ff66ad09a7fc54a69da</code></li><li>判定：hit — 正文含 10 个仓库内真实路径（阈值 3）</li><li>原文快照：<code>source.txt</code>（与判定元数据分文件存放）</li></ul>
 <h3>A3. 未获得项</h3>

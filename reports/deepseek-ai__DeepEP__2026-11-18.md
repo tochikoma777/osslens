@@ -44,7 +44,7 @@
 
 ### 2.3 一次调用的路径（运行时视图）
 
-[判断] 静态推断：`csrc/indexing/main.cu` → 调度/核心模块（见上表） → 输出。内部 import 边约 8 条，可作为调用方向的粗线索；**未做运行时跟踪**，具体分支需读源码确认。
+[判断] 静态推断：`csrc/indexing/main.cu` → `deep_ep`（依赖最集中） → `deep_ep/buffers/bucket`（依赖最集中） → 输出。内部 import 边约 8 条，只用于判断调用方向；**未做运行时跟踪**，参数与分支需读源码确认。
 
 ### 2.4 数据与控制流
 
@@ -68,9 +68,6 @@ graph TD
 
 | 模式 | 位置 | 说明 |
 |---|---|---|
-| `backend` | `README.md:18` | 候选扩展/契约点 |
-| `dispatch` | `README.md:185` | 候选扩展/契约点 |
-| `protocol` | `README.md:490` | 候选扩展/契约点 |
 | `dispatch` | `csrc/buffers/ep.hpp:286` | 候选扩展/契约点 |
 | `hook` | `deep_ep/buffers/bucket.py:80` | 候选扩展/契约点 |
 | `dispatch` | `deep_ep/buffers/ep.py:38` | 候选扩展/契约点 |
@@ -141,18 +138,16 @@ graph TD
 
 ## 5. 扩展与改造路径
 
-[事实] 可扩展点候选（与第 3 章同源）：
+[事实] 可扩展点候选（与第 3 章同源，已排除测试目录）：
 
-- `README.md:18` → backend
-- `README.md:185` → dispatch
-- `README.md:490` → protocol
 - `csrc/buffers/ep.hpp:286` → dispatch
 - `deep_ep/buffers/bucket.py:80` → hook
 - `deep_ep/buffers/ep.py:38` → dispatch
+- `deep_ep/include/deep_ep/impls/ep/hybrid_dispatch.cuh:506` → dispatch
 
 [判断] 新增能力的静态路径（需按实际代码复核）：
 
-1. 在入口处接入参数/配置（入口候选：`csrc/indexing/main.cu`, `figures`, `deep_ep`, `csrc`, `tests`, `.`）；
+1. 在入口处接入参数/配置（入口候选：`csrc/indexing/main.cu`, `csrc`）；
 2. 复用上表中的注册/分派结构，实现新的后端或适配器；
 3. 补对应测试与文档，再走发布流程。
 
@@ -182,9 +177,6 @@ graph TD
 
 - 置信度：med
 - 架构范式标签：专用优化、深优化、硬件耦合
-- 模式 `backend`：`README.md:18`
-- 模式 `dispatch`：`README.md:185`
-- 模式 `protocol`：`README.md:490`
 - 模式 `dispatch`：`csrc/buffers/ep.hpp:286`
 - 模式 `hook`：`deep_ep/buffers/bucket.py:80`
 - 模式 `dispatch`：`deep_ep/buffers/ep.py:38`
