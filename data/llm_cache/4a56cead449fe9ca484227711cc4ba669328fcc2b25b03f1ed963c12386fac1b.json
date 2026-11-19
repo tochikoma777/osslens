@@ -1,0 +1,113 @@
+{
+  "format_used": "json_object",
+  "insight": {
+    "confidence": "med",
+    "dropped": [],
+    "items": [
+      {
+        "alternative": "安装期预编译全部内核",
+        "boundary": "仅适合内核变体多、目标 GPU 明确的场景；无工具链的推理镜像不适用",
+        "chose": "运行时用 DeepJIT 编译通信内核",
+        "cost": "部署需保留 CUDA 工具链与主机编译器",
+        "evidence": "README.md:5",
+        "id": "t1",
+        "rule": "内核按目标设备运行时编译，换取跨架构适配与免预编译矩阵"
+      },
+      {
+        "alternative": "保留 NVSHMEM 作为设备侧通信后端",
+        "boundary": "需要 NCCL 未提供的高级原语时须另接后端，不可硬套",
+        "chose": "V2 起移除 NVSHMEM，改用 NCCL Gin 后端",
+        "cost": "依赖 NCCL 2.32.3+ 且需版本严格匹配",
+        "evidence": "README.md:20",
+        "id": "t2",
+        "rule": "复用已有 NCCL 通信器可降低部署依赖与运维成本"
+      },
+      {
+        "alternative": "运行时自动搜索最优 SM/QP 配置",
+        "boundary": "拓扑或负载高度异构时解析模型失准，应允许手动覆盖",
+        "chose": "SM 与 QP 数量解析式估算，取消自动调优",
+        "cost": "估算偏差时需调用方手动覆盖 num_sms",
+        "evidence": "README.md:26",
+        "id": "t3",
+        "rule": "用解析模型替代在线调优，换取启动确定性与可预测性"
+      },
+      {
+        "alternative": "按模式拆分两套独立 API",
+        "boundary": "两种模式语义差异过大时强行统一会引入隐式约束",
+        "chose": "高吞吐与低延迟统一到单一 EPBuffer 接口",
+        "cost": "接口参数增多，需按场景选择 do_cpu_sync 等开关",
+        "evidence": "README.md:24",
+        "id": "t4",
+        "rule": "统一接口降低调用方迁移成本，代价是参数分支变多"
+      },
+      {
+        "alternative": "同步返回结果后再做专家计算",
+        "boundary": "无独立计算可重叠时应立即 wait，否则白占通信流资源",
+        "chose": "延迟 epilogue 与异步事件实现通信计算重叠",
+        "cost": "结果由首次 wait 产生，需自行保存并管理事件生命周期",
+        "evidence": "README.md:186",
+        "id": "t5",
+        "rule": "把后处理推迟到消费点，用事件换取重叠窗口"
+      },
+      {
+        "alternative": "每次 dispatch 重新计算接收布局",
+        "boundary": "路由变化必须重新 dispatch；推理模式张量无版本计数不可校验",
+        "chose": "缓存 dispatch 展开布局，复用 handle 跳过重算",
+        "cost": "topk_idx 在使用期间不可修改，需版本计数校验",
+        "evidence": "deep_ep/buffers/ep.py:110",
+        "id": "t6",
+        "rule": "缓存布局复用可省 CPU 同步，代价是输入不可变约束"
+      },
+      {
+        "alternative": "要求所有输入预先注册进缓冲区",
+        "boundary": "嵌套会话不支持；跨会话持有结果视图会读到被覆盖数据",
+        "chose": "BucketBuffer 会话内临时分配并暂存外部张量",
+        "cost": "会话内结果须在复用存储前消费或拷贝",
+        "evidence": "deep_ep/buffers/bucket.py:20",
+        "id": "t7",
+        "rule": "用会话作用域管理临时存储，放宽对预注册的要求"
+      },
+      {
+        "alternative": "信任运行时加载的任意 NCCL 版本",
+        "boundary": "多框架共存且无法统一 NCCL 的环境需显式关闭校验",
+        "chose": "导入时校验 NCCL 动态库二进制一致",
+        "cost": "版本不一致直接中止，需 EP_SUPPRESS_NCCL_CHECK 绕过",
+        "evidence": "deep_ep/__init__.py:20",
+        "id": "t8",
+        "rule": "对 ABI 敏感的原生依赖在导入期做硬校验，早失败优于运行期崩溃"
+      },
+      {
+        "alternative": "由框架层自行搬运冗余专家权重",
+        "boundary": "仅限 NVLink 域内；跨节点冗余专家复制不适用",
+        "chose": "冗余专家权重预取与梯度归约走 NVLink 域内集合通信",
+        "cost": "域内所有 rank 必须参与调用，映射与存储须全程有效",
+        "evidence": "README.md:262",
+        "id": "t9",
+        "rule": "把跨卡权重/梯度交换下沉为通信原语，减少框架层胶水"
+      },
+      {
+        "alternative": "单一通用集合通信路径",
+        "boundary": "拓扑探测失败时不可用，BucketBuffer 要求 NVLink 与 RDMA 均可测",
+        "chose": "Bucket 集合通信按 NVLink/RDMA/混合域分实现",
+        "cost": "all-gather 走拷贝引擎零 SM，reduce-scatter 必须占 SM",
+        "evidence": "README.md:230",
+        "id": "t10",
+        "rule": "按传输域特化内核路径，换取各拓扑下的带宽与 SM 占用最优"
+      }
+    ],
+    "paradigm_tags": [
+      "专用优化",
+      "深优化",
+      "硬件耦合"
+    ]
+  },
+  "model": "deepseek-flash",
+  "usage": {
+    "cache_hit_tokens": 21888,
+    "cache_miss_tokens": 239,
+    "completion_tokens": 1005,
+    "prompt_tokens": 22127,
+    "reasoning_tokens": 0,
+    "total_tokens": 23132
+  }
+}
