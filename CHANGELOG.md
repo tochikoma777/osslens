@@ -2,6 +2,15 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-19 · 自动发现建池 + v3 全量重建
+
+- **每日自动发现（原需求补齐）**：新增 `pool discover [--apply]`，调用 GitHub Search `/search/repositories`（`topic:llm|inference|cuda` + `stars:>=5000`，零 LLM）；本地再剔除 archived / fork / 低星 / 久未更新 / 已入池，按 stars 降序去重后取 `max_new_per_run` 个；`pool.yml` 在「追加观测」前执行 `--apply`。
+- **配置**：`pool.discovery`（`enabled` / `queries` / `per_page` / `max_new_per_run` / `min_stars` / `max_pushed_age_days`），非法值 fail-fast；默认值与模板同步。
+- **报告全量转 v3**：11 份 v1/v2a 报告归档到 `reports/archive/2026-11/`（不参与站点与“已分析”判断），9 个仓库按 v3 重跑：8 份产出 5 张经验卡，`microsoft/onnxruntime` 因 codeload 404 + LLM 空输出未产出 ADR（如实标注，待跟进）。
+- **站点**：旧报告页清理，产物 **24 → 21**（12 固定页 + 9 报告页）；`site --check --strict` 一致。
+- **测试 212 → 218**：新增 `tests/test_discovery.py` 6 条（过滤/去重/上限/配置校验/dry-run 不写盘/单仓失败不阻断/CI 接线）。
+- **成本**：批量 8 次 fast 实跑增量约 **¥0.24**；台账 20 → 27 行。
+
 ## [Unreleased] - 2026-11-19 · 解析修复与每日分析
 
 - **修复**：`parse_insight()`（实时 HTTP 响应路径）漏解析 `rule` / `boundary`，导致模型即使输出也被静默丢弃；`Insight.from_json`（缓存路径）此前已解析，两条路径行为不一致。现两条路径统一，并新增回归测试。
