@@ -145,6 +145,15 @@ def observe(
     return observation
 
 
+def observe_targets(config: Config) -> tuple[str, ...]:
+    """每日观测目标：watchlist ∪ 池内仓库 − pool.skip（确定性排序）。
+
+    抽成函数供 pool.yml 调用，避免 workflow 里再写一遍过滤逻辑、也便于单测。
+    """
+    slugs = {*config.watchlist, *(item.repo for item in load_series(config.layout))}
+    return tuple(sorted(slug for slug in slugs if not config.pool.skipped(slug)))
+
+
 def load_series(layout: Layout) -> list[RepoSeries]:
     """把 append-only 事件流折叠成 (repo, channel) 序列；去重在此完成。
 

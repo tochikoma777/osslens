@@ -92,6 +92,9 @@ pool:
   # ★ 当前无消费者（审查 2026-11-16 F4）：load_series 恒定按 (repo, channel) 去重，
   #   本键只保留 schema 兼容，改 true/false 不改变行为。删键需同步 DEFAULT_CONFIG 与既有 config。
   dedupe: true
+  # 已消失/改名/明确不分析的仓库：discover / eligible / 每日观测全部跳过
+  skip:
+    - microsoft/onnxruntime
   # 每日自动发现（GitHub Search API，零 LLM）；enabled=false 或 queries 为空即关闭。
   # 搜索只负责"扩大候选"，放行仍由 hot/classic 门槛与 pool eligible 决定。
   discovery:

@@ -72,11 +72,11 @@ jobs:
           import os
           from pathlib import Path
           from osslens.config import Config
-          from osslens.pool import load_series
+          from osslens.pool import observe_targets
           from osslens.cli import main
 
           config = Config.load(Path("."))
-          slugs = sorted({*config.watchlist, *(s.repo for s in load_series(config.layout))})
+          slugs = observe_targets(config)  # watchlist ∪ 池内 − pool.skip
           if not slugs:
               print("[skip] 无候选仓库")
               raise SystemExit(0)

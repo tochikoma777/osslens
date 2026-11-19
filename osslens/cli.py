@@ -346,6 +346,12 @@ def _pool_add_one(
 
 def _cmd_pool_add(args: argparse.Namespace) -> int:
     config = Config.load(Path(args.root))
+    if config.pool.skipped(args.slug):
+        print(
+            f"[skip] {args.slug} 在 pool.skip 中（已消失/改名/明确不分析）；"
+            "如要恢复，先移除该配置项"
+        )
+        return 0
     clock: Clock = SystemClock()
     as_of = _optional_instant(args.as_of) or clock.now()
     observe_clock: Clock = FixedClock(as_of) if args.as_of else clock
@@ -370,6 +376,7 @@ def _cmd_pool_discover(args: argparse.Namespace) -> int:
 
     existing = {item.repo.lower() for item in load_series(config.layout)}
     existing |= {slug.lower() for slug in config.watchlist}
+    existing |= {slug.lower() for slug in config.pool.skip}
     items: list[dict[str, Any]] = []
     failures: list[str] = []
     client = HttpClient(
@@ -495,7 +502,11 @@ def _cmd_pool_eligible(args: argparse.Namespace) -> int:
     config = Config.load(Path(args.root))
     as_of = _optional_instant(args.as_of) or SystemClock().now()
     series = load_series(config.layout)
-    rows = evaluate_eligibility(config, series, as_of=as_of)
+    rows = [
+        row
+        for row in evaluate_eligibility(config, series, as_of=as_of)
+        if not config.pool.skipped(row.repo)
+    ]
     if args.json:
         print(
             stable_json(

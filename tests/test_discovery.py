@@ -20,7 +20,7 @@ from osslens.cli import main
 from osslens.collect import select_discoveries
 from osslens.config import Config, ConfigError
 
-from .conftest import seed_workspace
+from .conftest import make_snapshot, seed_workspace
 
 NOW = datetime(2026, 11, 19, tzinfo=UTC)
 
@@ -184,3 +184,56 @@ def test_keyword_filters_keep_relevance_and_drop_noise() -> None:
         exclude_keywords=("awesome",),
     )
     assert [item.slug for item in out] == ["p/fast-infer"]
+
+
+def test_pool_skip_config_and_validation(tmp_path: Path) -> None:
+    root = seed_workspace(tmp_path / "ws")
+    cfg = Config.from_mapping(root, {"pool": {"skip": ["microsoft/onnxruntime", "A/B"]}})
+    assert cfg.pool.skip == ("microsoft/onnxruntime", "A/B")
+    assert cfg.pool.skipped("Microsoft/OnnxRuntime") is True
+    assert cfg.pool.skipped("a/b") is True
+    assert cfg.pool.skipped("other/repo") is False
+    with pytest.raises(ConfigError):
+        Config.from_mapping(root, {"pool": {"skip": ["not-a-slug"]}})
+    with pytest.raises(ConfigError):
+        Config.from_mapping(root, {"pool": {"skip": "microsoft/onnxruntime"}})
+
+
+def test_discover_never_readds_skipped_repo(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = seed_workspace(tmp_path / "ws", overrides={"pool": {"skip": ["dead/repo"]}})
+    monkeypatch.setattr("osslens.cli.HttpClient", _StubClient)
+    monkeypatch.setattr(
+        "osslens.cli.search_repositories",
+        lambda *_a, **_k: (_item("dead/repo", stars=99_000), _item("live/repo", stars=20_000)),
+    )
+    cfg = Config.load(root)
+    # 直接验证 CLI 的候选集合：跳过项不得出现在结果里
+    out = select_discoveries(
+        (_item("dead/repo", stars=99_000), _item("live/repo", stars=20_000)),
+        existing=frozenset(cfg.pool.skip),
+        min_stars=5000,
+        max_pushed_age_days=365,
+        max_new=5,
+        now=NOW,
+    )
+    assert [item.slug for item in out] == ["live/repo"]
+
+
+def test_observe_targets_excludes_skip(tmp_path: Path) -> None:
+    from osslens.config import Layout
+    from osslens.pool import observe, observe_targets
+    from osslens.util import FixedClock
+
+    root = seed_workspace(tmp_path / "ws", overrides={"pool": {"skip": ["deepseek-ai/DeepEP"]}})
+    cfg = Config.load(root)
+    observe(Layout(root), make_snapshot(), channel="classic", clock=FixedClock(NOW))
+    targets = observe_targets(cfg)
+    assert "deepseek-ai/DeepEP" not in targets
+
+
+def test_pool_add_refuses_skipped_repo(tmp_path: Path) -> None:
+    root = seed_workspace(tmp_path / "ws", overrides={"pool": {"skip": ["microsoft/onnxruntime"]}})
+    assert main(["pool", "add", "microsoft/onnxruntime", "--root", str(root)]) == 0
+    assert not (root / "data" / "snapshots" / "microsoft__onnxruntime").exists()

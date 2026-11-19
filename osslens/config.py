@@ -81,6 +81,8 @@ DEFAULT_CONFIG: dict[str, Any] = {
         "classic_min_stars": 5000,
         "classic_min_age_days": 730,
         "dedupe": True,
+        # 已消失/改名/拒绝分析的仓库：discover / eligible / 每日观测全部跳过（大小写不敏感）
+        "skip": [],
         # 每日自动发现（GitHub Search API，零 LLM）；queries 为空 = 关闭
         "discovery": {
             "enabled": True,
@@ -250,6 +252,9 @@ pool:
   classic_min_stars: 5000
   classic_min_age_days: 730
   dedupe: true
+  # 已消失/改名/明确不分析的仓库：discover / eligible / 每日观测全部跳过
+  skip:
+    - microsoft/onnxruntime
   # 每日自动发现（GitHub Search API，零 LLM）；enabled=false 或 queries 为空即关闭。
   # 搜索只负责"扩大候选"，放行仍由 hot/classic 门槛与 pool eligible 决定。
   discovery:
@@ -348,6 +353,29 @@ class PoolConfig:
     classic_min_age_days: int
     dedupe: bool
     discovery: DiscoveryConfig = DiscoveryConfig()
+    # 跳过列表：已 404 / 改名 / 明确不分析的仓库；比较时统一小写
+    skip: tuple[str, ...] = ()
+
+    def skipped(self, slug: str) -> bool:
+        return slug.strip().lower() in {item.lower() for item in self.skip}
+
+
+def _slug_list(value: Any) -> tuple[str, ...]:
+    """解析 owner/repo 列表：去空白、去重（保留原大小写）、拒绝非法项。"""
+    if value is None:
+        return ()
+    if not isinstance(value, list):
+        raise ConfigError("pool.skip 必须是 owner/repo 列表")
+    seen: dict[str, None] = {}
+    for item in value:
+        slug = as_str(item).strip()
+        if not slug:
+            continue
+        owner, _, repo = slug.partition("/")
+        if not owner or not repo or "/" in repo:
+            raise ConfigError(f"pool.skip 含非法仓库标识：{slug!r}（应为 owner/repo）")
+        seen.setdefault(slug, None)
+    return tuple(seen)
 
 
 def _discovery_config(raw: dict[str, Any]) -> DiscoveryConfig:
@@ -822,6 +850,7 @@ class Config:
                 classic_min_age_days=as_int(pool_raw.get("classic_min_age_days"), 730),
                 dedupe=as_bool(pool_raw.get("dedupe"), True),
                 discovery=_discovery_config(_section(pool_raw, "discovery")),
+                skip=_slug_list(pool_raw.get("skip")),
             ),
             score=ScoreConfig(
                 hot={str(k): as_float(v, 0.0) for k, v in _section(score_raw, "hot").items()},
