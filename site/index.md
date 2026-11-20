@@ -16,6 +16,7 @@
 - [检索](search.html)
 - [范式标签](tags.html)
 - [并排对比](compare.html)
+- [技术选型](selection.html)
 - [本索引（纯 MD，可脱离站点阅读）](index.md)
 
 ## 项目清单（按仓库 / 基准时间 / 档位确定性排序）

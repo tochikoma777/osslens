@@ -195,6 +195,7 @@ def test_site_builds_full_static_site(tmp_path: Path) -> None:
         "patterns.html",
         "costs.html",
         "runs.html",
+        "selection.html",
     ):
         assert name in files, f"缺区块 {name}"
         assert (out / name).read_text(encoding="utf-8") == files[name]
@@ -575,3 +576,42 @@ def test_timeline_groups_reports_by_month(tmp_path: Path) -> None:
     assert "2026-11" in page
     assert 'href="report-org__one__2026-11-06.html"' in page
     assert "<script" not in page
+
+
+# --------------------------------------------------------------------------- 技术选型视图
+
+
+def test_selection_view_is_evidence_only_and_missing_safe(tmp_path: Path) -> None:
+    root = _workspace(tmp_path)
+    files = _build(root, tmp_path / "site")
+    page = html_lib.unescape(files["selection.html"])
+    # 覆盖声明 + 字段路径即来源（列名就是特征卡字段路径）
+    assert "覆盖声明" in page
+    assert "identity.analyzed_at" in page
+    assert "scale.stars" in page
+    # 反恒真：真实字段必须被读出，而不是只输出缺失标注
+    assert "10000" in page, "scale.stars 应来自特征卡真实值"
+    assert "MIT" in page, "governance.license 应来自特征卡真实值"
+    # 缺失如实标注（_card 夹具未提供 age_days）
+    assert "—（未采集）" in page
+    # 采集通道只作来源标注，不冒充质量结论
+    assert "采集通道" in page
+    # 红线断言：不得出现打分 / 排序 / 结论类措辞
+    for banned in ("推荐", "最佳", "排名", "评分", "得分"):
+        assert banned not in page, f"选型视图不得出现 {banned}"
+    assert "<script" not in files["selection.html"]
+
+
+def test_selection_view_is_deterministic(tmp_path: Path) -> None:
+    root = _workspace(tmp_path)
+    first = _build(root, tmp_path / "site-a")["selection.html"]
+    second = _build(root, tmp_path / "site-b")["selection.html"]
+    assert first == second
+
+
+def test_selection_view_empty_state(tmp_path: Path) -> None:
+    root = _workspace(tmp_path)
+    for path in (root / "data" / "featcards").glob("*.json"):
+        path.unlink()
+    page = html_lib.unescape(_build(root, tmp_path / "site")["selection.html"])
+    assert "暂无特征卡" in page

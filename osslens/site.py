@@ -203,6 +203,99 @@ def load_featcards(layout: Layout) -> tuple[FeatcardDoc, ...]:
     return tuple(sorted(docs, key=lambda item: (item.repo, item.commit)))
 
 
+# --------------------------------------------------------------------------- 技术选型视图
+
+
+_SELECTION_MISSING = "—（未采集）"
+
+
+@dataclass(frozen=True)
+class SelectionCard:
+    """选型视图行：字段全部来自特征卡；缺失即如实标注，不脑补、不打分。"""
+
+    repo: str
+    domain: str
+    analyzed_at: str
+    channel: str
+    age_days: int | None
+    stars: int | None
+    contributors: int | None
+    commits_90d: int | None
+    maintenance_state: str
+    license: str
+    has_governance_docs: bool | None
+    parallel_modes: str
+    cache_modes: str
+    kernel_langs: str
+    vendors: str
+    limitations: str
+
+
+def _selection_int(value: Any) -> int | None:
+    return value if isinstance(value, int) and not isinstance(value, bool) else None
+
+
+def _selection_bool(value: Any) -> bool | None:
+    return value if isinstance(value, bool) else None
+
+
+def _selection_text(value: Any) -> str:
+    """布尔 dict 取开启项；序列按字典序拼接；缺失统一标注，不伪造内容。"""
+    if isinstance(value, dict):
+        on = sorted(str(key) for key, flag in value.items() if flag is True)
+        return "、".join(on) if on else "无"
+    if isinstance(value, (list, tuple)):
+        items = [str(item) for item in value if str(item)]
+        return "、".join(items) if items else _SELECTION_MISSING
+    if isinstance(value, bool):
+        return "是" if value else "否"
+    if isinstance(value, (int, str)) and str(value).strip():
+        return str(value)
+    return _SELECTION_MISSING
+
+
+def load_selection_cards(layout: Layout, config: Config) -> tuple[SelectionCard, ...]:
+    """从特征卡原始 JSON 读取选型维度；不复用只保留 7 字段的 FeatcardDoc。
+
+    ★ 零 LLM / 零网络 / 只读真源；domain 用 config.domain_for 确定性归类，不猜新规则。
+    """
+    cards: list[SelectionCard] = []
+    for path in sorted(layout.featcards_dir.glob("*.json")):
+        try:
+            raw = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if not isinstance(raw, dict):
+            continue
+        identity = as_dict(raw.get("identity"))
+        repo = as_str(identity.get("repo"), path.stem)
+        scale = as_dict(raw.get("scale"))
+        signals = as_dict(raw.get("signals"))
+        gov = as_dict(raw.get("governance"))
+        hardware = as_dict(raw.get("hardware"))
+        cards.append(
+            SelectionCard(
+                repo=repo,
+                domain=config.domain_for(repo) or "未归类",
+                analyzed_at=as_str(identity.get("analyzed_at")),
+                channel=as_str(identity.get("channel")),
+                age_days=_selection_int(identity.get("age_days")),
+                stars=_selection_int(scale.get("stars")),
+                contributors=_selection_int(scale.get("contributors")),
+                commits_90d=_selection_int(scale.get("commits_90d")),
+                maintenance_state=as_str(signals.get("maintenance_state")),
+                license=as_str(gov.get("license")),
+                has_governance_docs=_selection_bool(gov.get("has_governance_docs")),
+                parallel_modes=_selection_text(as_dict(as_dict(raw.get("parallel")).get("hits"))),
+                cache_modes=_selection_text(as_dict(as_dict(raw.get("cache")).get("hits"))),
+                kernel_langs=_selection_text(hardware.get("kernel_langs")),
+                vendors=_selection_text(hardware.get("vendors")),
+                limitations=_selection_text(raw.get("limitations")),
+            )
+        )
+    return tuple(sorted(cards, key=lambda item: (item.domain, item.repo)))
+
+
 # --------------------------------------------------------------------------- 空态
 
 
@@ -408,6 +501,7 @@ _NAV_ITEMS = (
     ("检索", "search.html"),
     ("范式标签", "tags.html"),
     ("并排对比", "compare.html"),
+    ("技术选型", "selection.html"),
 )
 
 
@@ -544,6 +638,7 @@ def _render_index_html(
         ("抽象 run", run_count, "runs.html", "九字段记录"),
         ("检索", report_count, "search.html", "本地静态索引"),
         ("并排对比", featcard_count, "compare.html", "固定前三张卡"),
+        ("技术选型", featcard_count, "selection.html", "证据矩阵 · 不打分"),
     )
     cards = "".join(
         f'<a class="stat" href="{url}"><span class="stat-label">{html.escape(label)}</span>'
@@ -1034,11 +1129,101 @@ def _render_compare(featcards: Sequence[FeatcardDoc]) -> str:
     return _page("并排对比", body)
 
 
+def _render_selection(cards: Sequence[SelectionCard], as_of: str) -> str:
+    """技术选型视图：事实矩阵 + 下钻链接；不打分、不排序质量、不给结论。"""
+    intro = _intro(
+        "SELECTION / EVIDENCE MATRIX",
+        "技术选型视图",
+        f"覆盖 {len(cards)} 张特征卡；只呈现可核验事实，判断由使用者做出。",
+    )
+    if not cards:
+        return _page(
+            "技术选型视图",
+            intro + '<div class="empty"><strong>暂无特征卡，选型视图为空态。</strong></div>',
+        )
+    coverage = (
+        '<div class="note">覆盖声明：来源为已采集的 '
+        f"{len(cards)} 张特征卡，领域分布见下方分组；基准时间 <code>{html.escape(as_of)}</code>。"
+        '列名即特征卡字段路径，原始证据见 <a href="featcards.html">特征卡页</a>。'
+        "采集通道（hot/classic）仅标注来源，不代表质量结论；"
+        f"未采集字段显示 <code>{html.escape(_SELECTION_MISSING)}</code>，不脑补。</div>"
+    )
+    domains = sorted({card.domain for card in cards})
+    nav = " · ".join(
+        f'<a href="#sel-{index}">{html.escape(domain)}'
+        f"（{sum(1 for card in cards if card.domain == domain)}）</a>"
+        for index, domain in enumerate(domains)
+    )
+    parts: list[str] = [intro, coverage, f'<p class="note">领域导航：{nav}</p>']
+    for index, domain in enumerate(domains):
+        group = [card for card in cards if card.domain == domain]
+        rows = [
+            (
+                card.repo,
+                card.analyzed_at or _SELECTION_MISSING,
+                _selection_text(card.age_days),
+                _selection_text(card.stars),
+                _selection_text(card.contributors),
+                _selection_text(card.commits_90d),
+                card.maintenance_state or _SELECTION_MISSING,
+                card.channel or _SELECTION_MISSING,
+            )
+            for card in group
+        ]
+        parts.append(
+            f'<h3 id="sel-{index}">{html.escape(domain)} · 成熟度（{len(group)}）</h3>'
+            + _table(
+                (
+                    "仓库",
+                    "identity.analyzed_at",
+                    "identity.age_days",
+                    "scale.stars",
+                    "scale.contributors",
+                    "scale.commits_90d",
+                    "signals.maintenance_state",
+                    "采集通道",
+                ),
+                rows,
+            )
+        )
+    capability_rows = [
+        (
+            card.repo,
+            card.license or _SELECTION_MISSING,
+            _selection_text(card.has_governance_docs),
+            card.parallel_modes,
+            card.cache_modes,
+            card.kernel_langs,
+            card.vendors,
+            card.limitations,
+        )
+        for card in cards
+    ]
+    parts.append(
+        "<h3>治理 / 能力 / 局限（全部项目）</h3>"
+        + _table(
+            (
+                "仓库",
+                "governance.license",
+                "governance.has_governance_docs",
+                "parallel.hits（开启项）",
+                "cache.hits（开启项）",
+                "hardware.kernel_langs",
+                "hardware.vendors",
+                "limitations",
+            ),
+            capability_rows,
+        )
+    )
+    return _page("技术选型视图", "\n".join(parts))
+
+
 def build_site(config: Config, *, as_of: datetime) -> SitePlan:
     """纯构建：只读真源 → 内存中的静态文件集合。不写盘、不发请求。"""
     layout = config.layout
     reports = load_reports(layout)
     featcards = load_featcards(layout)
+    selection_cards = load_selection_cards(layout, config)
     entries = load_library(layout.library_patterns)
     runs = read_jsonl(layout.abstract_runs_jsonl)
     note = empty_patterns_note(config, runs) if not entries else ""
@@ -1074,6 +1259,7 @@ def build_site(config: Config, *, as_of: datetime) -> SitePlan:
         "search-index.json": search_index,
         "tags.html": _render_tags(reports),
         "compare.html": _render_compare(featcards),
+        "selection.html": _render_selection(selection_cards, as_of_text),
         **report_pages,
     }
     return SitePlan(
