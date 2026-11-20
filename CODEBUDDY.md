@@ -137,7 +137,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 ★ `mypy` 的 `files = ["osslens"]`（`pyproject.toml:58`）不含 `scripts/`（也不含 `tests/`）；
 `ruff check .` / `ruff format --check .` 按路径发现文件（`extend-exclude` 仅排 `data/` `reports/` `site/`，`:47`），`scripts/` 在 lint 范围内，`src` 只影响 import 解析、不限制检查范围 → 改 `scripts/` 下脚本时门禁四连的 mypy 侧不覆盖。
 
-**测试分布（212 条）**：`test_core.py` 22（L0 幂等/契约）· `test_report_v3.py` 12（v3 结构/ADR/经验卡/档位/扫描过滤/响应解析）· `test_l1.py` 23（探测/特征卡/Mermaid）·
+**测试分布（227 条）**：`test_core.py` 22（L0 幂等/契约）· `test_report_v3.py` 12（v3 结构/ADR/经验卡/档位/扫描过滤/响应解析）· `test_discovery.py` 13（每日 GitHub Search 发现 / 关键词过滤 / pool.skip / 主题轮转 / CLI 接线）· `test_l1.py` 25（探测/特征卡/Mermaid）·
 `test_l2.py` 17（档位/预算/D10/保留/快照归档）· `test_collect.py` 7（快照/源码切片）· `test_pool.py` 7（打分/观察期）·
 `test_time.py` 4（跨周/跨月时序）· `test_l3.py` 43（召回/四层 schema/ops/编排/成本闸门/S4 add 准入）·
 `test_l4.py` 25（站点四块/空态/`--check`/`--strict`/幂等/零网络/成本红 badge/时间线）·
