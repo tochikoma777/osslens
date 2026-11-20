@@ -207,6 +207,9 @@ def load_featcards(layout: Layout) -> tuple[FeatcardDoc, ...]:
 
 
 _SELECTION_MISSING = "—（未采集）"
+# 选型视图最小域样本数：呈现规则（非分析阈值），避免 1–2 个项目的「伪选型」。
+# 类比 _render_compare 固定取前 3 张卡，属于站点呈现约定，不新建配置键。
+_SELECTION_MIN_DOMAIN_SAMPLES = 5
 
 
 @dataclass(frozen=True)
@@ -1141,14 +1144,30 @@ def _render_selection(cards: Sequence[SelectionCard], as_of: str) -> str:
             "技术选型视图",
             intro + '<div class="empty"><strong>暂无特征卡，选型视图为空态。</strong></div>',
         )
+    counts = {
+        domain: sum(1 for card in cards if card.domain == domain)
+        for domain in {card.domain for card in cards}
+    }
+    domains = sorted(
+        domain for domain, count in counts.items() if count >= _SELECTION_MIN_DOMAIN_SAMPLES
+    )
+    visible = tuple(card for card in cards if card.domain in domains)
+    if not visible:
+        return _page(
+            "技术选型视图",
+            intro
+            + f'<div class="empty"><strong>各域有效样本均不足 {_SELECTION_MIN_DOMAIN_SAMPLES} 张，'
+            + f"选型视图暂不启用（共采集 {len(cards)} 张特征卡）。</strong></div>",
+        )
     coverage = (
-        '<div class="note">覆盖声明：来源为已采集的 '
-        f"{len(cards)} 张特征卡，领域分布见下方分组；基准时间 <code>{html.escape(as_of)}</code>。"
+        '<div class="note">覆盖声明：展示 '
+        f"{len(visible)} 张特征卡（共采集 {len(cards)} 张；"
+        f"同域至少 {_SELECTION_MIN_DOMAIN_SAMPLES} 张才启用分域视图）；"
+        f"基准时间 <code>{html.escape(as_of)}</code>。"
         '列名即特征卡字段路径，原始证据见 <a href="featcards.html">特征卡页</a>。'
         "采集通道（hot/classic）仅标注来源，不代表质量结论；"
         f"未采集字段显示 <code>{html.escape(_SELECTION_MISSING)}</code>，不脑补。</div>"
     )
-    domains = sorted({card.domain for card in cards})
     nav = " · ".join(
         f'<a href="#sel-{index}">{html.escape(domain)}'
         f"（{sum(1 for card in cards if card.domain == domain)}）</a>"
@@ -1156,7 +1175,7 @@ def _render_selection(cards: Sequence[SelectionCard], as_of: str) -> str:
     )
     parts: list[str] = [intro, coverage, f'<p class="note">领域导航：{nav}</p>']
     for index, domain in enumerate(domains):
-        group = [card for card in cards if card.domain == domain]
+        group = [card for card in visible if card.domain == domain]
         rows = [
             (
                 card.repo,
@@ -1197,10 +1216,10 @@ def _render_selection(cards: Sequence[SelectionCard], as_of: str) -> str:
             card.vendors,
             card.limitations,
         )
-        for card in cards
+        for card in visible
     ]
     parts.append(
-        "<h3>治理 / 能力 / 局限（全部项目）</h3>"
+        "<h3>治理 / 能力 / 局限（达标域项目）</h3>"
         + _table(
             (
                 "仓库",

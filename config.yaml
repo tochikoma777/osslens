@@ -114,6 +114,20 @@ pool:
         # 只收"agent 基础设施"：沙箱 / 协议 / 编排 / 运行时；排除个人助理、聊天壳与教程
         require: [sandbox, protocol, orchestration, runtime, tool-use, multi-agent framework]
         exclude: [assistant, chatbot, copilot, personal, desktop, browser, awesome, tutorial, course, book, list, prompt]
+      # ★ 技术选型扩域（P2）：下面四题用于扩大选型覆盖面，搜索零 LLM；
+      #   放行仍由 hot/classic 门槛决定，Discovery 只扩大候选。
+      - q: "topic:database stars:>=5000"
+        require: [database, postgres, mysql, sqlite, redis, clickhouse, mongodb, elasticsearch, storage, olap]
+        exclude: [awesome, tutorial, course, book, client, driver, list]
+      - q: "topic:frontend stars:>=5000"
+        require: [frontend, react, vue, svelte, angular, ui, component, web, nextjs]
+        exclude: [awesome, tutorial, course, book, template, boilerplate, list]
+      - q: "topic:build-system stars:>=5000"
+        require: [build, bundler, compiler, cargo, bazel, vite, webpack, toolchain, monorepo]
+        exclude: [awesome, tutorial, course, book, example, list]
+      - q: "topic:message-queue stars:>=5000"
+        require: [queue, kafka, rabbitmq, pulsar, streaming, broker, pubsub, messaging]
+        exclude: [awesome, tutorial, course, book, client, list]
     per_page: 20
     # 与每周分析配额（fast=5）匹配：每日最多新增 1 个，避免池子膨胀快于分析能力
     max_new_per_run: 1
@@ -163,6 +177,15 @@ domains:
     match_any: [agent, langgraph, autogen, crewai]
   - id: training
     match_any: [training, deepspeed, megatron, trainer]
+  # ★ 技术选型扩域（P2）：追加在既有域之后，`domain_for` 取首个命中，不影响原归类。
+  - id: database
+    match_any: [database, postgres, mysql, sqlite, redis, clickhouse, mongodb, elasticsearch, storage, olap]
+  - id: frontend
+    match_any: [frontend, react, vue, svelte, angular, nextjs, vite, ui, component]
+  - id: build
+    match_any: [bundler, webpack, bazel, cargo, toolchain, monorepo, build-system]
+  - id: messaging
+    match_any: [kafka, rabbitmq, pulsar, queue, streaming, broker, pubsub, messaging]
 
 # L3 / S1 四项触发阈值（规律库与范围配置 §E；设计方案 v1.5 §10 精确化为簇内 ≥6）
 abstract:

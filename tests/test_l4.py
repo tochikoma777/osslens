@@ -581,8 +581,19 @@ def test_timeline_groups_reports_by_month(tmp_path: Path) -> None:
 # --------------------------------------------------------------------------- 技术选型视图
 
 
-def test_selection_view_is_evidence_only_and_missing_safe(tmp_path: Path) -> None:
+def _selection_workspace(tmp_path: Path) -> Path:
+    """构造同域 5 张特征卡（vllm → inference），越过选型视图最小样本门槛。"""
     root = _workspace(tmp_path)
+    layout = Layout(root)
+    for index in range(1, 6):
+        (layout.featcards_dir / f"vllm__proj{index}__c.json").write_text(
+            json.dumps(_card(f"vllm-project/proj{index}")), encoding="utf-8"
+        )
+    return root
+
+
+def test_selection_view_is_evidence_only_and_missing_safe(tmp_path: Path) -> None:
+    root = _selection_workspace(tmp_path)
     files = _build(root, tmp_path / "site")
     page = html_lib.unescape(files["selection.html"])
     # 覆盖声明 + 字段路径即来源（列名就是特征卡字段路径）
@@ -603,7 +614,7 @@ def test_selection_view_is_evidence_only_and_missing_safe(tmp_path: Path) -> Non
 
 
 def test_selection_view_is_deterministic(tmp_path: Path) -> None:
-    root = _workspace(tmp_path)
+    root = _selection_workspace(tmp_path)
     first = _build(root, tmp_path / "site-a")["selection.html"]
     second = _build(root, tmp_path / "site-b")["selection.html"]
     assert first == second
@@ -615,3 +626,11 @@ def test_selection_view_empty_state(tmp_path: Path) -> None:
         path.unlink()
     page = html_lib.unescape(_build(root, tmp_path / "site")["selection.html"])
     assert "暂无特征卡" in page
+
+
+def test_selection_view_hides_under_sample_domains(tmp_path: Path) -> None:
+    """反向用例：样本不足 5 的域不得出现在选型视图（门槛真的生效）。"""
+    root = _workspace(tmp_path)  # 2 张未归类卡，均不达门槛
+    page = html_lib.unescape(_build(root, tmp_path / "site")["selection.html"])
+    assert "各域有效样本均不足 5 张" in page
+    assert "10000" not in page
