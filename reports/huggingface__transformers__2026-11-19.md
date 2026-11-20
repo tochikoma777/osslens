@@ -1,7 +1,7 @@
 # huggingface/transformers 深度分析
 
-> 阅读档位：架构学习（profile=architecture_learning）
-> 注意力预算：定位 20 / 架构 30 / 抽象 15 / ADR 20 / 扩展 5 / 经验卡 10 / 工程维护 0
+> 阅读档位：选型尽调（profile=adoption_due_diligence）
+> 注意力预算：定位 15 / 架构 15 / 抽象 10 / ADR 10 / 扩展 5 / 经验卡 0 / 工程维护 45
 > 证据约定：[事实] 确定性提取 · [判断] 有 file:line 或文档锚点 · [未获得] 当前未采集
 
 ## 导读
@@ -17,7 +17,7 @@
 
 [事实] 项目自述：🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training.。
 
-[事实] README 摘要：[未获得] 本次未获得可用 README 文本。
+[事实] README 摘要：Copyright 2023 The HuggingFace Team. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.。
 
 - **目标用户**：[判断] 模型工程师 / 推理基础设施开发者；应用与平台开发者
 - **替代方案与差异**：[未获得] 本次未采集竞品对比与 roadmap，不得据此推断「没有替代品」。
@@ -61,7 +61,34 @@ graph TD
 
 ## 4. 关键设计决策（ADR）
 
-[未获得] 本次未产出带证据的取舍；ADR 至少 3 条的要求未满足，不用通用判断填充。
+每条固定六字段：决策 / 替代 / 代价 / 证据 / 可复用规则 / 边界·反模式。
+
+### ADR-1 · t1: 官方示例以外部 notebooks 仓库托管，主仓只留索引
+
+- **决策**：官方示例以外部 notebooks 仓库托管，主仓只留索引
+- **替代**：把可执行 notebook 直接放进主仓
+- **代价**：示例与库版本易脱节，需额外同步
+- **证据**：`notebooks/README.md:20`
+- **可复用规则**：示例代码外置到独立仓库，主仓仅维护链接索引以控制体积
+- **边界/反模式**：示例需与主仓同版本强绑定时不适用，易产生版本漂移
+
+### ADR-2 · t2: 文档页提供 Colab/AWS/AMD 多平台一键入口
+
+- **决策**：文档页提供 Colab/AWS/AMD 多平台一键入口
+- **替代**：只提供单一云平台运行入口
+- **代价**：维护多平台链接矩阵，链接失效风险上升
+- **证据**：`notebooks/README.md:26`
+- **可复用规则**：文档入口按多云平台并列提供，降低用户环境绑定
+- **边界/反模式**：仅面向单一自建集群的内部项目无需多平台入口
+
+### ADR-3 · t3: 量化与推理优化交给 Optimum/ONNX Runtime 扩展
+
+- **决策**：量化与推理优化交给 Optimum/ONNX Runtime 扩展
+- **替代**：在主库内自建量化与图优化实现
+- **代价**：优化能力分散到外部包，版本兼容需协调
+- **证据**：`notebooks/README.md:88`
+- **可复用规则**：核心库只做模型与API，性能优化下沉到扩展包
+- **边界/反模式**：对开箱即用性能有硬要求的场景，外置优化会增加集成成本
 
 ## 5. 扩展与改造路径
 
@@ -78,21 +105,45 @@ graph TD
 
 ## 6. 经验卡
 
-[未获得] 本次没有带「可迁移规则」的条目（模型未输出 rule，或命中旧缓存）；经验卡留空，不用「要注重解耦」这类通用建议充数。
+### 经验 1 · 示例代码外置到独立仓库，主仓仅维护链接索引以控制体积
+
+- **证据**：`notebooks/README.md:20`（来自 huggingface/transformers）
+- **适用边界**：示例需与主仓同版本强绑定时不适用，易产生版本漂移
+- **反模式**：在边界之外照搬「官方示例以外部 notebooks 仓库托管，主仓只留索引」，代价会变成「示例与库版本易脱节，需额外同步」
+- **如果我来做**：先确认边界成立，再选择「官方示例以外部 notebooks 仓库托管，主仓只留索引」而非「把可执行 notebook 直接放进主仓」
+
+### 经验 2 · 文档入口按多云平台并列提供，降低用户环境绑定
+
+- **证据**：`notebooks/README.md:26`（来自 huggingface/transformers）
+- **适用边界**：仅面向单一自建集群的内部项目无需多平台入口
+- **反模式**：在边界之外照搬「文档页提供 Colab/AWS/AMD 多平台一键入口」，代价会变成「维护多平台链接矩阵，链接失效风险上升」
+- **如果我来做**：先确认边界成立，再选择「文档页提供 Colab/AWS/AMD 多平台一键入口」而非「只提供单一云平台运行入口」
+
+### 经验 3 · 核心库只做模型与API，性能优化下沉到扩展包
+
+- **证据**：`notebooks/README.md:88`（来自 huggingface/transformers）
+- **适用边界**：对开箱即用性能有硬要求的场景，外置优化会增加集成成本
+- **反模式**：在边界之外照搬「量化与推理优化交给 Optimum/ONNX Runtime 扩展」，代价会变成「优化能力分散到外部包，版本兼容需协调」
+- **如果我来做**：先确认边界成立，再选择「量化与推理优化交给 Optimum/ONNX Runtime 扩展」而非「在主库内自建量化与图优化实现」
 
 ## 附录 A 证据索引与未知项
 
 ### A1. 代码证据索引
 
-—
+| id | 决策 | 证据 |
+|---|---|---|
+| t1 | 官方示例以外部 notebooks 仓库托管，主仓只留索引 | `notebooks/README.md:20` |
+| t2 | 文档页提供 Colab/AWS/AMD 多平台一键入口 | `notebooks/README.md:26` |
+| t3 | 量化与推理优化交给 Optimum/ONNX Runtime 扩展 | `notebooks/README.md:88` |
 
-> 未产出洞见：off 档不发起模型请求
+- 置信度：med
+- 架构范式标签：广适配、模块化
 
 ### A2. 外部资料
 
 - 来源：deepwiki
 - url：https://deepwiki.com/huggingface/transformers
-- fetched_at：2026-11-19T19:27:02Z
+- fetched_at：2026-11-20T16:22:38Z
 - sha256：`b3bbdb442258c607c6d87bdf8c22e4f6789bf36e96c50fd5a42b59ac6d02719d`
 - 判定：hit — 正文含 3 个仓库内真实路径（阈值 3）
 - 原文快照：`source.txt`（与判定元数据分文件存放）
@@ -143,31 +194,32 @@ graph TD
 | 分析基准时间 (as-of) | 2026-11-19T15:09:20Z |
 | 通道 / 领域 | classic / 未指定 |
 | 请求档位 (requested_depth) | fast |
-| **实际档位** (actual_depth) | off（降级：本周配额已用满） |
-| 降级原因 (reason) | weekly_quota_exhausted — 本周配额已用满 |
+| **实际档位** (actual_depth) | fast |
+| 降级原因 (reason) | manual_override — 人工 override |
 | 配额状态 (quota_state) | strong 0/1、fast 15/5（周起点 2026-11-16）；tokens 周 220299/2000000、月 330449/6000000（月起点 2026-11-01） |
 | 快照 sha256 | `24569a53289f16c471796562f45a9ab7359e5907d7befb03ed0fa976657185af` |
-| 成本说明 | 本次 —（未调用）；输入 0 tok / 命中 0 tok / 输出 0 tok |
-| 累计 | 本周 ¥0.4141 / 220,299 tok；本月 ¥1.0014 / 330,449 tok |
+| 成本说明 | 本次 ¥0.0289（模型调用 1 次）；输入 13,478 tok / 命中 256 tok / 输出 311 tok |
+| 累计 | 本周 ¥0.4430 / 234,088 tok；本月 ¥1.0303 / 344,238 tok |
 | 单价 | deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半） |
 | 口径 | 本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug |
 
 **档位决策链路**：
 
-1. L1 通道基线：classic → strong；自动链按 auto_default=fast 取更省档位 → fast（非 L4 人工 override）
+1. L4 人工 override：--depth fast（绕过 L1 基线 / L2 配额）
 2. 凭据：齐全
-3. L2 周配额：fast 已用 15/5 → 降级
+3. L2 周配额：人工 override 绕过（本周 strong 0/1、fast 15/5）
+4. L3 预算：估算 8831 × 安全系数 1.3 = 11480 tok（单选上限 120000），周 220299/2000000
+5. 结论：实际档位 fast（人工 override）
 
 **上下文组装**（裁剪发生在调用之前）：
 
 | 块 | 优先级 | 估算 token |
 |---|---|---|
-| featcard | 1 | — |
-| readme | 2 | — |
-| source_files | 4 | — |
+| featcard | 1 | 1,558 |
+| readme | 2 | 7,273 |
 
-- 丢弃：—（off 档不组装上下文，未发起任何模型请求）
-- 合计 0 / 上限 120000
+- 丢弃：—
+- 合计 8,831 / 上限 120,000
 
 ### B5. 特征卡摘要
 

@@ -59,8 +59,9 @@ depth:
   auto_default: fast
 
 # 报告阅读档位（v3）：architecture_learning | adoption_due_diligence | contributor_onboarding
+# 2026-11-20 起切到选型尽调：配合技术选型视图（selection.html），重心转向工程维护与适配风险。
 report:
-  profile: architecture_learning
+  profile: adoption_due_diligence
 
 # 路径 B / 自动链：两次「自动真实分析」之间的最小间隔（天）。
 # ★ 这是「真实分析 / 真实花钱」的间隔，不是任务唤醒频率：定时器可以每天到点检查，

@@ -1,0 +1,10 @@
+{
+  "fetched_at": "2026-11-20T16:22:38Z",
+  "paths_found": 3,
+  "raw_relpath": "source.txt",
+  "reason": "正文含 3 个仓库内真实路径（阈值 3）",
+  "sha256": "b3bbdb442258c607c6d87bdf8c22e4f6789bf36e96c50fd5a42b59ac6d02719d",
+  "source": "deepwiki",
+  "status": "hit",
+  "url": "https://deepwiki.com/huggingface/transformers"
+}

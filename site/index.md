@@ -29,7 +29,7 @@
 | deepseek-ai/DeepEP | 2026-11-18T00:00:00Z | fast | [报告页](report-deepseek-ai__DeepEP__2026-11-18.html) · [源 MD](../reports/deepseek-ai__DeepEP__2026-11-18.md) |
 | deepseek-ai/FlashMLA | 2026-11-18T00:00:00Z | fast | [报告页](report-deepseek-ai__FlashMLA__2026-11-18.html) · [源 MD](../reports/deepseek-ai__FlashMLA__2026-11-18.md) |
 | huggingface/text-generation-inference | 2026-11-18T00:00:00Z | fast | [报告页](report-huggingface__text-generation-inference__2026-11-18.html) · [源 MD](../reports/huggingface__text-generation-inference__2026-11-18.md) |
-| huggingface/transformers | 2026-11-19T15:09:20Z | off（降级：本周配额已用满） | [报告页](report-huggingface__transformers__2026-11-19.html) · [源 MD](../reports/huggingface__transformers__2026-11-19.md) |
+| huggingface/transformers | 2026-11-19T15:09:20Z | fast | [报告页](report-huggingface__transformers__2026-11-19.html) · [源 MD](../reports/huggingface__transformers__2026-11-19.md) |
 | microsoft/onnxruntime | 2026-11-17T00:00:00Z | fast | [报告页](report-microsoft__onnxruntime__2026-11-17.html) · [源 MD](../reports/microsoft__onnxruntime__2026-11-17.md) |
 | sgl-project/sglang | 2026-11-18T00:00:00Z | fast | [报告页](report-sgl-project__sglang__2026-11-18.html) · [源 MD](../reports/sgl-project__sglang__2026-11-18.md) |
 | vllm-project/vllm | 2026-11-18T00:00:00Z | fast | [报告页](report-vllm-project__vllm__2026-11-18.html) · [源 MD](../reports/vllm-project__vllm__2026-11-18.md) |
