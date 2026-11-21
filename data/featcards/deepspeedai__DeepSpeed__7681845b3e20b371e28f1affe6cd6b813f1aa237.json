@@ -1,0 +1,373 @@
+{
+  "cache": {
+    "evidence": {
+      "paged": [
+        {
+          "file": "blogs/deepspeed-fastgen/README.md",
+          "line": 26,
+          "snippet": "To this end, frameworks like [vLLM](https://arxiv.org/pdf/2309.06180.pdf) powered by PagedAttention and research systems"
+        },
+        {
+          "file": "blogs/deepspeed-fastgen/README.md",
+          "line": 51,
+          "snippet": "vLLM identified that memory fragmentation due to large monolithic KV-caches significantly reduced the concurrency of LLM"
+        },
+        {
+          "file": "blogs/deepspeed-fastgen/chinese/README.md",
+          "line": 26,
+          "snippet": "为了解决这一问题， [vLLM](https://arxiv.org/pdf/2309.06180.pdf) 这样由 PagedAttention 驱动的框架和 [Orca](https://www.usenix.org/system/fi"
+        }
+      ]
+    },
+    "hits": {
+      "kv_offload": false,
+      "paged": true,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [
+      "ampere",
+      "hopper"
+    ],
+    "kernel_langs": [
+      "cuda",
+      "hip"
+    ],
+    "lock_in_score": null,
+    "vendors": [
+      "amd",
+      "ascend",
+      "nvidia"
+    ]
+  },
+  "identity": {
+    "age_days": 2494,
+    "analyzed_at": "2026-11-21T11:09:11Z",
+    "channel": "classic",
+    "commit": "7681845b3e20b371e28f1affe6cd6b813f1aa237",
+    "created_at": "2020-01-23T18:35:18Z",
+    "repo": "deepspeedai/DeepSpeed"
+  },
+  "lang": {
+    "shares": {
+      "Batchfile": 0.0,
+      "C": 0.0027,
+      "C++": 0.1142,
+      "Cuda": 0.0545,
+      "Dockerfile": 0.0006,
+      "Makefile": 0.0001,
+      "Metal": 0.0002,
+      "Python": 0.8253,
+      "Shell": 0.0024
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {
+      "DP": [
+        {
+          "file": "README.md",
+          "line": 245,
+          "snippet": "21. Siddharth Singh, Olatunji Ruwase, Ammar Ahmad Awan, Samyam Rajbhandari, Yuxiong He, Abhinav Bhatele. (2023) A Hybrid"
+        },
+        {
+          "file": "README.zh.md",
+          "line": 227,
+          "snippet": "21. Siddharth Singh, Olatunji Ruwase, Ammar Ahmad Awan, Samyam Rajbhandari, Yuxiong He, Abhinav Bhatele. (2023) A Hybrid"
+        },
+        {
+          "file": "blogs/deepspeed-ulysses/README.md",
+          "line": 188,
+          "snippet": "models. Unlike the classic data parallel training of neural networks"
+        }
+      ],
+      "PP": [
+        {
+          "file": "blogs/deepspeed-ulysses/README.md",
+          "line": 53,
+          "snippet": "approach such as data, tensor and pipeline parallelism cannot address"
+        }
+      ],
+      "SP": [
+        {
+          "file": "README.md",
+          "line": 73,
+          "snippet": "***[DeepSpeed](https://www.deepspeed.ai/) enabled the world's most powerful language models (at the time of this writing"
+        },
+        {
+          "file": "blogs/deepspeed-ulysses/README.md",
+          "line": 50,
+          "snippet": "sequence parallelism) are limited in their ability to support the"
+        },
+        {
+          "file": "blogs/deepspeed-ulysses/README.md",
+          "line": 86,
+          "snippet": "sequence parallelism supports dense as well as sparse"
+        }
+      ],
+      "TP": [
+        {
+          "file": "README.md",
+          "line": 62,
+          "snippet": "<li>[2025/03] <a href=\"https://github.com/deepspeedai/DeepSpeed/blob/master/blogs/huggingface-tp/README.md\">DeepSpeed Au"
+        },
+        {
+          "file": "README.zh.md",
+          "line": 67,
+          "snippet": "<li>[2025/03] <a href=\"https://github.com/deepspeedai/DeepSpeed/blob/master/blogs/huggingface-tp/README.md\">DeepSpeed Au"
+        },
+        {
+          "file": "blogs/deepspeed-chat/README.md",
+          "line": 36,
+          "snippet": "(iii) ***DeepSpeed-RLHF System***: A robust and sophisticated RLHF system that combines the training and inference prowe"
+        }
+      ]
+    },
+    "hits": {
+      "CP": false,
+      "DP": true,
+      "EP": false,
+      "PP": true,
+      "SP": true,
+      "TP": true
+    }
+  },
+  "scale": {
+    "commits_365d": 703,
+    "commits_90d": 366,
+    "contributors": 433,
+    "forks": 5086,
+    "last_commit": "2026-11-21T07:08:14Z",
+    "open_issues": 1601,
+    "release_count_365d": 18,
+    "stars": 43348,
+    "top10_share": 0.5032,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.129,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "7681845b3e20b371e28f1affe6cd6b813f1aa237",
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "054bb04e127be6f93e75fc8bb20fa55976e90711e333d7d1291dc1c9b218d1a5"
+      },
+      {
+        "path": "README.zh.md",
+        "sha256": "df6c5deed59dcae319aa115707a87aa91a7873424f78bbcd504051929fb166d2"
+      },
+      {
+        "path": "blogs/deepspeed-chat/README.md",
+        "sha256": "0e54df042ffd1c4a1094973421ca7a2505b2ab71d109a39f5324c6ff1b5aced5"
+      },
+      {
+        "path": "blogs/deepspeed-chat/chinese/README.md",
+        "sha256": "41b83e80cf6270ee3ff116a381f1439f969713fafafab411cc621dc82a694296"
+      },
+      {
+        "path": "blogs/deepspeed-chat/ds-chat-release-8-31/README.md",
+        "sha256": "1d897b5fa9475bbdfdf9df023086421354105af5c79be42ffcf8c0f9f025e5fd"
+      },
+      {
+        "path": "blogs/deepspeed-chat/japanese/README.md",
+        "sha256": "c25fcf771651f4decedcb9066ba14e88b0b88d29b0eb5f5d818a07ffe7e37c27"
+      },
+      {
+        "path": "blogs/deepspeed-fastgen/2024-01-19/README.md",
+        "sha256": "a25913743e3d2c287bdc183e7a2965df2ab43a5669b23c77769c41b095efc70c"
+      },
+      {
+        "path": "blogs/deepspeed-fastgen/README.md",
+        "sha256": "fe0786415b0da8ab2c4801d085995c8cc0b1e9d1004ecbace74e5651f680e6fc"
+      },
+      {
+        "path": "blogs/deepspeed-fastgen/chinese/README.md",
+        "sha256": "ff07eb2fcc4c1f05c0c95f9c9b31b21923c3d933878b8cb3e18693b05cde2338"
+      },
+      {
+        "path": "blogs/deepspeed-fastgen/japanese/README.md",
+        "sha256": "d0f1989ab4b65bb5f489dd984673996f834fc047a8c71f0e37c2f667b9c71ef7"
+      },
+      {
+        "path": "blogs/deepspeed-ucp/japanese/README.md",
+        "sha256": "0fb836d8d6ccf5c6f0e46e810d30fe35df8dad8eb5ced06c316380b58613997c"
+      },
+      {
+        "path": "blogs/deepspeed-ulysses/README.md",
+        "sha256": "49d730cb416643bfd73eeae3217027ae00778ce604b58ea19be34588248e543b"
+      },
+      {
+        "path": "blogs/deepspeed-ulysses/japanese/README.md",
+        "sha256": "4ebeaa0917568d145f76cac3a6f28ca3862674f045b90833fd4030290af4eacf"
+      },
+      {
+        "path": "blogs/deepspeed-visualchat/10-03-2023/README-Japanese.md",
+        "sha256": "d3e07205ca21c69302f80b136ad8153ec93b5d9eb8b413c85faac99cca64bf5a"
+      },
+      {
+        "path": "blogs/deepspeed-visualchat/10-03-2023/README.md",
+        "sha256": "30b4baffbf8f8141943cf8573880496b1272c425b32188cae569f30d235b0985"
+      },
+      {
+        "path": "blogs/deepspeed4science/chinese/README.md",
+        "sha256": "afbe8d12077c8a4f19c50ec4a63ff1628f371d4d5bb76c2581713d0e56b37c94"
+      },
+      {
+        "path": "blogs/deepspeed4science/japanese/README.md",
+        "sha256": "5c08251480d6a3999ea006d6a3c7733e4079700a92750ec8c61c2d7a369b6809"
+      },
+      {
+        "path": "blogs/zeropp/japanese/README.md",
+        "sha256": "8b87258f1d03a3e8f97b28f1caab139ba078f3decbb25da6e366c2d688927939"
+      },
+      {
+        "path": "deepspeed/autotuning/README.md",
+        "sha256": "a522b1a18f195a4f8df18ad4b4a412e25fdf7973b1637e8bd8aae8c243a42de6"
+      },
+      {
+        "path": "deepspeed/profiling/flops_profiler/README.md",
+        "sha256": "b58a9494b8369d71fc3b5fd4b23f6837e0eccbad70096a72e24bf1973acb0635"
+      }
+    ],
+    "tarball_sha256": "2e06d81cf820617e5ac4de3f7d77fb59c61cd284d7122853c23b04857b3c9626"
+  },
+  "structure": {
+    "bytes": 256429585,
+    "entrypoints": [],
+    "files": 2140,
+    "loc_total": null,
+    "max_depth": 8,
+    "monorepo": false,
+    "top_modules": [
+      {
+        "bytes": 195096951,
+        "files": 220,
+        "path": "blogs"
+      },
+      {
+        "bytes": 45244590,
+        "files": 299,
+        "path": "docs"
+      },
+      {
+        "bytes": 6544558,
+        "files": 751,
+        "path": "deepspeed"
+      },
+      {
+        "bytes": 6048373,
+        "files": 421,
+        "path": "tests"
+      },
+      {
+        "bytes": 2061626,
+        "files": 201,
+        "path": "csrc"
+      },
+      {
+        "bytes": 317067,
+        "files": 12,
+        "path": "examples"
+      },
+      {
+        "bytes": 270900,
+        "files": 103,
+        "path": "op_builder"
+      },
+      {
+        "bytes": 236686,
+        "files": 13,
+        "path": "ci"
+      },
+      {
+        "bytes": 225511,
+        "files": 39,
+        "path": ".github"
+      },
+      {
+        "bytes": 161686,
+        "files": 28,
+        "path": "."
+      },
+      {
+        "bytes": 143314,
+        "files": 13,
+        "path": "accelerator"
+      },
+      {
+        "bytes": 31048,
+        "files": 1,
+        "path": ".agents"
+      },
+      {
+        "bytes": 15872,
+        "files": 3,
+        "path": "benchmarks"
+      },
+      {
+        "bytes": 15703,
+        "files": 6,
+        "path": "scripts"
+      },
+      {
+        "bytes": 9980,
+        "files": 4,
+        "path": "docker"
+      },
+      {
+        "bytes": 2469,
+        "files": 3,
+        "path": "release"
+      },
+      {
+        "bytes": 2225,
+        "files": 11,
+        "path": "bin"
+      },
+      {
+        "bytes": 710,
+        "files": 10,
+        "path": "requirements"
+      },
+      {
+        "bytes": 283,
+        "files": 1,
+        "path": "azure"
+      },
+      {
+        "bytes": 33,
+        "files": 1,
+        "path": ".claude"
+      }
+    ]
+  }
+}
