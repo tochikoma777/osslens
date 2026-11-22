@@ -1,0 +1,582 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "MIT",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": []
+  },
+  "identity": {
+    "age_days": 1874,
+    "analyzed_at": "2026-11-22T11:29:53Z",
+    "channel": "classic",
+    "commit": "b911d19d45f60c96cb33c756b6e238ad4d32bb73",
+    "created_at": "2021-10-05T17:37:11Z",
+    "repo": "vercel/turborepo"
+  },
+  "lang": {
+    "shares": {
+      "Assembly": 0.0,
+      "Batchfile": 0.0,
+      "C": 0.0,
+      "CSS": 0.0004,
+      "Cap'n Proto": 0.0001,
+      "Dockerfile": 0.0002,
+      "Go": 0.0006,
+      "Go Template": 0.0,
+      "HTML": 0.0012,
+      "Handlebars": 0.0,
+      "JavaScript": 0.0327,
+      "Jinja": 0.0,
+      "Just": 0.0,
+      "MDX": 0.0363,
+      "Makefile": 0.0001,
+      "Mustache": 0.0,
+      "PowerShell": 0.0008,
+      "Python": 0.0001,
+      "RenderScript": 0.0,
+      "RouterOS Script": 0.0014,
+      "Rust": 0.8657,
+      "Shell": 0.0006,
+      "TypeScript": 0.06,
+      "WGSL": 0.0
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 2000,
+    "commits_90d": 976,
+    "contributors": 449,
+    "forks": 2503,
+    "last_commit": "2026-11-20T22:34:37Z",
+    "open_issues": 43,
+    "release_count_365d": 100,
+    "stars": 31389,
+    "top10_share": 0.7362,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.2513,
+    "days_since_commit": 2,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "b911d19d45f60c96cb33c756b6e238ad4d32bb73",
+    "files": [
+      {
+        "path": "apps/factory/README.md",
+        "sha256": "8a6db11449120e586492a2c0c8cfaaace34dedaa00099387ee72750a7595ab0a"
+      },
+      {
+        "path": "crates/turborepo-repository/README.md",
+        "sha256": "900ff09b53219fdf1ce0c87dc94b989b3d8a0b6eee4d17195942c5cb118aa379"
+      },
+      {
+        "path": "crates/turborepo-run-summary/README.md",
+        "sha256": "5f84a6632eb15bcebb55646d1526f4751a2aebcd628ce9408940b4fb7bc0e393"
+      },
+      {
+        "path": "crates/turborepo-trace-core/README.md",
+        "sha256": "60418096a3de76821ad4630655587e958bc92f587fabb51d0156db03e270cb59"
+      },
+      {
+        "path": "crates/turborepo-trace-graph/README.md",
+        "sha256": "93175bfd65915d45f629b554273faa7dd8c8e105a7d5dd56fad00ea538280d8b"
+      },
+      {
+        "path": "crates/turborepo-trace-tasks/README.md",
+        "sha256": "207bb4c8b0b0afd09fbb8ded4a527ecc6daa5a8beca5368d6fcb41ec8bf6c51f"
+      },
+      {
+        "path": "crates/turborepo-trace-testkit/fixtures/js/nft/README.md",
+        "sha256": "bc2a695a6bb7b7c1577cc941dd790e990d59d05b4ad07ab7ad96a3a5431f7032"
+      },
+      {
+        "path": "crates/turborepo-trace-testkit/fixtures/js/resolve/README.md",
+        "sha256": "40cc193db5c9222cc81b527e3c134ea8f4c81c753994cff2ef40e02518b8f89b"
+      },
+      {
+        "path": "examples/basic/README.md",
+        "sha256": "baac8504a08a3f0594d7b2417ffac8c879c0bcd6e47bfcb62e65abb1b242d2e4"
+      },
+      {
+        "path": "examples/design-system/README.md",
+        "sha256": "16eb5a851bfba7f3ae417b015ee33546367e545e16b4b52a42fd2a0b563a5a12"
+      },
+      {
+        "path": "examples/with-microfrontends/README.md",
+        "sha256": "c02611faa4e337c02541f9daf67f45aa220d200b05b8c6bd481185c2cfa2f5de"
+      },
+      {
+        "path": "examples/with-nestjs/README.md",
+        "sha256": "c59f2afd263b3a1e17fcfeeddfc958b92ac367a073c337b1e17c60e2506ec68c"
+      },
+      {
+        "path": "examples/with-nextjs-elysia/README.md",
+        "sha256": "8874d684af720a2ebb6147400b297c1c99f0d8c8bce3da0096dbc62d4798c45b"
+      },
+      {
+        "path": "examples/with-otel/README.md",
+        "sha256": "28e45542ab53b88aa0dc41b9cfce9c9eece46d1b6f6fc3b05d3846c1daad80a5"
+      },
+      {
+        "path": "examples/with-prisma/README.md",
+        "sha256": "7e197ab7bc6c672282639726ea16b8db639fde5ad2251e00a3655447e46e7edf"
+      },
+      {
+        "path": "examples/with-typeorm/README.md",
+        "sha256": "7ba428bc511a7e3d8a2be0ae92192444ca0a4cf3b422193e84c81176dba16b4a"
+      },
+      {
+        "path": "examples/with-vitest/README.md",
+        "sha256": "3bd74bdda93bbe58b2d1157e73fca87b1de17973202824a7aa310db3ef8053e1"
+      },
+      {
+        "path": "lockfile-tests/fixtures/issue-13421/README.md",
+        "sha256": "8a6b2a1aaa04b860d0705f9c4fe830ee23fafce6c3941c693ba3e9be4c274f31"
+      },
+      {
+        "path": "packages/turbo-ignore/README.md",
+        "sha256": "87d31b4ab4a90db78ef264c3630cf28f821a167e16d2bef11ce35996048be022"
+      },
+      {
+        "path": "packages/turbo-repository/js/README.md",
+        "sha256": "6319b046b09b9e505286b765cdfc7f193c49f91ef19449e116481cbf4f29e936"
+      }
+    ],
+    "tarball_sha256": "546183b50b74eadc68eb0325a8f445aad2f815dc50883a5cb3bbae841fea019a"
+  },
+  "structure": {
+    "bytes": 110117437,
+    "entrypoints": [
+      "crates/turbo-trace/src/main.rs",
+      "crates/turborepo-lsp/src/main.rs",
+      "crates/turborepo-schema-gen/src/main.rs",
+      "crates/turborepo-trace-lang-js/tests/xfile_oracle/cases/bare_concat/pkgs/p2/index.js",
+      "crates/turborepo-trace-lang-js/tests/xfile_oracle/cases/bare_prefix/pkgs/p2/index.js",
+      "crates/turborepo-trace-lang-js/tests/xfile_oracle/cases/bare_resolved/pkgs/p2/index.js",
+      "crates/turborepo-trace-lang-js/tests/xfile_oracle/cases/nonstr_char/pkgs/p1/lib/index.js",
+      "crates/turborepo-trace-testkit/fixtures/frameworks/jest-basic/test-utils/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/frameworks/next-invoke/lib/actions/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/frameworks/next-invoke/lib/http/typed/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/frameworks/playwright-factory/apps/plain/node_modules/@playwright/test/index.js",
+      "crates/turborepo-trace-testkit/fixtures/go/basic/main.go",
+      "crates/turborepo-trace-testkit/fixtures/go/vendored/main.go",
+      "crates/turborepo-trace-testkit/fixtures/go/work/app/main.go",
+      "crates/turborepo-trace-testkit/fixtures/go/xlang/assets/main.go",
+      "crates/turborepo-trace-testkit/fixtures/go/xlang/conditional/main.go",
+      "crates/turborepo-trace-testkit/fixtures/go/xlang/discovery/main.go",
+      "crates/turborepo-trace-testkit/fixtures/go/xlang/evaluator/main.go",
+      "crates/turborepo-trace-testkit/fixtures/go/xlang/loaders/main.go",
+      "crates/turborepo-trace-testkit/fixtures/go/xlang/special/main.go",
+      "crates/turborepo-trace-testkit/fixtures/host-paths/services/agent/main.go",
+      "crates/turborepo-trace-testkit/fixtures/impact/_oracle/lib/shadow/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/bins/repo/packages/app/src/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/bins/repo/packages/other/src/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/bins/repo/packages/web/src/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/codegen-js/repo/_node_modules/.prisma/client/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/codegen-js/repo/_node_modules/@prisma/client/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/jest-config/repo/_node_modules/fake-http/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/jest-config/repo/_node_modules/left-pad-lite/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/lockfile/repo/_node_modules/dep-a/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/lockfile/repo/_node_modules/dep-b/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/lockfile/repo/_node_modules/dep-c/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/lockfile/repo/_node_modules/dep-d/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/make-targets/repo/src/generated/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/p2-tasks/repo/xtask/src/main.rs",
+      "crates/turborepo-trace-testkit/fixtures/impact/package-exports/repo/packages/lib/src/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/probe-shadow/repo/src/x/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/impact/tasks/repo/packages/db/src/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/tasks/repo/packages/other/src/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/tasks/repo/packages/ui/dist/index.js",
+      "crates/turborepo-trace-testkit/fixtures/impact/tasks/repo/packages/ui/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/impact/workspaces/repo/packages/app/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/impact/workspaces/repo/packages/core/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/impact/workspaces/repo/packages/other/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/impact/workspaces/repo/packages/util/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/browser-remappings-disabled/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/browser-remappings-false/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/browser-remappings-malformed/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/browser-remappings-malformed2/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/browser-remappings-string/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/browser-remappings-undefined/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/browser-remappings/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/dot-dot/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/exports-fallback/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/exports-only/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/exports-path/node_modules/apollo-upload-client/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/exports/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/file-folder-slash/file-folder/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/imports/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pino-transport-constructor/node_modules/my-pino-transport/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pino-transport-constructor/node_modules/pino/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pino-transport-fastify/node_modules/fastify/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pino-transport-fastify/node_modules/my-pino-transport/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pino-transport-fastify/node_modules/pino/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pino-transport-targets/node_modules/pino/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pino-transport-targets/node_modules/transport-a/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pino-transport-targets/node_modules/transport-b/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pino-transport/node_modules/my-pino-transport/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pino-transport/node_modules/pino/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pkg-dir-outside-base/node_modules/some-pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pkg-file-outside-base/node_modules/some-pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pnpm-symlinks/node_modules/.pnpm/parse5-htmlparser2-tree-adapter@6.0.1/node_modules/parse5-htmlparser2-tree-adapter/lib/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pnpm-symlinks/node_modules/.pnpm/parse5@6.0.1/node_modules/parse5/lib/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pnpm-symlinks/node_modules/.pnpm/parse5@6.0.1/node_modules/parse5/lib/parser/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pnpm-symlinks/node_modules/.pnpm/parse5@6.0.1/node_modules/parse5/lib/serializer/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/pnpm-symlinks/node_modules/.pnpm/parse5@6.0.1/node_modules/parse5/lib/tokenizer/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/prisma-photon/node_modules/@generated/photon/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/require-dot/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/ts-filter/node_modules/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/ts-filter/node_modules/pkg/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/js/nft/yarn-workspace-esm/packages/web/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/basic/node_modules/@scope/pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/basic/src/dir/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/dynamic/plugins/c/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/dynamic/plugins/node_modules/x/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/nft-assets/node_modules/wasm-pkg/lib/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/nft-conditions/listing/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/nft-conditions/node_modules/browser-pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/nft-conditions/node_modules/gyp-pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/nft-conditions/node_modules/gyp-pkg/node_modules/node-gyp-build/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/nft-loaders/lib-cov/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/nft-loaders/lib/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/nft-loaders/node_modules/ext-dep/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/nft-loaders/node_modules/my-transport/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/nft-loaders/node_modules/pino/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/nft-loaders/node_modules/resolve-from/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/outside/node_modules/shared/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/pnpm/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/pnpm/node_modules/.pnpm/bar@2.0.0/node_modules/bar/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/pnpm/node_modules/.pnpm/foo@1.0.0/node_modules/foo/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/.prisma/client/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/@prisma/client/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/abi-pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/better-sqlite3/lib/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/direct-addon/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/gyp-pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/msgpackr-extract/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/nobin-pkg/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/node-gyp-build-optional-packages/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/node-gyp-build/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/pregyp-pkg/lib/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/semver/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/special/node_modules/sharp/lib/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/tsconfig-js/jsapp/src/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/workspace-linked/linked/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/workspace/apps/web/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/workspace/node_modules/.pnpm/dep@1.0.0/node_modules/dep/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/workspace/packages/hoisted/index.js",
+      "crates/turborepo-trace-testkit/fixtures/js/resolve/workspace/packages/lib/index.js",
+      "crates/turborepo-trace-testkit/fixtures/next-e2e/components/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/rust/basic/app/src/main.rs",
+      "crates/turborepo-trace-testkit/fixtures/rust/registry/examples/demo/main.rs",
+      "crates/turborepo-trace-testkit/fixtures/rust/xlang/assets/src/main.rs",
+      "crates/turborepo-trace-testkit/fixtures/rust/xlang/conditional/src/main.rs",
+      "crates/turborepo-trace-testkit/fixtures/rust/xlang/discovery/src/main.rs",
+      "crates/turborepo-trace-testkit/fixtures/rust/xlang/evaluator/src/main.rs",
+      "crates/turborepo-trace-testkit/fixtures/rust/xlang/loaders/src/main.rs",
+      "crates/turborepo-trace-testkit/fixtures/rust/xlang/platform/src/main.rs",
+      "crates/turborepo-trace-testkit/fixtures/tasks/bins/linked/packages/app/src/index.js",
+      "crates/turborepo-trace-testkit/fixtures/tasks/bins/unlinked/packages/web/src/webgen/cli.py",
+      "crates/turborepo-trace-testkit/fixtures/tasks/cargo/crates/app/src/main.rs",
+      "crates/turborepo-trace-testkit/fixtures/tasks/cargo/xtask/src/main.rs",
+      "crates/turborepo-trace-testkit/fixtures/tasks/codegen/golang/tools/gen/main.go",
+      "crates/turborepo-trace-testkit/fixtures/tasks/data-inputs/packages/assets/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/data-inputs/packages/lib/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/data-inputs/packages/reporting/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/data-inputs/packages/tool/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/data-inputs/packages/typed/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/docker/compose/api/src/index.js",
+      "crates/turborepo-trace-testkit/fixtures/tasks/docker/compose/worker/src/main.py",
+      "crates/turborepo-trace-testkit/fixtures/tasks/docker/node-multistage/apps/web/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/docker/node-multistage/packages/ui/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/gha/.github/actions/js-action/dist/index.js",
+      "crates/turborepo-trace-testkit/fixtures/tasks/gha/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/just/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/make/go-project/cmd/server/main.go",
+      "crates/turborepo-trace-testkit/fixtures/tasks/nx/libs/legacy/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/nx/libs/ui/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/outputs/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/recognizers/bundlers/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/recognizers/run/cmd/server/main.go",
+      "crates/turborepo-trace-testkit/fixtures/tasks/recognizers/run/tools/gen/__main__.py",
+      "crates/turborepo-trace-testkit/fixtures/tasks/recognizers/ts/packages/lib/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/recognizers/ts/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/taskfile/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/tsc-root-opaque/packages/lib/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/tsc-solution/packages/icons/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/tsc-solution/packages/patched/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/tsc-solution/packages/ui/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/turbo-monorepo/packages/db/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/turbo-monorepo/packages/ui/src/index.ts",
+      "crates/turborepo-trace-testkit/fixtures/tasks/turbo-scope/packages/lib/src/index.ts",
+      "crates/turborepo-vercel-api-mock/src/main.rs",
+      "crates/turborepo/src/main.rs",
+      "examples/kitchen-sink/apps/api/src/index.ts",
+      "examples/kitchen-sink/packages/config-eslint/index.js",
+      "examples/kitchen-sink/packages/logger/src/index.ts",
+      "examples/with-docker/apps/api/src/index.ts",
+      "examples/with-docker/packages/logger/src/index.ts",
+      "examples/with-mcp-servers/apps/mcp-client/src/index.ts",
+      "examples/with-mcp-servers/packages/mcp-calculator/src/index.ts",
+      "examples/with-mcp-servers/packages/mcp-file-reader/src/index.ts",
+      "examples/with-mcp-servers/packages/oxlint-config/index.ts",
+      "examples/with-nextjs-elysia/packages/contract/src/drizzle/index.ts",
+      "examples/with-nextjs-elysia/packages/contract/src/index.ts",
+      "examples/with-nextjs-elysia/packages/contract/src/typebox/index.ts",
+      "examples/with-nextjs-elysia/packages/contract/src/utils/index.ts",
+      "examples/with-react-native-web/apps/native/index.js",
+      "examples/with-rsbuild/packages/rslint-config/index.ts",
+      "examples/with-rsbuild/packages/ui/components/index.ts",
+      "examples/with-rsbuild/packages/ui/index.ts",
+      "examples/with-solid/packages/eslint-config/index.js",
+      "examples/with-solid/packages/ui/index.ts",
+      "examples/with-solid/packages/ui/src/components/button/index.ts",
+      "examples/with-solid/packages/ui/src/config/primitives/index.ts",
+      "examples/with-solid/packages/ui/src/utils/index.ts",
+      "examples/with-svelte/apps/docs/src/lib/index.ts",
+      "examples/with-svelte/apps/web/src/lib/index.ts",
+      "examples/with-svelte/packages/eslint-config/index.js",
+      "examples/with-svelte/packages/ui/src/index.ts",
+      "examples/with-typeorm/packages/typeorm-service/src/index.ts",
+      "examples/with-vite-react/packages/eslint-config/index.js",
+      "examples/with-vite-react/packages/ui/components/index.ts",
+      "examples/with-vite-react/packages/ui/index.ts",
+      "examples/with-vite/packages/eslint-config/index.js",
+      "examples/with-vite/packages/ui/index.ts",
+      "examples/with-vitest/packages/vitest-config/src/index.ts",
+      "examples/with-vue-nuxt/packages/ui/index.ts",
+      "lockfile-tests/fixtures/bun-v1-issue-12653/packages/database/index.ts",
+      "lockfile-tests/fixtures/bun-v1-issue-12744/packages/database/index.ts",
+      "packages/create-turbo/src/commands/create/index.ts",
+      "packages/create-turbo/src/commands/index.ts",
+      "packages/create-turbo/src/transforms/index.ts",
+      "packages/eslint-config-turbo/src/flat/index.ts",
+      "packages/eslint-config-turbo/src/index.ts",
+      "packages/eslint-plugin-turbo/__fixtures__/framework-inference/apps/kitchen-sink/index.js",
+      "packages/eslint-plugin-turbo/__fixtures__/framework-inference/apps/nextjs/index.js",
+      "packages/eslint-plugin-turbo/__fixtures__/framework-inference/apps/vite/index.js",
+      "packages/eslint-plugin-turbo/__fixtures__/workspace-configs-reload/apps/docs/index.js",
+      "packages/eslint-plugin-turbo/__fixtures__/workspace-configs-reload/apps/web/index.js",
+      "packages/eslint-plugin-turbo/__fixtures__/workspace-configs-reload/packages/ui/index.js",
+      "packages/eslint-plugin-turbo/__fixtures__/workspace-configs/apps/docs/index.js",
+      "packages/eslint-plugin-turbo/__fixtures__/workspace-configs/apps/web/index.js",
+      "packages/eslint-plugin-turbo/__fixtures__/workspace-configs/packages/ui/index.js",
+      "packages/eslint-plugin-turbo/lib/index.ts",
+      "packages/turbo-codemod/__tests__/__fixtures__/migrate-dot-env/workspace-configs/apps/docs/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/migrate-dot-env/workspace-configs/apps/web/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/migrate-dot-env/workspace-configs/packages/ui/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/migrate-env-var-dependencies/workspace-configs/apps/docs/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/migrate-env-var-dependencies/workspace-configs/apps/web/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/migrate-env-var-dependencies/workspace-configs/packages/ui/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/rename-output-mode/workspace-configs/apps/docs/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/rename-output-mode/workspace-configs/apps/web/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/rename-output-mode/workspace-configs/packages/ui/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/rename-pipeline/workspace-configs/apps/docs/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/rename-pipeline/workspace-configs/apps/web/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/rename-pipeline/workspace-configs/packages/ui/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/set-default-outputs/workspace-configs/apps/docs/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/set-default-outputs/workspace-configs/apps/web/index.js",
+      "packages/turbo-codemod/__tests__/__fixtures__/set-default-outputs/workspace-configs/packages/ui/index.js",
+      "packages/turbo-codemod/src/commands/index.ts",
+      "packages/turbo-codemod/src/commands/migrate/index.ts",
+      "packages/turbo-codemod/src/commands/transform/index.ts",
+      "packages/turbo-codemod/src/runner/index.ts",
+      "packages/turbo-gen/src/commands/index.ts",
+      "packages/turbo-gen/src/commands/raw/index.ts",
+      "packages/turbo-gen/src/commands/run/index.ts",
+      "packages/turbo-gen/src/commands/workspace/index.ts",
+      "packages/turbo-gen/src/generators/index.ts",
+      "packages/turbo-ignore/__fixtures__/no-app/index.js",
+      "packages/turbo-releaser/src/index.ts",
+      "packages/turbo-repository/__tests__/fixtures/polyglot-monorepo/apps/web/index.js",
+      "packages/turbo-repository/__tests__/fixtures/polyglot-monorepo/python/api/main.py",
+      "packages/turbo-repository/js/index.js",
+      "packages/turbo-telemetry/src/index.ts",
+      "packages/turbo-test-utils/src/index.ts",
+      "packages/turbo-types/src/index.ts",
+      "packages/turbo-utils/__fixtures__/common/old-workspace-config/apps/docs/index.js",
+      "packages/turbo-utils/__fixtures__/common/old-workspace-config/apps/web/index.js",
+      "packages/turbo-utils/__fixtures__/common/old-workspace-config/packages/ui/index.js",
+      "packages/turbo-utils/__fixtures__/common/old-workspace-config/packages/utils/index.js",
+      "packages/turbo-utils/__fixtures__/common/workspace-configs/apps/docs/index.js",
+      "packages/turbo-utils/__fixtures__/common/workspace-configs/apps/web/index.js",
+      "packages/turbo-utils/__fixtures__/common/workspace-configs/packages/ui/index.js",
+      "packages/turbo-utils/__fixtures__/common/workspace-configs/packages/utils/index.js",
+      "packages/turbo-utils/src/index.ts",
+      "packages/turbo-workspaces/__fixtures__/invalid/index.js",
+      "packages/turbo-workspaces/src/commands/convert/index.ts",
+      "packages/turbo-workspaces/src/commands/index.ts",
+      "packages/turbo-workspaces/src/commands/summary/index.ts",
+      "packages/turbo-workspaces/src/index.ts",
+      "packages/turbo-workspaces/src/managers/index.ts",
+      "turborepo-tests/integration/fixtures/affected_tasks_inputs/packages/lib-a/index.ts",
+      "turborepo-tests/integration/fixtures/affected_tasks_inputs/packages/lib-no-test/index.ts",
+      "turborepo-tests/integration/fixtures/boundaries/apps/my-app/index.ts",
+      "turborepo-tests/integration/fixtures/boundaries/packages/another/nested-package/index.js",
+      "turborepo-tests/integration/fixtures/boundaries/packages/ship-types/index.ts",
+      "turborepo-tests/integration/fixtures/cargo_monorepo/crates/app/src/main.rs",
+      "turborepo-tests/integration/fixtures/cargo_pure_workspace/crates/app/src/main.rs",
+      "turborepo-tests/integration/fixtures/global_inputs/packages/app-a/index.js",
+      "turborepo-tests/integration/fixtures/global_inputs/packages/app-b/index.js",
+      "turborepo-tests/integration/fixtures/global_inputs/packages/shared-lib/index.js",
+      "turborepo-tests/integration/fixtures/go_e2e_workspace/apps/api/main.go",
+      "turborepo-tests/integration/fixtures/go_monorepo/apps/api/main.go",
+      "turborepo-tests/integration/fixtures/go_pure_workspace/apps/api/main.go",
+      "turborepo-tests/integration/fixtures/monorepo_with_shared_file_deps/apps/docs/src/index.js",
+      "turborepo-tests/integration/fixtures/monorepo_with_shared_file_deps/apps/web/src/index.js",
+      "turborepo-tests/integration/fixtures/monorepo_with_shared_file_deps/vendored/sdk/lib/index.js",
+      "turborepo-tests/integration/fixtures/oxc_repro/apps/web/nm/@repo/index.js",
+      "turborepo-tests/integration/fixtures/oxc_repro/index.js",
+      "turborepo-tests/integration/fixtures/oxc_repro/nm/index.js",
+      "turborepo-tests/integration/fixtures/oxc_repro/tooling/typescript-config/index.js",
+      "turborepo-tests/integration/fixtures/relationship_projection_contract/apps/app/index.js",
+      "turborepo-tests/integration/fixtures/relationship_projection_contract/packages/dev-lib/index.js",
+      "turborepo-tests/integration/fixtures/relationship_projection_contract/packages/optional-lib/index.js",
+      "turborepo-tests/integration/fixtures/relationship_projection_contract/packages/optional-peer/index.js",
+      "turborepo-tests/integration/fixtures/relationship_projection_contract/packages/prod-lib/index.js",
+      "turborepo-tests/integration/fixtures/relationship_projection_contract/packages/required-peer/index.js",
+      "turborepo-tests/integration/fixtures/relationship_projection_contract/packages/root-lib/index.js",
+      "turborepo-tests/integration/fixtures/relationship_projection_contract/packages/transitive-lib/index.js",
+      "turborepo-tests/integration/fixtures/trace_jest/packages/math/src/index.js",
+      "turborepo-tests/integration/fixtures/trace_vitest/packages/core/src/index.ts",
+      "turborepo-tests/integration/fixtures/turbo_trace_monorepo/apps/my-app/index.ts",
+      "turborepo-tests/integration/fixtures/turbo_trace_monorepo/packages/ship-types/index.ts",
+      "turborepo-tests/integration/fixtures/turbo_trace_monorepo/packages/utils/index.ts"
+    ],
+    "files": 10288,
+    "loc_total": null,
+    "max_depth": 15,
+    "monorepo": true,
+    "top_modules": [
+      {
+        "bytes": 56438231,
+        "files": 733,
+        "path": "apps"
+      },
+      {
+        "bytes": 31797258,
+        "files": 5123,
+        "path": "crates"
+      },
+      {
+        "bytes": 9202334,
+        "files": 1654,
+        "path": "examples"
+      },
+      {
+        "bytes": 8898075,
+        "files": 934,
+        "path": "lockfile-tests"
+      },
+      {
+        "bytes": 1939076,
+        "files": 798,
+        "path": "packages"
+      },
+      {
+        "bytes": 1261482,
+        "files": 31,
+        "path": "."
+      },
+      {
+        "bytes": 203103,
+        "files": 951,
+        "path": "turborepo-tests"
+      },
+      {
+        "bytes": 191180,
+        "files": 18,
+        "path": "scripts"
+      },
+      {
+        "bytes": 153965,
+        "files": 31,
+        "path": ".github"
+      },
+      {
+        "bytes": 10871,
+        "files": 5,
+        "path": "docs"
+      },
+      {
+        "bytes": 6832,
+        "files": 1,
+        "path": "plans"
+      },
+      {
+        "bytes": 6716,
+        "files": 2,
+        "path": "skills"
+      },
+      {
+        "bytes": 5709,
+        "files": 2,
+        "path": ".devcontainer"
+      },
+      {
+        "bytes": 1148,
+        "files": 2,
+        "path": ".config"
+      },
+      {
+        "bytes": 1107,
+        "files": 1,
+        "path": ".cargo"
+      },
+      {
+        "bytes": 286,
+        "files": 1,
+        "path": ".husky"
+      },
+      {
+        "bytes": 64,
+        "files": 1,
+        "path": "test-codemod"
+      }
+    ]
+  }
+}
