@@ -101,7 +101,7 @@ python -m osslens retention [--as-of ISO] [--apply] [--snapshots-only] [--json]
                                         # T5 保留策略（dry_run 默认）；--apply 归档 src/ 与 llm_cache/；
                                         # --snapshots-only 只做快照元数据 gzip（超 retention.snapshot_keep_days）
 python -m osslens site [--out DIR] [--as-of ISO] [--check] [--strict]
-                                        # L4 静态只读站点（零 LLM / 零网络 / ¥0；当前 23 产物 = 13 固定页 + 10 报告页，含选型视图）
+                                        # L4 静态只读站点（零 LLM / 零网络 / ¥0；当前 24 产物 = 13 固定页 + 11 报告页，含选型视图）
 ```
 
 全局参数 `--root DIR`：所有子命令共用，指定工作区根目录（默认当前目录，见 `osslens/cli.py` 顶层 `common` 解析器）。
@@ -145,7 +145,7 @@ pytest && ruff check . && ruff format --check . && mypy    # §7 门禁四连（
 `test_workflow_pathspec.py` 3 · `test_retention_cli.py` 2（T1）· `test_cross_domain.py` 9（T2）·
 `test_paradigm_site.py` 10（T3）。
 按领域改代码时优先跑对应文件，收尾仍须门禁四连。
-★ 锚文件 §8.2 已同步为 **v1.15 / 全仓 231**（2026-11-19，依 §0-A 由本 Agent 维护升版；② 恰 2 条 L3、③ 157 → 227、④ 快照 `.json.gz` 归档、⑥ 23 产物 / 哈希不硬编码 / schedule 已获得）。本文件与锚文件口径一致，**无待上报差异**。
+★ 锚文件 §8.2 已同步为 **v1.15 / 全仓 231**（2026-11-19，依 §0-A 由本 Agent 维护升版；② 恰 2 条 L3、③ 157 → 227、④ 快照 `.json.gz` 归档、⑥ 24 产物 / 哈希不硬编码 / schedule 已获得）。本文件与锚文件口径一致，**无待上报差异**。
 
 **环境变量**：`GITHUB_TOKEN` · `OSSLENS_LLM_API_KEY` · `OSSLENS_LLM_BASE_URL`
 （名称由 `config.yaml` 的 `github_token_env` / `llm.*_env` 指定，**代码不硬编码**）
@@ -266,7 +266,7 @@ site 链（L4）：cli._cmd_site → site.build_site（纯内存，只读真源�
 > `tests/test_l1.py` 共 25 条、`tests/test_l2.py` 共 17 条、`tests/test_l3.py` 共 43 条、`tests/test_l4.py` 共 29 条、`tests/test_auto_chain.py` 共 28 条、`tests/test_report_v3.py` 共 12 条、`tests/test_discovery.py` 共 13 条，**全仓 231 条**（实现轮 157 + 路径 B 自动化 29 + 审查整改 6 + 抽象修复 5 + 独立周期/时间线 2 + 报告 v2a 1 + 报告 v3 12 + 自动发现 7 + 空证据守卫 2 + pool.skip 4 + 主题轮转 2 + 技术选型视图 4）。
 > 核对命令：`pytest --collect-only -q | grep -E "three_class|not_applicable"`（**应输出 2 条 L3**）；
 > `pytest --collect-only -q | grep -E "template_page|real_content"`（**应仅输出 2 条 L1**，不得为 0）。
-> ★ 锚文件 `docs/经验库-冲突与覆盖清单.md` 已同步为 **v1.15**（2026-11-19，依 §0-A 由本 Agent 维护升版）：§8.2 ②「恰 2 条 L3」、③「全仓 231」、④ 快照 `.json.gz` 归档、⑥ 23 产物 / 哈希不硬编码 / `event=schedule` 已获得。锚点 ③ 是**状态型**事实，随阶段推进刷新、**不得把已 ✅ 存在的测试重置为「⬜ 待建」**（第 4 类锚点语义不变）。
+> ★ 锚文件 `docs/经验库-冲突与覆盖清单.md` 已同步为 **v1.15**（2026-11-19，依 §0-A 由本 Agent 维护升版）：§8.2 ②「恰 2 条 L3」、③「全仓 231」、④ 快照 `.json.gz` 归档、⑥ 24 产物 / 哈希不硬编码 / `event=schedule` 已获得。锚点 ③ 是**状态型**事实，随阶段推进刷新、**不得把已 ✅ 存在的测试重置为「⬜ 待建」**（第 4 类锚点语义不变）。
 > 若后续发现锚文件状态落后于仓库现实 → 依 §0-A 由本 Agent 直接同步升版，改后按 §8.2 核对六锚点（不再「停下上报等负责人」）。
 
 ---
@@ -459,7 +459,7 @@ site/                                              # L4 静态站（★ 可重�
 | `docs/数据源手册.md` | L0 验收后（**归并已有实测文件，不新造**） | ✅ 已建成 |
 | `docs/成本预算.md` | **L1 首次真实调用后**（L0 期间无真实花费，不建） | ✅ 已建成 |
 | `docs/经验固化.md`（工程侧） | 攒够第一条工程教训 | ✅ 已建成（E1–E13；E11 = D28 三态口径、E12 = HTML 转义断言、E13 = 分段验收 ≠ 端到端闭合） |
-| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护；旧归属表述依 §0-A 覆盖、原文保留） | ✅ 已建成（v1.15，2026-11-19 事实刷新：② 恰 2 条 L3 / ③ 全仓 231 / ④ 快照 gzip 归档 / ⑥ 23 产物 / 哈希不硬编码 / schedule 已获得；与仓库现实一致） |
+| `docs/经验库-冲突与覆盖清单.md` | 外部经验库裁决（项目负责人维护；旧归属表述依 §0-A 覆盖、原文保留） | ✅ 已建成（v1.15，2026-11-19 事实刷新：② 恰 2 条 L3 / ③ 全仓 231 / ④ 快照 gzip 归档 / ⑥ 24 产物 / 哈希不硬编码 / schedule 已获得；与仓库现实一致） |
 | `docs/总体架构设计.md` | 补充件（端到端流程 / 技术选型 / 路线图） | ✅ 已建成（v0.5） |
 | `docs/功能总览.md` | 收尾 | ✅ 已建成（2026-11-07，七部分全景定稿） |
 

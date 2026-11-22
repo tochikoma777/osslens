@@ -25,7 +25,7 @@ name: 路径 B 自动链（批次 A 静态落地）
 
 on:
   schedule:
-    - cron: "0 11 * * *"   # 候选值 / 待首次 event=schedule run 的 created_at 实测校准
+    - cron: "0 11 * * *"   # 已按 2026-11-14T16:56:51Z 实测校准保留，依据见文件头
   workflow_dispatch:
 
 permissions:

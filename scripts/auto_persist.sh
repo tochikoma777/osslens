@@ -12,6 +12,14 @@ message="${1:?用法: scripts/auto_persist.sh <commit-message>}"
 bot_name="osslens-bot"
 bot_email="osslens-bot@users.noreply.github.com"
 
+# ★ 流水线身份修复（2026-11-22 增量复核 F1）：下面 commit 用 `git -c` 只作用于
+#   单条命令；而 `git rebase`（第 2 步）重放提交时需要 committer identity，
+#   GitHub runner 未配置全局 user.name/email → "empty ident name" / exit 128
+#   （真实失败：run 44798310784 / 44598357662）。这里设仓库级身份，使 rebase
+#   与任何 hook 都有身份；不设全局，不影响 runner 上其它仓库。
+git config user.name "$bot_name"
+git config user.email "$bot_email"
+
 # 1) 真源先落本地提交（站点暂不提交，等 rebase 后重建）
 git add -- data/costs data/abstract patterns reports data/featcards
 if git diff --cached --quiet; then
