@@ -9,6 +9,7 @@
 - **合规重构（重大，不可逆）**：转 public 前用 `git filter-repo` 从全部历史剔除 `data/snapshots/**/src/`（243 文件 / 3.9 MB 第三方源码切片），规避许可证/署名再分发义务；`external/` 不可再生真源全部保留。146 commit 保留、git 33M→15M、tag l0–l5 重打并强推对齐。功能无影响：门禁绿、`site --check --strict` 一致（25 产物）、报告/站点 blob 不变；`test_l1.py:351` 因无真实切片按约定 skip（`230 passed, 1 skipped`）。
 - **MIT LICENSE**：新增 LICENSE（commit `05658c8`）。
 - **待办**：仓库仍 PRIVATE——fine-grained PAT 改可见性返回 HTTP 403，需负责人网页或 classic token 完成转 public。
+- **公开后复核（负责人已网页转 public）**：匿名 clone/API 确认当前分支+tag 无 src/、真源完整、无真实凭据。残留：GitHub 仍保留强推前旧对象，按旧 SHA 可取回源码切片（当前可见历史不可见）。**负责人决策：接受该低风险尾巴，等 GitHub 自动 GC**，不做 Support 请求/不逐仓库核 LICENSE。依据：残留内容是公开仓库源码、本可从上游合法获取，不构成信息泄露。详见 `docs/审查报告/审查报告-2026-11-22.md` §10.7–§10.8。
 
 ## [Unreleased] - 2026-11-19 · 发现主题轮转 + agent 基础设施
 
