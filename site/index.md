@@ -76,4 +76,5 @@
 | 9d48b541b01c45bb | cluster-abstraction | inference | insufficient_samples | 0 |
 | b5cb3f5d0c537be6 | cluster-abstraction | inference | insufficient_samples | 0 |
 | c43d3a8ae4f71995 | cluster-abstraction | inference | completed | 1 |
+| c4b2b75475267dea | cluster-abstraction | inference | insufficient_samples | 0 |
 | fc75b5c9e4428a22 | cluster-abstraction | inference | insufficient_samples | 0 |
