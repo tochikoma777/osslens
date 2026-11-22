@@ -1,0 +1,264 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [
+        [
+          "tools/pnnx/python/pnnx",
+          "tools/pnnx/python/pnnx/utils"
+        ]
+      ],
+      "nodes": [
+        "tools/pnnx/python/pnnx",
+        "tools/pnnx/python/pnnx/utils"
+      ],
+      "truncated": false
+    },
+    "internal_edge_count": 1,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "NOASSERTION",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [
+      "ampere"
+    ],
+    "kernel_langs": [
+      "cuda"
+    ],
+    "lock_in_score": null,
+    "vendors": [
+      "amd",
+      "nvidia"
+    ]
+  },
+  "identity": {
+    "age_days": 3432,
+    "analyzed_at": "2026-11-22T11:30:17Z",
+    "channel": "classic",
+    "commit": "eb8a50d2eddc02b914d17c7e99997936a2801bd5",
+    "created_at": "2017-06-30T10:55:37Z",
+    "repo": "Tencent/ncnn"
+  },
+  "lang": {
+    "shares": {
+      "Batchfile": 0.0,
+      "C": 0.3386,
+      "C++": 0.5634,
+      "CMake": 0.0068,
+      "GLSL": 0.045,
+      "Python": 0.0457,
+      "SWIG": 0.0,
+      "Shell": 0.0002
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 418,
+    "commits_90d": 177,
+    "contributors": 381,
+    "forks": 4559,
+    "last_commit": "2026-11-21T00:44:28Z",
+    "open_issues": 1320,
+    "release_count_365d": 3,
+    "stars": 24085,
+    "top10_share": 0.7931,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.6871,
+    "days_since_commit": 1,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "eb8a50d2eddc02b914d17c7e99997936a2801bd5",
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "451b1d36a188e88a8cf16f85b3de009973e2087c0a68d0aedc711649eb7af6a4"
+      },
+      {
+        "path": "benchmark/RankCards/README.md",
+        "sha256": "ee693eed7818d5d5ec66341e9357ff72c54fb905489ce32654f71745eed3db16"
+      },
+      {
+        "path": "examples/ppocrv5_dict.h",
+        "sha256": "bb1f547301014b93bd1182af8f472b7df75330e46a392ebdf5c57a8ebcf57c91"
+      },
+      {
+        "path": "examples/squeezencnn/README.md",
+        "sha256": "533cab3b4e1f6c6582d53e571d8454306d7eb775c6f305c49c96a1ab2821116f"
+      },
+      {
+        "path": "python/README.md",
+        "sha256": "a87416a81b8314c049d60fdb1bcaf801d2c4bbee8711864c77a6f68d79c4c3d8"
+      },
+      {
+        "path": "python/ncnn/__init__.py",
+        "sha256": "ef90c76a49b37e74b0cd89f1da9502e764ee6b24a8da44860f4af894dc5838fe"
+      },
+      {
+        "path": "python/ncnn/model_zoo/__init__.py",
+        "sha256": "4263c58822bfccf6dff564c317e7b6fb7c36126238152a2383a22d08ef1bd525"
+      },
+      {
+        "path": "python/ncnn/utils/__init__.py",
+        "sha256": "b225ecbc992bc63e54636ca4765c5d4116da6bdebcc4ca2b06e33234c3e65cb2"
+      },
+      {
+        "path": "tools/darknet/README.md",
+        "sha256": "eebe13398786909f30cf81e6df32d71477bb217389dfaa6027100bb6d7c29d31"
+      },
+      {
+        "path": "tools/keras/readme.md",
+        "sha256": "34bb3a47045ef70294e329bd40fce3a05328d54847b6f8c514c9983e617b80c5"
+      },
+      {
+        "path": "tools/onnx/README.md",
+        "sha256": "a18b9aafdd2b3a99eee80cbcb47f9ec2da19971a89c3c0fa3d48e7376727a357"
+      },
+      {
+        "path": "tools/plugin/README.md",
+        "sha256": "4924ba262e5b38351facd3ce9f6d2b013870e9d0d0d0201eb5363e87d2b885b7"
+      },
+      {
+        "path": "tools/pnnx/README.md",
+        "sha256": "cf29697ca0b1027c479250241512522fa445f721a578af285676cc2edae3dc16"
+      },
+      {
+        "path": "tools/pnnx/python/README.md",
+        "sha256": "af38eb2b86dbfcd9e8d9da79dc0d8a99cf5848cb851fe5311f725b4b6e43ce63"
+      },
+      {
+        "path": "tools/pnnx/python/pnnx/__init__.py",
+        "sha256": "654b854e7fcadbffce470cc0b66780497f656052a38461dee0e2dc01e80b82ba"
+      },
+      {
+        "path": "tools/pnnx/python/pnnx/utils/__init__.py",
+        "sha256": "08aaa19ed6db378400d22aae9fbf09f835c23052d493ae67069451bbe24a72b4"
+      },
+      {
+        "path": "tools/pnnx/src/pass_level2/README.md",
+        "sha256": "fd58a8dab6d698498ef41062ce215a9e2813da9c00a50c5d4b1c55402c30ad7f"
+      },
+      {
+        "path": "tools/pytorch/README.md",
+        "sha256": "5185dc1c3b00d03d4e8f7a8bc5c9b4dddb3301eefa586ee16d9da03eda6eac2d"
+      },
+      {
+        "path": "tools/quantize/README.md",
+        "sha256": "fbd7547867f4df0b79fd9bac98aba053fcb6bf56a4e2126a67f0238555ada01b"
+      },
+      {
+        "path": "tools/tensorflow/readme.txt",
+        "sha256": "44fb7c5e270cc480a11867d8fcdd55db8b4abcf345fd56f667a5300dbb50cb40"
+      }
+    ],
+    "tarball_sha256": "c4cdc048f7928dba5824737ba79697051262f6b0bd2d2fc406cec1a14fffb80e"
+  },
+  "structure": {
+    "bytes": 64293030,
+    "entrypoints": [
+      "benchmark/RankCards/main.cpp",
+      "python/src/main.cpp",
+      "tools/pnnx/src/main.cpp"
+    ],
+    "files": 4556,
+    "loc_total": null,
+    "max_depth": 6,
+    "monorepo": false,
+    "top_modules": [
+      {
+        "bytes": 40758930,
+        "files": 2138,
+        "path": "src"
+      },
+      {
+        "bytes": 10671124,
+        "files": 51,
+        "path": "examples"
+      },
+      {
+        "bytes": 7869722,
+        "files": 1799,
+        "path": "tools"
+      },
+      {
+        "bytes": 2010996,
+        "files": 229,
+        "path": "tests"
+      },
+      {
+        "bytes": 1591465,
+        "files": 58,
+        "path": "benchmark"
+      },
+      {
+        "bytes": 441628,
+        "files": 57,
+        "path": "docs"
+      },
+      {
+        "bytes": 347384,
+        "files": 51,
+        "path": ".github"
+      },
+      {
+        "bytes": 309369,
+        "files": 74,
+        "path": "python"
+      },
+      {
+        "bytes": 124249,
+        "files": 18,
+        "path": "."
+      },
+      {
+        "bytes": 117528,
+        "files": 60,
+        "path": "toolchains"
+      },
+      {
+        "bytes": 44201,
+        "files": 15,
+        "path": "cmake"
+      },
+      {
+        "bytes": 6434,
+        "files": 6,
+        "path": "images"
+      }
+    ]
+  }
+}
