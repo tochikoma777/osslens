@@ -413,7 +413,7 @@ site/                                              # L4 静态站（★ 可重�
 | `reports/` | ★ **确定性 regenerate 产物**（S2 / 设计方案 v1.5 §8.2 精确化，**非 append-only**） | 同一 `(repo, as-of)` 换档位重跑**允许覆盖**：内容由快照 + 特征卡确定性重建，历史由 git tag 兜底；文件名 / 幂等键 / render / cli 路径均不变 |
 | `site/`（当前 21 个产物，2026-11-19） | ★ **可重建的派生基线**（v1.5 精确化，**入库**，非真源） | 由 5 类真源确定性渲染；`site --check` 需与**已提交**基线比对；真源变更后须重跑 `site` 并提交，`--check` 给差异清单；**不得手写编辑产物**（D32=A） |
 | `data/snapshots/**/external/`（deepwiki.json / source.txt / sha256） | ★ **不可再生真源** | 外部索引状态错过不可复现，带来源四元组（红线 #13）→ **不删、不覆盖** |
-| `data/snapshots/**/src/`（源码切片 + manifest.json） | **可再生缓存** | 按 commit 从 codeload tarball 可重拉 → 可丢弃、可去重、可归档清理 |
+| `data/snapshots/**/src/`（源码切片 + manifest.json） | **可再生缓存** | 按 commit 从 codeload tarball 可重拉 → 可丢弃、可去重、可归档清理。★ **2026-11-22 起已从版本控制与全部历史剔除**（转 public 前用 `git filter-repo` 清除第三方源码切片，规避许可证/署名再分发义务）；本地可重拉，功能无损，见审查报告 §10 |
 | `data/featcards/` · `data/llm_cache/` · 任何 DB 索引 | **可再生缓存** | 可丢弃、可重建 |
 
 ★ **快照元数据保留窗口**：超 `retention.snapshot_keep_days`（默认 90 天）在**原地** gzip 为 `<date>.json.gz`；内容与 `sha256` 字段不变、解压字节校验后才删源、重复执行幂等；`load_snapshot` 兼容 `.json.gz`；仍属真源，不删除、不移动目录。

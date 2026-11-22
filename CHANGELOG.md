@@ -2,6 +2,14 @@
 
 格式参照 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本号遵守语义化版本。
 
+## [Unreleased] - 2026-11-22 · 审查整改 + 合规重构（转 public 前置）
+
+- **CI 修复**：`scripts/auto_persist.sh` 在 rebase 前设仓库级 `git config user.*`，修复并行 job 致远端推进时 `git rebase` 缺 committer identity 的失败（真实 run 44798310784 / 44598357662）；dispatch run `45029228666` 命中 rebase 并成功，验证闭合。
+- **文档状态值同步**：README 227→231 tests；CODEBUDDY/锚文件当前声明 23→24 产物、台账 36→38 行（历史记录行保留）；`auto.yml` cron 注释消除矛盾。
+- **合规重构（重大，不可逆）**：转 public 前用 `git filter-repo` 从全部历史剔除 `data/snapshots/**/src/`（243 文件 / 3.9 MB 第三方源码切片），规避许可证/署名再分发义务；`external/` 不可再生真源全部保留。146 commit 保留、git 33M→15M、tag l0–l5 重打并强推对齐。功能无影响：门禁绿、`site --check --strict` 一致（25 产物）、报告/站点 blob 不变；`test_l1.py:351` 因无真实切片按约定 skip（`230 passed, 1 skipped`）。
+- **MIT LICENSE**：新增 LICENSE（commit `05658c8`）。
+- **待办**：仓库仍 PRIVATE——fine-grained PAT 改可见性返回 HTTP 403，需负责人网页或 classic token 完成转 public。
+
 ## [Unreleased] - 2026-11-19 · 发现主题轮转 + agent 基础设施
 
 - **主题 3 → 4**：新增 `topic:ai-agent`，只收基础设施型（sandbox / protocol / orchestration / runtime / tool-use / multi-agent framework），排除个人助理、聊天壳、教程与 prompt 集合。
