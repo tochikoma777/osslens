@@ -5,6 +5,8 @@ __pycache__/
 # T5：可再生缓存层（内容寻址索引 / 按期归档），不入库
 data/cache_objects/
 data/cache_archive/
+# LLM 响应缓存（付费响应，可再生；不入库）
+data/llm_cache/
 .coverage
 .pytest_cache/
 .mypy_cache/
