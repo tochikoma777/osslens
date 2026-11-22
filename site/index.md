@@ -34,6 +34,7 @@
 | huggingface/transformers | 2026-11-19T15:09:20Z | fast | [报告页](report-huggingface__transformers__2026-11-19.html) · [源 MD](../reports/huggingface__transformers__2026-11-19.md) |
 | microsoft/onnxruntime | 2026-11-17T00:00:00Z | fast | [报告页](report-microsoft__onnxruntime__2026-11-17.html) · [源 MD](../reports/microsoft__onnxruntime__2026-11-17.md) |
 | sgl-project/sglang | 2026-11-18T00:00:00Z | fast | [报告页](report-sgl-project__sglang__2026-11-18.html) · [源 MD](../reports/sgl-project__sglang__2026-11-18.md) |
+| vercel/turborepo | 2026-11-22T11:29:53Z | off（降级：本周配额已用满） | [报告页](report-vercel__turborepo__2026-11-22.html) · [源 MD](../reports/vercel__turborepo__2026-11-22.md) |
 | vllm-project/vllm | 2026-11-18T00:00:00Z | fast | [报告页](report-vllm-project__vllm__2026-11-18.html) · [源 MD](../reports/vllm-project__vllm__2026-11-18.md) |
 
 ## 特征卡
@@ -56,6 +57,7 @@
 | microsoft/onnxruntime | `fd249b559c48` | classic | 0 |
 | sgl-project/sglang | `—` | classic | 0 |
 | sgl-project/sglang | `e0decbc3388f` | classic | 19 |
+| vercel/turborepo | `b911d19d45f6` | classic | 0 |
 | vllm-project/vllm | `11199bcb7872` | classic | 0 |
 | vllm-project/vllm | `4dbd382be7e2` | classic | 20 |
 
