@@ -1,6 +1,6 @@
 # osslens 静态站点索引
 
-- 基准时间 (as-of)：2026-11-21T11:09:11Z
+- 基准时间 (as-of)：2026-11-22T11:30:17Z
 - 产物：纯静态 HTML/MD；无后端、无外部 JS/CDN、零 LLM、零网络
 - 真源：`reports/*.md` · `data/featcards/` · `patterns/library.yaml` · `data/costs/costs.jsonl` · `data/abstract/runs.jsonl`（站点只读）
 
@@ -26,6 +26,7 @@
 | Dao-AILab/flash-attention | 2026-11-18T00:00:00Z | fast | [报告页](report-Dao-AILab__flash-attention__2026-11-18.html) · [源 MD](../reports/Dao-AILab__flash-attention__2026-11-18.md) |
 | InternLM/lmdeploy | 2026-11-18T00:00:00Z | fast | [报告页](report-InternLM__lmdeploy__2026-11-18.html) · [源 MD](../reports/InternLM__lmdeploy__2026-11-18.md) |
 | ModelTC/lightllm | 2026-11-18T00:00:00Z | fast | [报告页](report-ModelTC__lightllm__2026-11-18.html) · [源 MD](../reports/ModelTC__lightllm__2026-11-18.md) |
+| Tencent/ncnn | 2026-11-22T11:30:17Z | off（降级：本周配额已用满） | [报告页](report-Tencent__ncnn__2026-11-22.html) · [源 MD](../reports/Tencent__ncnn__2026-11-22.md) |
 | deepseek-ai/DeepEP | 2026-11-18T00:00:00Z | fast | [报告页](report-deepseek-ai__DeepEP__2026-11-18.html) · [源 MD](../reports/deepseek-ai__DeepEP__2026-11-18.md) |
 | deepseek-ai/FlashMLA | 2026-11-18T00:00:00Z | fast | [报告页](report-deepseek-ai__FlashMLA__2026-11-18.html) · [源 MD](../reports/deepseek-ai__FlashMLA__2026-11-18.md) |
 | deepspeedai/DeepSpeed | 2026-11-21T11:09:11Z | off（降级：本周配额已用满） | [报告页](report-deepspeedai__DeepSpeed__2026-11-21.html) · [源 MD](../reports/deepspeedai__DeepSpeed__2026-11-21.md) |
@@ -45,6 +46,7 @@
 | InternLM/lmdeploy | `a0102d47967d` | classic | 11 |
 | ModelTC/lightllm | `aadae840d2ee` | classic | 0 |
 | ModelTC/lightllm | `fa852748dcc9` | classic | 7 |
+| Tencent/ncnn | `eb8a50d2eddc` | classic | 0 |
 | deepseek-ai/DeepEP | `f6aa38fe06cd` | classic | 4 |
 | deepseek-ai/FlashMLA | `395cb3afbb33` | hot | 0 |
 | deepspeedai/DeepSpeed | `7681845b3e20` | classic | 13 |
