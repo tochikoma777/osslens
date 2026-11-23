@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>报告 · gvergnaud/ts-pattern</title>
+<style>:root{--bg:#f4f7fb;--surface:#fff;--ink:#14213d;--muted:#64748b;--line:#e2e8f0;--brand:#2563eb;--brand2:#06b6d4;--radius:16px;--shadow:0 10px 30px rgba(15,23,42,.07)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+.site-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#0e7490 100%);color:#fff;padding:30px 24px 24px}
+.wrap{max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.brand-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,#38bdf8,#2563eb);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.brand small{display:block;color:#bfdbfe;letter-spacing:.16em;font-size:.72em;text-transform:uppercase}
+header h1{font-size:1.9rem;margin:0 0 16px;letter-spacing:.01em}
+header nav{display:flex;flex-wrap:wrap;gap:8px}
+header nav a{color:#e0f2fe;text-decoration:none;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:.88em}
+header nav a:hover,header nav a.active{background:#fff;color:#1e3a8a;border-color:transparent}
+main{max-width:1120px;margin:26px auto 0;padding:0 24px}
+main>section,main>.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:20px}
+h1,h2,h3{line-height:1.25;color:#0f172a}
+.site-header h1,.site-header h2{color:#fff}
+h2{font-size:1.3rem;margin:0 0 12px}h3{font-size:1.06rem;margin:22px 0 8px}
+p{margin:8px 0}a{color:#1d4ed8}
+code{background:#eef2ff;color:#3730a3;padding:2px 6px;border-radius:6px;font-size:.9em}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px;overflow:auto}
+pre code{background:none;color:inherit;padding:0}
+.hero{background:linear-gradient(135deg,#eff6ff,#f0fdfa);border-color:#bfdbfe}
+.hero h2{font-size:1.55rem;margin:4px 0 8px}
+.kicker{color:var(--brand);font-weight:700;letter-spacing:.14em;font-size:.72em;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0}
+.stat{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;transition:transform .18s,border-color .18s;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+.stat:hover{transform:translateY(-2px);border-color:#93c5fd;box-shadow:0 12px 24px rgba(37,99,235,.12)}
+.stat-label{display:block;color:var(--muted);font-size:.82em}
+.stat strong{display:block;font-size:2rem;line-height:1.2;margin:6px 0;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-desc{color:var(--muted);font-size:.78em}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;margin:0;background:#fff;font-size:.92em}
+th,td{padding:10px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#f8fafc;color:#334155;font-weight:600;white-space:nowrap;position:sticky;top:0}
+tbody tr:hover{background:#f8fbff}tbody tr:last-child td{border-bottom:0}
+.empty,.note{background:#fffbeb;border-left:4px solid #f59e0b;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#78350f}
+.alert{background:#ffeef0;border-left:4px solid #d1242f;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#7f1d1d}
+.badge-alert{display:inline-block;background:#d1242f;color:#fff;border-radius:999px;padding:2px 10px;font-size:.8em;font-weight:700}
+.pill{display:inline-block;background:#eff6ff;color:#1e40af;border:1px solid #dbeafe;border-radius:999px;padding:2px 10px;font-size:.78em;margin:2px}
+footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);font-size:.82em;text-align:center}
+@media(max-width:700px){header h1{font-size:1.45rem}main{padding:0 14px}main>section,main>.panel{padding:16px}.grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap"><div class="brand"><span class="brand-mark">O</span><div><small>osslens / static insights</small></div></div><h1>报告 · gvergnaud/ts-pattern</h1><nav><a href="index.html">首页</a> · <a class="active" href="reports.html">报告</a> · <a href="timeline.html">时间线</a> · <a href="featcards.html">特征卡</a> · <a href="patterns.html">规律库</a> · <a href="costs.html">成本</a> · <a href="runs.html">抽象 run</a> · <a href="search.html">检索</a> · <a href="tags.html">范式标签</a> · <a href="compare.html">并排对比</a> · <a href="selection.html">技术选型</a></nav></div></header>
+<main class="wrap">
+<p class="note">源 MD：<code>../reports/gvergnaud__ts-pattern__2026-11-23.md</code>；下方六个阅读模块 + 附录顺序固定不变。</p>
+<h1>gvergnaud/ts-pattern 深度分析</h1>
+<p>&gt; 阅读档位：选型尽调（profile=adoption_due_diligence） &gt; 注意力预算：定位 15 / 架构 15 / 抽象 10 / ADR 10 / 扩展 5 / 经验卡 0 / 工程维护 45 &gt; 证据约定：[事实] 确定性提取 · [判断] 有 file:line 或文档锚点 · [未获得] 当前未采集</p>
+<h2>导读</h2>
+<p>&gt; <strong>是什么</strong>：🎨 The exhaustive Pattern Matching library for TypeScript, with smart type inference. &gt; <strong>架构一句话</strong>：[判断] 顶层以 <code>.</code>、<code>tests</code>、<code>src</code> 为主，入口为 <code>src/index.ts</code>（静态结构判断，未做动态跟踪）。 &gt; <strong>最大风险</strong>：Top1 贡献者占比 91.03%，决策集中度需关注 &gt; <strong>不适合</strong>：需要稳定 API/长期支持承诺的场景，请先核对发布节奏与维护状态；依赖链许可证与权重许可能力当前未采集，不能据此做出商用结论。</p>
+<h2>1. 项目定位与目标</h2>
+<p>[事实] gvergnaud/ts-pattern 属于 <code>未指定</code> 领域、<code>classic</code> 通道，主语言 TypeScript（97%），15,223 stars / 183 forks。</p>
+<p>[事实] 项目自述：🎨 The exhaustive Pattern Matching library for TypeScript, with smart type inference.。</p>
+<p>[事实] README 摘要：These files measure how expensive ts-pattern's types are for the TypeScript compiler, as opposed to the runtime benchmarks in the parent directory. They intentionally contain large <code>match</code> expressions of the shapes that show up in real codebases: - <code>large-union-exhaustive.ts</code>: a 200-member string literal union (the same shape as a large string enum), matched member by member. - <code>discriminated-union-exhaustive.ts</code>: a 20-variant discriminated union。</p>
+<ul><li><strong>目标用户</strong>：[判断] 模型工程师 / 推理基础设施开发者；应用与平台开发者</li><li><strong>替代方案与差异</strong>：[未获得] 本次未采集竞品对比与 roadmap，不得据此推断「没有替代品」。</li><li><strong>不解决什么</strong>：[未获得] 没有路线图与 issue 语料，无法可靠界定能力边界。</li></ul>
+<p>[判断] 阶段信号：仓库已存在 2,374 天，近一年发布 2 个版本，最近提交距今 3 天，维护状态「active」。这只说明是否仍在维护，不等于成熟度结论。</p>
+<h2>2. 架构全景</h2>
+<h3>2.1 上下文边界</h3>
+<p>[判断] 架构说明文档：<code>README.md</code>, <code>benchmarks/compile-time/README.md</code>；边界结论来自文档与目录结构，未经运行验证。 [事实] 硬件/内核线索：vendors=[]、kernel_langs=[]。</p>
+<h3>2.2 模块职责</h3>
+<table><thead><tr><th>模块</th><th>文件数</th><th>职责（启发式）</th></tr></thead><tbody><tr><td><code>.</code></td><td>9</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>tests</code></td><td>57</td><td>测试与用例</td></tr><tr><td><code>src</code></td><td>20</td><td>核心实现</td></tr><tr><td><code>benchmarks</code></td><td>12</td><td>示例与基准</td></tr><tr><td><code>docs</code></td><td>3</td><td>文档</td></tr></tbody></table>
+<h3>2.3 一次调用的路径（运行时视图）</h3>
+<p>[判断] 静态推断：<code>src/index.ts</code>, <code>src/types/index.ts</code> → 输出。内部 import 边约 0 条，只用于判断调用方向；<strong>未做运行时跟踪</strong>，参数与分支需读源码确认。</p>
+<h3>2.4 数据与控制流</h3>
+<p>[未获得] 未检测到并行/缓存轴证据；不代表项目中不存在。</p>
+<pre><code class="language-mermaid">graph TD
+  A[无可提取的内部模块依赖边]</code></pre>
+<h2>3. 核心抽象与契约</h2>
+<p>[未获得] 本次源码切片未识别到显式接口/注册模式；这不等于项目没有抽象层，只说明当前采集粒度不足。</p>
+<p>入口候选（可作为契约阅读起点）：<code>src/index.ts</code>、<code>src/types/index.ts</code></p>
+<h2>4. 关键设计决策（ADR）</h2>
+<p>每条固定六字段：决策 / 替代 / 代价 / 证据 / 可复用规则 / 边界·反模式。</p>
+<h3>ADR-1 · t1: v5 改为 .with 立即求值，不再惰性等待 .exhaustive</h3>
+<ul><li><strong>决策</strong>：v5 改为 .with 立即求值，不再惰性等待 .exhaustive</li><li><strong>替代</strong>：v4 惰性累积分支，终结调用时才执行</li><li><strong>代价</strong>：未以 exhaustive/otherwise 收尾时行为静默改变</li><li><strong>证据</strong>：<code>docs/v4-to-v5-migration-guide.md:19</code></li><li><strong>可复用规则</strong>：链式 API 提前求值可简化实现，但需在迁移文档中显式标注语义变更</li><li><strong>边界/反模式</strong>：仅当所有调用方都以终结方法收尾时安全；中途丢弃链式结果会误触发副作用</li></ul>
+<h3>ADR-2 · t2: 用 P.array/P.set/P.map 模式替代原生构造器匹配</h3>
+<ul><li><strong>决策</strong>：用 P.array/P.set/P.map 模式替代原生构造器匹配</li><li><strong>替代</strong>：直接 .with(new Set(...)) / .with(new Map(...)) 匹配</li><li><strong>代价</strong>：破坏旧写法，用户需按迁移指南改写</li><li><strong>证据</strong>：<code>docs/v4-to-v5-migration-guide.md:47</code></li><li><strong>可复用规则</strong>：模式匹配库应统一自有模式语法，避免依赖运行时构造器语义</li><li><strong>边界/反模式</strong>：对已有大量构造器匹配代码的存量项目，升级成本高，需评估迁移量</li></ul>
+<h3>ADR-3 · t3: v5 依赖 TS const 类型参数，硬性要求 TypeScript 5+</h3>
+<ul><li><strong>决策</strong>：v5 依赖 TS const 类型参数，硬性要求 TypeScript 5+</li><li><strong>替代</strong>：兼容旧版 TS 以扩大用户面</li><li><strong>代价</strong>：放弃 TS4 及以下用户，升级门槛抬高</li><li><strong>证据</strong>：<code>docs/v4-to-v5-migration-guide.md:9</code></li><li><strong>可复用规则</strong>：类型库可借新编译器特性换取推断精度，但须明确最低版本约束</li><li><strong>边界/反模式</strong>：用户被锁定在旧 TS 版本（如企业长期支持版）时不可采用</li></ul>
+<h3>ADR-4 · t4: 以 Instantiations 作为编译期性能主指标</h3>
+<ul><li><strong>决策</strong>：以 Instantiations 作为编译期性能主指标</li><li><strong>替代</strong>：以 Check time 等墙钟时间衡量</li><li><strong>代价</strong>：需维护独立编译期基准文件与 trace 工具链</li><li><strong>证据</strong>：<code>benchmarks/compile-time/README.md:31</code></li><li><strong>可复用规则</strong>：性能基准优先选确定性指标，避免墙钟噪声导致误判回归</li><li><strong>边界/反模式</strong>：Instantiations 不反映运行时开销；运行时热路径仍需单独基准</li></ul>
+<h3>ADR-5 · t5: 基准覆盖穷尽与非穷尽两种编辑中状态</h3>
+<ul><li><strong>决策</strong>：基准覆盖穷尽与非穷尽两种编辑中状态</li><li><strong>替代</strong>：只测完整 match 表达式的编译开销</li><li><strong>代价</strong>：基准文件数量与维护成本翻倍</li><li><strong>证据</strong>：<code>benchmarks/compile-time/README.md:12</code></li><li><strong>可复用规则</strong>：类型级库应把编辑器中间态纳入基准，因其是用户高频路径</li><li><strong>边界/反模式</strong>：对无类型推断负担的纯运行时库，此维度无意义</li></ul>
+<h3>ADR-6 · t6: 用 P 命名空间聚合模式构造器，替代顶层散装导出</h3>
+<ul><li><strong>决策</strong>：用 P 命名空间聚合模式构造器，替代顶层散装导出</li><li><strong>替代</strong>：顶层导出 __、select、not、when 等</li><li><strong>代价</strong>：v3→v4 全面破坏性改名，用户需批量迁移</li><li><strong>证据</strong>：<code>docs/v3-to-v4-migration-guide.md:7</code></li><li><strong>可复用规则</strong>：公共 API 收敛到单一命名空间可降低命名冲突与发现成本</li><li><strong>边界/反模式</strong>：早期用户基数大时改名代价高；需配套迁移指南与 codemod</li></ul>
+<h2>5. 扩展与改造路径</h2>
+<p>[未获得] 未识别到显式插件/注册点。</p>
+<p>[判断] 新增能力的静态路径（需按实际代码复核）：</p>
+<ol><li>在入口处接入参数/配置（入口候选：<code>src/index.ts</code>, <code>src/types/index.ts</code>, <code>src</code>）；</li><li>复用上表中的注册/分派结构，实现新的后端或适配器；</li><li>补对应测试与文档，再走发布流程。</li></ol>
+<ul><li>扩展文档：[未获得]</li><li>改造成本：[未获得] 需要先确认契约稳定性与测试覆盖，本报告不估算人日。</li></ul>
+<h2>6. 经验卡</h2>
+<h3>经验 1 · 链式 API 提前求值可简化实现，但需在迁移文档中显式标注语义变更</h3>
+<ul><li><strong>证据</strong>：<code>docs/v4-to-v5-migration-guide.md:19</code>（来自 gvergnaud/ts-pattern）</li><li><strong>适用边界</strong>：仅当所有调用方都以终结方法收尾时安全；中途丢弃链式结果会误触发副作用</li><li><strong>反模式</strong>：在边界之外照搬「v5 改为 .with 立即求值，不再惰性等待 .exhaustive」，代价会变成「未以 exhaustive/otherwise 收尾时行为静默改变」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「v5 改为 .with 立即求值，不再惰性等待 .exhaustive」而非「v4 惰性累积分支，终结调用时才执行」</li></ul>
+<h3>经验 2 · 模式匹配库应统一自有模式语法，避免依赖运行时构造器语义</h3>
+<ul><li><strong>证据</strong>：<code>docs/v4-to-v5-migration-guide.md:47</code>（来自 gvergnaud/ts-pattern）</li><li><strong>适用边界</strong>：对已有大量构造器匹配代码的存量项目，升级成本高，需评估迁移量</li><li><strong>反模式</strong>：在边界之外照搬「用 P.array/P.set/P.map 模式替代原生构造器匹配」，代价会变成「破坏旧写法，用户需按迁移指南改写」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「用 P.array/P.set/P.map 模式替代原生构造器匹配」而非「直接 .with(new Set(...)) / .with(new Map(...)) 匹配」</li></ul>
+<h3>经验 3 · 类型库可借新编译器特性换取推断精度，但须明确最低版本约束</h3>
+<ul><li><strong>证据</strong>：<code>docs/v4-to-v5-migration-guide.md:9</code>（来自 gvergnaud/ts-pattern）</li><li><strong>适用边界</strong>：用户被锁定在旧 TS 版本（如企业长期支持版）时不可采用</li><li><strong>反模式</strong>：在边界之外照搬「v5 依赖 TS const 类型参数，硬性要求 TypeScript 5+」，代价会变成「放弃 TS4 及以下用户，升级门槛抬高」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「v5 依赖 TS const 类型参数，硬性要求 TypeScript 5+」而非「兼容旧版 TS 以扩大用户面」</li></ul>
+<h3>经验 4 · 性能基准优先选确定性指标，避免墙钟噪声导致误判回归</h3>
+<ul><li><strong>证据</strong>：<code>benchmarks/compile-time/README.md:31</code>（来自 gvergnaud/ts-pattern）</li><li><strong>适用边界</strong>：Instantiations 不反映运行时开销；运行时热路径仍需单独基准</li><li><strong>反模式</strong>：在边界之外照搬「以 Instantiations 作为编译期性能主指标」，代价会变成「需维护独立编译期基准文件与 trace 工具链」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「以 Instantiations 作为编译期性能主指标」而非「以 Check time 等墙钟时间衡量」</li></ul>
+<h3>经验 5 · 类型级库应把编辑器中间态纳入基准，因其是用户高频路径</h3>
+<ul><li><strong>证据</strong>：<code>benchmarks/compile-time/README.md:12</code>（来自 gvergnaud/ts-pattern）</li><li><strong>适用边界</strong>：对无类型推断负担的纯运行时库，此维度无意义</li><li><strong>反模式</strong>：在边界之外照搬「基准覆盖穷尽与非穷尽两种编辑中状态」，代价会变成「基准文件数量与维护成本翻倍」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「基准覆盖穷尽与非穷尽两种编辑中状态」而非「只测完整 match 表达式的编译开销」</li></ul>
+<h2>附录 A 证据索引与未知项</h2>
+<h3>A1. 代码证据索引</h3>
+<table><thead><tr><th>id</th><th>决策</th><th>证据</th></tr></thead><tbody><tr><td>t1</td><td>v5 改为 .with 立即求值，不再惰性等待 .exhaustive</td><td><code>docs/v4-to-v5-migration-guide.md:19</code></td></tr><tr><td>t2</td><td>用 P.array/P.set/P.map 模式替代原生构造器匹配</td><td><code>docs/v4-to-v5-migration-guide.md:47</code></td></tr><tr><td>t3</td><td>v5 依赖 TS const 类型参数，硬性要求 TypeScript 5+</td><td><code>docs/v4-to-v5-migration-guide.md:9</code></td></tr><tr><td>t4</td><td>以 Instantiations 作为编译期性能主指标</td><td><code>benchmarks/compile-time/README.md:31</code></td></tr><tr><td>t5</td><td>基准覆盖穷尽与非穷尽两种编辑中状态</td><td><code>benchmarks/compile-time/README.md:12</code></td></tr><tr><td>t6</td><td>用 P 命名空间聚合模式构造器，替代顶层散装导出</td><td><code>docs/v3-to-v4-migration-guide.md:7</code></td></tr></tbody></table>
+<ul><li>置信度：med</li><li>架构范式标签：模块化、深优化</li></ul>
+<h3>A2. 外部资料</h3>
+<ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/gvergnaud/ts-pattern</li><li>fetched_at：2026-11-23T22:32:02Z</li><li>sha256：<code>3b5b0a32ca887b4d2da4619351c891b5a9b97f12f16a7d837cdafe8f20104d21</code></li><li>判定：hit — 正文含 4 个仓库内真实路径（阈值 3）</li><li>原文快照：<code>source.txt</code>（与判定元数据分文件存放）</li></ul>
+<h3>A3. 未获得项</h3>
+<ul><li>依赖链许可证、模型权重/数据许可、CLA —— 未采集；</li><li>issue/PR 响应质量、CI 运行结果 —— 未采集；</li><li>roadmap、竞品对比、用户画像 —— 未采集；</li></ul>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+<h2>附录 B 许可证 / 维护 / 工程 / 成本</h2>
+<h3>B1. 许可证与合规风险</h3>
+<p>[事实] 主许可证 <strong>MIT</strong>；组织类型 personal；治理文档：未检出。</p>
+<p>[未获得] 依赖链是否存在 GPL/AGPL、模型权重与数据集许可、CLA 要求；这些必须人工或由后续数据源补齐，本报告不给出「可商用」结论。</p>
+<h3>B2. 维护状态与风险</h3>
+<p>[事实] 贡献者 30 人，Top1 占比 91.03%；近 90 天 / 365 天提交 32 / 58 次；最近提交距今 3 天，维护状态「active」。</p>
+<ul><li>Top1 贡献者占比 91.03%，决策集中度需关注</li><li>未检出治理文档，贡献与决策流程可能不透明</li></ul>
+<h3>B3. 运行与工程体系</h3>
+<p>[事实] 仓库约 118 个文件、1.2 MiB；本次采集 9 个源码切片（tarball <code>2f65e07b603da608</code>）。 [事实] 语言构成：JavaScript 2.55%、Shell 0.13%、TypeScript 97.32%；硬件 vendors=[]、kernel_langs=[]。</p>
+<p>[未获得] 构建脚本、依赖安装、测试体系、CI/CD、配置与 secret 管理未采集；本报告不能回答「能否在目标环境跑起来」。</p>
+<p><strong>特征卡已知限制</strong>：</p>
+<ul><li>证据来自 9 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h3>B4. 运行元数据与成本</h3>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>gvergnaud/ts-pattern</td></tr><tr><td>commit</td><td><code>05e20b6698228090ed3d86039db75a81eca2a673</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-23T12:52:56Z</td></tr><tr><td>通道 / 领域</td><td>classic / 未指定</td></tr><tr><td>请求档位 (requested_depth)</td><td>fast</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>fast</td></tr><tr><td>降级原因 (reason)</td><td>baseline — 按通道基线</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 0/1、fast 0/5（周起点 2026-11-23）；tokens 周 0/2000000、月 344238/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>a51094bc0f76b9fec9a9c064ea158287e449ee56a053afc8d76ccd8565858e46</code></td></tr><tr><td>成本说明</td><td>本次 ¥0.0229（模型调用 1 次）；输入 9,018 tok / 命中 256 tok / 输出 676 tok</td></tr><tr><td>累计</td><td>本周 ¥0.0229 / 9,694 tok；本月 ¥1.0532 / 353,932 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
+<p><strong>档位决策链路</strong>：</p>
+<ol><li>L1 通道基线：classic → strong；自动链按 auto_default=fast 取更省档位 → fast（非 L4 人工 override）</li><li>凭据：齐全</li><li>L2 周配额：fast 已用 0/5，未用满</li><li>L3 预算：估算 5598 × 安全系数 1.3 = 7277 tok（单选上限 120000），周 0/2000000</li><li>结论：实际档位 fast（按通道基线）</li></ol>
+<p><strong>上下文组装</strong>（裁剪发生在调用之前）：</p>
+<table><thead><tr><th>块</th><th>优先级</th><th>估算 token</th></tr></thead><tbody><tr><td>featcard</td><td>1</td><td>1,054</td></tr><tr><td>readme</td><td>2</td><td>341</td></tr><tr><td>source_files:.github/FUNDING.yml</td><td>4</td><td>216</td></tr><tr><td>source_files:.github/ISSUE_TEMPLATE/bug_report.md</td><td>4</td><td>146</td></tr><tr><td>source_files:.github/ISSUE_TEMPLATE/feature_request.md</td><td>4</td><td>164</td></tr><tr><td>source_files:docs/roadmap.md</td><td>4</td><td>655</td></tr><tr><td>source_files:docs/v3-to-v4-migration-guide.md</td><td>4</td><td>1,511</td></tr><tr><td>source_files:docs/v4-to-v5-migration-guide.md</td><td>4</td><td>1,511</td></tr></tbody></table>
+<ul><li>丢弃：—</li><li>合计 5,598 / 上限 120,000</li></ul>
+<h3>B5. 特征卡摘要</h3>
+<ul><li>卡文件：<code>data/featcards/gvergnaud__ts-pattern__05e20b6698228090ed3d86039db75a81eca2a673.json</code>（schema 1.0）</li><li>入口文件：src/index.ts, src/types/index.ts</li><li>最大目录深度：4；monorepo：是</li><li>源码切片：9 个文件（tarball <code>2f65e07b603da608</code>）</li><li>依赖：直接 / 传递 = — / —（L1 未解析清单文件）</li></ul>
+<p><strong>并行轴</strong></p>
+<ul><li>并行 <code>CP</code> = false（无证据）</li><li>并行 <code>DP</code> = false（无证据）</li><li>并行 <code>EP</code> = false（无证据）</li><li>并行 <code>PP</code> = false（无证据）</li><li>并行 <code>SP</code> = false（无证据）</li><li>并行 <code>TP</code> = false（无证据）</li></ul>
+<p><strong>缓存</strong></p>
+<ul><li>缓存 <code>kv_offload</code> = false（无证据）</li><li>缓存 <code>paged</code> = false（无证据）</li><li>缓存 <code>prefix_reuse</code> = false（无证据）</li><li>缓存 <code>radix</code> = false（无证据）</li></ul>
+<ul><li>硬件：vendors=[]、arch_gates=[]、kernel_langs=[]</li><li>治理文档：否</li></ul>
+<p><strong>依赖图</strong>（内部模块 import 边，节点/边排序后输出）</p>
+<pre><code class="language-mermaid">graph TD
+  A[无可提取的内部模块依赖边]</code></pre>
+<p><strong>已知限制</strong>：</p>
+<ul><li>证据来自 9 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h3>B6. 体检事实（确定性，零 LLM）</h3>
+<table><thead><tr><th>指标</th><th>值</th></tr></thead><tbody><tr><td>Star / Fork</td><td>15,223 / 183</td></tr><tr><td>被依赖 (Used by)</td><td>—</td></tr><tr><td>贡献者 / Top1 占比</td><td>30 / 91.03%</td></tr><tr><td>Top10 贡献集中度</td><td>97.80%</td></tr><tr><td>90 天 / 365 天提交</td><td>32 / 58</td></tr><tr><td>最近提交 / 距今天数</td><td>2026-11-20T23:18:43Z / 3</td></tr><tr><td>维护状态</td><td>active</td></tr><tr><td>项目年龄 / 发布数(365d)</td><td>2,374 天 / 2</td></tr><tr><td>组织类型 / 许可证</td><td>personal / MIT</td></tr><tr><td>文件数 / 体积</td><td>118 / 1.2 MiB</td></tr><tr><td>内部模块依赖边</td><td>0</td></tr></tbody></table>
+<p><strong>语言构成</strong>：JavaScript 2.55%、Shell 0.13%、TypeScript 97.32%</p>
+<p><strong>模块体量 Top10</strong></p>
+<table><thead><tr><th>模块</th><th>文件数</th><th>字节</th></tr></thead><tbody><tr><td>.</td><td>9</td><td>665,408</td></tr><tr><td>tests</td><td>57</td><td>408,164</td></tr><tr><td>src</td><td>20</td><td>131,747</td></tr><tr><td>benchmarks</td><td>12</td><td>51,738</td></tr><tr><td>docs</td><td>3</td><td>19,542</td></tr><tr><td>scripts</td><td>3</td><td>14,332</td></tr><tr><td>examples</td><td>11</td><td>11,831</td></tr><tr><td>.github</td><td>3</td><td>1,974</td></tr></tbody></table>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+</main>
+<footer>osslens 静态只读站点 · 无后端 / 无外部 JS 与 CDN / 零 LLM / 零网络</footer>
+</body></html>
