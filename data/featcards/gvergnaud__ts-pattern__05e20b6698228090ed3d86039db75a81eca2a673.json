@@ -1,0 +1,179 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": false,
+    "license": "MIT",
+    "org_type": "personal"
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": []
+  },
+  "identity": {
+    "age_days": 2374,
+    "analyzed_at": "2026-11-23T12:52:56Z",
+    "channel": "classic",
+    "commit": "05e20b6698228090ed3d86039db75a81eca2a673",
+    "created_at": "2020-05-24T16:41:02Z",
+    "repo": "gvergnaud/ts-pattern"
+  },
+  "lang": {
+    "shares": {
+      "JavaScript": 0.0255,
+      "Shell": 0.0013,
+      "TypeScript": 0.9732
+    }
+  },
+  "limitations": [
+    "证据来自 9 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 58,
+    "commits_90d": 32,
+    "contributors": 30,
+    "forks": 183,
+    "last_commit": "2026-11-20T23:18:43Z",
+    "open_issues": 87,
+    "release_count_365d": 2,
+    "stars": 15223,
+    "top10_share": 0.978,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.9103,
+    "days_since_commit": 3,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "05e20b6698228090ed3d86039db75a81eca2a673",
+    "files": [
+      {
+        "path": ".github/FUNDING.yml",
+        "sha256": "20e959d7ca18cf898a2562cade49295715ba68dd6630a7dee105dd55f1e0774d"
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/bug_report.md",
+        "sha256": "ca99f2719fc00c5286aace6215226a26fb1d1492f078dc415eeefcdbf079e649"
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/feature_request.md",
+        "sha256": "72a5f467b083c24507b1e848bbb958800f783fe1d313a8ca017f2a2673acad47"
+      },
+      {
+        "path": "README.md",
+        "sha256": "933825510c2f157707b6b805a5070b66714c53e2a69608292cf305e9e81f3578"
+      },
+      {
+        "path": "benchmarks/compile-time/README.md",
+        "sha256": "44615ee2a9dcb1fe563a5cdfcde420a465ccd9431944eb6c1fc7670822a84312"
+      },
+      {
+        "path": "docs/roadmap.md",
+        "sha256": "5ff281a1ee77dc56493898d55000e94d311d10440267989d4e452e86c39a3d0d"
+      },
+      {
+        "path": "docs/v3-to-v4-migration-guide.md",
+        "sha256": "3b154d4a7703338ebdac2b5691aae41e117fc2d34e4311e8e94b73fe06d2f39e"
+      },
+      {
+        "path": "docs/v4-to-v5-migration-guide.md",
+        "sha256": "2944ada4f13a06d33f187d626f6170c34c0dc3b997217b97deae918c926deb74"
+      },
+      {
+        "path": "scripts/generate-cts.sh",
+        "sha256": "eb6252292f16216fd3bf789377f82edabdf6408f92c5b5d4efc8b6c707e0cab6"
+      }
+    ],
+    "tarball_sha256": "2f65e07b603da6089eaaf85f7ad775ca3bb831d1bbbec86b25d254ab885f5c53"
+  },
+  "structure": {
+    "bytes": 1304736,
+    "entrypoints": [
+      "src/index.ts",
+      "src/types/index.ts"
+    ],
+    "files": 118,
+    "loc_total": null,
+    "max_depth": 4,
+    "monorepo": true,
+    "top_modules": [
+      {
+        "bytes": 665408,
+        "files": 9,
+        "path": "."
+      },
+      {
+        "bytes": 408164,
+        "files": 57,
+        "path": "tests"
+      },
+      {
+        "bytes": 131747,
+        "files": 20,
+        "path": "src"
+      },
+      {
+        "bytes": 51738,
+        "files": 12,
+        "path": "benchmarks"
+      },
+      {
+        "bytes": 19542,
+        "files": 3,
+        "path": "docs"
+      },
+      {
+        "bytes": 14332,
+        "files": 3,
+        "path": "scripts"
+      },
+      {
+        "bytes": 11831,
+        "files": 11,
+        "path": "examples"
+      },
+      {
+        "bytes": 1974,
+        "files": 3,
+        "path": ".github"
+      }
+    ]
+  }
+}
