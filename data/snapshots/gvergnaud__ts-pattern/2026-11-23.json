@@ -1,0 +1,1504 @@
+{
+  "as_of": "2026-11-23T12:52:54Z",
+  "data": {
+    "commits": [
+      {
+        "date": "2026-11-20T23:18:43Z",
+        "sha": "05e20b6698228090ed3d86039db75a81eca2a673"
+      },
+      {
+        "date": "2026-11-20T23:18:14Z",
+        "sha": "b0de6e09d088a9fd3efd1bc1f22bd3b72ba277d6"
+      },
+      {
+        "date": "2026-11-20T23:08:20Z",
+        "sha": "745648d7c6a30bf8816bbb5811f55eb3ee3341fa"
+      },
+      {
+        "date": "2026-11-20T23:07:04Z",
+        "sha": "016534747284b9676c0d6ccf9177036f170cadb6"
+      },
+      {
+        "date": "2026-11-20T23:06:31Z",
+        "sha": "ff0418df25162c27d22ef8f594a8643fcf90aedc"
+      },
+      {
+        "date": "2026-11-20T23:05:40Z",
+        "sha": "6c732741ea31c5f13a03274bd11f86a9e6ad93a8"
+      },
+      {
+        "date": "2026-11-20T23:05:05Z",
+        "sha": "586aee9373206a2f73a50c7b7b825afc10229588"
+      },
+      {
+        "date": "2026-11-04T11:43:25Z",
+        "sha": "617a5ec069c0358f17c7edc7e1addfd64a1e63f0"
+      },
+      {
+        "date": "2026-11-04T11:27:28Z",
+        "sha": "8de87552538f26cf5cf7154785742a288b318647"
+      },
+      {
+        "date": "2026-11-04T11:24:22Z",
+        "sha": "d631722107075639db1f3cff3a528b7a3132abfb"
+      },
+      {
+        "date": "2026-11-03T13:53:46Z",
+        "sha": "7e6d77fab97d0cf633c70c7db060abe84970ede2"
+      },
+      {
+        "date": "2026-11-03T01:29:37Z",
+        "sha": "0d9178c5780c2ffb636bf8ac2be7493c530a6674"
+      },
+      {
+        "date": "2026-11-01T10:29:03Z",
+        "sha": "f8e4039c0133358e8c3c24683283a372fe17188c"
+      },
+      {
+        "date": "2026-10-14T08:46:54Z",
+        "sha": "f11be73acb18e1d653d4f252e7d75981d873a2e6"
+      },
+      {
+        "date": "2026-10-14T08:45:08Z",
+        "sha": "b875f598235a55a856bab3862ac90ddab902b019"
+      },
+      {
+        "date": "2026-10-14T08:44:12Z",
+        "sha": "250569f4e3d26297aaa9b29ac2e8b8f71b0ca48d"
+      },
+      {
+        "date": "2026-10-13T22:42:33Z",
+        "sha": "85370925caea6c5b3fa4c8378381c97bf9aff956"
+      },
+      {
+        "date": "2026-10-13T18:45:12Z",
+        "sha": "58f8e55014e21b57033ab919286816d8d3296c01"
+      },
+      {
+        "date": "2026-10-13T11:58:37Z",
+        "sha": "45dcdc70778ee14ff2cc83730bdce969bc7fd361"
+      },
+      {
+        "date": "2026-10-13T11:51:52Z",
+        "sha": "914c8a6c25ed2ac20871de5c0e993496f0b3d2ab"
+      },
+      {
+        "date": "2026-10-13T11:32:57Z",
+        "sha": "fd9e4afcc272984d2b6d673cee966aaf2b15143e"
+      },
+      {
+        "date": "2026-10-13T11:28:53Z",
+        "sha": "d8e79d6c1bbbb11df6ce79033581d1bf1580179c"
+      },
+      {
+        "date": "2026-10-13T08:42:49Z",
+        "sha": "19a63df59d1dd95082b8415930ff4c533f011796"
+      },
+      {
+        "date": "2026-10-13T08:35:09Z",
+        "sha": "9734e001e06a6164b9257ce21f450565c9695141"
+      },
+      {
+        "date": "2026-10-13T06:02:18Z",
+        "sha": "3c7d37b1144909c27731cf55917128b6c72d0a66"
+      },
+      {
+        "date": "2026-10-13T06:02:01Z",
+        "sha": "b65d062580e19c92e81459855d18f5a9ff1fd799"
+      },
+      {
+        "date": "2026-10-12T23:41:05Z",
+        "sha": "51149ea8737a2546ceeea0ca461a6589756a74e1"
+      },
+      {
+        "date": "2026-10-12T23:37:33Z",
+        "sha": "540326f9bc9df54bb8f84fa306495953c38be6ba"
+      },
+      {
+        "date": "2026-10-12T20:56:31Z",
+        "sha": "df3726377b8886a3ad68c6f3ac4608a1982b8dd7"
+      },
+      {
+        "date": "2026-10-12T14:58:29Z",
+        "sha": "a3fce987fee2ed358007d1ab99e38d1b0a839ad7"
+      },
+      {
+        "date": "2026-10-12T09:53:04Z",
+        "sha": "e62096cb6f02344139b5a84571b6851d74e7737f"
+      },
+      {
+        "date": "2026-10-11T20:45:55Z",
+        "sha": "fd96d72211616bee5f17ba76531cb0f11c5640b8"
+      },
+      {
+        "date": "2026-08-05T10:32:53Z",
+        "sha": "9ff13372168990571f8dcf9cd88b0e8d2e19ff04"
+      },
+      {
+        "date": "2026-07-25T16:35:52Z",
+        "sha": "4ec021140ab73469cbea3c47b37ac147d48b2dba"
+      },
+      {
+        "date": "2026-07-25T16:18:06Z",
+        "sha": "168f9642bede62062e6098ec6c0355aea37da3e4"
+      },
+      {
+        "date": "2026-07-25T16:11:09Z",
+        "sha": "92ce934958c9fa1fb82c53e167b0ba76b9bb16fb"
+      },
+      {
+        "date": "2026-07-25T15:56:43Z",
+        "sha": "e51b336983f30273998bff4591f8acf3508468b9"
+      },
+      {
+        "date": "2026-07-25T15:47:13Z",
+        "sha": "5206ec3c37a4ce26e5ff74c9dfb184ae0bc0a663"
+      },
+      {
+        "date": "2026-05-25T23:36:28Z",
+        "sha": "c92ca435c7e1827e0fd55c539080ef1bfd6fe3f0"
+      },
+      {
+        "date": "2026-05-22T21:24:37Z",
+        "sha": "4d8cead41700ef7618a3b511b8c959ebde24b2bd"
+      },
+      {
+        "date": "2026-05-22T21:24:22Z",
+        "sha": "4f3b6126fdf92b5a03ace71b8ddb9524352af4f5"
+      },
+      {
+        "date": "2026-05-22T21:23:54Z",
+        "sha": "7267908f274f9603ed2f6cfaf33fff063b5521b1"
+      },
+      {
+        "date": "2026-05-22T21:23:43Z",
+        "sha": "53dfc4da0ecc0e73d31320adbf32b0333840197c"
+      },
+      {
+        "date": "2026-05-09T04:37:59Z",
+        "sha": "cc3eaf13fc1d3a48c6e169e4bf9aaa224f9d586a"
+      },
+      {
+        "date": "2026-04-24T23:32:28Z",
+        "sha": "d5aa0d7fbddbac1570cbfb4cb0ca0eddf13b68c1"
+      },
+      {
+        "date": "2026-04-10T03:33:44Z",
+        "sha": "df5b697c4c0489df240ecf0bda30d932ca69067a"
+      },
+      {
+        "date": "2026-03-27T19:52:21Z",
+        "sha": "fab74143a38c1ecfad3147220aed348c3bf45215"
+      },
+      {
+        "date": "2026-03-25T23:40:50Z",
+        "sha": "8d4b56c8fb4f04e0a33be7679a9f8b15e9e2dcfe"
+      },
+      {
+        "date": "2026-03-22T01:29:13Z",
+        "sha": "3424cff7a9d8612330ed1e44de66b617aca59b89"
+      },
+      {
+        "date": "2026-03-05T00:25:34Z",
+        "sha": "140c86156227651c8abaffa88577fa3f81c17ffb"
+      },
+      {
+        "date": "2026-02-28T15:29:02Z",
+        "sha": "f66fc061fde4f764b113ededa09be63dae564159"
+      },
+      {
+        "date": "2026-02-28T15:28:51Z",
+        "sha": "efdc2cd5572d94dd45ff8f24a50efaab4da2ebd2"
+      },
+      {
+        "date": "2026-02-28T05:36:34Z",
+        "sha": "0287589eeaacb4bdea33ea5c206754a884e0caa9"
+      },
+      {
+        "date": "2026-02-28T01:24:18Z",
+        "sha": "03cd822d2e435ec3f95d9d79661b733f811fab47"
+      },
+      {
+        "date": "2026-02-03T17:17:03Z",
+        "sha": "2ece6ba54edcbc0d4f4fce67becf89143f9d07bc"
+      },
+      {
+        "date": "2026-01-22T00:21:00Z",
+        "sha": "6a83e12724bfb1cca606fbd513c67df2d1c4b72b"
+      },
+      {
+        "date": "2026-01-20T22:29:37Z",
+        "sha": "0dddab813ec33ebbe87697aca5575a36fad05f3d"
+      },
+      {
+        "date": "2026-01-15T22:27:05Z",
+        "sha": "4d32e99e1b617f1ab11ca03d6a9a468d818cc1d7"
+      }
+    ],
+    "contributors": [
+      {
+        "contributions": 994,
+        "login": "gvergnaud",
+        "type": "User"
+      },
+      {
+        "contributions": 31,
+        "login": "dependabot[bot]",
+        "type": "Bot"
+      },
+      {
+        "contributions": 11,
+        "login": "m-rutter",
+        "type": "User"
+      },
+      {
+        "contributions": 6,
+        "login": "lfhwnqe",
+        "type": "User"
+      },
+      {
+        "contributions": 5,
+        "login": "JUSTIVE",
+        "type": "User"
+      },
+      {
+        "contributions": 5,
+        "login": "cwrllab",
+        "type": "User"
+      },
+      {
+        "contributions": 5,
+        "login": "gwkline",
+        "type": "User"
+      },
+      {
+        "contributions": 5,
+        "login": "xiehuanyi",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "Ayc0",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "EricCrosson",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "GGomez99",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "ZebruhX",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "philer",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "SHND",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "adamhamlin",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "colinhacks",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "eltociear",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "eunwoo-levi",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "grigorischristainas",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "hasanefeuygun",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "hexpunk",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "jonaskello",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "juicyjusung",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "mhintz",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "momentiris",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "ndstephens",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "oguimbal",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "rio-sung-ks",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "timvandam",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "zoontek",
+        "type": "User"
+      }
+    ],
+    "languages": {
+      "JavaScript": 14867,
+      "Shell": 768,
+      "TypeScript": 567704
+    },
+    "releases": [
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2020-07-03T15:06:23Z",
+        "tag_name": "v1.0.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2020-07-03T15:48:35Z",
+        "tag_name": "v1.1.0"
+      },
+      {
+        "draft": false,
+        "prerelease": true,
+        "published_at": "2021-01-17T22:04:30Z",
+        "tag_name": "v2.0.1-next.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-01-30T09:46:20Z",
+        "tag_name": "v2.1.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-02-04T08:57:20Z",
+        "tag_name": "v2.1.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-02-08T09:04:00Z",
+        "tag_name": "v2.1.2"
+      },
+      {
+        "draft": false,
+        "prerelease": true,
+        "published_at": "2021-02-22T10:06:11Z",
+        "tag_name": "v2.1.3-next.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-02-23T08:17:25Z",
+        "tag_name": "v2.1.3"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-02-24T18:43:29Z",
+        "tag_name": "v2.1.4"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-03-03T08:47:27Z",
+        "tag_name": "v2.2.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-03-08T18:44:23Z",
+        "tag_name": "v2.2.3"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-03-09T21:10:20Z",
+        "tag_name": "v2.4.0"
+      },
+      {
+        "draft": false,
+        "prerelease": true,
+        "published_at": "2021-03-12T10:15:04Z",
+        "tag_name": "v3.0.1-next.6"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-03-14T21:17:40Z",
+        "tag_name": "v3.0.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-03-16T08:30:33Z",
+        "tag_name": "v3.0.3"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-03-16T18:17:44Z",
+        "tag_name": "v3.0.4"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-03-17T10:18:10Z",
+        "tag_name": "v3.0.6"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-03-25T09:08:51Z",
+        "tag_name": "v3.1.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-04-06T09:20:50Z",
+        "tag_name": "v3.1.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-05-10T12:55:11Z",
+        "tag_name": "v3.1.4"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-05-12T09:03:49Z",
+        "tag_name": "v3.1.5"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-07-01T20:25:51Z",
+        "tag_name": "v3.2.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-07-21T13:28:12Z",
+        "tag_name": "v3.2.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-08-01T12:28:36Z",
+        "tag_name": "v3.2.4"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-08-21T10:30:44Z",
+        "tag_name": "v3.2.5"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-09-17T17:03:16Z",
+        "tag_name": "v3.3.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-09-23T20:26:51Z",
+        "tag_name": "v3.3.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-12-20T10:35:27Z",
+        "tag_name": "v3.3.4"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2022-01-23T20:45:21Z",
+        "tag_name": "v3.3.5"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2022-03-26T10:53:15Z",
+        "tag_name": "v4.0.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2022-04-17T17:16:15Z",
+        "tag_name": "v4.0.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2022-07-06T13:33:04Z",
+        "tag_name": "v4.0.4"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2022-11-16T09:58:35Z",
+        "tag_name": "v4.0.5"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2022-11-16T10:04:30Z",
+        "tag_name": "v4.0.6"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-01-08T21:25:04Z",
+        "tag_name": "v4.1.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-01-12T09:11:19Z",
+        "tag_name": "v4.1.3"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-02-06T23:34:10Z",
+        "tag_name": "v4.1.4"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-02-19T18:26:04Z",
+        "tag_name": "v4.2.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-02-22T10:11:04Z",
+        "tag_name": "v4.2.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-03-23T17:42:01Z",
+        "tag_name": "v4.2.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-05-08T22:31:02Z",
+        "tag_name": "v4.3.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-06-13T12:40:49Z",
+        "tag_name": "v5.0.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-07-13T17:08:32Z",
+        "tag_name": "v5.0.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-07-14T11:19:57Z",
+        "tag_name": "v5.0.3"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-07-19T15:49:46Z",
+        "tag_name": "v5.0.4"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-08-06T21:41:26Z",
+        "tag_name": "v5.0.5"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-12-03T02:27:38Z",
+        "tag_name": "v5.0.6"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2024-02-15T15:25:11Z",
+        "tag_name": "v5.0.8"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2024-03-31T20:40:35Z",
+        "tag_name": "v5.1.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2024-04-06T21:43:16Z",
+        "tag_name": "v5.1.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2024-05-23T14:44:47Z",
+        "tag_name": "v5.1.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2024-06-12T12:32:36Z",
+        "tag_name": "v5.2.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2024-08-11T20:35:31Z",
+        "tag_name": "v5.3.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2024-09-25T22:24:35Z",
+        "tag_name": "v5.4.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2024-10-14T03:05:29Z",
+        "tag_name": "v5.5.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2024-12-15T17:40:42Z",
+        "tag_name": "v5.6.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2025-01-19T15:18:35Z",
+        "tag_name": "v5.6.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2025-01-21T02:51:17Z",
+        "tag_name": "v5.6.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2025-03-28T20:35:05Z",
+        "tag_name": "v5.7.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2025-05-18T13:48:12Z",
+        "tag_name": "v5.7.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2025-07-26T13:52:44Z",
+        "tag_name": "v5.8.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2025-10-26T13:59:40Z",
+        "tag_name": "v5.9.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2026-10-13T12:09:29Z",
+        "tag_name": "v5.9.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2026-10-14T08:48:05Z",
+        "tag_name": "v5.9.2"
+      }
+    ],
+    "repo": {
+      "archived": false,
+      "created_at": "2020-05-24T16:41:02Z",
+      "default_branch": "main",
+      "description": "🎨 The exhaustive Pattern Matching library for TypeScript, with smart type inference.",
+      "forks": 183,
+      "has_issues": true,
+      "homepage": "",
+      "language": "TypeScript",
+      "license": "MIT",
+      "open_issues": 87,
+      "owner_login": "gvergnaud",
+      "owner_type": "User",
+      "pushed_at": "2026-11-20T23:18:43Z",
+      "size_kb": 3064,
+      "stars": 15223,
+      "topics": [
+        "branching",
+        "conditions",
+        "exhaustive",
+        "inference",
+        "javascript",
+        "matching",
+        "pattern",
+        "pattern-matching",
+        "ts",
+        "type-inference",
+        "typescript"
+      ],
+      "watchers": 25
+    },
+    "tree": {
+      "entries": [
+        {
+          "path": ".github",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": ".github/FUNDING.yml",
+          "size": 835,
+          "type": "blob"
+        },
+        {
+          "path": ".github/ISSUE_TEMPLATE",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": ".github/ISSUE_TEMPLATE/bug_report.md",
+          "size": 535,
+          "type": "blob"
+        },
+        {
+          "path": ".github/ISSUE_TEMPLATE/feature_request.md",
+          "size": 604,
+          "type": "blob"
+        },
+        {
+          "path": ".gitignore",
+          "size": 130,
+          "type": "blob"
+        },
+        {
+          "path": ".prettierrc",
+          "size": 27,
+          "type": "blob"
+        },
+        {
+          "path": "LICENSE",
+          "size": 1073,
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "size": 50705,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "benchmarks/always-last-digit.ts",
+          "size": 2463,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/compile-time",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "benchmarks/compile-time/README.md",
+          "size": 1364,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/compile-time/discriminated-union-exhaustive.ts",
+          "size": 1498,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/compile-time/discriminated-union-non-exhaustive.ts",
+          "size": 1612,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/compile-time/large-union-exhaustive.ts",
+          "size": 6619,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/compile-time/large-union-non-exhaustive.ts",
+          "size": 7152,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/compile-time/shared.ts",
+          "size": 5607,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/compile-time/tsconfig.json",
+          "size": 228,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/nested-objects.ts",
+          "size": 1846,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/package-lock.json",
+          "size": 20291,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/package.json",
+          "size": 509,
+          "type": "blob"
+        },
+        {
+          "path": "benchmarks/random-digit.ts",
+          "size": 2549,
+          "type": "blob"
+        },
+        {
+          "path": "docs",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "docs/roadmap.md",
+          "size": 2593,
+          "type": "blob"
+        },
+        {
+          "path": "docs/v3-to-v4-migration-guide.md",
+          "size": 8780,
+          "type": "blob"
+        },
+        {
+          "path": "docs/v4-to-v5-migration-guide.md",
+          "size": 8169,
+          "type": "blob"
+        },
+        {
+          "path": "examples",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "examples/gif-fetcher",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "examples/gif-fetcher/package.json",
+          "size": 622,
+          "type": "blob"
+        },
+        {
+          "path": "examples/gif-fetcher/public",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "examples/gif-fetcher/public/index.html",
+          "size": 255,
+          "type": "blob"
+        },
+        {
+          "path": "examples/gif-fetcher/src",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "examples/gif-fetcher/src/App.tsx",
+          "size": 3528,
+          "type": "blob"
+        },
+        {
+          "path": "examples/gif-fetcher/src/constants.ts",
+          "size": 43,
+          "type": "blob"
+        },
+        {
+          "path": "examples/gif-fetcher/src/index.tsx",
+          "size": 178,
+          "type": "blob"
+        },
+        {
+          "path": "examples/gif-fetcher/src/searchGif.ts",
+          "size": 949,
+          "type": "blob"
+        },
+        {
+          "path": "examples/gif-fetcher/src/styles.css",
+          "size": 419,
+          "type": "blob"
+        },
+        {
+          "path": "examples/gif-fetcher/tsconfig.json",
+          "size": 393,
+          "type": "blob"
+        },
+        {
+          "path": "examples/one-file-demo",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "examples/one-file-demo/one-file-demo.ts",
+          "size": 5124,
+          "type": "blob"
+        },
+        {
+          "path": "examples/one-file-demo/package.json",
+          "size": 164,
+          "type": "blob"
+        },
+        {
+          "path": "examples/one-file-demo/tsconfig.json",
+          "size": 156,
+          "type": "blob"
+        },
+        {
+          "path": "jest.config.cjs",
+          "size": 70,
+          "type": "blob"
+        },
+        {
+          "path": "jsr.json",
+          "size": 176,
+          "type": "blob"
+        },
+        {
+          "path": "package-lock.json",
+          "size": 610283,
+          "type": "blob"
+        },
+        {
+          "path": "package.json",
+          "size": 2621,
+          "type": "blob"
+        },
+        {
+          "path": "scripts",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "scripts/completions",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "scripts/completions/cases.mjs",
+          "size": 3661,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/completions/run.mjs",
+          "size": 9903,
+          "type": "blob"
+        },
+        {
+          "path": "scripts/generate-cts.sh",
+          "size": 768,
+          "type": "blob"
+        },
+        {
+          "path": "src",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "src/errors.ts",
+          "size": 518,
+          "type": "blob"
+        },
+        {
+          "path": "src/index.ts",
+          "size": 198,
+          "type": "blob"
+        },
+        {
+          "path": "src/internals",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "src/internals/helpers.ts",
+          "size": 3980,
+          "type": "blob"
+        },
+        {
+          "path": "src/internals/symbols.ts",
+          "size": 1082,
+          "type": "blob"
+        },
+        {
+          "path": "src/is-matching.ts",
+          "size": 2168,
+          "type": "blob"
+        },
+        {
+          "path": "src/match.ts",
+          "size": 3808,
+          "type": "blob"
+        },
+        {
+          "path": "src/patterns.ts",
+          "size": 40283,
+          "type": "blob"
+        },
+        {
+          "path": "src/types",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "src/types/BuildMany.ts",
+          "size": 1547,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/DeepExclude.ts",
+          "size": 678,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/DistributeUnions.ts",
+          "size": 5866,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/ExtractPreciseValue.ts",
+          "size": 5282,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/FindSelected.ts",
+          "size": 6426,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/InvertPattern.ts",
+          "size": 12618,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/IsMatching.ts",
+          "size": 3245,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/KnownPattern.ts",
+          "size": 1628,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/Match.ts",
+          "size": 12570,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/Pattern.ts",
+          "size": 22237,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/PrimitivePattern.ts",
+          "size": 716,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/helpers.ts",
+          "size": 6871,
+          "type": "blob"
+        },
+        {
+          "path": "src/types/index.ts",
+          "size": 26,
+          "type": "blob"
+        },
+        {
+          "path": "tests",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/bigints.test.ts",
+          "size": 3516,
+          "type": "blob"
+        },
+        {
+          "path": "tests/branded-nominal-types.test.ts",
+          "size": 1643,
+          "type": "blob"
+        },
+        {
+          "path": "tests/build-many.test.ts",
+          "size": 720,
+          "type": "blob"
+        },
+        {
+          "path": "tests/chainable.test.ts",
+          "size": 8175,
+          "type": "blob"
+        },
+        {
+          "path": "tests/deep-exclude.test.ts",
+          "size": 17432,
+          "type": "blob"
+        },
+        {
+          "path": "tests/distribute-unions.test.ts",
+          "size": 26395,
+          "type": "blob"
+        },
+        {
+          "path": "tests/exhaustive-fallback.test.ts",
+          "size": 1503,
+          "type": "blob"
+        },
+        {
+          "path": "tests/exhaustive-match.test.ts",
+          "size": 33068,
+          "type": "blob"
+        },
+        {
+          "path": "tests/extract-precise-value.test.ts",
+          "size": 14787,
+          "type": "blob"
+        },
+        {
+          "path": "tests/find-selected.test.ts",
+          "size": 13946,
+          "type": "blob"
+        },
+        {
+          "path": "tests/generate-cts.test.cjs",
+          "size": 1233,
+          "type": "blob"
+        },
+        {
+          "path": "tests/generics.test.ts",
+          "size": 4664,
+          "type": "blob"
+        },
+        {
+          "path": "tests/helpers.test.ts",
+          "size": 4873,
+          "type": "blob"
+        },
+        {
+          "path": "tests/infer.test.ts",
+          "size": 1287,
+          "type": "blob"
+        },
+        {
+          "path": "tests/instance-of.test.ts",
+          "size": 2286,
+          "type": "blob"
+        },
+        {
+          "path": "tests/intersection-and-union.test.ts",
+          "size": 20879,
+          "type": "blob"
+        },
+        {
+          "path": "tests/invert-pattern.test.ts",
+          "size": 12781,
+          "type": "blob"
+        },
+        {
+          "path": "tests/is-matching.test.ts",
+          "size": 4964,
+          "type": "blob"
+        },
+        {
+          "path": "tests/large-exhaustive.test.ts",
+          "size": 23436,
+          "type": "blob"
+        },
+        {
+          "path": "tests/lists.test.ts",
+          "size": 2249,
+          "type": "blob"
+        },
+        {
+          "path": "tests/maps.test.ts",
+          "size": 1117,
+          "type": "blob"
+        },
+        {
+          "path": "tests/matcher-protocol.test.ts",
+          "size": 3297,
+          "type": "blob"
+        },
+        {
+          "path": "tests/multiple-patterns.test.ts",
+          "size": 7901,
+          "type": "blob"
+        },
+        {
+          "path": "tests/narrow.test.ts",
+          "size": 1102,
+          "type": "blob"
+        },
+        {
+          "path": "tests/nesting.test.ts",
+          "size": 4902,
+          "type": "blob"
+        },
+        {
+          "path": "tests/not.test.ts",
+          "size": 8266,
+          "type": "blob"
+        },
+        {
+          "path": "tests/numbers.test.ts",
+          "size": 6288,
+          "type": "blob"
+        },
+        {
+          "path": "tests/objects.test.ts",
+          "size": 3678,
+          "type": "blob"
+        },
+        {
+          "path": "tests/optional-props.test.ts",
+          "size": 3022,
+          "type": "blob"
+        },
+        {
+          "path": "tests/optional.test.ts",
+          "size": 5695,
+          "type": "blob"
+        },
+        {
+          "path": "tests/otherwise.test.ts",
+          "size": 248,
+          "type": "blob"
+        },
+        {
+          "path": "tests/output-type.test.ts",
+          "size": 5257,
+          "type": "blob"
+        },
+        {
+          "path": "tests/pattern.test.ts",
+          "size": 2957,
+          "type": "blob"
+        },
+        {
+          "path": "tests/primitive-values.test.ts",
+          "size": 2533,
+          "type": "blob"
+        },
+        {
+          "path": "tests/primitive-with-overload.test.ts",
+          "size": 2199,
+          "type": "blob"
+        },
+        {
+          "path": "tests/readonly.test.ts",
+          "size": 2726,
+          "type": "blob"
+        },
+        {
+          "path": "tests/real-world.test.ts",
+          "size": 5260,
+          "type": "blob"
+        },
+        {
+          "path": "tests/record.test.ts",
+          "size": 19274,
+          "type": "blob"
+        },
+        {
+          "path": "tests/return-type.test.ts",
+          "size": 1459,
+          "type": "blob"
+        },
+        {
+          "path": "tests/select-undefined.test.ts",
+          "size": 1342,
+          "type": "blob"
+        },
+        {
+          "path": "tests/select.test.ts",
+          "size": 16869,
+          "type": "blob"
+        },
+        {
+          "path": "tests/sets.test.ts",
+          "size": 1513,
+          "type": "blob"
+        },
+        {
+          "path": "tests/sparse-arrays.test.ts",
+          "size": 1328,
+          "type": "blob"
+        },
+        {
+          "path": "tests/strings.test.ts",
+          "size": 5910,
+          "type": "blob"
+        },
+        {
+          "path": "tests/tsconfig.json",
+          "size": 320,
+          "type": "blob"
+        },
+        {
+          "path": "tests/tuples.test.ts",
+          "size": 5906,
+          "type": "blob"
+        },
+        {
+          "path": "tests/type-error-messages.test.ts",
+          "size": 5615,
+          "type": "blob"
+        },
+        {
+          "path": "tests/type-error.test.ts",
+          "size": 4460,
+          "type": "blob"
+        },
+        {
+          "path": "tests/type-is-matching.test.ts",
+          "size": 10977,
+          "type": "blob"
+        },
+        {
+          "path": "tests/types-catalog",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "tests/types-catalog/definition.ts",
+          "size": 11557,
+          "type": "blob"
+        },
+        {
+          "path": "tests/types-catalog/utils.ts",
+          "size": 1587,
+          "type": "blob"
+        },
+        {
+          "path": "tests/types.test.ts",
+          "size": 11634,
+          "type": "blob"
+        },
+        {
+          "path": "tests/unions.test.ts",
+          "size": 4453,
+          "type": "blob"
+        },
+        {
+          "path": "tests/variadic-pattern-reuse.test.ts",
+          "size": 866,
+          "type": "blob"
+        },
+        {
+          "path": "tests/variadic-tuples.test.ts",
+          "size": 18837,
+          "type": "blob"
+        },
+        {
+          "path": "tests/when.test.ts",
+          "size": 11209,
+          "type": "blob"
+        },
+        {
+          "path": "tests/wildcards.test.ts",
+          "size": 6763,
+          "type": "blob"
+        },
+        {
+          "path": "tsconfig.json",
+          "size": 323,
+          "type": "blob"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  "fetched_at": "2026-11-23T12:52:56Z",
+  "notes": [
+    {
+      "reason": "GitHub 无公开 API；L0 标注为未获得，不估算",
+      "source": "used_by",
+      "status": "unavailable"
+    }
+  ],
+  "owner": "gvergnaud",
+  "repo": "ts-pattern",
+  "sha256": "a51094bc0f76b9fec9a9c064ea158287e449ee56a053afc8d76ccd8565858e46"
+}
