@@ -1,0 +1,236 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "MIT",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": []
+  },
+  "identity": {
+    "age_days": 5309,
+    "analyzed_at": "2026-11-24T13:49:15Z",
+    "channel": "classic",
+    "commit": "85cf10c09c6c3c86160d6f0eb156f62d0efc1648",
+    "created_at": "2012-05-12T14:37:08Z",
+    "repo": "nsqio/nsq"
+  },
+  "lang": {
+    "shares": {
+      "CSS": 0.0056,
+      "Dockerfile": 0.0009,
+      "Go": 0.8343,
+      "HTML": 0.0035,
+      "Handlebars": 0.0598,
+      "JavaScript": 0.0633,
+      "Makefile": 0.0018,
+      "Python": 0.016,
+      "SCSS": 0.006,
+      "Shell": 0.0087
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 6,
+    "commits_90d": 0,
+    "contributors": 113,
+    "forks": 2882,
+    "last_commit": "2026-08-11T18:19:49Z",
+    "open_issues": 81,
+    "release_count_365d": 0,
+    "stars": 25780,
+    "top10_share": 0.9345,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.6323,
+    "days_since_commit": 105,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "slowed"
+  },
+  "sources": {
+    "commit": "85cf10c09c6c3c86160d6f0eb156f62d0efc1648",
+    "files": [
+      {
+        "path": "ChangeLog.md",
+        "sha256": "980a90a67043cf55d6d2d298ff45833b7635dc6df2c59a15b9e7f9e76cd0d31e"
+      },
+      {
+        "path": "README.md",
+        "sha256": "dd82debb6e1f5d6498b69693b8a26ea75db6a6268537f3c5a7fc2666c7f454fe"
+      },
+      {
+        "path": "apps/nsqadmin/main.go",
+        "sha256": "abffd231184a988a8a45fd257a13fcc6d52a4d2a9c4caa5e15fe2e1561349818"
+      },
+      {
+        "path": "apps/nsqd/README.md",
+        "sha256": "bb36ee77bc2818a65318b1ac875f551ea75a22124165ccbe4aa94b09207bc52d"
+      },
+      {
+        "path": "apps/nsqd/main.go",
+        "sha256": "0ad9a8f1e2476fea6111c8cc82edde1bae63cfb14b0d7a283b7e24a21fe65ee5"
+      },
+      {
+        "path": "apps/nsqlookupd/README.md",
+        "sha256": "66eb295ff077839c2728b5ecfdc21ecec1d73a5a0b5bf2b99d67300cd2fda68a"
+      },
+      {
+        "path": "apps/nsqlookupd/main.go",
+        "sha256": "1b2e7f4a9ebd2f84ca100e18ef0dcc44539589875802d3cf460d04d4991ab971"
+      },
+      {
+        "path": "apps/to_nsq/README.md",
+        "sha256": "aa80aa06feaea2ccc4c709b5e0e401815b358c13ca9ca0d19e392d4c19185c21"
+      },
+      {
+        "path": "internal/clusterinfo/data.go",
+        "sha256": "fa051cb8e60ffb7fa5a8ead8eea24a356573ca3e0a1a2ddba5cf3ad375ea1be9"
+      },
+      {
+        "path": "nsqadmin/README.md",
+        "sha256": "a540e00fddd9f51262b9627a5dc6dc14fa0ec7146cffb9986239f0b2be71dd71"
+      },
+      {
+        "path": "nsqadmin/http.go",
+        "sha256": "2a06fe654475f5f2d572a0ccd1c429e9422bbfce3986761d4ce06ffba5aa36b3"
+      },
+      {
+        "path": "nsqadmin/http_test.go",
+        "sha256": "98af6427882ec20caa186bde39ae6a74cea56df91723e809431159e23183e4e7"
+      },
+      {
+        "path": "nsqd/README.md",
+        "sha256": "b0fc0fdf92994d1373456d1e70b2a2d228fca2732727f5e52b116c1af9b5fb7f"
+      },
+      {
+        "path": "nsqd/http.go",
+        "sha256": "ef1ba26d42cb481e51c772769931515d4158a780c68cb0657aaa00c45d0cde10"
+      },
+      {
+        "path": "nsqd/http_test.go",
+        "sha256": "286a0afde32351280a3bd3a820b4a5b31e9eb873ff215600bd6293a9e420cec2"
+      },
+      {
+        "path": "nsqd/nsqd.go",
+        "sha256": "c617628e580b983ecc3598dd5a3af6b3476f89da8a827391c192ddf69a3131d3"
+      },
+      {
+        "path": "nsqd/protocol_v2.go",
+        "sha256": "f394570a73f6f5db53b40b054cbca153eb19454e76110bf1c8f398fc69791b53"
+      },
+      {
+        "path": "nsqd/protocol_v2_test.go",
+        "sha256": "18d52aae1b7702228a9d4567bf22242a9503d1d35ca3962d9324459a7d198748"
+      },
+      {
+        "path": "nsqd/protocol_v2_unixsocket_test.go",
+        "sha256": "c1c93a43e2ec678ccccf9e2ab6791e7af36a0a53b738cca58f160722f4f4642a"
+      },
+      {
+        "path": "nsqlookupd/README.md",
+        "sha256": "c98f07f11dd486d0a49859df586b39d50eaad193a8b8bf80c8287679ec542291"
+      }
+    ],
+    "tarball_sha256": "56949ad002beaf77acf6de9fa6d071ac479a2b3941f1639e03f9e49b6f84ec5d"
+  },
+  "structure": {
+    "bytes": 3095983,
+    "entrypoints": [
+      "apps/nsqadmin/main.go",
+      "apps/nsqd/main.go",
+      "apps/nsqlookupd/main.go"
+    ],
+    "files": 230,
+    "loc_total": null,
+    "max_depth": 5,
+    "monorepo": false,
+    "top_modules": [
+      {
+        "bytes": 2411453,
+        "files": 80,
+        "path": "nsqadmin"
+      },
+      {
+        "bytes": 351036,
+        "files": 45,
+        "path": "nsqd"
+      },
+      {
+        "bytes": 80238,
+        "files": 24,
+        "path": "apps"
+      },
+      {
+        "bytes": 80078,
+        "files": 16,
+        "path": "."
+      },
+      {
+        "bytes": 79675,
+        "files": 42,
+        "path": "internal"
+      },
+      {
+        "bytes": 64369,
+        "files": 13,
+        "path": "nsqlookupd"
+      },
+      {
+        "bytes": 20901,
+        "files": 5,
+        "path": "bench"
+      },
+      {
+        "bytes": 6996,
+        "files": 4,
+        "path": "contrib"
+      },
+      {
+        "bytes": 1237,
+        "files": 1,
+        "path": ".github"
+      }
+    ]
+  }
+}
