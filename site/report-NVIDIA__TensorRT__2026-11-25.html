@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>报告 · NVIDIA/TensorRT</title>
+<style>:root{--bg:#f4f7fb;--surface:#fff;--ink:#14213d;--muted:#64748b;--line:#e2e8f0;--brand:#2563eb;--brand2:#06b6d4;--radius:16px;--shadow:0 10px 30px rgba(15,23,42,.07)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+.site-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#0e7490 100%);color:#fff;padding:30px 24px 24px}
+.wrap{max-width:1120px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.brand-mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,#38bdf8,#2563eb);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.brand small{display:block;color:#bfdbfe;letter-spacing:.16em;font-size:.72em;text-transform:uppercase}
+header h1{font-size:1.9rem;margin:0 0 16px;letter-spacing:.01em}
+header nav{display:flex;flex-wrap:wrap;gap:8px}
+header nav a{color:#e0f2fe;text-decoration:none;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-size:.88em}
+header nav a:hover,header nav a.active{background:#fff;color:#1e3a8a;border-color:transparent}
+main{max-width:1120px;margin:26px auto 0;padding:0 24px}
+main>section,main>.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:20px}
+h1,h2,h3{line-height:1.25;color:#0f172a}
+.site-header h1,.site-header h2{color:#fff}
+h2{font-size:1.3rem;margin:0 0 12px}h3{font-size:1.06rem;margin:22px 0 8px}
+p{margin:8px 0}a{color:#1d4ed8}
+code{background:#eef2ff;color:#3730a3;padding:2px 6px;border-radius:6px;font-size:.9em}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px;overflow:auto}
+pre code{background:none;color:inherit;padding:0}
+.hero{background:linear-gradient(135deg,#eff6ff,#f0fdfa);border-color:#bfdbfe}
+.hero h2{font-size:1.55rem;margin:4px 0 8px}
+.kicker{color:var(--brand);font-weight:700;letter-spacing:.14em;font-size:.72em;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0}
+.stat{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;transition:transform .18s,border-color .18s;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+.stat:hover{transform:translateY(-2px);border-color:#93c5fd;box-shadow:0 12px 24px rgba(37,99,235,.12)}
+.stat-label{display:block;color:var(--muted);font-size:.82em}
+.stat strong{display:block;font-size:2rem;line-height:1.2;margin:6px 0;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-desc{color:var(--muted);font-size:.78em}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;margin:0;background:#fff;font-size:.92em}
+th,td{padding:10px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#f8fafc;color:#334155;font-weight:600;white-space:nowrap;position:sticky;top:0}
+tbody tr:hover{background:#f8fbff}tbody tr:last-child td{border-bottom:0}
+.empty,.note{background:#fffbeb;border-left:4px solid #f59e0b;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#78350f}
+.alert{background:#ffeef0;border-left:4px solid #d1242f;padding:12px 16px;margin:14px 0;border-radius:0 10px 10px 0;color:#7f1d1d}
+.badge-alert{display:inline-block;background:#d1242f;color:#fff;border-radius:999px;padding:2px 10px;font-size:.8em;font-weight:700}
+.pill{display:inline-block;background:#eff6ff;color:#1e40af;border:1px solid #dbeafe;border-radius:999px;padding:2px 10px;font-size:.78em;margin:2px}
+footer{max-width:1120px;margin:0 auto;padding:22px 24px 36px;color:var(--muted);font-size:.82em;text-align:center}
+@media(max-width:700px){header h1{font-size:1.45rem}main{padding:0 14px}main>section,main>.panel{padding:16px}.grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap"><div class="brand"><span class="brand-mark">O</span><div><small>osslens / static insights</small></div></div><h1>报告 · NVIDIA/TensorRT</h1><nav><a href="index.html">首页</a> · <a class="active" href="reports.html">报告</a> · <a href="timeline.html">时间线</a> · <a href="featcards.html">特征卡</a> · <a href="patterns.html">规律库</a> · <a href="costs.html">成本</a> · <a href="runs.html">抽象 run</a> · <a href="search.html">检索</a> · <a href="tags.html">范式标签</a> · <a href="compare.html">并排对比</a> · <a href="selection.html">技术选型</a></nav></div></header>
+<main class="wrap">
+<p class="note">源 MD：<code>../reports/NVIDIA__TensorRT__2026-11-25.md</code>；下方六个阅读模块 + 附录顺序固定不变。</p>
+<h1>NVIDIA/TensorRT 深度分析</h1>
+<p>&gt; 阅读档位：选型尽调（profile=adoption_due_diligence） &gt; 注意力预算：定位 15 / 架构 15 / 抽象 10 / ADR 10 / 扩展 5 / 经验卡 0 / 工程维护 45 &gt; 证据约定：[事实] 确定性提取 · [判断] 有 file:line 或文档锚点 · [未获得] 当前未采集</p>
+<h2>导读</h2>
+<p>&gt; <strong>是什么</strong>：NVIDIA® TensorRT™ is an SDK for high-performance deep learning inference on NVIDIA GPUs. This repository contains the open source components of TensorRT. &gt; <strong>架构一句话</strong>：[判断] 顶层以 <code>plugin</code>、<code>tools</code>、<code>samples</code> 为主（静态结构判断，未做动态跟踪）。 &gt; <strong>最大风险</strong>：Top1 贡献者占比 32.84%，决策集中度需关注 &gt; <strong>不适合</strong>：需要稳定 API/长期支持承诺的场景，请先核对发布节奏与维护状态；依赖链许可证与权重许可能力当前未采集，不能据此做出商用结论。</p>
+<h2>1. 项目定位与目标</h2>
+<p>[事实] NVIDIA/TensorRT 属于 <code>未指定</code> 领域、<code>classic</code> 通道，主语言 C++（98%），13,483 stars / 2,427 forks。</p>
+<p>[事实] 项目自述：NVIDIA® TensorRT™ is an SDK for high-performance deep learning inference on NVIDIA GPUs. This repository contains the open source components of TensorRT.。</p>
+<p>[事实] README 摘要：- Introduction - Installation - Examples - Understanding The Basics - Importers - IR - Tensor - Node - A Note On Modifying Inputs And Outputs - Graph - Exporters - Advanced - Working With Models With External Data ONNX GraphSurgeon is a Python library that allows you to create and modify ONNX models. If you prefer a GUI, try Nsight DL Designer, which integrates ONNX GraphSurgeon and provides various extra features. python3 -m pip install onnx_graphsurgeon --extra-index-url https://pypi.ngc.nvidia.com。</p>
+<ul><li><strong>目标用户</strong>：[判断] 模型工程师 / 推理基础设施开发者；应用与平台开发者；终端用户与性能调优人员</li><li><strong>替代方案与差异</strong>：[未获得] 本次未采集竞品对比与 roadmap，不得据此推断「没有替代品」。</li><li><strong>不解决什么</strong>：[未获得] 没有路线图与 issue 语料，无法可靠界定能力边界。</li></ul>
+<p>[判断] 阶段信号：仓库已存在 2,764 天，近一年发布 8 个版本，最近提交距今 7 天，维护状态「active」。这只说明是否仍在维护，不等于成熟度结论。</p>
+<h2>2. 架构全景</h2>
+<h3>2.1 上下文边界</h3>
+<p>[判断] 架构说明文档：<code>README.md</code>, <code>demo/DeBERTa/README.md</code>, <code>plugin/bertQKVToContextPlugin/README.md</code>, <code>plugin/efficientNMSPlugin/README.md</code>, <code>plugin/embLayerNormPlugin/README.md</code>；边界结论来自文档与目录结构，未经运行验证。 [事实] 硬件/内核线索：vendors=[nvidia]、kernel_langs=[cuda, triton]。</p>
+<h3>2.2 模块职责</h3>
+<table><thead><tr><th>模块</th><th>文件数</th><th>职责（启发式）</th></tr></thead><tbody><tr><td><code>plugin</code></td><td>483</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>tools</code></td><td>997</td><td>脚本与工具</td></tr><tr><td><code>samples</code></td><td>231</td><td>业务实现（职责需人工确认）</td></tr><tr><td><code>demo</code></td><td>10</td><td>示例与基准</td></tr><tr><td><code>python</code></td><td>57</td><td>语言绑定与封装</td></tr></tbody></table>
+<h3>2.3 一次调用的路径（运行时视图）</h3>
+<p>[判断] 静态推断：入口未识别 → 输出。内部 import 边约 0 条，只用于判断调用方向；<strong>未做运行时跟踪</strong>，参数与分支需读源码确认。</p>
+<h3>2.4 数据与控制流</h3>
+<p>[未获得] 未检测到并行/缓存轴证据；不代表项目中不存在。</p>
+<pre><code class="language-mermaid">graph TD
+  A[无可提取的内部模块依赖边]</code></pre>
+<h2>3. 核心抽象与契约</h2>
+<p>[未获得] 本次源码切片未识别到显式接口/注册模式；这不等于项目没有抽象层，只说明当前采集粒度不足。</p>
+<h2>4. 关键设计决策（ADR）</h2>
+<p>每条固定六字段：决策 / 替代 / 代价 / 证据 / 可复用规则 / 边界·反模式。</p>
+<h3>ADR-1 · t1: 用 Python IR 层做图改写，而非直接操作 ONNX protobuf</h3>
+<ul><li><strong>决策</strong>：用 Python IR 层做图改写，而非直接操作 ONNX protobuf</li><li><strong>替代</strong>：直接改 ONNX 原始图结构</li><li><strong>代价</strong>：需维护导入/导出双向转换层</li><li><strong>证据</strong>：<code>tools/onnx-graphsurgeon/README.md:47</code></li><li><strong>可复用规则</strong>：图改写抽象成独立 IR，导入导出解耦，便于批量变换</li><li><strong>边界/反模式</strong>：图规模极大时 IR 全量加载内存开销高，流式场景不适用</li></ul>
+<h3>ADR-2 · t2: Constant 值按需惰性加载为 NumPy 数组</h3>
+<ul><li><strong>决策</strong>：Constant 值按需惰性加载为 NumPy 数组</li><li><strong>替代</strong>：导入时全量反序列化所有权重</li><li><strong>代价</strong>：首次访问 values 有额外延迟</li><li><strong>证据</strong>：<code>tools/onnx-graphsurgeon/README.md:78</code></li><li><strong>可复用规则</strong>：大权重按需加载，避免仅改结构时付出反序列化成本</li><li><strong>边界/反模式</strong>：需遍历全部权重的量化/统计场景反而放大开销</li></ul>
+<h3>ADR-3 · t3: 节点/张量输入输出双向联动自动维护</h3>
+<ul><li><strong>决策</strong>：节点/张量输入输出双向联动自动维护</li><li><strong>替代</strong>：调用方手动同步两端引用</li><li><strong>代价</strong>：隐式副作用，调试时状态变化不直观</li><li><strong>证据</strong>：<code>tools/onnx-graphsurgeon/README.md:139</code></li><li><strong>可复用规则</strong>：图结构变更由数据结构自身保证一致性，减少调用方出错</li><li><strong>边界/反模式</strong>：隐式联动在并发修改或批量删除时易产生意外级联</li></ul>
+<h3>ADR-4 · t4: tensors() 全图遍历 O(N) 换取接口简单</h3>
+<ul><li><strong>决策</strong>：tensors() 全图遍历 O(N) 换取接口简单</li><li><strong>替代</strong>：维护张量名到对象的索引表</li><li><strong>代价</strong>：大图上重复调用会变慢</li><li><strong>证据</strong>：<code>tools/onnx-graphsurgeon/README.md:196</code></li><li><strong>可复用规则</strong>：优先简单接口，性能热点再按需加索引</li><li><strong>边界/反模式</strong>：超大图高频查询场景应改用缓存索引</li></ul>
+<h3>ADR-5 · t5: 外部数据模型沿用 ONNX 官方 external_data 机制</h3>
+<ul><li><strong>决策</strong>：外部数据模型沿用 ONNX 官方 external_data 机制</li><li><strong>替代</strong>：自定义外部权重存储格式</li><li><strong>代价</strong>：导出需额外一步转换调用</li><li><strong>证据</strong>：<code>tools/onnx-graphsurgeon/README.md:236</code></li><li><strong>可复用规则</strong>：复用上游标准格式而非自造，降低互操作成本</li><li><strong>边界/反模式</strong>：上游格式不覆盖的场景（如分片流式加载）需另做扩展</li></ul>
+<h2>5. 扩展与改造路径</h2>
+<p>[未获得] 未识别到显式插件/注册点。</p>
+<p>[判断] 新增能力的静态路径（需按实际代码复核）：</p>
+<ol><li>在入口处接入参数/配置（入口候选：<code>tools</code>, <code>python</code>）；</li><li>复用上表中的注册/分派结构，实现新的后端或适配器；</li><li>补对应测试与文档，再走发布流程。</li></ol>
+<ul><li>扩展文档：<code>plugin/bertQKVToContextPlugin/README.md</code>, <code>plugin/efficientNMSPlugin/README.md</code>, <code>plugin/embLayerNormPlugin/README.md</code></li><li>改造成本：[未获得] 需要先确认契约稳定性与测试覆盖，本报告不估算人日。</li></ul>
+<h2>6. 经验卡</h2>
+<h3>经验 1 · 图改写抽象成独立 IR，导入导出解耦，便于批量变换</h3>
+<ul><li><strong>证据</strong>：<code>tools/onnx-graphsurgeon/README.md:47</code>（来自 NVIDIA/TensorRT）</li><li><strong>适用边界</strong>：图规模极大时 IR 全量加载内存开销高，流式场景不适用</li><li><strong>反模式</strong>：在边界之外照搬「用 Python IR 层做图改写，而非直接操作 ONNX protobuf」，代价会变成「需维护导入/导出双向转换层」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「用 Python IR 层做图改写，而非直接操作 ONNX protobuf」而非「直接改 ONNX 原始图结构」</li></ul>
+<h3>经验 2 · 大权重按需加载，避免仅改结构时付出反序列化成本</h3>
+<ul><li><strong>证据</strong>：<code>tools/onnx-graphsurgeon/README.md:78</code>（来自 NVIDIA/TensorRT）</li><li><strong>适用边界</strong>：需遍历全部权重的量化/统计场景反而放大开销</li><li><strong>反模式</strong>：在边界之外照搬「Constant 值按需惰性加载为 NumPy 数组」，代价会变成「首次访问 values 有额外延迟」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「Constant 值按需惰性加载为 NumPy 数组」而非「导入时全量反序列化所有权重」</li></ul>
+<h3>经验 3 · 图结构变更由数据结构自身保证一致性，减少调用方出错</h3>
+<ul><li><strong>证据</strong>：<code>tools/onnx-graphsurgeon/README.md:139</code>（来自 NVIDIA/TensorRT）</li><li><strong>适用边界</strong>：隐式联动在并发修改或批量删除时易产生意外级联</li><li><strong>反模式</strong>：在边界之外照搬「节点/张量输入输出双向联动自动维护」，代价会变成「隐式副作用，调试时状态变化不直观」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「节点/张量输入输出双向联动自动维护」而非「调用方手动同步两端引用」</li></ul>
+<h3>经验 4 · 优先简单接口，性能热点再按需加索引</h3>
+<ul><li><strong>证据</strong>：<code>tools/onnx-graphsurgeon/README.md:196</code>（来自 NVIDIA/TensorRT）</li><li><strong>适用边界</strong>：超大图高频查询场景应改用缓存索引</li><li><strong>反模式</strong>：在边界之外照搬「tensors() 全图遍历 O(N) 换取接口简单」，代价会变成「大图上重复调用会变慢」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「tensors() 全图遍历 O(N) 换取接口简单」而非「维护张量名到对象的索引表」</li></ul>
+<h3>经验 5 · 复用上游标准格式而非自造，降低互操作成本</h3>
+<ul><li><strong>证据</strong>：<code>tools/onnx-graphsurgeon/README.md:236</code>（来自 NVIDIA/TensorRT）</li><li><strong>适用边界</strong>：上游格式不覆盖的场景（如分片流式加载）需另做扩展</li><li><strong>反模式</strong>：在边界之外照搬「外部数据模型沿用 ONNX 官方 external_data 机制」，代价会变成「导出需额外一步转换调用」</li><li><strong>如果我来做</strong>：先确认边界成立，再选择「外部数据模型沿用 ONNX 官方 external_data 机制」而非「自定义外部权重存储格式」</li></ul>
+<h2>附录 A 证据索引与未知项</h2>
+<h3>A1. 代码证据索引</h3>
+<table><thead><tr><th>id</th><th>决策</th><th>证据</th></tr></thead><tbody><tr><td>t1</td><td>用 Python IR 层做图改写，而非直接操作 ONNX protobuf</td><td><code>tools/onnx-graphsurgeon/README.md:47</code></td></tr><tr><td>t2</td><td>Constant 值按需惰性加载为 NumPy 数组</td><td><code>tools/onnx-graphsurgeon/README.md:78</code></td></tr><tr><td>t3</td><td>节点/张量输入输出双向联动自动维护</td><td><code>tools/onnx-graphsurgeon/README.md:139</code></td></tr><tr><td>t4</td><td>tensors() 全图遍历 O(N) 换取接口简单</td><td><code>tools/onnx-graphsurgeon/README.md:196</code></td></tr><tr><td>t5</td><td>外部数据模型沿用 ONNX 官方 external_data 机制</td><td><code>tools/onnx-graphsurgeon/README.md:236</code></td></tr></tbody></table>
+<ul><li>置信度：med</li><li>架构范式标签：模块化、通用优先</li></ul>
+<h3>A2. 外部资料</h3>
+<ul><li>来源：deepwiki</li><li>url：https://deepwiki.com/NVIDIA/TensorRT</li><li>fetched_at：2026-11-25T20:26:28Z</li><li>sha256：<code>38ef043f616a55c21de2272963896f1f613684e3f5280b7a95aa30a065a30327</code></li><li>判定：hit — 正文含 10 个仓库内真实路径（阈值 3）</li><li>原文快照：<code>source.txt</code>（与判定元数据分文件存放）</li></ul>
+<h3>A3. 未获得项</h3>
+<ul><li>依赖链许可证、模型权重/数据许可、CLA —— 未采集；</li><li>issue/PR 响应质量、CI 运行结果 —— 未采集；</li><li>roadmap、竞品对比、用户画像 —— 未采集；</li></ul>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+<h2>附录 B 许可证 / 维护 / 工程 / 成本</h2>
+<h3>B1. 许可证与合规风险</h3>
+<p>[事实] 主许可证 <strong>Apache-2.0</strong>；组织类型 —；治理文档：有。</p>
+<p>[未获得] 依赖链是否存在 GPL/AGPL、模型权重与数据集许可、CLA 要求；这些必须人工或由后续数据源补齐，本报告不给出「可商用」结论。</p>
+<h3>B2. 维护状态与风险</h3>
+<p>[事实] 贡献者 87 人，Top1 占比 32.84%；近 90 天 / 365 天提交 6 / 28 次；最近提交距今 7 天，维护状态「active」。</p>
+<ul><li>Top1 贡献者占比 32.84%，决策集中度需关注</li></ul>
+<h3>B3. 运行与工程体系</h3>
+<p>[事实] 仓库约 1,919 个文件、257.8 MiB；本次采集 20 个源码切片（tarball <code>b6c03f8020bf2549</code>）。 [事实] 语言构成：Batchfile 0.00%、C 0.01%、C++ 97.73%、CMake 0.07%、Cuda 0.31%、Dockerfile 0.01%、HTML 0.00%、Jupyter Notebook 0.24%、Makefile 0.00%、PowerShell 0.00%、PureBasic 0.00%、Python 1.62%、Shell 0.01%；硬件 vendors=[nvidia]、kernel_langs=[cuda, triton]。</p>
+<p>[未获得] 构建脚本、依赖安装、测试体系、CI/CD、配置与 secret 管理未采集；本报告不能回答「能否在目标环境跑起来」。</p>
+<p><strong>特征卡已知限制</strong>：</p>
+<ul><li>证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h3>B4. 运行元数据与成本</h3>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>仓库</td><td>NVIDIA/TensorRT</td></tr><tr><td>commit</td><td><code>7fe18f085276e1e1dd1f872c5b6568143b31b57d</code></td></tr><tr><td>分析基准时间 (as-of)</td><td>2026-11-25T13:00:34Z</td></tr><tr><td>通道 / 领域</td><td>classic / 未指定</td></tr><tr><td>请求档位 (requested_depth)</td><td>fast</td></tr><tr><td><strong>实际档位</strong> (actual_depth)</td><td>fast</td></tr><tr><td>降级原因 (reason)</td><td>baseline — 按通道基线</td></tr><tr><td>配额状态 (quota_state)</td><td>strong 0/1、fast 2/5（周起点 2026-11-23）；tokens 周 24912/2000000、月 369150/6000000（月起点 2026-11-01）</td></tr><tr><td>快照 sha256</td><td><code>f031df3fcefc87461de291f5b767b238f7d1152631524f757bc951334d8dedcf</code></td></tr><tr><td>成本说明</td><td>本次 ¥0.0204（模型调用 1 次）；输入 8,478 tok / 命中 256 tok / 输出 493 tok</td></tr><tr><td>累计</td><td>本周 ¥0.0779 / 33,883 tok；本月 ¥1.1082 / 378,121 tok</td></tr><tr><td>单价</td><td>deepseek-flash 输入未命中 ¥2/M · 缓存命中 ¥0.04/M · 输出 ¥8/M（官方中文页，核对 2026-11-03，取高峰价；低谷约为一半）</td></tr><tr><td>口径</td><td>本次分析的成本（不含开发期重复调用）；账户累计见 cost；成本说明同 as-of 重跑不变（幂等优先）；两者不一致是设计，不是 bug</td></tr></tbody></table>
+<p><strong>档位决策链路</strong>：</p>
+<ol><li>L1 通道基线：classic → strong；自动链按 auto_default=fast 取更省档位 → fast（非 L4 人工 override）</li><li>凭据：齐全</li><li>L2 周配额：fast 已用 2/5，未用满</li><li>L3 预算：估算 3716 × 安全系数 1.3 = 4830 tok（单选上限 120000），周 24912/2000000</li><li>结论：实际档位 fast（按通道基线）</li></ol>
+<p><strong>上下文组装</strong>（裁剪发生在调用之前）：</p>
+<table><thead><tr><th>块</th><th>优先级</th><th>估算 token</th></tr></thead><tbody><tr><td>featcard</td><td>1</td><td>1,773</td></tr><tr><td>readme</td><td>2</td><td>1,943</td></tr></tbody></table>
+<ul><li>丢弃：—</li><li>合计 3,716 / 上限 120,000</li></ul>
+<h3>B5. 特征卡摘要</h3>
+<ul><li>卡文件：<code>data/featcards/NVIDIA__TensorRT__7fe18f085276e1e1dd1f872c5b6568143b31b57d.json</code>（schema 1.0）</li><li>入口文件：—</li><li>最大目录深度：9；monorepo：否</li><li>源码切片：20 个文件（tarball <code>b6c03f8020bf2549</code>）</li><li>依赖：直接 / 传递 = — / —（L1 未解析清单文件）</li></ul>
+<p><strong>并行轴</strong></p>
+<ul><li>并行 <code>CP</code> = false（无证据）</li><li>并行 <code>DP</code> = false（无证据）</li><li>并行 <code>EP</code> = false（无证据）</li><li>并行 <code>PP</code> = false（无证据）</li><li>并行 <code>SP</code> = false（无证据）</li><li>并行 <code>TP</code> = false（无证据）</li></ul>
+<p><strong>缓存</strong></p>
+<ul><li>缓存 <code>kv_offload</code> = false（无证据）</li><li>缓存 <code>paged</code> = false（无证据）</li><li>缓存 <code>prefix_reuse</code> = false（无证据）</li><li>缓存 <code>radix</code> = false（无证据）</li></ul>
+<ul><li>硬件：vendors=[nvidia]、arch_gates=[ampere, hopper]、kernel_langs=[cuda, triton]</li><li>治理文档：是</li></ul>
+<p><strong>依赖图</strong>（内部模块 import 边，节点/边排序后输出）</p>
+<pre><code class="language-mermaid">graph TD
+  A[无可提取的内部模块依赖边]</code></pre>
+<p><strong>已知限制</strong>：</p>
+<ul><li>证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入</li><li>issue_close_ratio_90d 需 search API，L0/L1 未调用</li><li>cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null</li></ul>
+<h3>B6. 体检事实（确定性，零 LLM）</h3>
+<table><thead><tr><th>指标</th><th>值</th></tr></thead><tbody><tr><td>Star / Fork</td><td>13,483 / 2,427</td></tr><tr><td>被依赖 (Used by)</td><td>—</td></tr><tr><td>贡献者 / Top1 占比</td><td>87 / 32.84%</td></tr><tr><td>Top10 贡献集中度</td><td>71.97%</td></tr><tr><td>90 天 / 365 天提交</td><td>6 / 28</td></tr><tr><td>最近提交 / 距今天数</td><td>2026-11-18T22:33:53Z / 7</td></tr><tr><td>维护状态</td><td>active</td></tr><tr><td>项目年龄 / 发布数(365d)</td><td>2,764 天 / 8</td></tr><tr><td>组织类型 / 许可证</td><td>— / Apache-2.0</td></tr><tr><td>文件数 / 体积</td><td>1,919 / 257.8 MiB</td></tr><tr><td>内部模块依赖边</td><td>0</td></tr></tbody></table>
+<p><strong>语言构成</strong>：Batchfile 0.00%、C 0.01%、C++ 97.73%、CMake 0.07%、Cuda 0.31%、Dockerfile 0.01%、HTML 0.00%、Jupyter Notebook 0.24%、Makefile 0.00%、PowerShell 0.00%、PureBasic 0.00%、Python 1.62%、Shell 0.01%</p>
+<p><strong>模块体量 Top10</strong></p>
+<table><thead><tr><th>模块</th><th>文件数</th><th>字节</th></tr></thead><tbody><tr><td>plugin</td><td>483</td><td>246,941,240</td></tr><tr><td>tools</td><td>997</td><td>14,866,884</td></tr><tr><td>samples</td><td>231</td><td>2,754,674</td></tr><tr><td>demo</td><td>10</td><td>1,294,431</td></tr><tr><td>python</td><td>57</td><td>1,130,423</td></tr><tr><td>include</td><td>14</td><td>877,513</td></tr><tr><td>quickstart</td><td>27</td><td>836,729</td></tr><tr><td>.agents</td><td>25</td><td>741,210</td></tr><tr><td>documents</td><td>5</td><td>226,494</td></tr><tr><td>third_party</td><td>3</td><td>158,387</td></tr></tbody></table>
+<p><strong>未获得的指标</strong>：</p>
+<ul><li><code>used_by</code>：GitHub 无公开 API；L0 标注为未获得，不估算</li></ul>
+</main>
+<footer>osslens 静态只读站点 · 无后端 / 无外部 JS 与 CDN / 零 LLM / 零网络</footer>
+</body></html>
