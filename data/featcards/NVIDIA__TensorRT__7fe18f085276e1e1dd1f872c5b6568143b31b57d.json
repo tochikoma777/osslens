@@ -1,0 +1,283 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [
+      "ampere",
+      "hopper"
+    ],
+    "kernel_langs": [
+      "cuda",
+      "triton"
+    ],
+    "lock_in_score": null,
+    "vendors": [
+      "nvidia"
+    ]
+  },
+  "identity": {
+    "age_days": 2764,
+    "analyzed_at": "2026-11-25T13:00:34Z",
+    "channel": "classic",
+    "commit": "7fe18f085276e1e1dd1f872c5b6568143b31b57d",
+    "created_at": "2019-05-02T22:02:08Z",
+    "repo": "NVIDIA/TensorRT"
+  },
+  "lang": {
+    "shares": {
+      "Batchfile": 0.0,
+      "C": 0.0001,
+      "C++": 0.9773,
+      "CMake": 0.0007,
+      "Cuda": 0.0031,
+      "Dockerfile": 0.0001,
+      "HTML": 0.0,
+      "Jupyter Notebook": 0.0024,
+      "Makefile": 0.0,
+      "PowerShell": 0.0,
+      "PureBasic": 0.0,
+      "Python": 0.0162,
+      "Shell": 0.0001
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 28,
+    "commits_90d": 6,
+    "contributors": 87,
+    "forks": 2427,
+    "last_commit": "2026-11-18T22:33:53Z",
+    "open_issues": 711,
+    "release_count_365d": 8,
+    "stars": 13483,
+    "top10_share": 0.7197,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.3284,
+    "days_since_commit": 7,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "7fe18f085276e1e1dd1f872c5b6568143b31b57d",
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "ea3f1477fafbb4d37f014566f5280538a87102622438b420c9421e24ffb428b7"
+      },
+      {
+        "path": "demo/DeBERTa/README.md",
+        "sha256": "c6bca6362fca1586e08da3ae4bb78f95d5c71e25803ae705681f16482fed1b21"
+      },
+      {
+        "path": "plugin/bertQKVToContextPlugin/README.md",
+        "sha256": "5b9fbaf7737e598a5cb323f83a4e29ec00b0ea8a3b1aa112fc90a82ff5f6ad1f"
+      },
+      {
+        "path": "plugin/efficientNMSPlugin/README.md",
+        "sha256": "a8a5bab10e9147e04ccbffbbbba5f811acc9696b0a59b3a1aece3102aa9dd44e"
+      },
+      {
+        "path": "plugin/embLayerNormPlugin/README.md",
+        "sha256": "a8c0051928f9a92ba3e55b475e66f9c52e68b20363c37698ae7114a840d02778"
+      },
+      {
+        "path": "plugin/priorBoxPlugin/README.md",
+        "sha256": "c42a8a9c25acbd056d98941ca86a37f03eb453bb820663e2954092d5d644231d"
+      },
+      {
+        "path": "plugin/pyramidROIAlignPlugin/README.md",
+        "sha256": "0aa308c8436b2dbf4e5ce0b01ec252580d2d67377b445265c187227fe3660320"
+      },
+      {
+        "path": "samples/python/cute_dsl_plugin/README.md",
+        "sha256": "0ae0eacd25c9f7001ee56191d190755257b996165c0a421561640100ef0be685"
+      },
+      {
+        "path": "samples/python/python_plugin/README.md",
+        "sha256": "80181998af4fc526366fcc32e3efc15fadda9ee77bbee0b644ea225fee0d0032"
+      },
+      {
+        "path": "samples/python/quickly_deployable_plugins/README.md",
+        "sha256": "3e598f19c2c18297863a45b2313e68f6aee7a4231fd049f6c51de36a34fe27f5"
+      },
+      {
+        "path": "samples/sampleDynamicReshape/README.md",
+        "sha256": "1db1e8577c332049c2997adac8bffb1ad549d06c7b32b37fc2304fbec36c1cbd"
+      },
+      {
+        "path": "samples/sampleNonZeroPlugin/README.md",
+        "sha256": "42ba99ce36af99939f99ae0ce9993891540165059255d884eb2c7415bf0b93d5"
+      },
+      {
+        "path": "samples/sampleOnnxMNIST/README.md",
+        "sha256": "150df6a00a5e17973d02e8af9f7b33bf1778000e639ee1c90decfc02a2e01e88"
+      },
+      {
+        "path": "samples/sampleProgressMonitor/README.md",
+        "sha256": "226bf6c08e52baa59a6d247e1b61c9c84b6eca31fa3ef99cb181b59ff903ea4f"
+      },
+      {
+        "path": "samples/sampleSafeMNIST/README.md",
+        "sha256": "65770002c1d9b160b903fb21e518ec19be7d23eb7fe946a5ac4555248137907e"
+      },
+      {
+        "path": "samples/sampleSafePluginV3/README.md",
+        "sha256": "c7007ead63e6277d059c8523062bd62227dd1b040beac43ccaf0e99654fbdd02"
+      },
+      {
+        "path": "samples/trtexec/README.md",
+        "sha256": "4df6cbc3f1a2bf95d6f39852ef65da2e6c4ffc6dd293a7e32105225c78a4ad1c"
+      },
+      {
+        "path": "tools/Polygraphy/polygraphy/README.md",
+        "sha256": "5f923eeffab0ceb7c18876c42b68c61654b6b1a45d7fd3380fa6aec1fbb39502"
+      },
+      {
+        "path": "tools/Polygraphy/polygraphy/tools/README.md",
+        "sha256": "1de9692891c65297a2414de9568a4de37b7bc4f8e8e27999db8a13d35891f5fd"
+      },
+      {
+        "path": "tools/onnx-graphsurgeon/README.md",
+        "sha256": "2c98a2eb65d134ab2d2c5f3ca1f29c15ce5ce163e958d2519be94407b030de1a"
+      }
+    ],
+    "tarball_sha256": "b6c03f8020bf25499106af0c06ee7924347453809a7ff18393e6e8a2654fc04f"
+  },
+  "structure": {
+    "bytes": 270306066,
+    "entrypoints": [],
+    "files": 1919,
+    "loc_total": null,
+    "max_depth": 9,
+    "monorepo": false,
+    "top_modules": [
+      {
+        "bytes": 246941240,
+        "files": 483,
+        "path": "plugin"
+      },
+      {
+        "bytes": 14866884,
+        "files": 997,
+        "path": "tools"
+      },
+      {
+        "bytes": 2754674,
+        "files": 231,
+        "path": "samples"
+      },
+      {
+        "bytes": 1294431,
+        "files": 10,
+        "path": "demo"
+      },
+      {
+        "bytes": 1130423,
+        "files": 57,
+        "path": "python"
+      },
+      {
+        "bytes": 877513,
+        "files": 14,
+        "path": "include"
+      },
+      {
+        "bytes": 836729,
+        "files": 27,
+        "path": "quickstart"
+      },
+      {
+        "bytes": 741210,
+        "files": 25,
+        "path": ".agents"
+      },
+      {
+        "bytes": 226494,
+        "files": 5,
+        "path": "documents"
+      },
+      {
+        "bytes": 158387,
+        "files": 3,
+        "path": "third_party"
+      },
+      {
+        "bytes": 155191,
+        "files": 5,
+        "path": "parsers"
+      },
+      {
+        "bytes": 155133,
+        "files": 12,
+        "path": "."
+      },
+      {
+        "bytes": 91395,
+        "files": 24,
+        "path": "cmake"
+      },
+      {
+        "bytes": 31512,
+        "files": 10,
+        "path": "docker"
+      },
+      {
+        "bytes": 20031,
+        "files": 3,
+        "path": "scripts"
+      },
+      {
+        "bytes": 15723,
+        "files": 6,
+        "path": "shared"
+      },
+      {
+        "bytes": 9096,
+        "files": 7,
+        "path": ".github"
+      }
+    ]
+  }
+}
