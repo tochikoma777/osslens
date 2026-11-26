@@ -1,0 +1,297 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": []
+  },
+  "identity": {
+    "age_days": 2964,
+    "analyzed_at": "2026-11-26T12:42:03Z",
+    "channel": "classic",
+    "commit": "2e7a29705be71c0a15f01b5c1d34b5fe72955fbb",
+    "created_at": "2018-10-15T10:54:40Z",
+    "repo": "openvinotoolkit/openvino"
+  },
+  "lang": {
+    "shares": {
+      "Batchfile": 0.0,
+      "C": 0.0336,
+      "C#": 0.0,
+      "C++": 0.8789,
+      "CMake": 0.0145,
+      "CSS": 0.0001,
+      "HTML": 0.0003,
+      "JavaScript": 0.0011,
+      "PowerShell": 0.0001,
+      "PureBasic": 0.0,
+      "Python": 0.0709,
+      "Shell": 0.0003,
+      "TypeScript": 0.0002
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 2000,
+    "commits_90d": 1127,
+    "contributors": 413,
+    "forks": 3719,
+    "last_commit": "2026-11-26T08:59:07Z",
+    "open_issues": 1205,
+    "release_count_365d": 11,
+    "stars": 12746,
+    "top10_share": 0.2627,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.0555,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "2e7a29705be71c0a15f01b5c1d34b5fe72955fbb",
+    "files": [
+      {
+        "path": ".github/scripts/meat/README.md",
+        "sha256": "cbf2bdcf73216a395deada5dab033aa8f8dea81d7d99c08845a079e5cc638fb9"
+      },
+      {
+        "path": "README.md",
+        "sha256": "8bb5835c8674f04a67a326e0136ff4b2913500a1c78cd1e1b154cef5c73f9684"
+      },
+      {
+        "path": "samples/c/hello_classification/README.md",
+        "sha256": "d09760b39a89f0c5864d2bf75e8277bd410a1119358d92415b3b994392684fae"
+      },
+      {
+        "path": "samples/cpp/hello_remote_tensor/README.md",
+        "sha256": "5ca91e9fa7f2a1ce1b3311f1e163b3cf03cc20b37645e26895f8170d7ee32420"
+      },
+      {
+        "path": "src/bindings/js/node/README.md",
+        "sha256": "d06abcd73a680215e8e3ad755cf5381319a6930bfc8e64b937246e6fe2c43750"
+      },
+      {
+        "path": "src/common/low_precision_transformations/tests/README.md",
+        "sha256": "715eb14f289ec74f39f248c1d3bed5e0d7c0466f279144857040183bf7718cc7"
+      },
+      {
+        "path": "src/frontends/gguf/tests/test_data/arch_accuracy/README.md",
+        "sha256": "d4c8ceb7cf5477dce7465297e5570ef3037e8d500be530d57fc7d8e2cf5bcd04"
+      },
+      {
+        "path": "src/frontends/pytorch/README.md",
+        "sha256": "fe402b568bfd296c03b509dc6d6ef8848ff00cee8a2a00f52d48a472ce8c7057"
+      },
+      {
+        "path": "src/frontends/tensorflow/README.md",
+        "sha256": "ddd027c8d1fe3cda8e355617b9b0a43d084a60dadb9fe0e261b931d5814aa369"
+      },
+      {
+        "path": "src/plugins/intel_cpu/src/emitters/README.md",
+        "sha256": "0ecc2cc57b7369cf2fc1285192e42c27e28109269f30b092eb55aaac99dbb055"
+      },
+      {
+        "path": "src/plugins/intel_cpu/src/nodes/README.md",
+        "sha256": "29142388273b0386f41ef375b23552365fb643c4eb7e6fdc734ec1604861aa0e"
+      },
+      {
+        "path": "src/plugins/intel_cpu/src/nodes/executors/README.md",
+        "sha256": "87d8d1c9fd585009151c9fc972e5143cf5f7c72bc9be097f11710f760d15ab0b"
+      },
+      {
+        "path": "src/plugins/intel_cpu/src/nodes/kernels/simd/README.md",
+        "sha256": "4bce481d8d218f332df2cc107cd461eb35b1892487d78c683c525e4d542e7dc9"
+      },
+      {
+        "path": "src/plugins/intel_npu/README.md",
+        "sha256": "a6083c979c44191f163374930b5b66e6f216b147eb3d97943f7c8179e10fefbd"
+      },
+      {
+        "path": "src/plugins/intel_npu/tests/functional/README.md",
+        "sha256": "a13808c4080b7e9abf098817438d0af6797b4fabe3936d70d64da45f471ac151"
+      },
+      {
+        "path": "src/plugins/intel_npu/tools/compile_tool/README.md",
+        "sha256": "2fea31eea2a473a3c679ab3bb00f095f9ff76afcfa7c99fcdf31a49f4cd01962"
+      },
+      {
+        "path": "src/plugins/intel_npu/tools/protopipe/README.md",
+        "sha256": "93293f4971e7714e55709dbccecfa39da32e3b8a423957b48d5f5de25fd6b337"
+      },
+      {
+        "path": "src/plugins/intel_npu/tools/single-image-test/README.md",
+        "sha256": "848019a0dc2bad55128a816a2802424325aab99d29b0dc51b0abf6008ef236f4"
+      },
+      {
+        "path": "src/tests/functional/plugin/conformance/test_runner/README.md",
+        "sha256": "14ed397a2cf86471faec783197a92b5cebc148e19e07a860036c6ba3275093bb"
+      },
+      {
+        "path": "tools/commit_slider/README.md",
+        "sha256": "f7cb87aac59dbf4d230e8dff335601201e681c5ccb8ffcfd5ff89a8e07b06729"
+      }
+    ],
+    "tarball_sha256": "6ed398a4c4693e09a1a786d965f5bfa595fc57445d46a8bb7cf16c10e1d6911a"
+  },
+  "structure": {
+    "bytes": 262477998,
+    "entrypoints": [
+      ".github/actions/cache/dist/cleanup-only/index.js",
+      ".github/actions/cache/dist/restore-only/index.js",
+      ".github/actions/cache/dist/restore/index.js",
+      ".github/actions/cache/dist/save-only/index.js",
+      ".github/actions/cache/dist/save/index.js",
+      ".github/actions/install_wheel/dist/index.js",
+      ".github/actions/wait-for-check-completion/dist/index.js",
+      ".github/actions/wait-for-check-completion/src/index.js",
+      "docs/articles_en/assets/snippets/main.py",
+      "docs/snippets/src/main.cpp",
+      "docs/snippets/src/main.py",
+      "samples/cpp/benchmark/sync_benchmark/main.cpp",
+      "samples/cpp/benchmark/throughput_benchmark/main.cpp",
+      "samples/cpp/benchmark_app/main.cpp",
+      "samples/cpp/classification_sample_async/main.cpp",
+      "samples/cpp/hello_classification/main.cpp",
+      "samples/cpp/hello_nv12_input_classification/main.cpp",
+      "samples/cpp/hello_query_device/main.cpp",
+      "samples/cpp/hello_remote_tensor/main.cpp",
+      "samples/cpp/hello_reshape_ssd/main.cpp",
+      "samples/cpp/model_creation_sample/main.cpp",
+      "src/bindings/js/node/lib/index.ts",
+      "src/bindings/js/node/tests/e2e/demo-electron-app/index.js",
+      "src/core/tests/main.cpp",
+      "src/frontends/tests/frontend/shared/gtest_main_manifest/main.cpp",
+      "src/frontends/tests/frontend/shared/src/main.cpp",
+      "src/plugins/intel_cpu/tools/dump_jit_disassm/__main__.py",
+      "src/plugins/intel_npu/tests/functional/main.cpp",
+      "src/plugins/intel_npu/tests/unit/main.cpp",
+      "src/plugins/intel_npu/tools/compile_tool/main.cpp",
+      "src/plugins/intel_npu/tools/protopipe/main.cpp",
+      "src/plugins/intel_npu/tools/single-image-test/main.cpp",
+      "src/tests/functional/plugin/conformance/subgraphs_dumper/src/main.cpp",
+      "src/tests/functional/plugin/conformance/test_runner/conformance_infra/src/main.cpp",
+      "src/tests/functional/plugin/shared/src/main.cpp",
+      "tests/stress_tests/memleaks_tests/main.cpp",
+      "tests/stress_tests/unittests/main.cpp",
+      "tests/time_tests/src/timetests_helper/main.cpp",
+      "tools/benchmark_tool/openvino/tools/benchmark/main.py",
+      "tools/ovc/openvino/tools/ovc/__main__.py",
+      "tools/ovc/openvino/tools/ovc/main.py"
+    ],
+    "files": 19317,
+    "loc_total": null,
+    "max_depth": 11,
+    "monorepo": true,
+    "top_modules": [
+      {
+        "bytes": 182341266,
+        "files": 16301,
+        "path": "src"
+      },
+      {
+        "bytes": 52273456,
+        "files": 1018,
+        "path": "docs"
+      },
+      {
+        "bytes": 13064122,
+        "files": 384,
+        "path": ".github"
+      },
+      {
+        "bytes": 6236991,
+        "files": 151,
+        "path": "samples"
+      },
+      {
+        "bytes": 4856454,
+        "files": 1068,
+        "path": "tests"
+      },
+      {
+        "bytes": 2050947,
+        "files": 164,
+        "path": "tools"
+      },
+      {
+        "bytes": 556991,
+        "files": 120,
+        "path": "cmake"
+      },
+      {
+        "bytes": 356526,
+        "files": 40,
+        "path": "thirdparty"
+      },
+      {
+        "bytes": 352587,
+        "files": 6,
+        "path": "licensing"
+      },
+      {
+        "bytes": 228239,
+        "files": 37,
+        "path": ".claude"
+      },
+      {
+        "bytes": 124454,
+        "files": 20,
+        "path": "."
+      },
+      {
+        "bytes": 35948,
+        "files": 7,
+        "path": "scripts"
+      },
+      {
+        "bytes": 17,
+        "files": 1,
+        "path": ".agents"
+      }
+    ]
+  }
+}
