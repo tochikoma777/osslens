@@ -1,0 +1,2240 @@
+{
+  "as_of": "2026-11-26T12:41:42Z",
+  "data": {
+    "commits": [
+      {
+        "date": "2026-08-11T18:19:49Z",
+        "sha": "85cf10c09c6c3c86160d6f0eb156f62d0efc1648"
+      },
+      {
+        "date": "2026-08-05T03:37:20Z",
+        "sha": "e9ba0b486844e426918065e897b8a36cca5c6aaf"
+      },
+      {
+        "date": "2026-08-05T03:28:12Z",
+        "sha": "6a6c424e8e6b3975f8ae8f96e56850136a1bdf27"
+      },
+      {
+        "date": "2026-07-20T15:51:34Z",
+        "sha": "72ad9b2793578ee909ee8d57fc6fcbf7ec2e7144"
+      },
+      {
+        "date": "2026-07-20T15:48:54Z",
+        "sha": "208325a67667c788cbb78fb158f78d186034991a"
+      },
+      {
+        "date": "2026-07-20T15:48:32Z",
+        "sha": "2dcfefc9487a4af5bc8eceed4aabae851d1d9a30"
+      }
+    ],
+    "contributors": [
+      {
+        "contributions": 1429,
+        "login": "mreiferson",
+        "type": "User"
+      },
+      {
+        "contributions": 433,
+        "login": "jehiah",
+        "type": "User"
+      },
+      {
+        "contributions": 167,
+        "login": "ploxiln",
+        "type": "User"
+      },
+      {
+        "contributions": 22,
+        "login": "danielhfrank",
+        "type": "User"
+      },
+      {
+        "contributions": 16,
+        "login": "andyxning",
+        "type": "User"
+      },
+      {
+        "contributions": 11,
+        "login": "elubow",
+        "type": "User"
+      },
+      {
+        "contributions": 10,
+        "login": "twmb",
+        "type": "User"
+      },
+      {
+        "contributions": 9,
+        "login": "judwhite",
+        "type": "User"
+      },
+      {
+        "contributions": 8,
+        "login": "kenjones-cisco",
+        "type": "User"
+      },
+      {
+        "contributions": 7,
+        "login": "Dieterbe",
+        "type": "User"
+      },
+      {
+        "contributions": 7,
+        "login": "dudleycarr",
+        "type": "User"
+      },
+      {
+        "contributions": 6,
+        "login": "cespare",
+        "type": "User"
+      },
+      {
+        "contributions": 6,
+        "login": "xiaost",
+        "type": "User"
+      },
+      {
+        "contributions": 5,
+        "login": "soar",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "absolute8511",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "chrisroberts",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "dmarkham",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "dustismo",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "karalabe",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "losinggeneration",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "vitaliytv",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "bitpeng",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "chen-anders",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "edoger",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "mdh67899",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "michaelhood",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "mpe",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "nordicdyno",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "ritaswc",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "sparklxb",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "tufanbarisyildirim",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "yc90s",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "00arthur00",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "0xfeeddeadbeef",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "AlekSi",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "AlphaB",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "CallanTaylor",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "Chaiyq",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "DAXaholic",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "FilWisher",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "HaraldNordgren",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "JackDrogon",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "JustinAzoff",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "KerwinKoo",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "ReadmeCritic",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "ShawnSpooner",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "StellarisW",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "TangDH03",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "adamweiner",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "alister",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "alwindoss",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "antihax",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "arshabbir",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "benjsto",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "bilxio",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "boba-pipi",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "bpmason1",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "bschwartz",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "c3llus",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "creker",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "crossjam",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "danrjohnson",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "davidbirdsong",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "dinedal",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "donutloop",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "dvrkps",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "fbjork",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "fengve",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "fsouza",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "gradetwo",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "gueFDF",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "i-sevostyanov",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "iand",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "imxyb",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "intellitrend-team",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "jarede-dev",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "jcoene",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "jlr52",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "johnou",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "joshuarubin",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "jphines",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "juliangruber",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "jxskiss",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "kamyanskiy",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "kzvezdarov",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "lcnja",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "lelenanam",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "likid1412",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "lxfontes",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "magnetised",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "martingrambow",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "mccutchen",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "michaelyou",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "mikedewar",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "mroth",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "mynameisfiber",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "protoss-player",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "s-mang",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "sgeller",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "shyam-king",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "sjatsh",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "slene",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "sneak",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "stephensearles",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "svmehta",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "telepenin",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "tj",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "victorabarros",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "victorquinn",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "yashin-luo",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "yejingx",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "zachbadgett",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "zhouhailin",
+        "type": "User"
+      }
+    ],
+    "languages": {
+      "CSS": 4230,
+      "Dockerfile": 707,
+      "Go": 625849,
+      "HTML": 2622,
+      "Handlebars": 44855,
+      "JavaScript": 47507,
+      "Makefile": 1335,
+      "Python": 11977,
+      "SCSS": 4521,
+      "Shell": 6556
+    },
+    "releases": [
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2013-07-02T19:35:47Z",
+        "tag_name": "v0.2.21"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2013-07-02T19:40:10Z",
+        "tag_name": "v0.2.20"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2013-07-02T19:41:08Z",
+        "tag_name": "v0.2.19"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2013-07-02T19:42:07Z",
+        "tag_name": "v0.2.18"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2013-07-02T19:42:41Z",
+        "tag_name": "v0.2.17"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2013-07-02T19:43:16Z",
+        "tag_name": "v0.2.16"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2013-08-26T17:46:58Z",
+        "tag_name": "v0.2.22"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2013-10-23T03:44:51Z",
+        "tag_name": "v0.2.23"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2013-12-07T19:14:38Z",
+        "tag_name": "v0.2.24"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2014-02-06T15:45:35Z",
+        "tag_name": "v0.2.25"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2014-02-07T03:42:01Z",
+        "tag_name": "v0.2.26"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2014-02-17T14:24:17Z",
+        "tag_name": "v0.2.27"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2014-04-29T03:25:31Z",
+        "tag_name": "v0.2.28"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2014-07-25T12:39:19Z",
+        "tag_name": "v0.2.29"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2014-07-29T04:05:10Z",
+        "tag_name": "v0.2.30"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2014-08-26T14:51:27Z",
+        "tag_name": "v0.2.31"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2014-11-18T15:14:35Z",
+        "tag_name": "v0.3.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2015-01-22T06:12:20Z",
+        "tag_name": "v0.3.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2015-02-08T18:08:30Z",
+        "tag_name": "v0.3.2"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2015-04-26T21:20:42Z",
+        "tag_name": "v0.3.3"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2015-04-26T21:58:36Z",
+        "tag_name": "v0.3.4"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2015-04-26T22:40:31Z",
+        "tag_name": "v0.3.5"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2015-09-25T14:28:15Z",
+        "tag_name": "v0.3.6"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2016-02-24T06:22:01Z",
+        "tag_name": "v0.3.7"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2016-05-26T16:57:39Z",
+        "tag_name": "v0.3.8"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2017-03-22T19:58:21Z",
+        "tag_name": "v1.0.0-compat"
+      },
+      {
+        "draft": false,
+        "prerelease": true,
+        "published_at": "2018-07-31T15:11:14Z",
+        "tag_name": "v1.1.0-rc1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2018-08-19T23:53:01Z",
+        "tag_name": "v1.1.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2019-08-28T15:42:22Z",
+        "tag_name": "v1.2.0"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2021-08-16T01:28:41Z",
+        "tag_name": "v1.2.1"
+      },
+      {
+        "draft": false,
+        "prerelease": false,
+        "published_at": "2023-12-27T05:04:56Z",
+        "tag_name": "v1.3.0"
+      }
+    ],
+    "repo": {
+      "archived": false,
+      "created_at": "2012-05-12T14:37:08Z",
+      "default_branch": "master",
+      "description": "A realtime distributed messaging platform",
+      "forks": 2882,
+      "has_issues": true,
+      "homepage": "https://nsq.io",
+      "language": "Go",
+      "license": "MIT",
+      "open_issues": 81,
+      "owner_login": "nsqio",
+      "owner_type": "Organization",
+      "pushed_at": "2026-08-11T18:19:49Z",
+      "size_kb": 14165,
+      "stars": 25782,
+      "topics": [
+        "distributed-systems",
+        "go",
+        "message-queue",
+        "messaging",
+        "nsq",
+        "queue"
+      ],
+      "watchers": 817
+    },
+    "tree": {
+      "entries": [
+        {
+          "path": ".github",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": ".github/workflows",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": ".github/workflows/test.yml",
+          "size": 1237,
+          "type": "blob"
+        },
+        {
+          "path": ".gitignore",
+          "size": 730,
+          "type": "blob"
+        },
+        {
+          "path": "AUTHORS",
+          "size": 411,
+          "type": "blob"
+        },
+        {
+          "path": "CODE_OF_CONDUCT.md",
+          "size": 1997,
+          "type": "blob"
+        },
+        {
+          "path": "CONTRIBUTING.md",
+          "size": 1463,
+          "type": "blob"
+        },
+        {
+          "path": "ChangeLog.md",
+          "size": 55858,
+          "type": "blob"
+        },
+        {
+          "path": "Dockerfile",
+          "size": 707,
+          "type": "blob"
+        },
+        {
+          "path": "LICENSE",
+          "size": 1023,
+          "type": "blob"
+        },
+        {
+          "path": "Makefile",
+          "size": 1335,
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "size": 7617,
+          "type": "blob"
+        },
+        {
+          "path": "apps",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "apps/nsq_stat",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "apps/nsq_stat/nsq_stat.go",
+          "size": 5034,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsq_tail",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "apps/nsq_tail/nsq_tail.go",
+          "size": 3554,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsq_to_file",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "apps/nsq_to_file/file_logger.go",
+          "size": 10629,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsq_to_file/nsq_to_file.go",
+          "size": 5011,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsq_to_file/options.go",
+          "size": 1927,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsq_to_file/strftime.go",
+          "size": 1801,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsq_to_file/topic_discoverer.go",
+          "size": 2318,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsq_to_http",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "apps/nsq_to_http/http.go",
+          "size": 871,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsq_to_http/nsq_to_http.go",
+          "size": 8682,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsq_to_http/nsq_to_http_test.go",
+          "size": 1526,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsq_to_nsq",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "apps/nsq_to_nsq/nsq_to_nsq.go",
+          "size": 10813,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsqadmin",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "apps/nsqadmin/main.go",
+          "size": 4920,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsqadmin/main_test.go",
+          "size": 600,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsqadmin/options.go",
+          "size": 408,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsqd",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "apps/nsqd/README.md",
+          "size": 147,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsqd/main.go",
+          "size": 2536,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsqd/main_test.go",
+          "size": 1101,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsqd/options.go",
+          "size": 10097,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsqlookupd",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "apps/nsqlookupd/README.md",
+          "size": 214,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsqlookupd/main.go",
+          "size": 2918,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsqlookupd/main_test.go",
+          "size": 606,
+          "type": "blob"
+        },
+        {
+          "path": "apps/nsqlookupd/options.go",
+          "size": 408,
+          "type": "blob"
+        },
+        {
+          "path": "apps/to_nsq",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "apps/to_nsq/README.md",
+          "size": 808,
+          "type": "blob"
+        },
+        {
+          "path": "apps/to_nsq/to_nsq.go",
+          "size": 3309,
+          "type": "blob"
+        },
+        {
+          "path": "bench",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "bench.sh",
+          "size": 1260,
+          "type": "blob"
+        },
+        {
+          "path": "bench/bench.py",
+          "size": 11977,
+          "type": "blob"
+        },
+        {
+          "path": "bench/bench_channels",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "bench/bench_channels/bench_channels.go",
+          "size": 2400,
+          "type": "blob"
+        },
+        {
+          "path": "bench/bench_reader",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "bench/bench_reader/bench_reader.go",
+          "size": 3459,
+          "type": "blob"
+        },
+        {
+          "path": "bench/bench_writer",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "bench/bench_writer/bench_writer.go",
+          "size": 3022,
+          "type": "blob"
+        },
+        {
+          "path": "bench/requirements.txt",
+          "size": 43,
+          "type": "blob"
+        },
+        {
+          "path": "contrib",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "contrib/nsq.spec",
+          "size": 1192,
+          "type": "blob"
+        },
+        {
+          "path": "contrib/nsqadmin.cfg.example",
+          "size": 1911,
+          "type": "blob"
+        },
+        {
+          "path": "contrib/nsqd.cfg.example",
+          "size": 3332,
+          "type": "blob"
+        },
+        {
+          "path": "contrib/nsqlookupd.cfg.example",
+          "size": 561,
+          "type": "blob"
+        },
+        {
+          "path": "coverage.sh",
+          "size": 1107,
+          "type": "blob"
+        },
+        {
+          "path": "dist.sh",
+          "size": 2006,
+          "type": "blob"
+        },
+        {
+          "path": "fmt.sh",
+          "size": 53,
+          "type": "blob"
+        },
+        {
+          "path": "go.mod",
+          "size": 689,
+          "type": "blob"
+        },
+        {
+          "path": "go.sum",
+          "size": 3060,
+          "type": "blob"
+        },
+        {
+          "path": "internal",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/app",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/app/float_array.go",
+          "size": 764,
+          "type": "blob"
+        },
+        {
+          "path": "internal/app/string_array.go",
+          "size": 279,
+          "type": "blob"
+        },
+        {
+          "path": "internal/auth",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/auth/authorizations.go",
+          "size": 3876,
+          "type": "blob"
+        },
+        {
+          "path": "internal/clusterinfo",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/clusterinfo/data.go",
+          "size": 23905,
+          "type": "blob"
+        },
+        {
+          "path": "internal/clusterinfo/producer_test.go",
+          "size": 1163,
+          "type": "blob"
+        },
+        {
+          "path": "internal/clusterinfo/types.go",
+          "size": 12402,
+          "type": "blob"
+        },
+        {
+          "path": "internal/dirlock",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/dirlock/dirlock.go",
+          "size": 714,
+          "type": "blob"
+        },
+        {
+          "path": "internal/dirlock/dirlock_illumos.go",
+          "size": 257,
+          "type": "blob"
+        },
+        {
+          "path": "internal/dirlock/dirlock_windows.go",
+          "size": 257,
+          "type": "blob"
+        },
+        {
+          "path": "internal/http_api",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/http_api/api_request.go",
+          "size": 3650,
+          "type": "blob"
+        },
+        {
+          "path": "internal/http_api/api_response.go",
+          "size": 3906,
+          "type": "blob"
+        },
+        {
+          "path": "internal/http_api/compress.go",
+          "size": 2130,
+          "type": "blob"
+        },
+        {
+          "path": "internal/http_api/http_server.go",
+          "size": 801,
+          "type": "blob"
+        },
+        {
+          "path": "internal/http_api/req_params.go",
+          "size": 717,
+          "type": "blob"
+        },
+        {
+          "path": "internal/http_api/topic_channel_args.go",
+          "size": 659,
+          "type": "blob"
+        },
+        {
+          "path": "internal/lg",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/lg/lg.go",
+          "size": 1624,
+          "type": "blob"
+        },
+        {
+          "path": "internal/lg/lg_test.go",
+          "size": 740,
+          "type": "blob"
+        },
+        {
+          "path": "internal/pqueue",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/pqueue/pqueue.go",
+          "size": 1292,
+          "type": "blob"
+        },
+        {
+          "path": "internal/pqueue/pqueue_test.go",
+          "size": 1542,
+          "type": "blob"
+        },
+        {
+          "path": "internal/protocol",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/protocol/byte_base10.go",
+          "size": 393,
+          "type": "blob"
+        },
+        {
+          "path": "internal/protocol/byte_base10_test.go",
+          "size": 437,
+          "type": "blob"
+        },
+        {
+          "path": "internal/protocol/errors.go",
+          "size": 1295,
+          "type": "blob"
+        },
+        {
+          "path": "internal/protocol/names.go",
+          "size": 535,
+          "type": "blob"
+        },
+        {
+          "path": "internal/protocol/protocol.go",
+          "size": 1172,
+          "type": "blob"
+        },
+        {
+          "path": "internal/protocol/tcp_server.go",
+          "size": 1086,
+          "type": "blob"
+        },
+        {
+          "path": "internal/quantile",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/quantile/aggregate.go",
+          "size": 2260,
+          "type": "blob"
+        },
+        {
+          "path": "internal/quantile/quantile.go",
+          "size": 2562,
+          "type": "blob"
+        },
+        {
+          "path": "internal/statsd",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/statsd/client.go",
+          "size": 777,
+          "type": "blob"
+        },
+        {
+          "path": "internal/statsd/host.go",
+          "size": 143,
+          "type": "blob"
+        },
+        {
+          "path": "internal/stringy",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/stringy/slice.go",
+          "size": 595,
+          "type": "blob"
+        },
+        {
+          "path": "internal/stringy/slice_test.go",
+          "size": 620,
+          "type": "blob"
+        },
+        {
+          "path": "internal/stringy/template.go",
+          "size": 330,
+          "type": "blob"
+        },
+        {
+          "path": "internal/test",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/test/assertions.go",
+          "size": 1411,
+          "type": "blob"
+        },
+        {
+          "path": "internal/test/fakes.go",
+          "size": 1828,
+          "type": "blob"
+        },
+        {
+          "path": "internal/test/logger.go",
+          "size": 314,
+          "type": "blob"
+        },
+        {
+          "path": "internal/util",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/util/rand.go",
+          "size": 394,
+          "type": "blob"
+        },
+        {
+          "path": "internal/util/unix_socket.go",
+          "size": 161,
+          "type": "blob"
+        },
+        {
+          "path": "internal/util/util_test.go",
+          "size": 855,
+          "type": "blob"
+        },
+        {
+          "path": "internal/util/wait_group_wrapper.go",
+          "size": 177,
+          "type": "blob"
+        },
+        {
+          "path": "internal/version",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/version/binary.go",
+          "size": 181,
+          "type": "blob"
+        },
+        {
+          "path": "internal/writers",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "internal/writers/boundary_buffered_writer.go",
+          "size": 514,
+          "type": "blob"
+        },
+        {
+          "path": "internal/writers/spread_writer.go",
+          "size": 957,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/.eslintrc",
+          "size": 2214,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/README.md",
+          "size": 595,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/gulp",
+          "size": 45,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/gulpfile.js",
+          "size": 4670,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/http.go",
+          "size": 27659,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/http_test.go",
+          "size": 19528,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/logger.go",
+          "size": 363,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/notify.go",
+          "size": 1727,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/nsqadmin.go",
+          "size": 5421,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/nsqadmin_test.go",
+          "size": 2497,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/options.go",
+          "size": 2148,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/package-lock.json",
+          "size": 498346,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/package.json",
+          "size": 897,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/static.go",
+          "size": 182,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/static/build/base.css",
+          "size": 4230,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/bootstrap.min.css",
+          "size": 141440,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/favicon.png",
+          "size": 8515,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/glyphicons-halflings-regular.eot",
+          "size": 20127,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/glyphicons-halflings-regular.svg",
+          "size": 108738,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/glyphicons-halflings-regular.ttf",
+          "size": 45404,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/glyphicons-halflings-regular.woff",
+          "size": 23424,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/glyphicons-halflings-regular.woff2",
+          "size": 18028,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/index.html",
+          "size": 1311,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/main.js",
+          "size": 217100,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/main.js.map",
+          "size": 640425,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/nsq_blue.png",
+          "size": 8317,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/build/vendor.js",
+          "size": 150302,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/css",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/static/css/base.scss",
+          "size": 4521,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/css/bootstrap.min.css",
+          "size": 117305,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/fonts",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/static/fonts/glyphicons-halflings-regular.eot",
+          "size": 20127,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/fonts/glyphicons-halflings-regular.svg",
+          "size": 108738,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/fonts/glyphicons-halflings-regular.ttf",
+          "size": 45404,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/fonts/glyphicons-halflings-regular.woff",
+          "size": 23424,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/fonts/glyphicons-halflings-regular.woff2",
+          "size": 18028,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/html",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/static/html/index.html",
+          "size": 1311,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/img",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/static/img/favicon.png",
+          "size": 8515,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/img/nsq_blue.png",
+          "size": 8317,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/static/js/app_state.js",
+          "size": 1588,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/collections",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/static/js/collections/nodes.js",
+          "size": 883,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/collections/topics.js",
+          "size": 621,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/lib",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/static/js/lib/ajax_setup.js",
+          "size": 398,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/lib/handlebars_helpers.js",
+          "size": 9330,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/lib/pubsub.js",
+          "size": 227,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/main.js",
+          "size": 515,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/models",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/static/js/models/channel.js",
+          "size": 2474,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/models/node.js",
+          "size": 536,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/models/topic.js",
+          "size": 942,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/router.js",
+          "size": 1471,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/static/js/views/app.js",
+          "size": 5448,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/base.js",
+          "size": 3552,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/channel.hbs",
+          "size": 14378,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/channel.js",
+          "size": 2457,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/counter.hbs",
+          "size": 3888,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/counter.js",
+          "size": 4178,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/error.hbs",
+          "size": 208,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/header.hbs",
+          "size": 2082,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/header.js",
+          "size": 1034,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/lookup.hbs",
+          "size": 2466,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/lookup.js",
+          "size": 2635,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/node.hbs",
+          "size": 7294,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/node.js",
+          "size": 746,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/nodes.hbs",
+          "size": 2113,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/nodes.js",
+          "size": 1047,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/spinner.hbs",
+          "size": 136,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/topic.hbs",
+          "size": 10696,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/topic.js",
+          "size": 1909,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/topics.hbs",
+          "size": 1383,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/topics.js",
+          "size": 846,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/static/js/views/warning.hbs",
+          "size": 211,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/test",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqadmin/test/ca.key",
+          "size": 1886,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/test/ca.pem",
+          "size": 1070,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/test/ca.srl",
+          "size": 41,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/test/cert.pem",
+          "size": 1598,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/test/client.key",
+          "size": 1704,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/test/client.pem",
+          "size": 1306,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/test/client.req",
+          "size": 1050,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/test/key.pem",
+          "size": 1675,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/test/server.key",
+          "size": 1704,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/test/server.pem",
+          "size": 1334,
+          "type": "blob"
+        },
+        {
+          "path": "nsqadmin/test/server.req",
+          "size": 1050,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqd/README.md",
+          "size": 141,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/backend_queue.go",
+          "size": 286,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/buffer_pool.go",
+          "size": 272,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/channel.go",
+          "size": 16587,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/channel_test.go",
+          "size": 7172,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/client_v2.go",
+          "size": 18843,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/dqname.go",
+          "size": 270,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/dqname_windows.go",
+          "size": 317,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/dummy_backend_queue.go",
+          "size": 554,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/guid.go",
+          "size": 2069,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/guid_test.go",
+          "size": 728,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/http.go",
+          "size": 22044,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/http_test.go",
+          "size": 28444,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/in_flight_pqueue.go",
+          "size": 1642,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/in_flight_pqueue_test.go",
+          "size": 1539,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/logger.go",
+          "size": 355,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/lookup.go",
+          "size": 5324,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/lookup_peer.go",
+          "size": 3874,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/message.go",
+          "size": 2297,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/nsqd.go",
+          "size": 19855,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/nsqd_test.go",
+          "size": 12699,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/options.go",
+          "size": 6284,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/protocol_v2.go",
+          "size": 32919,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/protocol_v2_test.go",
+          "size": 58388,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/protocol_v2_unixsocket_test.go",
+          "size": 51538,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/stats.go",
+          "size": 6390,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/stats_test.go",
+          "size": 4316,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/statsd.go",
+          "size": 5642,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/tcp.go",
+          "size": 2284,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/tcp_test.go",
+          "size": 3669,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqd/test/cert.sh",
+          "size": 1323,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/certs",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqd/test/certs/ca.key",
+          "size": 1886,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/certs/ca.pem",
+          "size": 1070,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/certs/ca.srl",
+          "size": 41,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/certs/cert.pem",
+          "size": 1598,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/certs/client.key",
+          "size": 1704,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/certs/client.pem",
+          "size": 1306,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/certs/client.req",
+          "size": 1050,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/certs/key.pem",
+          "size": 1675,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/certs/server.key",
+          "size": 1704,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/certs/server.pem",
+          "size": 1334,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/certs/server.req",
+          "size": 1050,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/test/openssl.conf",
+          "size": 617,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/topic.go",
+          "size": 11714,
+          "type": "blob"
+        },
+        {
+          "path": "nsqd/topic_test.go",
+          "size": 6222,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nsqlookupd/README.md",
+          "size": 207,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/client_v1.go",
+          "size": 249,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/http.go",
+          "size": 11654,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/http_test.go",
+          "size": 14167,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/logger.go",
+          "size": 350,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/lookup_protocol_v1.go",
+          "size": 8485,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/lookup_protocol_v1_test.go",
+          "size": 1557,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/nsqlookupd.go",
+          "size": 2278,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/nsqlookupd_test.go",
+          "size": 10709,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/options.go",
+          "size": 888,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/registration_db.go",
+          "size": 5573,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/registration_db_test.go",
+          "size": 6209,
+          "type": "blob"
+        },
+        {
+          "path": "nsqlookupd/tcp.go",
+          "size": 2043,
+          "type": "blob"
+        },
+        {
+          "path": "test.sh",
+          "size": 762,
+          "type": "blob"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  "fetched_at": "2026-11-26T12:41:44Z",
+  "notes": [
+    {
+      "reason": "GitHub 无公开 API；L0 标注为未获得，不估算",
+      "source": "used_by",
+      "status": "unavailable"
+    }
+  ],
+  "owner": "nsqio",
+  "repo": "nsq",
+  "sha256": "a64ecf2ec2c25930cd7295f03d71cb2e15fc5176deb70d76c137cf204d540cd4"
+}
