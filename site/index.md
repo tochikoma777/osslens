@@ -84,6 +84,7 @@
 | 75164bbe007a777e | cluster-abstraction | inference | insufficient_samples | 0 |
 | 8c092d942c8310a6 | cluster-abstraction | inference | degraded | 1 |
 | 9d48b541b01c45bb | cluster-abstraction | inference | insufficient_samples | 0 |
+| a727b9e388015027 | cluster-abstraction | inference | insufficient_samples | 0 |
 | b5cb3f5d0c537be6 | cluster-abstraction | inference | insufficient_samples | 0 |
 | c43d3a8ae4f71995 | cluster-abstraction | inference | completed | 1 |
 | c4b2b75475267dea | cluster-abstraction | inference | insufficient_samples | 0 |
