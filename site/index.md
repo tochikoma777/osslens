@@ -81,6 +81,7 @@
 | 32a70b9b5b85fd8c | cluster-abstraction | inference | insufficient_samples | 0 |
 | 37af1a65da342b5f | cross-domain | <cross-domain> | insufficient_samples | 0 |
 | 3f6e4c82e3b95f22 | cluster-abstraction | inference | insufficient_samples | 0 |
+| 4b05f04725a048f2 | cluster-abstraction | inference | insufficient_samples | 0 |
 | 587ab7f782f8d988 | cluster-abstraction | inference | insufficient_samples | 0 |
 | 5e1a6cd25e4ae82b | cluster-abstraction | inference | insufficient_samples | 0 |
 | 75164bbe007a777e | cluster-abstraction | inference | insufficient_samples | 0 |
