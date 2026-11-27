@@ -1,0 +1,444 @@
+{
+  "cache": {
+    "evidence": {},
+    "hits": {
+      "kv_offload": false,
+      "paged": false,
+      "prefix_reuse": false,
+      "radix": false
+    }
+  },
+  "deps": {
+    "direct": null,
+    "external_top": [],
+    "graph": {
+      "edges": [],
+      "nodes": [],
+      "truncated": false
+    },
+    "internal_edge_count": 0,
+    "transitive": null
+  },
+  "governance": {
+    "cncf_or_foundation": null,
+    "has_governance_docs": true,
+    "license": "Apache-2.0",
+    "org_type": null
+  },
+  "hardware": {
+    "arch_gates": [],
+    "kernel_langs": [],
+    "lock_in_score": null,
+    "vendors": []
+  },
+  "identity": {
+    "age_days": 2603,
+    "analyzed_at": "2026-11-27T12:27:52Z",
+    "channel": "classic",
+    "commit": "d85e9b8616190767254b81a5eedf61328fa4791b",
+    "created_at": "2019-10-12T05:56:49Z",
+    "repo": "supabase/supabase"
+  },
+  "lang": {
+    "shares": {
+      "Astro": 0.0005,
+      "CSS": 0.0063,
+      "Dockerfile": 0.0001,
+      "Elixir": 0.0,
+      "HTML": 0.0,
+      "JavaScript": 0.0066,
+      "MDX": 0.2466,
+      "Makefile": 0.0002,
+      "Mermaid": 0.0,
+      "PLpgSQL": 0.0011,
+      "Shell": 0.0051,
+      "Smarty": 0.0001,
+      "TypeScript": 0.732,
+      "Vue": 0.0015
+    }
+  },
+  "limitations": [
+    "证据来自 20 个源码切片的逐行扫描，未覆盖文件不计入",
+    "issue_close_ratio_90d 需 search API，L0/L1 未调用",
+    "cncf_or_foundation 与 Organization 的 org_type 细分需人工判定，置 null"
+  ],
+  "parallel": {
+    "evidence": {},
+    "hits": {
+      "CP": false,
+      "DP": false,
+      "EP": false,
+      "PP": false,
+      "SP": false,
+      "TP": false
+    }
+  },
+  "scale": {
+    "commits_365d": 2000,
+    "commits_90d": 2000,
+    "contributors": 397,
+    "forks": 15160,
+    "last_commit": "2026-11-27T12:24:54Z",
+    "open_issues": 1348,
+    "release_count_365d": 8,
+    "stars": 115602,
+    "top10_share": 0.559,
+    "used_by": null
+  },
+  "schema_version": "1.0",
+  "signals": {
+    "bus_factor_top1_share": 0.1397,
+    "days_since_commit": 0,
+    "issue_close_ratio_90d": null,
+    "maintenance_state": "active"
+  },
+  "sources": {
+    "commit": "d85e9b8616190767254b81a5eedf61328fa4791b",
+    "files": [
+      {
+        "path": "apps/docs/spec/reference/README.md",
+        "sha256": "1b454751bf6bd510e5d2312be1f45150176e45ff50eabc887244da835aca84ff"
+      },
+      {
+        "path": "apps/studio/lib/ai/README.md",
+        "sha256": "903d4cde38e239fcf2c6a95d8d189bf00b6cdaefcf32c0da0ac59d6fcea78221"
+      },
+      {
+        "path": "i18n/README.bg.md",
+        "sha256": "74c78a79224d666bf9d7571d82dbd99c4a6f3b12248c0d5c4f866adea674e8e6"
+      },
+      {
+        "path": "i18n/README.bn.md",
+        "sha256": "8d0d685bec0f903a30b7d4a5d928b270910363669b4b414dcc069b99d99d85df"
+      },
+      {
+        "path": "i18n/README.de.md",
+        "sha256": "b1f1d54683032cb4480ae9ec5fee71184e6c5e596b59eca48095dcfa702a894a"
+      },
+      {
+        "path": "i18n/README.el.md",
+        "sha256": "baff75115f3e7a50d7eda69e5cad7faec70ab081ff7b1bda1bd465bf8bd4254f"
+      },
+      {
+        "path": "i18n/README.es.md",
+        "sha256": "dd76b3a5574070f0900c1c40ad86ee31365181f4dd984206b1459c4094870cab"
+      },
+      {
+        "path": "i18n/README.fr.md",
+        "sha256": "80b761de62eb3a3bccb40dc6bbb417c1d1d3c13fc594fc61b782556ce4a8ddf3"
+      },
+      {
+        "path": "i18n/README.hi.md",
+        "sha256": "89767ecb831859d75b91add1e6497f0e1d736d9f318e3b0a233c059eec45a381"
+      },
+      {
+        "path": "i18n/README.hr.md",
+        "sha256": "57941daf714c011947e810bc5f1e22489cb018f3ea4ba243c1aaf39e512265a5"
+      },
+      {
+        "path": "i18n/README.hu.md",
+        "sha256": "45ee05da2aecd439d2b8225686529472a7d394aa3fcd151a2c9f76084c4f9a70"
+      },
+      {
+        "path": "i18n/README.ko.md",
+        "sha256": "2b66ff4accecf403413b25f89e9843caf08db13b864c293d088ed8dcef05717d"
+      },
+      {
+        "path": "i18n/README.nb.md",
+        "sha256": "97252907bd3d6e7124e404fb8fa3b5c983ca2f6679288b458d153984794cdf01"
+      },
+      {
+        "path": "i18n/README.pt-br.md",
+        "sha256": "2a75a653ec2e6ec95a56b1e45996fbd406c6f429f2071318fd99ce0f7081fa1a"
+      },
+      {
+        "path": "i18n/README.ro.md",
+        "sha256": "51d4d06f163c7cff672e193870ae16bd75dcb21e5ca8317a60e856458a9112fc"
+      },
+      {
+        "path": "i18n/README.ru.md",
+        "sha256": "66d8b7143a76d5b2f868fd220eddbde74fdfec85fbe96802d278fd9cb260cdb9"
+      },
+      {
+        "path": "i18n/README.si.md",
+        "sha256": "3ccbedc45b07aa0cd98fb8213c8c804acce26db3f7bc8d438dc080eb74a36a9f"
+      },
+      {
+        "path": "i18n/README.ta.md",
+        "sha256": "78611d5d3629b9364c079db1f29ce431789502567821dffdc55a12e72ca4f529"
+      },
+      {
+        "path": "i18n/README.tr.md",
+        "sha256": "22c743c6ee2a5db453fa5ca4f628e11a2c3d46a23ee58649dafae9bf68b1859d"
+      },
+      {
+        "path": "i18n/README.uk.md",
+        "sha256": "f2ad5ffa4b1d7b71cf88aa6770a5542829681fe3f8af66f8713526cd419438f9"
+      }
+    ],
+    "tarball_sha256": "2d3ed0e775c92008b76d33c3c4552e9e8d51b00de2db54c4757247a126e33198"
+  },
+  "structure": {
+    "bytes": 836545278,
+    "entrypoints": [
+      "apps/docs/data/content-listings/index.ts",
+      "apps/docs/features/IaNav/index.ts",
+      "apps/docs/features/SearchV2/index.ts",
+      "apps/docs/features/ui/guide/index.ts",
+      "apps/docs/fonts/index.ts",
+      "apps/docs/generator/index.ts",
+      "apps/docs/scripts/search/sources/index.ts",
+      "apps/docs/types/index.ts",
+      "apps/kb/api/search/index.ts",
+      "apps/studio/components/grid/types/index.ts",
+      "apps/studio/components/interfaces/Integrations/Queues/CreateQueueSheet/index.ts",
+      "apps/studio/components/interfaces/Organization/OAuthApps/Consent/index.ts",
+      "apps/studio/components/interfaces/Platform/Webhooks/index.ts",
+      "apps/studio/components/layouts/ProjectLayout/LayoutHeader/MobileMenuContent/index.ts",
+      "apps/studio/lib/ai/tools/index.ts",
+      "apps/studio/lib/api/self-hosted/functions/index.ts",
+      "apps/studio/lib/constants/index.ts",
+      "apps/studio/routes/api/connect/index.ts",
+      "apps/studio/routes/api/mcp/index.ts",
+      "apps/studio/routes/api/platform/auth/$ref/users/$id/index.ts",
+      "apps/studio/routes/api/platform/auth/$ref/users/index.ts",
+      "apps/studio/routes/api/platform/organizations/index.ts",
+      "apps/studio/routes/api/platform/pg-meta/$ref/query/index.ts",
+      "apps/studio/routes/api/platform/profile/index.ts",
+      "apps/studio/routes/api/platform/projects/$ref/config/index.ts",
+      "apps/studio/routes/api/platform/projects/$ref/content/folders/index.ts",
+      "apps/studio/routes/api/platform/projects/$ref/content/index.ts",
+      "apps/studio/routes/api/platform/projects/$ref/index.ts",
+      "apps/studio/routes/api/platform/projects/index.ts",
+      "apps/studio/routes/api/platform/props/project/$ref/index.ts",
+      "apps/studio/routes/api/platform/storage/$ref/buckets/$id/index.ts",
+      "apps/studio/routes/api/platform/storage/$ref/buckets/$id/objects/index.ts",
+      "apps/studio/routes/api/platform/storage/$ref/buckets/index.ts",
+      "apps/studio/routes/api/platform/storage/$ref/vector-buckets/$id/index.ts",
+      "apps/studio/routes/api/platform/storage/$ref/vector-buckets/$id/indexes/index.ts",
+      "apps/studio/routes/api/platform/storage/$ref/vector-buckets/index.ts",
+      "apps/studio/routes/api/v1/projects/$ref/config/auth/signing-keys/index.ts",
+      "apps/studio/routes/api/v1/projects/$ref/functions/$slug/index.ts",
+      "apps/studio/routes/api/v1/projects/$ref/functions/index.ts",
+      "apps/studio/types/index.ts",
+      "apps/ui-library/app/api/registry/tanstack-db/_generators/index.ts",
+      "apps/ui-library/registry/default/blocks/headless-app-tanstack/supabase/functions/mcp/tools/index.ts",
+      "apps/ui-library/registry/default/blocks/mcp/supabase/functions/mcp/index.ts",
+      "apps/ui-library/registry/default/blocks/mcp/supabase/functions/mcp/tools/index.ts",
+      "apps/ui-library/registry/default/platform/platform-kit-nextjs/lib/pg-meta/index.ts",
+      "apps/ui-library/registry/index.ts",
+      "apps/www/components/CodeTabs/index.ts",
+      "apps/www/components/LaunchWeek/11/Releases/data/index.ts",
+      "apps/www/components/LaunchWeek/12/Releases/data/index.ts",
+      "apps/www/components/LaunchWeek/13/Releases/data/index.ts",
+      "apps/www/components/LaunchWeek/14/Releases/data/index.ts",
+      "apps/www/components/LaunchWeek/15/data/index.ts",
+      "apps/www/components/LaunchWeek/X/Releases/data/index.ts",
+      "apps/www/components/Tabs/index.ts",
+      "apps/www/data/contribute/index.ts",
+      "apps/www/fonts/index.ts",
+      "apps/www/supabase/functions/contact-notification/index.ts",
+      "apps/www/supabase/functions/hubspot-notification/index.ts",
+      "apps/www/supabase/functions/lw11-og/index.ts",
+      "apps/www/supabase/functions/lwx-og/index.ts",
+      "apps/www/supabase/functions/lwx-ticket-og/index.ts",
+      "apps/www/supabase/functions/lwx-ticket/index.ts",
+      "blocks/vue/index.ts",
+      "blocks/vue/registry/index.ts",
+      "docker/volumes/functions/hello/index.ts",
+      "docker/volumes/functions/main/events/index.ts",
+      "docker/volumes/functions/main/index.ts",
+      "e2e/studio/utils/db/index.ts",
+      "e2e/studio/utils/storage/index.ts",
+      "examples/ai/aws_bedrock_image_gen/supabase/functions/image_gen/index.ts",
+      "examples/ai/aws_bedrock_image_search/image_search/main.py",
+      "examples/ai/edge-functions/supabase/functions/generate-embedding/index.ts",
+      "examples/ai/edge-functions/supabase/functions/search/index.ts",
+      "examples/ai/image_search/image_search/main.py",
+      "examples/ai/llamafile-edge/supabase/functions/llamafile-stream/index.ts",
+      "examples/ai/llamafile-edge/supabase/functions/llamafile/index.ts",
+      "examples/ai/llamafile-edge/supabase/functions/openai-sdk/index.ts",
+      "examples/caching/with-cloudflare-workers-kv/src/index.js",
+      "examples/edge-functions/app/src/index.js",
+      "examples/edge-functions/supabase/functions/auth-hook-react-email-resend/index.ts",
+      "examples/edge-functions/supabase/functions/background-upload-storage/index.ts",
+      "examples/edge-functions/supabase/functions/browser-with-cors/index.ts",
+      "examples/edge-functions/supabase/functions/cloudflare-turnstile/index.ts",
+      "examples/edge-functions/supabase/functions/connect-supabase/index.ts",
+      "examples/edge-functions/supabase/functions/custom-jwt-validation/index.ts",
+      "examples/edge-functions/supabase/functions/discord-bot/index.ts",
+      "examples/edge-functions/supabase/functions/drizzle/index.ts",
+      "examples/edge-functions/supabase/functions/elevenlabs-speech-to-text/index.ts",
+      "examples/edge-functions/supabase/functions/elevenlabs-text-to-speech/index.ts",
+      "examples/edge-functions/supabase/functions/file-upload-storage/index.ts",
+      "examples/edge-functions/supabase/functions/get-tshirt-competition/index.ts",
+      "examples/edge-functions/supabase/functions/github-action-deploy/index.ts",
+      "examples/edge-functions/supabase/functions/huggingface-image-captioning/index.ts",
+      "examples/edge-functions/supabase/functions/image-manipulation/index.ts",
+      "examples/edge-functions/supabase/functions/kysely-postgres/index.ts",
+      "examples/edge-functions/supabase/functions/location/index.ts",
+      "examples/edge-functions/supabase/functions/mcp/authenticated-mcp-server/index.ts",
+      "examples/edge-functions/supabase/functions/mcp/simple-mcp-server/index.ts",
+      "examples/edge-functions/supabase/functions/oak-server/index.ts",
+      "examples/edge-functions/supabase/functions/og-image-with-storage-cdn/index.ts",
+      "examples/edge-functions/supabase/functions/openai-image-generation/index.ts",
+      "examples/edge-functions/supabase/functions/openai/index.ts",
+      "examples/edge-functions/supabase/functions/opengraph/index.ts",
+      "examples/edge-functions/supabase/functions/postgres-on-the-edge/index.ts",
+      "examples/edge-functions/supabase/functions/puppeteer/index.ts",
+      "examples/edge-functions/supabase/functions/read-storage/index.ts",
+      "examples/edge-functions/supabase/functions/restful-tasks/index.ts",
+      "examples/edge-functions/supabase/functions/select-from-table-with-auth-rls/index.ts",
+      "examples/edge-functions/supabase/functions/send-email-resend/index.ts",
+      "examples/edge-functions/supabase/functions/send-email-smtp/index.ts",
+      "examples/edge-functions/supabase/functions/sentry/index.ts",
+      "examples/edge-functions/supabase/functions/sentryfied/index.ts",
+      "examples/edge-functions/supabase/functions/slack-bot-mention/index.ts",
+      "examples/edge-functions/supabase/functions/streams/index.ts",
+      "examples/edge-functions/supabase/functions/stripe-webhooks/index.ts",
+      "examples/edge-functions/supabase/functions/telegram-bot/index.ts",
+      "examples/edge-functions/supabase/functions/tweet-to-image/index.ts",
+      "examples/edge-functions/supabase/functions/unit-testing/process-ticket/index.ts",
+      "examples/edge-functions/supabase/functions/upstash-redis-counter/index.ts",
+      "examples/edge-functions/supabase/functions/upstash-redis-ratelimit/index.ts",
+      "examples/edge-functions/supabase/functions/wasm-modules/index.ts",
+      "examples/oauth-app-authorization-flow/src/index.ts",
+      "examples/slack-clone/nextjs-slack-clone-dotenvx/pages/index.js",
+      "examples/slack-clone/nextjs-slack-clone/pages/index.js",
+      "examples/storage/protomaps/supabase/functions/maps-private/index.ts",
+      "examples/storage/resumable-upload-signed-uppy/supabase/functions/create-upload-token/index.ts",
+      "examples/user-management/expo-push-notifications/supabase/functions/push/index.ts",
+      "examples/user-management/expo-user-management/index.js",
+      "examples/user-management/ionic-vue-user-management/src/router/index.ts",
+      "examples/user-management/ionic-vue-user-management/tests/e2e/plugins/index.js",
+      "examples/user-management/ionic-vue-user-management/tests/e2e/support/index.js",
+      "examples/user-management/refine-user-management/src/utility/index.ts",
+      "examples/with-cloudflare-workers/src/index.js",
+      "packages/ai-commands/index.ts",
+      "packages/api-types/index.ts",
+      "packages/common/constants/index.ts",
+      "packages/common/enabled-features/index.ts",
+      "packages/common/hooks/index.ts",
+      "packages/dev-tools/index.ts",
+      "packages/docs-search/src/components/index.ts",
+      "packages/icons/src/icons/index.ts",
+      "packages/marketing/index.ts",
+      "packages/marketing/src/crm/index.ts",
+      "packages/marketing/src/forms/index.ts",
+      "packages/marketing/src/go/index.ts",
+      "packages/marketing/src/go/sections/index.ts",
+      "packages/marketing/src/go/templates/index.ts",
+      "packages/pg-meta/src/index.ts",
+      "packages/pg-meta/src/pg-format/index.ts",
+      "packages/pg-meta/src/query/index.ts",
+      "packages/pg-meta/src/sql/studio/advisor/index.ts",
+      "packages/pg-meta/src/sql/studio/auth/index.ts",
+      "packages/pg-meta/src/sql/studio/database/index.ts",
+      "packages/pg-meta/src/sql/studio/integrations/index.ts",
+      "packages/pg-meta/src/sql/studio/sql-editor/index.ts",
+      "packages/pg-meta/src/sql/studio/storage/index.ts",
+      "packages/pg-meta/src/sql/studio/table-editor/index.ts",
+      "packages/shared-data/index.ts",
+      "packages/ui-patterns/src/AssistantChat/index.ts",
+      "packages/ui-patterns/src/DatePicker/index.ts",
+      "packages/ui-patterns/src/FilterBar/index.ts",
+      "packages/ui-patterns/src/McpUrlBuilder/index.ts",
+      "packages/ui-patterns/src/MobileSheetNav/index.ts",
+      "packages/ui-patterns/src/Notch/index.ts",
+      "packages/ui-patterns/src/SelectionListState/index.ts",
+      "packages/ui-patterns/src/Table/index.ts",
+      "packages/ui-patterns/src/Toc/index.ts",
+      "packages/ui-patterns/src/Trace/index.ts",
+      "packages/ui/src/components/LogoLoader/index.ts",
+      "packages/ui/src/lib/utils/index.ts",
+      "supabase/functions/og-images/index.ts",
+      "supabase/functions/search-embeddings/index.ts"
+    ],
+    "files": 18409,
+    "loc_total": null,
+    "max_depth": 14,
+    "monorepo": true,
+    "top_modules": [
+      {
+        "bytes": 801554201,
+        "files": 15261,
+        "path": "apps"
+      },
+      {
+        "bytes": 22846658,
+        "files": 1486,
+        "path": "examples"
+      },
+      {
+        "bytes": 7354331,
+        "files": 1051,
+        "path": "packages"
+      },
+      {
+        "bytes": 1470656,
+        "files": 21,
+        "path": "."
+      },
+      {
+        "bytes": 756370,
+        "files": 50,
+        "path": "i18n"
+      },
+      {
+        "bytes": 697064,
+        "files": 70,
+        "path": "docker"
+      },
+      {
+        "bytes": 645366,
+        "files": 119,
+        "path": "e2e"
+      },
+      {
+        "bytes": 479771,
+        "files": 81,
+        "path": ".agents"
+      },
+      {
+        "bytes": 363578,
+        "files": 65,
+        "path": "supabase"
+      },
+      {
+        "bytes": 164878,
+        "files": 66,
+        "path": ".github"
+      },
+      {
+        "bytes": 139391,
+        "files": 117,
+        "path": "blocks"
+      },
+      {
+        "bytes": 55743,
+        "files": 12,
+        "path": "scripts"
+      },
+      {
+        "bytes": 14040,
+        "files": 5,
+        "path": "assets"
+      },
+      {
+        "bytes": 1386,
+        "files": 1,
+        "path": "patches"
+      },
+      {
+        "bytes": 967,
+        "files": 3,
+        "path": ".claude"
+      },
+      {
+        "bytes": 878,
+        "files": 1,
+        "path": ".vscode"
+      }
+    ]
+  }
+}
