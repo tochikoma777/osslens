@@ -1,6 +1,6 @@
 # osslens 静态站点索引
 
-- 基准时间 (as-of)：2026-11-26T12:42:03Z
+- 基准时间 (as-of)：2026-11-27T12:27:52Z
 - 产物：纯静态 HTML/MD；无后端、无外部 JS/CDN、零 LLM、零网络
 - 真源：`reports/*.md` · `data/featcards/` · `patterns/library.yaml` · `data/costs/costs.jsonl` · `data/abstract/runs.jsonl`（站点只读）
 
@@ -38,6 +38,7 @@
 | nsqio/nsq | 2026-11-24T13:49:15Z | fast | [报告页](report-nsqio__nsq__2026-11-24.html) · [源 MD](../reports/nsqio__nsq__2026-11-24.md) |
 | openvinotoolkit/openvino | 2026-11-26T12:42:03Z | fast | [报告页](report-openvinotoolkit__openvino__2026-11-26.html) · [源 MD](../reports/openvinotoolkit__openvino__2026-11-26.md) |
 | sgl-project/sglang | 2026-11-18T00:00:00Z | fast | [报告页](report-sgl-project__sglang__2026-11-18.html) · [源 MD](../reports/sgl-project__sglang__2026-11-18.md) |
+| supabase/supabase | 2026-11-27T12:27:52Z | fast | [报告页](report-supabase__supabase__2026-11-27.html) · [源 MD](../reports/supabase__supabase__2026-11-27.md) |
 | vercel/turborepo | 2026-11-22T11:29:53Z | off（降级：本周配额已用满） | [报告页](report-vercel__turborepo__2026-11-22.html) · [源 MD](../reports/vercel__turborepo__2026-11-22.md) |
 | vllm-project/vllm | 2026-11-18T00:00:00Z | fast | [报告页](report-vllm-project__vllm__2026-11-18.html) · [源 MD](../reports/vllm-project__vllm__2026-11-18.md) |
 
@@ -65,6 +66,7 @@
 | openvinotoolkit/openvino | `2e7a29705be7` | classic | 0 |
 | sgl-project/sglang | `—` | classic | 0 |
 | sgl-project/sglang | `e0decbc3388f` | classic | 19 |
+| supabase/supabase | `d85e9b861619` | classic | 0 |
 | vercel/turborepo | `b911d19d45f6` | classic | 0 |
 | vllm-project/vllm | `11199bcb7872` | classic | 0 |
 | vllm-project/vllm | `4dbd382be7e2` | classic | 20 |
