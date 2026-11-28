@@ -1,0 +1,355 @@
+{
+  "as_of": "2026-11-28T11:52:34Z",
+  "data": {
+    "commits": [
+      {
+        "date": "2026-04-26T05:10:12Z",
+        "sha": "bb823b3e06983d71485a8e1f23715ebd87d98ef8"
+      },
+      {
+        "date": "2026-04-25T19:49:14Z",
+        "sha": "9fa256a56d81101918aa4f763b66854196bab215"
+      },
+      {
+        "date": "2026-04-25T18:53:06Z",
+        "sha": "f64d821c2057e2f45d0accccf5b39fd6c1438473"
+      },
+      {
+        "date": "2026-04-25T10:12:43Z",
+        "sha": "44a51afc8a7f60e75ce3f4ee94632430eff9de65"
+      },
+      {
+        "date": "2026-04-25T09:43:24Z",
+        "sha": "5df84934f302e0b796c65c2323d88812ee4fc595"
+      },
+      {
+        "date": "2026-04-22T22:13:19Z",
+        "sha": "25794a1f299627929f6ab683c0422ba3ab2fa8da"
+      },
+      {
+        "date": "2026-04-20T08:34:27Z",
+        "sha": "77dd709ca19600582a57500588ade2d329544ab2"
+      },
+      {
+        "date": "2026-04-13T19:06:27Z",
+        "sha": "812eb1c1e434576c0b7ae64d2cefb937aa80399d"
+      },
+      {
+        "date": "2026-04-13T18:47:35Z",
+        "sha": "8d63a98c03805e54e9a422fd83fff7a4780c17dc"
+      },
+      {
+        "date": "2026-04-13T14:09:46Z",
+        "sha": "9e8507ef412efe9d921ecc70d65bcc2fc3dd18eb"
+      },
+      {
+        "date": "2026-04-13T13:26:07Z",
+        "sha": "02a95fdc66c15d24d3fa36c72aaf9088f0af2ac5"
+      },
+      {
+        "date": "2026-04-13T13:13:37Z",
+        "sha": "a4f94cb38b064e8c87f485153522ab951f1c1aa6"
+      },
+      {
+        "date": "2026-04-13T12:45:50Z",
+        "sha": "00eea731766c064846bfc24284a888c85d31a784"
+      },
+      {
+        "date": "2026-04-13T12:36:32Z",
+        "sha": "52d221591185f588f8f893b51fae8703f8e9e882"
+      },
+      {
+        "date": "2026-04-13T12:34:49Z",
+        "sha": "7f967ed6ff5ebed6bc2efd7b94527df9acd56afd"
+      },
+      {
+        "date": "2026-04-13T06:10:52Z",
+        "sha": "bf99453d90aab3506c93edf182b98986b0fd43c6"
+      },
+      {
+        "date": "2026-04-11T05:23:49Z",
+        "sha": "498f5a1aa8799f689c150e15fd77a4c4271c5dfc"
+      },
+      {
+        "date": "2026-02-09T04:46:01Z",
+        "sha": "f438ce463f24700fb1d4671934abd2714d9e865f"
+      },
+      {
+        "date": "2025-12-29T17:53:55Z",
+        "sha": "55c64e7fdf403f888a8bc681460c219e2b561ca6"
+      },
+      {
+        "date": "2025-12-17T17:28:25Z",
+        "sha": "82f5ca244fca78825521aae3612814b62307552b"
+      }
+    ],
+    "contributors": [
+      {
+        "contributions": 47,
+        "login": "GeeeekExplorer",
+        "type": "User"
+      },
+      {
+        "contributions": 3,
+        "login": "cheunglei",
+        "type": "User"
+      },
+      {
+        "contributions": 2,
+        "login": "Anai-Guo",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "IceCreamMilkyTea",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "KinglittleQ",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "MARD1NO",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "PeterDing",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "TonyLianLong",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "aggelos-michael-papadopoulos",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "guodongxiaren",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "jinghuan-Chen",
+        "type": "User"
+      },
+      {
+        "contributions": 1,
+        "login": "xiaohajiayou",
+        "type": "User"
+      }
+    ],
+    "languages": {
+      "Python": 52764
+    },
+    "releases": [],
+    "repo": {
+      "archived": false,
+      "created_at": "2025-06-09T16:22:14Z",
+      "default_branch": "main",
+      "description": "Nano vLLM",
+      "forks": 2902,
+      "has_issues": true,
+      "homepage": "",
+      "language": "Python",
+      "license": "MIT",
+      "open_issues": 118,
+      "owner_login": "GeeeekExplorer",
+      "owner_type": "User",
+      "pushed_at": "2026-04-26T05:10:12Z",
+      "size_kb": 478,
+      "stars": 16611,
+      "topics": [
+        "deep-learning",
+        "inference",
+        "llm",
+        "nlp",
+        "pytorch",
+        "transformer"
+      ],
+      "watchers": 86
+    },
+    "tree": {
+      "entries": [
+        {
+          "path": ".gitignore",
+          "size": 4329,
+          "type": "blob"
+        },
+        {
+          "path": "LICENSE",
+          "size": 1067,
+          "type": "blob"
+        },
+        {
+          "path": "README.md",
+          "size": 2185,
+          "type": "blob"
+        },
+        {
+          "path": "assets",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "assets/logo.png",
+          "size": 396548,
+          "type": "blob"
+        },
+        {
+          "path": "bench.py",
+          "size": 1121,
+          "type": "blob"
+        },
+        {
+          "path": "example.py",
+          "size": 916,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nanovllm/__init__.py",
+          "size": 81,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/config.py",
+          "size": 792,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/engine",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nanovllm/engine/block_manager.py",
+          "size": 4292,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/engine/llm_engine.py",
+          "size": 3644,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/engine/model_runner.py",
+          "size": 11935,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/engine/scheduler.py",
+          "size": 3729,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/engine/sequence.py",
+          "size": 2626,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/layers",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nanovllm/layers/activation.py",
+          "size": 232,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/layers/attention.py",
+          "size": 2818,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/layers/embed_head.py",
+          "size": 2338,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/layers/layernorm.py",
+          "size": 1320,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/layers/linear.py",
+          "size": 5282,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/layers/rotary_embedding.py",
+          "size": 1640,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/layers/sampler.py",
+          "size": 407,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/llm.py",
+          "size": 82,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/models",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nanovllm/models/qwen3.py",
+          "size": 7216,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/sampling_params.py",
+          "size": 270,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/utils",
+          "size": 0,
+          "type": "tree"
+        },
+        {
+          "path": "nanovllm/utils/context.py",
+          "size": 832,
+          "type": "blob"
+        },
+        {
+          "path": "nanovllm/utils/loader.py",
+          "size": 1191,
+          "type": "blob"
+        },
+        {
+          "path": "pyproject.toml",
+          "size": 598,
+          "type": "blob"
+        }
+      ],
+      "truncated": false
+    }
+  },
+  "fetched_at": "2026-11-28T11:52:35Z",
+  "notes": [
+    {
+      "reason": "GitHub 无公开 API；L0 标注为未获得，不估算",
+      "source": "used_by",
+      "status": "unavailable"
+    }
+  ],
+  "owner": "GeeeekExplorer",
+  "repo": "nano-vllm",
+  "sha256": "a28c4855494af47d501206db669636ffc8e66cb9db1462e6731d8d27a4172ed5"
+}
